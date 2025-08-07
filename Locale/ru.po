@@ -7,7 +7,7 @@
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2025-07-25 22:01+0000\nLast-Translator: Weblate <noreply-mt-weblate@weblate.org>\nLanguage-Team: Russian <https://hosted.weblate.org/projects/kainote/kainote/ru/>\nLanguage: ru\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\nX-Generator: Weblate 5.13-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2025-07-28 21:08+0000\nLast-Translator: Yurt Page <yurtpage@gmail.com>\nLanguage-Team: Russian <https://hosted.weblate.org/projects/kainote/kainote/ru/>\nLanguage: ru\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\nX-Generator: Weblate 5.13-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:72
 msgid "Pasek szukania"
@@ -481,7 +481,7 @@ msgid "Odtwórz aktywną linijkę"
 msgstr "Играть активную линию"
 
 #: SubsResampleDialog.cpp:167
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "Rozdzielczości wideo i napisów się różnią.\n"
 "Możesz zmienić je teraz lub skorzystać ze 'zmień rozdzielczość napisów'.\n"
@@ -490,7 +490,7 @@ msgid ""
 "Rozdzielczość napisów: %i x %i\n"
 "\n"
 "Dopasować rozdzielczość do wideo?\n"
-msgstr "Субтитры и разрешение видео разные.\nВы можете изменить их сейчас или использовать подзаголовки.\n\nРазрешение видео: %i x %i\n%i x %i\n\nРазрешение на видео?\n?\n"
+msgstr "Субтитры и разрешение видео разные.\nВы можете изменить их сейчас или использовать ресемпл субтитров.\n\nРазрешение видео: %i x %i\nРазрешение субтитров: %i x %i\n\nПодогнать разрешение к видео?\n"
 
 #: VideoToolbar.cpp:735
 #, fuzzy
@@ -503,9 +503,9 @@ msgid "Edytor nawiasy klamrowe"
 msgstr "Редактор кудрявые брекеты"
 
 #: DialogueTextEditor.cpp:2351
-#, c-format, fuzzy
+#, c-format
 msgid "Błąd, słowo \"%s\" nie zostało dodane."
-msgstr "Ошибка."
+msgstr "Ошибка. Слово «%s» не было добавлено."
 
 #: KainoteFrame.cpp:339
 #, fuzzy
@@ -590,9 +590,8 @@ msgid "Indeksowanie pliku wideo"
 msgstr "Индексация видео"
 
 #: KainoteFrame.cpp:948
-#, fuzzy
 msgid "- Senami (stworzył nowe motywy, a także wyłapał parę błędów).\n"
-msgstr "- Senami (сделал новые темы и нашел несколько ошибок).\n.\n"
+msgstr "- Senami (сделал новые темы и нашёл несколько ошибок).\n"
 
 #: KainoteFrame.cpp:272
 #, fuzzy
@@ -708,9 +707,8 @@ msgid "Edytor ciągi znaków template"
 msgstr "Строки шаблонов редактора"
 
 #: HotkeysNaming.cpp:148
-#, fuzzy
 msgid "Przesuń czasy / uruchom post processor"
-msgstr "Переместить время / время выполнения пост процессора"
+msgstr "Сдвинуть времена / запуск временной пост процессор"
 
 #: OptionsDialog.cpp:906 OptionsDialog.cpp:1165
 #, fuzzy
@@ -898,9 +896,8 @@ msgid "Kainote zawiera w sobie części następujących projektów:\n"
 msgstr "Kainote включает в себя части следующих проектов:\n"
 
 #: KainoteFrame.cpp:1060
-#, fuzzy
 msgid "Plik napisów "
-msgstr "Subtitles file "
+msgstr "Файл субтитров "
 
 #: EditBox.cpp:1186
 #, fuzzy
@@ -960,9 +957,8 @@ msgid "Wczytać poprzednią sesję?"
 msgstr "Загрузить последнюю сессию?"
 
 #: OptionsDialog.cpp:588
-#, fuzzy
 msgid "Skróty audio"
-msgstr "Audio Shortcuts"
+msgstr "Горячие клавиши для звука"
 
 #: MisspellReplacer.cpp:57
 #, fuzzy
@@ -1223,11 +1219,10 @@ msgid "Prawo-dół"
 msgstr "Правый"
 
 #: AutoSavesRemoving.cpp:177
-#, fuzzy
 msgid ""
 "Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*."
 "sub;*.txt"
-msgstr "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
+msgstr "Файлы субтитров (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
 
 #: EditBox.cpp:512
 #, fuzzy
@@ -1377,9 +1372,8 @@ msgid "Maska PNG koloru cienia"
 msgstr "‪PNG маска теневого цвета"
 
 #: KainoteFrame.cpp:211
-#, fuzzy
 msgid "Sortu&j zaznaczone linie"
-msgstr "So&rt selected lines"
+msgstr "Сортировать выбранные строки"
 
 #: KainoteFrame.cpp:134
 #, fuzzy
@@ -1564,11 +1558,10 @@ msgid "Środek-ponad"
 msgstr "Center-above"
 
 #: FontCollector.cpp:707
-#, fuzzy
 msgid ""
 "Nie można pobrać rozmiarów i nazw plików czcionek\n"
 "kopiowanie zostaje przerwane.\n"
-msgstr "Вы не можете получить размеры и имена файлов шрифтов,\nкопирование отменено.\n.\n"
+msgstr "Вы не можете получить размеры и названия файлов шрифтов,\nкопирование отменено.\n"
 
 #: AudioBox.cpp:179
 #, fuzzy
@@ -1616,9 +1609,8 @@ msgid "Grubość linii znaczników"
 msgstr "Толщина границ линии"
 
 #: MisspellReplacer.cpp:30
-#, fuzzy
 msgid "Korekcja drobnych błędów"
-msgstr "Multireplacer"
+msgstr "Мультизамена"
 
 #: dshowplayer.cpp:227
 #, fuzzy
@@ -1661,11 +1653,10 @@ msgid "Nie można pobrać zawartości czcionki \"%s\"."
 msgstr "Невозможно получить содержание шрифта «%s."
 
 #: KainoteFrame.cpp:945
-#, fuzzy
 msgid ""
 "pomógł w poprawie działania narzędzi do typesettingu, wymyślił wiele innych "
 "usprawnień).\n"
-msgstr "помог с инструментами настройки и придумал еще много улучшений.\n.\n"
+msgstr "помог с инструментами настройки и придумал ещё много улучшений).\n"
 
 #: ShiftTimes.cpp:434
 #, fuzzy
@@ -1959,12 +1950,11 @@ msgid "Brak dodatkowych wartości"
 msgstr "Никаких дополнительных значений"
 
 #: KainoteFrame.cpp:917
-#, fuzzy
 msgid ""
 "Ten program powstał w celu zastąpienia dwóch programów: Bestplayera i "
 "Aegisuba.\n"
 "\n"
-msgstr "Я написал эту программу, чтобы заменить две программы: Bestplayer and Aegisub.\n\n.\n\n"
+msgstr "Я написал эту программу, чтобы заменить две программы: Bestplayer и Aegisub.\n\n"
 
 #: AudioDisplay.cpp:286 RendererVideo.cpp:238
 #, fuzzy
@@ -2076,9 +2066,8 @@ msgid "Edytor obramowanie"
 msgstr "Пограничная служба"
 
 #: KainoteFrame.cpp:328
-#, fuzzy
 msgid "Au&tomatyzacja"
-msgstr "Au&tomation"
+msgstr "Автоматизация"
 
 #: FontCollector.cpp:172
 #, fuzzy
@@ -2101,9 +2090,8 @@ msgid "Proporcje ekranu: %5.3f"
 msgstr "Aspect ratio: %5.3f"
 
 #: KainoteFrame.cpp:949
-#, fuzzy
 msgid "- altinat (tajskie tłumaczenie).\n"
-msgstr "- altinat (Таильский перевод).\n.\n"
+msgstr "- altinat (Тайский перевод).\n"
 
 #: VideoToolbar.cpp:96
 #, fuzzy
@@ -2122,9 +2110,8 @@ msgid "Widok tylko wideo"
 msgstr "Только видео"
 
 #: OptionsDialog.cpp:719
-#, fuzzy
 msgid "Napisy linijki widoczne na wideo"
-msgstr "Переводчики:"
+msgstr "Строки субтитров видимые на видео"
 
 #: SubsFile.cpp:126
 #, fuzzy
@@ -2341,9 +2328,8 @@ msgid "Wyłączenie trybu tłumacza"
 msgstr "Отключить режим перевода"
 
 #: OptionsDialog.cpp:722
-#, fuzzy
 msgid "Napisy etykieta zapisanej linii"
-msgstr "Переводчики:"
+msgstr "Субтитры помечают сохранённую строку"
 
 #: FontCollector.cpp:1049
 #, c-format, fuzzy
@@ -3022,9 +3008,8 @@ msgid "Sortuj według warstwy"
 msgstr "Сортировка по слою"
 
 #: KainoteFrame.cpp:951
-#, fuzzy
 msgid "- Niskala5570 (malajskie tłumaczenie).\n"
-msgstr "- Niskala5570 (Malay Translation).\n.\n"
+msgstr "- Niskala5570 (Malay Translation).\n"
 
 #: HotkeysNaming.cpp:128 SubsGrid.cpp:182
 #, fuzzy
@@ -3037,9 +3022,8 @@ msgid "Brak IMediaTypes"
 msgstr "No IMediaTypes"
 
 #: KainoteFrame.cpp:209
-#, fuzzy
 msgid "Sort&uj wszystkie linie"
-msgstr "Так что.."
+msgstr "Сортировать все строки"
 
 #: KainoteFrame.cpp:1897
 #, fuzzy
@@ -3162,11 +3146,10 @@ msgid "Opis reguły"
 msgstr "Описание правила"
 
 #: KainoteFrame.cpp:946
-#, fuzzy
 msgid ""
 "- MatiasMovie (wyłapał parę crashy i zaproponował różne usprawnienia, pomaga "
 "w debugowaniu crashy).\n"
-msgstr "- MatiasMovie (найдено несколько крушений и расшифровало некоторые улучшения, помогает с отладкой крушения).\n.\n"
+msgstr "- MatiasMovie (нашёл несколько сбоев и предложил некоторые улучшения, помогает с отладкой сбоев).\n"
 
 #: Notebook.cpp:1155
 #, fuzzy
@@ -3272,9 +3255,8 @@ msgid "Wstawia czas początkowy z wideo"
 msgstr "Время запуска от видео"
 
 #: KainoteFrame.cpp:941
-#, fuzzy
 msgid "- Zły Los (ikony do skojarzonych plików i do menu).\n"
-msgstr "- Zły Los (иконы для ассоциаций файлов и меню).\n.\n"
+msgstr "- Zły Los (значки для ассоциаций файлов и меню).\n"
 
 #: DialogueTextEditor.cpp:2270
 #, fuzzy
@@ -3287,9 +3269,8 @@ msgid "Zapisz &tłumaczenie"
 msgstr "Сохранить перевод"
 
 #: FontCollector.cpp:794
-#, fuzzy
 msgid "Niektóre czcionki nie mają wszystkich znaków użytych w tekście.\n"
-msgstr "Некоторые шрифты не содержат все глипы, используемые в тексте.\n.\n"
+msgstr "Некоторые шрифты не содержат все символы используемые в тексте.\n"
 
 #: AudioBox.cpp:158
 #, fuzzy
@@ -3411,9 +3392,8 @@ msgid "Otwiera wybrane audio"
 msgstr "Открывает аудиофайл"
 
 #: OptionsDialog.cpp:722
-#, fuzzy
 msgid "Napisy etykieta zmodyfikowanej linii"
-msgstr "Переводчики:"
+msgstr "Субтитры помечают изменённую строку"
 
 #: VisualAllTagsEdition.cpp:89
 #, fuzzy
@@ -3602,9 +3582,8 @@ msgid "Wybierz nazwę profilu"
 msgstr "Выберите название профиля"
 
 #: HotkeysNaming.cpp:242 KainoteFrame.cpp:311 KainoteFrame.cpp:312
-#, fuzzy
 msgid "Zmień rozdzielczość napisów"
-msgstr "Resample subtitles"
+msgstr "Изменить разрешение (ресемпл) субтитров"
 
 #: RendererDirectShow.cpp:87
 #, fuzzy
@@ -3748,14 +3727,13 @@ msgid "Przesuwa czas początkowy do czasu wideo / audio"
 msgstr "Переместить время начала на время видео / аудио"
 
 #: KainoteFrame.cpp:918
-#, fuzzy
 msgid ""
 "Jeśli zauważyłeś(aś) jakieś błędy bądź masz jakieś propozycje zmian lub "
 "nowych funkcji,\n"
 "możesz napisać o tym na: Discordzie https://discord.gg/9WacFTtK6q, Githubie, "
 "bądź mailowo.\n"
 "\n"
-msgstr "Если вы заметили какие-либо ошибки или имеете какие-либо предложения по изменениям или новым функциям,\nвы можете написать об этом в: Discord https://discord.gg/9WacFTtK6q, Github, или по электронной почте.\n\n.\n\n"
+msgstr "Если вы заметили какие-либо ошибки или имеете какие-либо предложения по изменениям или новым функциям,\nвы можете написать об этом в: Discord https://discord.gg/9WacFTtK6q, Github, или по электронной почте.\n\n"
 
 #: Hotkeys.cpp:191 HotkeysNaming.cpp:122
 #, fuzzy
@@ -4255,9 +4233,8 @@ msgid "Sortowanie napisów"
 msgstr "Сортировка субтитров"
 
 #: OptionsDialog.cpp:588
-#, fuzzy
 msgid "Skróty napisów"
-msgstr "Переводчики:"
+msgstr "Сочетания клавиш для субтитров"
 
 #: StyleChange.cpp:707
 #, fuzzy
@@ -4371,12 +4348,11 @@ msgid "Losowość punktów czcionki oś Y"
 msgstr "Случайные точки шрифта Ось Y"
 
 #: KainoteFrame.cpp:847
-#, fuzzy
 msgid ""
 "Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
 "(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;"
 "*.rm;*.mpg;*.mpeg;*.3gp;*.avs|Wszystkie pliki (*.*)|*.*"
-msgstr "Видеофайлы (*.avi), (*.mkv), (*.mp4), (*.ogm), (*.wmv), (*.asf), (*.rmvb), (*.rmvb), (*.3gp), (*.mpg), (*.avs)|*.avi;*.mkv;*.mp4;*.wmv;*.asf;*.vb;*.rm;*.mpg;*.mpg;*. Все файлы (*.*)|*.*"
+msgstr "Видеофайлы (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|Все файлы (*.*)|*.*"
 
 #: SubsFile.cpp:151
 #, fuzzy
@@ -4706,9 +4682,8 @@ msgid "Poprzednia linijka"
 msgstr "Предыдущая строка"
 
 #: KainoteFrame.cpp:276
-#, fuzzy
 msgid "A&udio"
-msgstr "A&udio"
+msgstr "Аудио"
 
 #: Notebook.cpp:867
 #, fuzzy
@@ -5450,9 +5425,8 @@ msgid "Okno tło obramowania"
 msgstr "Окно границы фон"
 
 #: KainoteFrame.cpp:950
-#, fuzzy
 msgid "- labrie75 (koreańskie tłumaczenie).\n"
-msgstr "- Labrie75 (Корейский перевод).\n.\n"
+msgstr "- Labrie75 (Корейский перевод).\n"
 
 #: OptionsDialog.cpp:688
 #, fuzzy
@@ -5525,9 +5499,8 @@ msgid "Włącz sprawdzanie pisowni"
 msgstr "Проверка заклинания"
 
 #: KainoteFrame.cpp:939
-#, fuzzy
 msgid "- Xandros (przyciski do wideo).\n"
-msgstr "- Xandros (новые видео кнопки).\n.\n"
+msgstr "- Xandros (новые видео кнопки).\n"
 
 #: ShiftTimes.cpp:948
 #, fuzzy
@@ -5950,12 +5923,11 @@ msgid "Szukaj w podfolderach"
 msgstr "Ищите в подкладки"
 
 #: VideoBox.cpp:991
-#, fuzzy
 msgid ""
 "Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
 "(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
 "Wszystkie pliki (*.*)|*.*"
-msgstr "Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rmvb),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.wmv;*.asf;*.rmvb;*. Все файлы (*.*)|*.*"
+msgstr "Видеофайлы (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|Все файлы (*.*)|*.*"
 
 #: Notebook.cpp:874
 #, fuzzy
@@ -6147,9 +6119,9 @@ msgid "Zmieniacz skali i obrotów"
 msgstr "Смена шкалы и поворота"
 
 #: FontCollector.cpp:808
-#, c-format, fuzzy
+#, c-format
 msgid "Nie udało się skopiować %s.\n"
-msgstr "Невозможно скопировать %s.\n.\n"
+msgstr "Невозможно копировать %s.\n"
 
 #: OptionsDialog.cpp:716
 #, fuzzy
@@ -6301,9 +6273,8 @@ msgid "Tag wstawiany na początku tekstu"
 msgstr "Вставить в текст"
 
 #: AutomationHotkeysDialog.cpp:142 OptionsDialog.cpp:615
-#, fuzzy
 msgid "Mapuj skrót"
-msgstr "Map hotkey"
+msgstr "Назначить горячую клавишу"
 
 #: OptionsDialog.cpp:766
 #, fuzzy
@@ -6781,9 +6752,9 @@ msgid "Wybierz ścieżkę napisów"
 msgstr "Выберите трек субтитров"
 
 #: FontCollector.cpp:804
-#, c-format, fuzzy
+#, c-format
 msgid "Nie znaleziono %s.\n"
-msgstr "Не найден %s.\n.\n"
+msgstr "Не найдено %s.\n"
 
 #: Hotkeys.cpp:221 HotkeysNaming.cpp:73
 #, fuzzy
@@ -6842,11 +6813,11 @@ msgid "Pasek menu najechane tło zaznaczenia"
 msgstr "Меню бар выбор навес"
 
 #: FontCollector.cpp:739
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "Pobrano rozmiary i nazwy %i czcionek, upłynęło %sms.\n"
 "\n"
-msgstr "Взятые размеры и названия шрифтов %i, истекли %sms.\n\n.\n\n"
+msgstr "Загружено %i размеров и названий шрифтов, осталось %sms.\n\n"
 
 #: OptionsDialog.cpp:640
 #, fuzzy
@@ -6864,9 +6835,9 @@ msgid "Usuń napisy z edytora"
 msgstr "Удалить субтитры от редактора"
 
 #: FontCollector.cpp:842
-#, c-format, fuzzy
+#, c-format
 msgid "Nie można spakować czcionki \"%s\"."
-msgstr "Cannot zip font \"%s\"."
+msgstr "Невозможно заархивировать в zip шрифт «%s»."
 
 #: Hotkeys.cpp:151 HotkeysNaming.cpp:196 VideoBox.cpp:876
 #, fuzzy
@@ -6951,9 +6922,9 @@ msgid "Ustaw znacznik audio z czasem wideo"
 msgstr "Установить аудио-маркер с видео время"
 
 #: FontCollector.cpp:816
-#, c-format, fuzzy
+#, c-format
 msgid "Zakończono powodzeniem, %s %s.\n"
-msgstr "Завершено успешно %s %s.\n.\n"
+msgstr "Завершено успешно, %s %s.\n"
 
 #: SubsGrid.cpp:261
 #, fuzzy
@@ -7079,9 +7050,9 @@ msgid "Nie przechodź do następnej linii przy edycji czasów"
 msgstr "Оставайтесь на выбранной линии при редактировании времени"
 
 #: FontCollector.cpp:801
-#, c-format, fuzzy
+#, c-format
 msgid "Zakończono, %s %s.\n"
-msgstr "Закончил %s %s.\n.\n"
+msgstr "Закончено, %s %s.\n"
 
 #: KainoteFrame.cpp:943
 #, fuzzy
@@ -7156,9 +7127,8 @@ msgid "Odtwórz poprzednią linijkę"
 msgstr "Играть предыдущую линию"
 
 #: KainoteFrame.cpp:947
-#, fuzzy
 msgid "- mas1904 (wyłapał trochę błędów, pomaga w debugowaniu crashy).\n"
-msgstr "- mas1904 (нашли некоторые ошибки и помогли с отладкой крушения).\n.\n"
+msgstr "- mas1904 (нашел некоторые ошибки и помогс отладкой сбоев).\n"
 
 #: OptionsDialog.cpp:907 OptionsDialog.cpp:1166
 #, fuzzy
@@ -7269,9 +7239,8 @@ msgid "Grudzień"
 msgstr "Декабрь"
 
 #: OpennWrite.cpp:94
-#, fuzzy
 msgid "Nie można odczytać pliku."
-msgstr "Невозможно прочитать файл"
+msgstr "Не удалось прочитать файл."
 
 #: TextEditorTagList.cpp:133
 #, fuzzy
@@ -7347,9 +7316,8 @@ msgid "Zachowaj proporcje boków"
 msgstr "Сохранять соотношение сторон"
 
 #: ColorPicker.cpp:597
-#, fuzzy
 msgid "Jaskrawość:"
-msgstr "Яркость"
+msgstr "Яркость:"
 
 #: Hotkeys.cpp:178 HotkeysNaming.cpp:187
 #, fuzzy
@@ -7713,11 +7681,10 @@ msgid "Margines lewy"
 msgstr "Поле слева"
 
 #: SpellCheckerDialog.cpp:44
-#, fuzzy
 msgid ""
 "Ignoruj słowa całe pisane\n"
 "wielką literą"
-msgstr "Игнорирование всех слов в верхнем регистре."
+msgstr "Игнорировать слова большими буквами"
 
 #: OptionsDialog.cpp:712
 #, fuzzy
@@ -7807,9 +7774,8 @@ msgid "Następna karta"
 msgstr "Следующая вкладка"
 
 #: FindReplaceDialog.cpp:44 FindReplaceDialog.cpp:47 SelectLines.cpp:54
-#, fuzzy
 msgid "Szukany tekst:"
-msgstr "Поиск текста"
+msgstr "Поиск текста:"
 
 #: SubsGrid.cpp:260
 #, fuzzy
@@ -7954,9 +7920,8 @@ msgid "Czerwony:"
 msgstr "Красный:"
 
 #: FontCollector.cpp:951
-#, fuzzy
 msgid "Nie można utworzyć folderu."
-msgstr "Невозможно создать папку!"
+msgstr "Невозможно создать папку."
 
 #: StyleChange.cpp:152
 #, fuzzy
@@ -7990,9 +7955,8 @@ msgid "Klatka w przód"
 msgstr "Следующий кадр"
 
 #: StyleChange.cpp:261
-#, fuzzy
 msgid "Kodowanie tekstu:"
-msgstr "Кодировка текста"
+msgstr "Кодировка текста:"
 
 #: MisspellReplacer.cpp:75
 #, fuzzy
@@ -8035,9 +7999,8 @@ msgid "Odwrócone"
 msgstr "Обратное"
 
 #: ColorPicker.cpp:560
-#, fuzzy
 msgid "Wybrany kolor:"
-msgstr "Выделенный цвет"
+msgstr "Выбранный цвет:"
 
 #: StyleChange.cpp:197
 #, fuzzy
@@ -8274,9 +8237,8 @@ msgid "Wstaw"
 msgstr "Вставить"
 
 #: OpennWrite.cpp:39
-#, fuzzy
 msgid "Nie można otworzyć pliku."
-msgstr "Невозможно открыть файл"
+msgstr "Не удалось открыть файл."
 
 #: stylestore.cpp:680 stylestore.cpp:691
 #, fuzzy
@@ -8345,9 +8307,8 @@ msgid "Edytuj regułę"
 msgstr "Редактировать правило"
 
 #: DummyVideo.cpp:49
-#, fuzzy
 msgid "Rozdzielczość wideo:"
-msgstr "Разрешение видео"
+msgstr "Разрешение видео:"
 
 #: FontDialog.cpp:399 StyleChange.cpp:122
 #, fuzzy
@@ -8376,9 +8337,8 @@ msgid "Dodaj regułę"
 msgstr "Добавить фильтр"
 
 #: FontCatalogList.cpp:168
-#, fuzzy
 msgid "Katalogi:"
-msgstr "Каталоги"
+msgstr "Каталоги:"
 
 #: Hotkeys.cpp:149 HotkeysNaming.cpp:212 KainoteFrame.cpp:187
 #, fuzzy
@@ -8498,9 +8458,8 @@ msgid "Kodowanie znaków tekstu"
 msgstr "Кодировка текста"
 
 #: FindReplaceDialog.cpp:88 stylestore.cpp:67
-#, fuzzy
 msgid "Katalog:"
-msgstr "Каталог"
+msgstr "Каталог:"
 
 #: FontCatalogList.cpp:101
 #, fuzzy
@@ -8518,9 +8477,8 @@ msgid "Audio zaznaczenie"
 msgstr "Выбор аудио"
 
 #: VisualDrawingShapes.cpp:86
-#, fuzzy
 msgid "Rodzaj skalowania:"
-msgstr "Режим масштабирования"
+msgstr "Режим масштабирования:"
 
 #: DummyVideo.cpp:98
 #, fuzzy
@@ -8695,9 +8653,8 @@ msgid "Wyśrodkowane"
 msgstr "По центру"
 
 #: Hotkeys.cpp:600
-#, fuzzy
 msgid "Skrót globalny"
-msgstr "Глобальная комбинация:"
+msgstr "Глобальное горячая клавиша"
 
 #: FindReplaceDialog.cpp:413 FindReplaceDialog.cpp:428
 #, fuzzy
@@ -8760,9 +8717,8 @@ msgid "Sierpień"
 msgstr "Август"
 
 #: KainoteFrame.cpp:157
-#, fuzzy
 msgid "Zapisz jako"
-msgstr "Сохранить как…"
+msgstr "Сохранить как"
 
 #: Automation.cpp:1204 Automation.cpp:1251 EditBox.cpp:289
 #: FontCatalogList.cpp:107 VideoToolbar.cpp:510 VideoToolbar.cpp:526
@@ -8962,9 +8918,9 @@ msgid "Menedżer stylów"
 msgstr "Управление стилями"
 
 #: FontCollector.cpp:1109
-#, c-format, fuzzy
+#, c-format
 msgid "Nie można otworzyć pliku \"%s\"."
-msgstr "Не удается открыть файл: %s"
+msgstr "Не удалось открыть файл: «%s»."
 
 #: KaiMessageBox.cpp:85
 #, fuzzy
@@ -9054,9 +9010,8 @@ msgid "Funkcja"
 msgstr "Функция"
 
 #: StyleChange.cpp:64
-#, fuzzy
 msgid "Nazwa stylu:"
-msgstr "Название стиля"
+msgstr "Название стиля:"
 
 #: OptionsPanels.cpp:32 ScriptInfo.cpp:42 SubsGrid.cpp:1398
 #, fuzzy
@@ -9079,9 +9034,8 @@ msgid "początkowe"
 msgstr "начало"
 
 #: OpennWrite.cpp:36
-#, fuzzy
 msgid "Nie można utworzyć pliku."
-msgstr "Не удалось создать файл"
+msgstr "Не удалось создать файл."
 
 #: Hotkeys.cpp:199 HotkeysNaming.cpp:50
 #, fuzzy
@@ -9144,9 +9098,8 @@ msgid "Autor"
 msgstr "автор"
 
 #: StyleChange.cpp:197
-#, fuzzy
 msgid "Margines lewy:"
-msgstr "Поле слева"
+msgstr "Поле слева:"
 
 #: EditBox.cpp:1181 TextEditorTagList.cpp:361
 #, fuzzy
@@ -9285,9 +9238,8 @@ msgid "Tekst oryginalny"
 msgstr "Изначальный текст"
 
 #: NewCatalog.cpp:37
-#, fuzzy
 msgid "Podaj nazwę nowego katalogu"
-msgstr "Введите имя новой папки:"
+msgstr "Введите название новой папки"
 
 #: ColorPicker.cpp:532 ColorPicker.cpp:1365
 #, fuzzy
