@@ -1598,7 +1598,7 @@ wxString *SubsGridBase::GetVisible(bool *visible, wxPoint *point, wxArrayInt *se
 		(*txt) << L" \r\n[Events]\r\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\r\n";
 	}
 	edit->Send(EDITBOX_LINE_EDITION, false, true);
-	if ((_time >= edit->line->Start.mstime || toEnd) && _time < edit->line->End.mstime){
+	if ((_time >= (edit->line->Start.mstime - 5) || toEnd) && _time < (edit->line->End.mstime - 5)){
 		if (visible){ *visible = true; }
 	}
 	else if (visible){
@@ -1667,7 +1667,7 @@ bool SubsGridBase::IsLineVisible()
 {
 	int _time = tab->video->Tell();
 	bool toEnd = tab->video->GetState() == Playing;
-	return ((_time >= edit->line->Start.mstime || toEnd) && _time < edit->line->End.mstime);
+	return ((_time >= (edit->line->Start.mstime - 5) || toEnd) && _time < (edit->line->End.mstime - 5));
 }
 
 

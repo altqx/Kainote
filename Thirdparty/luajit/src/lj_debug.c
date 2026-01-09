@@ -1,6 +1,6 @@
 /*
 ** Debugging and introspection.
-** Copyright (C) 2005-2022 Mike Pall. See Copyright Notice in luajit.h
+** Copyright (C) 2005-2025 Mike Pall. See Copyright Notice in luajit.h
 */
 
 #define lj_debug_c
@@ -64,6 +64,7 @@ static BCPos debug_framepc(lua_State *L, GCfunc *fn, cTValue *nextframe)
     if (cf == NULL || (char *)cframe_pc(cf) == (char *)cframe_L(cf))
       return NO_BCPOS;
     ins = cframe_pc(cf);  /* Only happens during error/hook handling. */
+    if (!ins) return NO_BCPOS;
   } else {
     if (frame_islua(nextframe)) {
       ins = frame_pc(nextframe);
@@ -100,10 +101,14 @@ static BCPos debug_framepc(lua_State *L, GCfunc *fn, cTValue *nextframe)
   pt = funcproto(fn);
   pos = proto_bcpos(pt, ins) - 1;
 #if LJ_HASJIT
+  if (pos == NO_BCPOS) return 1;  /* Pretend it's the first bytecode. */
   if (pos > pt->sizebc) {  /* Undo the effects of lj_trace_exit for JLOOP. */
-    GCtrace *T = (GCtrace *)((char *)(ins-1) - offsetof(GCtrace, startins));
-    lj_assertL(bc_isret(bc_op(ins[-1])), "return bytecode expected");
-    pos = proto_bcpos(pt, mref(T->startpc, const BCIns));
+    if (bc_isret(bc_op(ins[-1]))) {
+      GCtrace *T = (GCtrace *)((char *)(ins-1) - offsetof(GCtrace, startins));
+      pos = proto_bcpos(pt, mref(T->startpc, const BCIns));
+    } else {
+      pos = NO_BCPOS;  /* Punt in case of stack overflow for stitched trace. */
+    }
   }
 #endif
   return pos;
@@ -349,6 +354,7 @@ void lj_debug_shortname(char *out, GCstr *str, BCLine line)
     }
     strcpy(out, line == ~(BCLine)0 ? "]" : "\"]");
   }
+  //strcpy(out, src);
 }
 
 /* Add current location of a frame to error message. */
@@ -456,8 +462,8 @@ int lj_debug_getinfo(lua_State *L, const char *what, lj_Debug *ar, int ext)
 	GCproto *pt = funcproto(fn);
 	BCLine firstline = pt->firstline;
 	GCstr *name = proto_chunkname(pt);
-	ar->source = strdata(name);
 	lj_debug_shortname(ar->short_src, name, pt->firstline);
+    ar->source = strdata(name);
 	ar->linedefined = (int)firstline;
 	ar->lastlinedefined = (int)(firstline + pt->numline);
 	ar->what = (firstline || !pt->numline) ? "Lua" : "main";

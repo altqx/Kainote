@@ -33,7 +33,6 @@ namespace Auto {
 		wxString script;
 		const char *constbuff;
 		char *buff;
-		char *cpybuff;
 		int size;
 		bool compatybility = Options.GetBool(AUTOMATION_OLD_SCRIPTS_COMPATIBILITY);
 		if (compatybility){
@@ -51,14 +50,10 @@ namespace Auto {
 			fseek(f, 0, SEEK_END);
 			size = ftell(f);
 			rewind(f);
-			cpybuff = buff = new char[size];
+			buff = new char[size];
 			size = fread(buff, 1, size, f);
 			fclose(f);
-			/*wxFile f(filename, wxFile::read);
-			if(f.IsOpened()){
-			size = f.Length();
-			f.Read(buff,size);
-			}*/
+			
 			if (size >= 3 && buff[0] == -17 && buff[1] == -69 && buff[2] == -65) {
 				buff += 3;
 				size -= 3;
@@ -66,10 +61,8 @@ namespace Auto {
 		}
 		wxString name = filename.AfterLast('\\');
 		if (!filename.EndsWith("moon")){
-			//LuaScriptReader script_reader(filename);
-			bool ret = luaL_loadbuffer(L, (compatybility) ? constbuff : buff, size, name.utf8_str().data()) == 0;
+			bool ret = luaL_loadbuffer(L, (compatybility) ? constbuff : buff, size, filename.utf8_str().data()) == 0;
 
-			if (!compatybility){ delete[] cpybuff; }
 			return ret;
 
 		}
@@ -83,9 +76,8 @@ namespace Auto {
 		lua_pushlstring(L, (compatybility) ? constbuff : buff, size);
 		lua_pushvalue(L, -1);
 		lua_setfield(L, LUA_REGISTRYINDEX, ("raw moonscript: " + name).utf8_str().data());
-		if (!compatybility){ delete[] cpybuff; }
-
-		push_value(L, name);
+		
+		push_value(L, filename);
 		if (lua_pcall(L, 2, 2, 0))
 			return false; // Leaves error message on stack
 
@@ -115,7 +107,7 @@ namespace Auto {
 		while (token.HasMoreTokens()) {
 
 			wxString filename = token.NextToken();
-			filename.Replace("?", module);
+			filename.Replace("/?", module);
 
 			// If there's a .moon file at that path, load it instead of the
 			// .lua file
@@ -141,10 +133,6 @@ namespace Auto {
 
 	bool Install(lua_State *L, std::vector<wxString> const& include_path) {
 		// set the module load path to include_path
-		//if(LoadFile(L,include_path[include_path.size()-1]+"\\moonscript.lua"))
-		//{
-
-		//}
 		lua_getglobal(L, "package");
 		push_value(L, "path");
 

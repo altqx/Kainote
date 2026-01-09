@@ -132,6 +132,7 @@ VideoBox::VideoBox(wxWindow *parent, const wxSize &size)
 	, m_ShownKeyframe(false)
 	, m_IsFullscreen(false)
 {
+	wxWindow::SetFont(*Options.GetFont());
 	int fw;
 	GetTextExtent(L"#TWFfGH", &fw, &m_ToolBarHeight);
 	m_ToolBarHeight += 8;

@@ -702,6 +702,8 @@ void FontCatalogManagement::AddToCatalog(const wxString& font, const wxPoint& po
 		SaveCatalogs();
 }
 
+//iterator is only used for load catalogs on window start
+//adding a new catalog from window passes NULL
 void FontCatalogManagement::AddCatalog(const wxString& catalog, std::map<wxString, fontList>::iterator* it)
 {
 	auto itc = fontCatalogs.find(catalog);
@@ -715,7 +717,7 @@ void FontCatalogManagement::AddCatalog(const wxString& catalog, std::map<wxStrin
 			(*it) = fontCatalogs.find(catalog);
 		}
 	}
-	else{
+	else if(it){
 		(*it) = itc;
 	}
 

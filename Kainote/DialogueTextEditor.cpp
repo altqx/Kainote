@@ -101,16 +101,14 @@ TextEditor::TextEditor(wxWindow *parent, int id, bool _spell, const wxPoint& pos
 	Cursor.x = Cursor.y = Selend.x = Selend.y = oldstart = oldend = 0;
 
 	holding = dholding = firstdhold = modified = wasDoubleClick = false;
-	font = *Options.GetFont();
+	
 	fontSize = Options.GetInt(TEXT_EDITOR_FONT_SIZE);
-	if (fontSize > 6 && fontSize <= 70 && fontSize != font.GetPointSize()) {
-		font.SetPointSize(fontSize);
-	}
-	else {
+	if (fontSize < 7 && fontSize > 70) {
 		fontSize = 10;
 		Options.SetInt(TEXT_EDITOR_FONT_SIZE, 10);
 	}
-
+	font = wxFont(*Options.GetFont(fontSize - 10));
+	wxWindow::SetFont(font);
 	int fw, fh;
 	GetTextExtent(L"#TWFfGH", &fw, &fh, nullptr, nullptr, &font);
 	fontHeight = fh;
