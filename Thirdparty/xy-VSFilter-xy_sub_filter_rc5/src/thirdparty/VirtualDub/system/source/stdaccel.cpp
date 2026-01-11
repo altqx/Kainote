@@ -24,7 +24,7 @@
 //		distribution.
 
 #define VDTEXTERN
-
+#include "stdafx.h"
 #include <vd2/system/vdtypes.h>
 #include <vd2/system/vdstl.h>
 

@@ -508,6 +508,7 @@ void VectorItem::ShowContols(VideoToolbar* vt)
 		list.Insert(_("Wybierz"), 0);
 		list.Add(_("Edytuj"));
 		shapeList = new KaiChoice(vt, ID_SHAPE_LIST, wxDefaultPosition, wxDefaultSize, list);
+		shapeList->SetFont(*Options.GetFont(-1));
 		shapeList->SetToolTip(_("Lista gotowych rysunków ASS z możliwością edycji.\nPo wybraniu rysunku z listy należy ustawić kursor\nw miejcu początku przytrzymać lewy przycisk myszy i przeciągnąć."));
 		shapeList->SetSelection(shapeListSelection);
 
@@ -568,6 +569,16 @@ void VectorItem::OnSize(VideoToolbar* vt)
 		ans.y = vts.y - 2;
 		shapeList->SetSize(ans);
 		shapeListWidth = ans.x + 4;
+	}
+}
+
+void VectorItem::Synchronize(VisualItem* item) {
+	VectorItem* ci = (VectorItem*)item;
+	toggled = ci->toggled;
+	
+	if (isDrawing && ci->shapeList) {
+		shapeListSelection = ci->shapeListSelection;
+		shapeList->SetSelection(shapeListSelection);
 	}
 }
 
@@ -666,7 +677,7 @@ void AllTagsItem::Synchronize(VisualItem* item)
 		options->SetSelection(mode);
 	}
 	else {
-		KaiLog(L"No sychronization, pointers released");
+		KaiLog(L"Hydra no sychronization, pointers released");
 	}
 }
 

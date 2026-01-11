@@ -104,10 +104,7 @@ public:
 	};
 	void OnMouseEvent(wxMouseEvent &evt, int w, int h, VideoToolbar *vt);
 	void OnPaint(wxDC &dc, int w, int h, VideoToolbar *vt);
-	void Synchronize(VisualItem * item){
-		VectorItem *ci = (VectorItem*)item;
-		toggled = ci->toggled;
-	};
+	void Synchronize(VisualItem * item);
 	int GetItemToggled(){ 
 		int value12 = toggled;
 		if (shapeListSelection) {

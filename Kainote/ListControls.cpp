@@ -821,7 +821,10 @@ void PopupList::CalcPosAndSize(wxPoint *pos, wxSize *size, const wxSize &control
 	if (size->x < controlSize.x){ size->x = controlSize.x; }
 	size->y = height * isize + 2;
 	wxPoint ScreenPos = Parent->ClientToScreen(*pos);
-	wxRect workArea = GetMonitorWorkArea(0, nullptr, ScreenPos, true);
+	//Work area set on false to avoid not showing list on fullscreen
+	//when control is on bottom. 
+	//Windows controls also can show lists on taskbar and it's nothing bad.
+	wxRect workArea = GetMonitorWorkArea(0, nullptr, ScreenPos, false);
 	int h = workArea.height + workArea.y;
 	//fix for new wxWidgets
 	//*pos = ScreenPos;
