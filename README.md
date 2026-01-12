@@ -101,7 +101,7 @@ These steps use **MSYS2** to create a build environment for compiling the librar
       * Inside this command prompt, execute `C:/msys64/msys2_shell.cmd` to start the MSYS2 shell. All subsequent commands in this section should be run from this shell.
 4.  **Install Build Tools**: Run the following commands to update the package database and install necessary tools.
     ```bash
-    pacman -Syyu make diffutils pkg-config
+    pacman -Syu make diffutils yasm nasm pkg-config
     ```
 5.  **Prevent Linker Conflict**: MSYS2 has its own `link.exe`, which conflicts with MSVC's linker. Rename it temporarily:
     ```bash

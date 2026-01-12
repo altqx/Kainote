@@ -9,9 +9,9 @@ Video rendering/
 objs/
 freetype-2.6/
 FFmpeg/
-FFmpeg1/
-FFmpeg2/
-ffms2000/
+aom/
+vvenc/
+build/aom/
 xy-VSFilter-master-old/
 xy-VSFilter-master2/
 xy-VSFilter-master1/
@@ -21,10 +21,11 @@ zlib/
 wxWidgets2/
 luajit2/
 LuaJITbeta/
-LuaJITbeta3/
+dav1d-master/
 zlib-1.2.11/
-ffms2000/
-VSFilterMod-r5.2/
+build/vvenc/
+build/dav1d/
 xy-VSFilter-master/src/filters/transform/vsfilter/csri2.h
 curl/
 *.gz
+*.exe
