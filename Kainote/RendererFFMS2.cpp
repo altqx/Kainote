@@ -142,8 +142,15 @@ void RendererFFMS2::Render(bool redrawSubsOnFrame, bool wait)
 				Clear();
 				//make sure that dx is initialized 
 				//without device it crashes in SizeChanged
+				int i = 0;
 				while (!InitDX()) {
-					Sleep(20);
+					Sleep(500);
+					if (i > 10) {
+						//cannot render without initialized DX
+						//return when device will be active again it should work after refresh.
+						return;
+					}
+					i++;
 				}
 				if (m_Visual){
 					m_Visual->SizeChanged(wxRect(m_BackBufferRect.left, m_BackBufferRect.top,

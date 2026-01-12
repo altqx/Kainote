@@ -68,7 +68,31 @@ Before you begin, you must install the following software:
 
 These steps use **MSYS2** to create a build environment for compiling the libraries with the Microsoft Visual C++ (MSVC) compiler.
 
-#### A. Configure MSYS2 Environment
+#### A. Build external codecs AV1 and H266
+
+1.	**Download libAOM for AV1** clone it using git `git clone https://aomedia.googlesource.com/aom`
+	* Open a **x64 Native Tools Command Prompt for VS 2022** from your Start Menu. Set path to build output folder.
+	* type command with path to AOM folder.
+	```bash
+	cmake path_to_AOM -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DAOM_TARGET_CPU=generic -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DENABLE_TESTS=0 -DENABLE_TOOLS=0 -DENABLE_CCACHE=1 -DCONFIG_AV1_ENCODER=0
+	```
+	* edit **aom.pc** generated in build folder.
+	* set include path to folder containing `aom` folder from aom source and `config` from build folder .
+	* sat also library folder.
+	* place `aom.pc` to `C:\msys64\usr\lib\pkgconfig`
+	
+2.	**Download VVENC for h266** download VVENC from Github `https://github.com/fraunhoferhhi/vvenc`
+	* Open a **x64 Native Tools Command Prompt for VS 2022** from your Start Menu. Set path to build output folder.
+	* type command with path to VVENC folder.
+	```bash
+	cmake path_to_VVENC -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=0 -DVVENC_LIBRARY_ONLY=1
+	```
+	* edit **libvvenc.pc** generated in build folder.
+	* set include path to folder containing `vvenc`.
+	* sat also library folder.
+	* place `libvvenc.pc` to `C:\msys64\usr\lib\pkgconfig`
+	
+#### B. Configure MSYS2 Environment
 
 1.  **Install MSYS2**: Download `msys2-x86_64-{date}.exe` from [msys2.org](https://www.msys2.org/) and install it to the default location, `C:/msys64`.
 2.  **Enable MSVC Toolchain**: Edit the file `C:/msys64/msys2_shell.cmd`. Find the line `rem set MSYS2_PATH_TYPE=inherit` and uncomment it by removing `rem`.
@@ -84,7 +108,7 @@ These steps use **MSYS2** to create a build environment for compiling the librar
     mv /usr/bin/link.exe /usr/bin/link.exe.bak
     ```
 
-#### B. Build FFmpeg (FFMS2 Prerequisite)
+#### C. Build FFmpeg (FFMS2 Prerequisite)
 
 1.  **Download FFmpeg**: Download the source code for a recent, stable FFmpeg release, like [**n7.1.1**](https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n7.1.1.zip). Unpack it to a simple path, e.g., `C:/ffmpeg`.
 2.  **Configure & Build**: In your MSYS2 shell, navigate to the FFmpeg directory and run the following commands. The configure script prepares a 64-bit build with minimal features needed for FFMS2.
@@ -101,21 +125,48 @@ These steps use **MSYS2** to create a build environment for compiling the librar
     ```
     This will install the FFmpeg headers and libraries into `C:/msys64/usr/local`.
 
-#### C. Build FFMS2
+#### D. Update FFMS2 source
 
-1.  **Download FFMS2**: Download the FFMS2 source code from its [GitHub repository](https://github.com/FFMS/ffms2/archive/refs/heads/master.zip). Unpack it to a simple path, e.g., `C:/ffms2`.
-2.  **Configure & Build**: In the same MSYS2 shell, navigate to the FFMS2 directory and run its build process. It will automatically find the FFmpeg you just installed.
-    ```bash
-    # Navigate to the source directory
-    cd /c/ffms2
-
-    # Configure the build
-    ./configure --toolchain=msvc
-
-    # Compile and install
-    make
-    make install
-    ```
+1.  **FFMS2 update**: Source update require to add custom code. Download FFMS2 from [GitHub repository](https://github.com/FFMS/ffms2/archive/refs/heads/master.zip). Change it in Thirdparty/FFMS2 folder. Open Visual Studio and add custom code in file API/ffms.h before **#endif** on end of file.
+```bash
+	//Kainote functions
+	FFMS_API(const char*) FFMS_GetTrackName(FFMS_Indexer* Indexer, int Track);
+	FFMS_API(const char*) FFMS_GetTrackLanguage(FFMS_Indexer* Indexer, int Track);
+	typedef struct FFMS_Chapter {
+		const char* Title;
+		int64_t Start;
+		int64_t End;
+	} FFMS_Chapter;
+	typedef struct FFMS_Chapters {
+		FFMS_Chapter* Chapters;
+		int NumOfChapters;
+	} FFMS_Chapters;
+	FFMS_API(FFMS_Chapters*) FFMS_GetChapters(FFMS_Indexer* Indexer);
+	FFMS_API(void) FFMS_FreeChapters(FFMS_Chapters** Chapters);
+	typedef struct FFMS_Attachment {
+		const char* Filename;
+		const char* Mimetype;
+		const uint8_t* Data;
+		int DataSize;
+	} FFMS_Attachment;
+	FFMS_API(FFMS_Attachment*) FFMS_GetAttachment(FFMS_Indexer* Indexer, int Track);
+	FFMS_API(void) FFMS_FreeAttachment(FFMS_Attachment** Attachment);
+	typedef int (FFMS_CC* GetSubtitlesCallback)(int64_t Start, int64_t Duration, int64_t Total, const char* Line, void* ICPrivate);
+	FFMS_API(void) FFMS_GetSubtitles(FFMS_Indexer* Indexer, int Track, GetSubtitlesCallback IC, void* ICPrivate);
+	FFMS_API(const char*) FFMS_GetSubtitleExtradata(FFMS_Indexer* Indexer, int Track);
+	FFMS_API(const char*) FFMS_GetSubtitleFormat(FFMS_Indexer* Indexer, int Track);
+```
+Add custom code in file Indexing/Indexing.h on end of struct **FFMS_Indexer**
+```bash
+	//Kainote functions
+	const char* GetTrackName(int Track);
+	const char* GetTrackLanguage(int Track);
+	FFMS_Chapters* GetChapters();
+	FFMS_Attachment* GetAttachment(int Track);
+	void GetSubtitles(int Track, GetSubtitlesCallback IC, void* ICPrivate);
+	const char* GetSubtitleExtradata(int Track);
+	const char* GetSubtitleFormat(int Track);
+```
 
 ### 3. Building Kainote
 
