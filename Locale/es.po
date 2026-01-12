@@ -5,8 +5,9 @@
 # Black Demons [黒•悪魔] <mundosaiyajinhd@gmail.com>, 2022.
 # NekoFX <mundosaiyajinhd@gmail.com>, 2022.
 # CiferrC <rc.uchiha@gmail.com>, 2022.
+# diego-fsm <diegofernando10@proton.me>, 2025.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2022-07-12 05:19+0000\nLast-Translator: NekoFX <mundosaiyajinhd@gmail.com>\nLanguage-Team: Spanish <https://hosted.weblate.org/projects/kainote/kainote/es/>\nLanguage: es\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 4.14-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2025-08-07 03:02+0000\nLast-Translator: diego-fsm <diegofernando10@proton.me>\nLanguage-Team: Spanish <https://hosted.weblate.org/projects/kainote/kainote/es/>\nLanguage: es\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.13-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:72
 msgid "Pasek szukania"
@@ -1553,24 +1554,21 @@ msgid "Zatwierdź zmiany idź do następnej linii"
 msgstr "Aplique los cambios y pase a la siguiente línea"
 
 #: Hotkeys.cpp:199 HotkeysNaming.cpp:50
-#, fuzzy
 msgid "Zatwierdź"
-msgstr "Commit"
+msgstr "Confirmar"
 
 #: Hotkeys.cpp:200 HotkeysNaming.cpp:51
 #, fuzzy
 msgid "Zatwierdź zastępcze"
-msgstr "Comprometerse con el alt"
+msgstr "Confirmar alt"
 
 #: Hotkeys.cpp:202 HotkeysNaming.cpp:54
-#, fuzzy
 msgid "Poprzednia linijka zastępcze"
 msgstr "Línea anterior alt"
 
 #: Hotkeys.cpp:204 HotkeysNaming.cpp:56
-#, fuzzy
 msgid "Następna linijka zastępcze"
-msgstr "Siguiente línea alt"
+msgstr "Reproducir la siguiente línea"
 
 #: Hotkeys.cpp:205 HotkeysNaming.cpp:57
 #, fuzzy
@@ -1578,23 +1576,19 @@ msgid "Odtwarzaj"
 msgstr "Reproducir"
 
 #: Hotkeys.cpp:206 HotkeysNaming.cpp:58
-#, fuzzy
 msgid "Odtwarzaj zastępcze"
-msgstr "Jugar a la alternativa"
+msgstr "Reproducir alt"
 
 #: Hotkeys.cpp:207 HotkeysNaming.cpp:59
-#, fuzzy
 msgid "Odtwarzaj linię"
-msgstr "Línea de juego"
+msgstr "Reproducir línea"
 
 #: Hotkeys.cpp:208 HotkeysNaming.cpp:60
-#, fuzzy
 msgid "Odtwarzaj linię zastępcze"
-msgstr "Línea de juego alt"
+msgstr "Reproducir línea alt"
 
 #: Hotkeys.cpp:209 HotkeysNaming.cpp:61 HotkeysNaming.cpp:238 VideoBox.cpp:153
 #: VideoBox.cpp:841 VideoFullscreen.cpp:60
-#, fuzzy
 msgid "Zatrzymaj"
 msgstr "Detener"
 
@@ -6410,12 +6404,10 @@ msgid "Dźwięk ciszej"
 msgstr "Bajar el volumen"
 
 #: Hotkeys.cpp:212 HotkeysNaming.cpp:64
-#, fuzzy
 msgid "Przewiń w prawo"
 msgstr "Desplazarse a la derecha"
 
 #: Hotkeys.cpp:211 HotkeysNaming.cpp:63
-#, fuzzy
 msgid "Przewiń w lewo"
 msgstr "Desplazarse a la izquierda"
 
