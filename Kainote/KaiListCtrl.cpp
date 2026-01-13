@@ -263,7 +263,7 @@ KaiListCtrl::KaiListCtrl(wxWindow *parent, int id, int numelem, wxString *list, 
 		//if (textSize.y + 2 > lineHeight){ lineHeight = textSize.y + 2; }
 	}
 	if (numelem)
-		widths[0] = maxwidth + 28;
+		widths[0] = origWidths[0] = maxwidth + 28;
 	int fw, fh;
 	GetTextExtent(L"TEX{}", &fw, &fh);
 	lineHeight = fh + 3;
@@ -300,7 +300,7 @@ KaiListCtrl::KaiListCtrl(wxWindow *parent, int id, const wxArrayString &list, co
 		//if (textSize.y + 2 > lineHeight){ lineHeight = textSize.y + 2; }
 	}
 	if (list.size())
-		widths[0] = maxwidth + 10;
+		widths[0] = origWidths[0] = maxwidth + 10;
 	int fw, fh;
 	GetTextExtent(L"TEX{}", &fw, &fh);
 	lineHeight = fh + 3;
@@ -317,7 +317,7 @@ void KaiListCtrl::SetTextArray(const wxArrayString &Array)
 		wxSize textSize = GetTextExtent(Array[i]);
 		if (textSize.x > maxwidth){ maxwidth = textSize.x; }
 	}
-	widths[0] = maxwidth + 10;
+	widths[0] = origWidths[0] = maxwidth + 10;
 	sel = -1;
 	Refresh(false);
 }
@@ -374,15 +374,17 @@ bool KaiListCtrl::SetFont(const wxFont& font)
 	return result;
 }
 
-int KaiListCtrl::InsertColumn(size_t col, const wxString &name, byte type, int width)
+int KaiListCtrl::InsertColumn(size_t col, const wxString &name, unsigned char type, int width)
 {
 	if (col >= widths.size()){
 		header.Insert(col, new ItemText(name));
 		widths.push_back(width);
+		origWidths.push_back(width);
 		return col;
 	}
 	header.Insert(col, new ItemText(name));
 	widths.Insert(col, width);
+	origWidths.Insert(col, width);
 	return col;
 }
 
@@ -405,9 +407,11 @@ int KaiListCtrl::AppendItemWithExtent(Item *item)
 		filteredList.push_back(newitem);
 
 	wxSize textSize = item->GetTextExtents(this);
-	if (!widths.size())
+	if (!widths.size()) {
 		widths.push_back(textSize.x);
-	else if (textSize.x > widths[0]){ widths[0] = textSize.x; }
+		origWidths.push_back(textSize.x);
+	}
+	else if (textSize.x > widths[0]){ origWidths[0] = widths[0] = textSize.x; }
 	//if (textSize.y + 2 > lineHeight){ lineHeight = textSize.y + 2; }
 	return itemList->size() - 1;
 }
@@ -431,9 +435,24 @@ Item *KaiListCtrl::GetItem(size_t row, size_t col)
 
 void KaiListCtrl::OnSize(wxSizeEvent& evt)
 {
-	/*if(headerHeight<5 && widths.size()==1){
-		widths[0] = -1;
-		}*/
+	if (widths.size() > 1) {
+		wxSize windowSize = GetSize();
+		int visibleSize = filteredList.size();
+		size_t maxVisible = ((windowSize.y - headerHeight) / lineHeight) + 1;
+		size_t itemsize = visibleSize + 1;
+		if (SetScrollBar(wxVERTICAL, scPosV, maxVisible, itemsize, maxVisible - 2)) {
+			windowSize = GetSize();
+		}
+		windowSize.x -= 2;
+		float maxWidth = GetMaxWidth(true);
+		float sizeGrowth = (float)windowSize.x / maxWidth;
+		int newMaxWitdh = 0;
+		for (size_t i = 0; i < widths.size(); i++) {
+			widths[i] = origWidths[i] * sizeGrowth;
+			//KaiLog(wxString::Format(L"i %d, Widths[i] %d, origWidths[i] %d ", i, widths[i], origWidths[i]));
+			newMaxWitdh += widths[i];
+		}
+	}
 	Refresh(false);
 }
 
@@ -451,7 +470,7 @@ void KaiListCtrl::OnPaint(wxPaintEvent& evt)
 	bool shouldStretch = false;
 	int stretched = maxWidth;
 
-	if (widths.size() > 1){ maxWidth += 10; }
+	if (widths.size() > 1){ maxWidth += 2; }
 	else if (maxWidth < w - 1){ 
 		maxWidth = w - 1; 
 		//With one collumn it should stretch it when is smaller than window
@@ -692,7 +711,8 @@ void KaiListCtrl::OnMouseEvent(wxMouseEvent &evt)
 			}
 			else if (!hasArrow && evt.LeftIsDown()){
 				widths[lastCollumn] += (cursor.x - diffX);
-				if (widths[lastCollumn] < 20){ widths[lastCollumn] = 20; }
+				origWidths[lastCollumn] += (cursor.x - diffX);
+				if (widths[lastCollumn] < 20){ widths[lastCollumn] = origWidths[lastCollumn] = 20; }
 				diffX = cursor.x;
 				Refresh(false);
 				return;
@@ -810,13 +830,13 @@ void KaiListCtrl::OnScroll(wxScrollWinEvent& event)
 	}
 }
 
-int KaiListCtrl::GetMaxWidth()
+int KaiListCtrl::GetMaxWidth(bool orig)
 {
 
 	int maxWidth = 0;
 	for (size_t i = 0; i < widths.size(); i++){
 		if (widths[i] == -1){ SetWidth(i); }
-		maxWidth += widths[i];
+		maxWidth += orig? origWidths[i] : widths[i];
 	}
 	return maxWidth;
 }
@@ -831,7 +851,7 @@ void KaiListCtrl::SetWidth(size_t j)
 		wxSize textSize = item->GetTextExtents(this);
 		if (textSize.x > maxwidth){ maxwidth = textSize.x; }
 	}
-	widths[j] = maxwidth + 28;
+	widths[j] = origWidths[j] = maxwidth + 28;
 }
 
 //collumn must be set
@@ -859,7 +879,7 @@ void KaiListCtrl::FilterList(int column, int mode)
 	Refresh(false);
 }
 
-void KaiListCtrl::FilterItem(int row, byte type, bool showHidden)
+void KaiListCtrl::FilterItem(int row, unsigned char type, bool showHidden)
 {
 	if (row < 0 || row >= itemList->size())
 		return;

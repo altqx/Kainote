@@ -543,8 +543,10 @@ bool KaiScrolledWindow::ScrollPages(int pages)
 void KaiScrolledWindow::GetSize(int *x, int *y)
 {
 	wxWindow::GetSize(x, y);
-	if (horizontal && horizontal->IsShown()){ *y -= horizontal->GetThickness(); }
-	if (vertical && vertical->IsShown()){
+	if (horizontal /*&& horizontal->IsShown()*/){ 
+		*y -= horizontal->GetThickness(); 
+	}
+	if (vertical /*&& vertical->IsShown()*/){
 		*x -= vertical->GetThickness();
 	}
 }
@@ -552,8 +554,10 @@ void KaiScrolledWindow::GetSize(int *x, int *y)
 void KaiScrolledWindow::GetClientSize(int *x, int *y)
 {
 	wxWindow::GetClientSize(x, y);
-	if (horizontal && horizontal->IsShown()){ *y -= horizontal->GetThickness(); }
-	if (vertical && vertical->IsShown()){
+	if (horizontal /*&& horizontal->IsShown()*/){ 
+		*y -= horizontal->GetThickness(); 
+	}
+	if (vertical /*&& vertical->IsShown()*/){
 		*x -= vertical->GetThickness();
 	}
 }
@@ -561,15 +565,23 @@ void KaiScrolledWindow::GetClientSize(int *x, int *y)
 wxSize KaiScrolledWindow::GetSize()
 {
 	wxSize size = wxWindow::GetSize();
-	if (horizontal && horizontal->IsShown()){ size.y -= horizontal->GetThickness(); }
-	if (vertical && vertical->IsShown()){ size.x -= vertical->GetThickness(); }
+	if (horizontal /*&& horizontal->IsShown()*/){ 
+		size.y -= horizontal->GetThickness(); 
+	}
+	if (vertical /*&& vertical->IsShown()*/){ 
+		size.x -= vertical->GetThickness(); 
+	}
 	return size;
 }
 
 wxSize KaiScrolledWindow::GetClientSize()
 {
 	wxSize size = wxWindow::GetClientSize();
-	if (horizontal && horizontal->IsShown()){ size.y -= horizontal->GetThickness(); }
-	if (vertical && vertical->IsShown()){ size.x -= vertical->GetThickness(); }
+	if (horizontal /*&& horizontal->IsShown()*/){ 
+		size.y -= horizontal->GetThickness(); 
+	}
+	if (vertical /*&& vertical->IsShown()*/){ 
+		size.x -= vertical->GetThickness(); 
+	}
 	return size;
 }

@@ -261,7 +261,7 @@ wxString *OptionsDialog::windowNames = nullptr;
 std::map<idAndType, hdata> OptionsDialog::hotkeysCopy;
 
 OptionsDialog::OptionsDialog(wxWindow *parent)
-	: KaiDialog(parent, -1, _("Opcje"))
+	: KaiDialog(parent, -1, _("Opcje"), wxDefaultPosition, wxDefaultSize, wxRESIZE_BORDER)
 {
 	windowNames = new wxString[5]{ _("Globalny"), _("Napisy"), _("Edytor"), _("Wideo"), _("Audio") };
 	OptionsTree = new KaiTreebook(this, -1);
@@ -600,7 +600,7 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 		filterMode->Add(filterList, 1, wxALL | wxEXPAND, 2);
 		HkeysSizer->Add(filterMode, 0, wxEXPAND);
 		wxString mesureText = _("Globalny") + L" " + _("Lista osób pomocnych przy tworzeniu programu");
-		wxString mesureText2 = L"Ctrl-Shift-Delete";
+		wxString mesureText2 = L"Alt-Shift-Delete";
 		int fw, fww, fh;
 		GetTextExtent(mesureText, &fw, &fh);
 		GetTextExtent(mesureText2, &fww, &fh);
@@ -825,7 +825,7 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 
 		KaiListCtrl *List = new KaiListCtrl(Themes, -1, wxDefaultPosition, wxSize(300, -1));
 		List->InsertColumn(0, _("Nazwa"), TYPE_TEXT, fw < 240 ? 240 : fw);
-		List->InsertColumn(1, _("Kolor"), TYPE_COLOR, fww < 150 ? 150 : fww);
+		List->InsertColumn(1, _("Kolor"), TYPE_COLOR, fww < 120 ? 120 : fww);
 		for (int i = 0; i < numColors; i++)
 		{
 			int row = List->AppendItem(new ItemText(labels[i]));
@@ -981,7 +981,7 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 	ButtonsSizer->Add(resetDefaults, 1, wxRIGHT, 2);
 
 	DialogSizer *TreeSizer = new DialogSizer(wxVERTICAL);
-	TreeSizer->Add(OptionsTree, 0, wxALL, 2);
+	TreeSizer->Add(OptionsTree, 1, wxALL | wxALIGN_CENTER | wxEXPAND, 2);
 	TreeSizer->Add(ButtonsSizer, 0, wxBOTTOM | wxALIGN_CENTER, 4);
 	SetSizerAndFit(TreeSizer);
 

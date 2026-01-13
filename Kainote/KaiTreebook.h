@@ -47,7 +47,7 @@ public:
 
 	int GetSelection();
 	void ChangeSelection(int sel);
-	void RefreshTree();
+	void RefreshTree(bool eraseBackground = false);
 	void SetColours(const wxColour &bgcol, const wxColour &fgcol);
 	wxWindow* GetTab();
 	//bool SetFont(const wxFont &font);

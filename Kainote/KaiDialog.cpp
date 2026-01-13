@@ -450,7 +450,9 @@ void KaiDialog::OnPaint(wxPaintEvent &evt)
 
 void KaiDialog::OnSize(wxSizeEvent &evt)
 {
-	Refresh(false);
+	//when update always delete background to avoid glitches
+	Refresh(/*false*/);
+	Update();
 	evt.Skip();
 }
 

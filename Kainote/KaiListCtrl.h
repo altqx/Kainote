@@ -180,7 +180,7 @@ public:
 	bool GetModified(){return modified;}
 	int FindItem(int column, const wxString &textItem, int row = 0);
 	int FindItem(int column, Item *item, int row = 0);
-	//collumn must be set
+	//column must be set
 	void FilterList(int column, int mode);
 	void FilterItem(int row, unsigned char type, bool showHidden = true);
 	void FilterFinalize();
@@ -217,7 +217,7 @@ private:
 	void OnMouseEvent(wxMouseEvent &evt);
 	void OnScroll(wxScrollWinEvent& event);
 	void OnEraseBackground(wxEraseEvent &evt){};
-	int GetMaxWidth();
+	int GetMaxWidth(bool orig = false);
 	void SetWidth(size_t i = 0);
 	//int FindItemsRow(int elemX, size_t &startI);
 //return 0 nothing, 1 hidden block, 2 visible block
@@ -232,6 +232,7 @@ private:
 	std::vector< ItemRow*> filteredList;
 	std::vector<List*> historyList;
 	wxArrayInt widths;
+	wxArrayInt origWidths;
 	wxBitmap *bmp;
 	int sel;
 	int lastSelX;

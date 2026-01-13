@@ -74,7 +74,6 @@ private:
 	void OnMapHkey(wxCommandEvent& event);
 	void OnResetHkey(wxCommandEvent& event);
 	void OnDeleteHkey(wxCommandEvent& event);
-	//void OnKeyPress(wxKeyEvent& event);
 	void ChangeColors();
 	void OnChangeCatalog(wxCommandEvent& event);
 	void OnResetDefault(wxCommandEvent& event);

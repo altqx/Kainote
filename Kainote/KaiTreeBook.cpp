@@ -118,6 +118,7 @@ void KaiTreebook::ChangeSelection(int sel)
 void KaiTreebook::CalcWidth()
 {
 	treeWidth = 20;
+	textHeight = 0;
 	for (size_t i = 0; i < Pages.size(); i++){
 		wxSize txtsize = GetTextExtent(Pages[i]->name);
 		txtsize.x += 25 + (Pages[i]->whichSubpage * 20);
@@ -220,7 +221,12 @@ void KaiTreebook::OnMouseEvent(wxMouseEvent& event)
 
 void KaiTreebook::OnSize(wxSizeEvent& event)
 {
+	wxSize treeSize = GetSize();
+	treeSize.x -= (treeWidth + 8);
+	Pages[selection]->page->SetSize(treeSize);
+	//when update always delete background to avoid glitches
 	RefreshTree();
+	Update();
 }
 
 void KaiTreebook::OnPaint(wxPaintEvent& event)
@@ -315,12 +321,12 @@ void KaiTreebook::OnPaint(wxPaintEvent& event)
 	dc.Blit(0, 0, w, h, &tdc, 0, 0);
 }
 
-void KaiTreebook::RefreshTree()
+void KaiTreebook::RefreshTree(bool eraseBackground)
 {
 	int w, h;
 	GetClientSize(&w, &h);
 	wxRect rc(0, 0, treeWidth, h);
-	Refresh(false, &rc);
+	Refresh(eraseBackground, &rc);
 
 }
 
