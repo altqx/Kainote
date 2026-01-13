@@ -1,6 +1,40 @@
 # altinat <poiiiii4yy@gmail.com>, 2022.
 msgid ""
-msgstr "Project-Id-Version: \nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:40+0700\nPO-Revision-Date: 2022-06-06 13:48+0000\nLast-Translator: altinat <poiiiii4yy@gmail.com>\nLanguage-Team: English <https://hosted.weblate.org/projects/kainote/kainote/en/>\nLanguage: en\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 4.13-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: poiiiii4yy@gmail.com\n"
+"POT-Creation-Date: 2022-06-06 20:40+0700\n"
+"PO-Revision-Date: 2026-01-13 22:13+0700\n"
+"Last-Translator: altinat <poiiiii4yy@gmail.com>\n"
+"Language-Team: English <https://hosted.weblate.org/projects/kainote/kainote/"
+"en/>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-Basepath: ../Kainote\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: Bitmaps\n"
+"X-Poedit-SearchPathExcluded-1: GFFT\n"
+"X-Poedit-SearchPathExcluded-2: include\n"
+"X-Poedit-SearchPathExcluded-3: Win32\n"
+"X-Poedit-SearchPathExcluded-4: x64\n"
+"X-Poedit-SearchPathExcluded-5: ffms2.lib\n"
+"X-Poedit-SearchPathExcluded-6: ffms2_x64.lib\n"
+"X-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\n"
+"X-Poedit-SearchPathExcluded-8: Kainote.vcxproj\n"
+"X-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\n"
+"X-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\n"
+"X-Poedit-SearchPathExcluded-11: RCa00888\n"
+"X-Poedit-SearchPathExcluded-12: resource.aps\n"
+"X-Poedit-SearchPathExcluded-13: resource.rc\n"
+"X-Poedit-SearchPathExcluded-14: CsriMod.cpp\n"
+"X-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\n"
+"X-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:72
 msgid "Pasek szukania"
@@ -372,11 +406,11 @@ msgstr "Remove older audio cache files"
 
 #: AutoSavesRemoving.cpp:177
 msgid ""
-"Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*."
-"sub;*.txt"
+"Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
 msgstr ""
-"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*."
-"sub;*.txt"
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
 
 #: AutoSavesRemoving.cpp:178
 msgid "Pliki indeksów (*.ffindex)|*.ffindex"
@@ -1295,8 +1329,8 @@ msgstr "Prompt"
 
 #: FontCatalogList.cpp:166
 msgid ""
-"Lista katalogów ma opcję autozapisu, pliki znajdują się w folderze \"Config"
-"\"."
+"Lista katalogów ma opcję autozapisu, pliki znajdują się w folderze "
+"\"Config\"."
 msgstr "Catalog list have autosave, files can be find in \"Config\" folder."
 
 #: FontCatalogList.cpp:168
@@ -2595,7 +2629,7 @@ msgstr "Open video with FFMS2"
 
 #: HotkeysNaming.cpp:249 KainoteFrame.cpp:255
 msgid "Powiększ wideo"
-msgstr "Zoom  video"
+msgstr "Zoom video"
 
 #: HotkeysNaming.cpp:250
 msgid "Widok wszystko"
@@ -3177,26 +3211,30 @@ msgstr "Choose subtitles file"
 
 #: KainoteFrame.cpp:817
 msgid ""
-"Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*."
-"sub;*.txt|Pliki wideo z wbudowanymi napisami (*.mkv),(*.ogm)|*.mkv;*.ogm"
+"Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|Pliki wideo z wbudowanymi napisami (*.mkv),"
+"(*.ogm)|*.mkv;*.ogm"
 msgstr ""
-"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*."
-"sub;*.txt|Video with subtitles (*.mkv),(*.ogm)|*.mkv;*.ogm"
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|Video with subtitles (*.mkv),(*.ogm)|"
+"*.mkv;*.ogm"
 
 #: KainoteFrame.cpp:847
 msgid ""
 "Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
-"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;"
-"*.rm;*.mpg;*.mpeg;*.3gp;*.avs|Wszystkie pliki (*.*)|*.*"
+"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|"
+"Wszystkie pliki (*.*)|*.*"
 msgstr ""
 "Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
-"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;"
-"*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All files (*.*)|*.*"
+"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All "
+"files (*.*)|*.*"
 
 #: KainoteFrame.cpp:863
 msgid ""
-"Pliki klatek kluczowych (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*."
-"stats;*.log|Wszystkie pliki (*.*)|*.*"
+"Pliki klatek kluczowych (*.txt),(*.pass),(*.stats),(*.log)|"
+"*.txt;*.pass;*.stats;*.log|Wszystkie pliki (*.*)|*.*"
 msgstr ""
 "Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|"
 "All files (*.*)|*.*"
@@ -4966,7 +5004,7 @@ msgstr "Not enough RAM"
 
 #: RendererDirectShow.cpp:59
 msgid "Nie można stworzyć DXVA processor service"
-msgstr "Cannot create  DXVA processor service"
+msgstr "Cannot create DXVA processor service"
 
 #: RendererDirectShow.cpp:79
 msgid "Nie można pobrać GUIDów DXVA"
@@ -5397,7 +5435,7 @@ msgid ""
 "by ich pozycja na wideo się nie zmieniła\n"
 "(spowalnia przesuwanie czasów)"
 msgstr ""
-"Shift tag  \\move, \\t, \\fad times\n"
+"Shift tag \\move, \\t, \\fad times\n"
 "that its video position don't change.\n"
 "(slow downs shifting times)"
 
@@ -6314,7 +6352,7 @@ msgstr "Change resolution"
 
 #: SubsResampleDialog.cpp:32
 msgid "Rozdzielczość docelowa"
-msgstr "Target  resolution"
+msgstr "Target resolution"
 
 #: SubsResampleDialog.cpp:36
 msgid "Pobierz z napisów"
@@ -7951,8 +7989,8 @@ msgstr "Delete unused ASS styles"
 #~ msgstr "Last session should open after next program launch.\n"
 
 #~ msgid ""
-#~ "W przypadku, gdyby zostały uszkodzone, autozapisy są w folderze \"Subs"
-#~ "\".\n"
+#~ "W przypadku, gdyby zostały uszkodzone, autozapisy są w folderze "
+#~ "\"Subs\".\n"
 #~ msgstr ""
 #~ "In case of corrupted recovery subtitles, autosaves are in \"Subs\" "
 #~ "folder.\n"
@@ -8498,11 +8536,11 @@ msgstr "Delete unused ASS styles"
 #~ msgstr "Testing line"
 
 #~ msgid ""
-#~ "Pliki klatek kluczowych(*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*."
-#~ "stats;*.log|Wszystkie pliki (*.*)|*.*"
+#~ "Pliki klatek kluczowych(*.txt),(*.pass),(*.stats),(*.log)|"
+#~ "*.txt;*.pass;*.stats;*.log|Wszystkie pliki (*.*)|*.*"
 #~ msgstr ""
-#~ "Keyframes file(*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*."
-#~ "log|All files (*.*)|*.*"
+#~ "Keyframes file(*.txt),(*.pass),(*.stats),(*.log)|"
+#~ "*.txt;*.pass;*.stats;*.log|All files (*.*)|*.*"
 
 # Po otwórz musi być spacja, bo zaburzy to działanie recentów.
 #~ msgid "Otwórz "
@@ -8698,11 +8736,11 @@ msgstr "Delete unused ASS styles"
 #~ msgstr "Match"
 
 #~ msgid ""
-#~ "Pliki audio i wideo (*.wav),(*.w64),(*.aac),(*.mp3),(*.mp4),(*.mkv),(*."
-#~ "avi)|*.wav;*.w64;*.aac;*.mp3;*.mp4;*.mkv;*.avi|Wszystkie Pliki |*.*"
+#~ "Pliki audio i wideo (*.wav),(*.w64),(*.aac),(*.mp3),(*.mp4),(*.mkv),"
+#~ "(*.avi)|*.wav;*.w64;*.aac;*.mp3;*.mp4;*.mkv;*.avi|Wszystkie Pliki |*.*"
 #~ msgstr ""
-#~ "Audio and video files (*.wav),(*.w64),(*.aac),(*.mp3),(*.mp4),(*.mkv),(*."
-#~ "avi)|*.wav;*.w64;*.aac;*.mp3;*.mp4;*.mkv;*.avi|All files |*.*"
+#~ "Audio and video files (*.wav),(*.w64),(*.aac),(*.mp3),(*.mp4),(*.mkv),"
+#~ "(*.avi)|*.wav;*.w64;*.aac;*.mp3;*.mp4;*.mkv;*.avi|All files |*.*"
 
 #~ msgid "Plus 5 sekund"
 #~ msgstr "Go forward 5 sec"
