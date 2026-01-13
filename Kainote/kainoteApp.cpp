@@ -203,8 +203,8 @@ bool kainoteApp::OnInit()
 				posy = rt.y + ((float)(rt.height - sizey) / 2.f);
 			}
 		}
-		if (sizex < 500 || sizey < 350) {
-			sizex = 800; sizey = 650;
+		if (sizex < 1000 || sizey < 700) {
+			sizex = 1000; sizey = 700;
 		}
 		
 

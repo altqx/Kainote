@@ -367,7 +367,7 @@ void config::LoadDefaultConfig(wxString * defaultOptions)
 	configTable[VIDEO_INDEX] = L"true";
 	configTable[VIDEO_PROGRESS_BAR] = L"true";
 	configTable[VIDEO_WINDOW_SIZE] = L"500,350";
-	configTable[WINDOW_SIZE] = L"800,600";
+	configTable[WINDOW_SIZE] = L"1000,700";
 	configTable[AUTOMATION_TRACE_LEVEL] = L"3";
 	configTable[AUTOSAVE_MAX_FILES] = L"3";
 	configTable[GRID_CHANGE_ACTIVE_ON_SELECTION] = L"true";

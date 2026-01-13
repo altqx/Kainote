@@ -103,7 +103,7 @@ TextEditor::TextEditor(wxWindow *parent, int id, bool _spell, const wxPoint& pos
 	holding = dholding = firstdhold = modified = wasDoubleClick = false;
 	
 	fontSize = Options.GetInt(TEXT_EDITOR_FONT_SIZE);
-	if (fontSize < 7 && fontSize > 70) {
+	if (fontSize < 7 || fontSize > 70) {
 		fontSize = 10;
 		Options.SetInt(TEXT_EDITOR_FONT_SIZE, 10);
 	}
