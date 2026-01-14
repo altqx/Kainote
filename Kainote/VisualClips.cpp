@@ -120,8 +120,10 @@ void DrawingAndClip::DrawVisual(int time)
 		_y = movePos.y / scale.y;
 	}
 	//cannot let to "l" or "b" to be used as missing "m" on start
-	if (Points[0].type != L"m"){ Points[0].type = L"m"; }
-	size_t g = (size < 2) ? 0 : 1;
+	if (Points[0].type != L"m"){ 
+		Points[0].type = L"m"; 
+	}
+	size_t g = (size < 2 || (size > 1 && Points[1].type == L"m")) ? 0 : 1;
 	size_t lastM = 0;
 	while (g < size){
 
@@ -929,68 +931,8 @@ void DrawingAndClip::OnMouseEvent(wxMouseEvent &event)
 	//remove points
 	if (event.MiddleDown() || (tool == 5 && click)){
 		grabbed = -1;
-		size_t i = (psize > 1) ? 1 : 0;
-		for (size_t i = 0; i < psize; i++)
-		{
-			float pointx = Points[i].wx(this, false), pointy = Points[i].wy(this, false);
-			if (abs(pointx - zx) < pointArea && abs(pointy - zy) < pointArea)
-			{
-				int j = i;
-				int er = 1;
-				bool isM = (Points[i].type == L"m");
-				if (isM){
-					Points.erase(Points.begin() + i, Points.begin() + i + 1);
-					if (i >= Points.size()){
-						SetClip(true);
-						return;
-					}
-					psize--;
-				}
-
-				if (!(Points[j].start)){
-					for (j = i - 1; j >= 0; j--){
-						if (Points[j].start){ break; }
-					}
-					if (j == 0 && !Points[j].start){ Points[j].start = true; }
-				}
-				if (Points[j].type == L"s"){
-					size_t k;
-					for (k = j + 1; k < psize; k++){
-						if (Points[k].start){ break; }
-					}
-					if (k - j < 4){ er = 2; }
-					else { j = i; }
-				}
-
-				if (Points[j].type == L"b" || er == 2){
-					er = 2;
-					if (j + 2 == i || isM){
-						er = 3;
-
-					}
-					else{
-						Points[j + 2].type = L"l";
-						Points[j + 2].start = true;
-					}
-				}
-
-
-
-				if (isM){
-					if (er > 1){
-						Points.erase(Points.begin() + j, Points.begin() + j + er - 1);
-					}
-					Points[i].type = L"m";
-					Points[i].start = true;
-					if (i + 1 < Points.size()){ Points[i + 1].start = true; }
-				}
-				else{
-					Points.erase(Points.begin() + j, Points.begin() + j + er);
-				}
-				SetClip(true);
-				break;
-			}
-		}
+		int pos = CheckPos(xy);
+		RemovePoints(pos);
 		return;
 	}
 
@@ -1212,6 +1154,9 @@ void DrawingAndClip::OnKeyPress(wxKeyEvent &evt)
 		ChangeSelection(true);
 		tab->video->Render(false);
 	}
+	else if (keyCode == WXK_DELETE) {
+		RemovePoints(-1, true);
+	}
 	else if(keyCode == L'W' || keyCode == L'S' || keyCode == L'A' || keyCode == L'D'){
 		float x = 0; float y = 0;
 		float increase = (evt.ShiftDown() && Visual == VECTORDRAW)? 0.1f : 1.f;
@@ -1402,6 +1347,105 @@ void DrawingAndClip::SetZoom(D3DXVECTOR2 move, D3DXVECTOR2 zoomscale)
 {
 	Visuals::SetZoom(move, zoomscale);
 	pointArea = 4.f / zoomScale.x;
+}
+bool comparaFunc(int i, int j) {
+	return i < j;
+}
+
+void DrawingAndClip::RemovePoints(int selectedPoint, bool fromKeyboard)
+{
+	std::vector<size_t> sels;
+	GetSelected(&sels);
+	size_t ssize = sels.size();
+	if (selectedPoint != -1) {
+		sels.push_back(selectedPoint);
+		ssize = sels.size();
+		std::sort(sels.begin(), sels.end());
+	}
+
+	if (ssize < 1)
+		return;
+		
+	size_t lastRemovei = -1;
+	for (size_t i = ssize; i > 0 ; i--) {
+		size_t j = sels[i - 1];
+		if (j >= lastRemovei)
+			continue;
+
+		wxString type = Points[j].type;
+		int numOfRemoved = 1;
+		size_t removei = j;
+		//change Bezier to line and add to remove unneeded points
+		if (type == L"b") {
+			for(; removei > 0; removei--) {
+				if (Points[removei].start) { break; }
+				// first point is m it should find start if not table is corrupted
+			}
+			numOfRemoved = 2;
+			if (removei + 2 == j) {
+				numOfRemoved = 3;
+			}
+			else {
+				Points[removei + 2].type = L"l";
+				Points[removei + 2].start = true;
+			}
+		}
+		//looks like b-spline needs at least 3 points to be shown
+		//remove if is three points
+		if (type == L"s") {
+			//seek first point
+			size_t firstPoint = j;
+			for (; firstPoint > 0; firstPoint--) {
+				if (Points[firstPoint].start) { break; }
+				// first point is m it should find start if not table is corrupted
+			}
+			//seek last point
+			size_t lastPoint = j + 1;
+			for (; lastPoint < Points.size() ; lastPoint++) {
+				if (Points[lastPoint].start) { 
+					//decrease cause of lastpoint is the point before start point
+					lastPoint--;
+					break; 
+				}
+			}
+			if ((lastPoint - firstPoint) < 4) {
+				removei = firstPoint;
+				//here there is no point removed
+				//I wonder if it's possible to exceed points table here
+				numOfRemoved = lastPoint - firstPoint;
+			}
+		}
+		//remove selected points
+		Points.erase(Points.begin() + removei, Points.begin() + removei + numOfRemoved);
+
+		//set new m if last was removed
+		if (type == L"m") {
+			if (j < Points.size() && Points[j].type != L"m") {
+				Points[j].type = L"m";
+				Points[j].start = true;
+			}
+		}
+			
+
+		lastRemovei = removei;
+	}
+	SetClip(true);
+	if(fromKeyboard)
+		SetClip(false);	
+
+}
+
+void DrawingAndClip::GetSelected(std::vector<size_t>* selections)
+{
+	if (!selections)
+		return;
+
+	size_t psize = Points.size();
+	for (size_t i = 0; i < psize; i++) {
+		if (Points[i].isSelected) {
+			selections->push_back(i);
+		}
+	}
 }
 
 void DrawingAndClip::ChangeTool(int _tool, bool blockSetCurVisual) {

@@ -57,6 +57,8 @@ public:
 	void CreateClipMask(const wxString& clip, wxString* clipTag = nullptr);
 	void InvertClip();
 	void SetZoom(D3DXVECTOR2 move, D3DXVECTOR2 scale) /*override*/;
+	void RemovePoints(int selectedPoint = -1, bool fromKeyboard = false);
+	void GetSelected(std::vector<size_t>* selections);
 	virtual void SetShape(int shape) {};
 	virtual void SetScale(wxString* txt, size_t position, int* diff) {};
 	std::vector<ClipPoint> Points;

@@ -929,7 +929,6 @@ void KainoteFrame::OnMenuSelected1(wxCommandEvent& event)
 			_("Color picker, wymuxowywanie napisów z mkv, audiobox, odwarzacz audio, automatyzacja\ni kilka innych pojedynczych funkcji wzięte z Aegisuba -\n") +
 			L"Copyright © Rodrigo Braz Monteiro.\n"\
 			L"Hunspell - Copyright © Kevin Hendricks.\n"\
-			L"Matroska Parser - Copyright © Mike Matsnev.\n"\
 			L"CSRI - Copyright © David Lamparter.\n"\
 			L"Vsfilter - Copyright © Gabest.\n"\
 			L"FFMPEGSource2 - Copyright © Fredrik Mellbin.\n"\
