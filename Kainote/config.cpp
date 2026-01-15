@@ -67,6 +67,8 @@ config::~config()
 		delete (*it);
 	}
 	assstore.clear();
+	if (conversionStyle)
+		delete conversionStyle;
 
 	FontsClear();
 	SubtitlesProviderManager::DestroySubsProvider();
@@ -667,6 +669,36 @@ void config::GetCoords(CONFIG opt, int *coordx, int *coordy)
 	wxString sopt = stringConfig[opt];
 	*coordx = wxAtoi(sopt.BeforeFirst(L','));
 	*coordy = wxAtoi(sopt.AfterFirst(L','));
+}
+
+// for Libass ass conversion need to get style as fast as possible
+// get it once save to variable and return next time
+Styles* config::GetConversionStyle()
+{
+	if (conversionStyle)
+		return conversionStyle;
+
+	const wxString& stname = GetString(CONVERT_STYLE);
+	const wxString& catalog = GetString(CONVERT_STYLE_CATALOG);
+
+	if (dirs.Index(catalog) != -1) { LoadStyles(catalog); }
+	int stind = FindStyle(stname);
+
+	if (stind < 0) {
+		conversionStyle = new Styles();
+		conversionStyle->Name = stname;
+	}
+	else { conversionStyle = GetStyle(stind)->Copy(); }
+
+	return conversionStyle;
+}
+
+void config::DeleteConversionStyle()
+{
+	if (conversionStyle) {
+		delete conversionStyle;
+		conversionStyle = nullptr;
+	}
 }
 
 void config::SetTable(CONFIG opt, wxArrayString &asopt)

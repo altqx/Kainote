@@ -88,6 +88,7 @@ public:
 	void RefreshStyle(bool resetline = false);
 	void HideControls();
 	void UpdateChars();
+	void ResizeTimeControls(bool SRT);
 
 	AudioBox* ABox = nullptr;
 	TextEditor* TextEdit = nullptr;

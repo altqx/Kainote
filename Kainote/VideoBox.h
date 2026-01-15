@@ -92,6 +92,7 @@ public:
 	void GetVideoSize(int *width, int *height);
 	wxSize GetVideoSize();
 	void GetFPSAndAspectRatio(float *FPS, float *AspectRatio, int *AspectRatioX, int *AspectRatioY);
+	float GetFPS();
 	int GetDuration();
 
 	bool OpenSubs(int flag, bool recreateFrame = true, bool refresh = false, bool resetParameters = false);

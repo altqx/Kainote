@@ -41,6 +41,7 @@ public:
 	char GetFormat();
 	void ChangeFormat(char format, float fps = 0);
 	wxString GetFormatted(char format);
+	void SetMDVDTime(float fps);
 	void Change(int ms);
 	void ChangeFrame(int ms);
 	bool operator> (const SubsTime &comp);

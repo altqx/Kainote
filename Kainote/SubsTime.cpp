@@ -71,7 +71,7 @@ void SubsTime::ParseMS(wxString raw)
 		}
 		else if (form == MDVD){
 			orgframe = result;
-			mstime = (result / 25.f)*(1000.f);
+			mstime = (result / 23.976f)*(1000.f);
 			if (orgframe < 0){ orgframe = 0; }
 		}
 		else{ mstime = result * 100; }
@@ -152,12 +152,13 @@ void SubsTime::ChangeFormat(char format, float fps)
 	if (format == form)
 		return;
 	if (format == ASS){ mstime = ZEROIT(mstime); }
-	if (form == MDVD && format != FRAME){
+	//do not convert to MDVD cause MDVD have mstime updated to video
+	/*if (form == MDVD && format != FRAME){
 		float fpsa = (fps) ? fps : Options.GetFloat(CONVERT_FPS);
 		if (fpsa < 1){ fpsa = 23.976f; }
 		mstime = (orgframe / fpsa) * (1000);
 	}
-	else if (format == MDVD && form != FRAME){
+	else */if (format == MDVD && form != FRAME){
 		float fpsa = (fps) ? fps : Options.GetFloat(CONVERT_FPS);
 		if (fpsa<1){ fpsa = 23.976f; }
 		orgframe = ceil(mstime * (fpsa / 1000));
@@ -168,6 +169,11 @@ void SubsTime::ChangeFormat(char format, float fps)
 wxString SubsTime::GetFormatted(char format)
 {
 	return raw(format);
+}
+
+void SubsTime::SetMDVDTime(float fps)
+{
+	mstime = (orgframe / fps) * 1000;
 }
 
 bool SubsTime::operator> (const SubsTime &comp)

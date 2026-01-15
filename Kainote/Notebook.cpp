@@ -1233,7 +1233,8 @@ int Notebook::LoadVideo(TabPanel *tab, const wxString & path,
 			tab->video->OpenKeyframes(keyframespath);
 			tab->KeyframesPath = keyframespath;
 		}
-
+		if (tab->grid->subsFormat == MDVD)
+			tab->grid->SetMDVDTime();
 	}
 
 	tab->edit->Frames->Enable(!tab->video->IsDirectShow());

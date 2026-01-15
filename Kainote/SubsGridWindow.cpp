@@ -1442,11 +1442,14 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 			}
 			int vtime = 0;
 			bool isstart = true;
+			Dialogue* dial = GetDialogue(row);
 			if (shift && subsFormat != TMP){
-				vtime = GetDialogue(row)->End.mstime; isstart = false;
+				vtime = dial->End.mstime;
+				isstart = false;
 			}
 			else{
-				vtime = GetDialogue(row)->Start.mstime; isstart = true;
+				vtime = dial->Start.mstime;
+				isstart = true;
 			}
 			if (ctrl){ vtime -= 1000; }
 			tab->video->Seek(MAX(0, vtime), isstart, true, false, true, false);

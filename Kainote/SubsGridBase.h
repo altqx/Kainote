@@ -97,6 +97,7 @@ public:
 	void GetSInfos(wxString &textSinfo, bool tld = false);
 	const wxString &GetSInfo(const wxString &key, int *ii = 0);
 	SInfo *GetSInfoP(const wxString &key, int *ii = 0);
+	void GetAssHeader(wxString* header, bool forFile = false, bool translated = false, bool normalSave = true);
 	size_t FirstSelection(size_t *firstSelectionId = nullptr);
 	void SwapRows(int frst, int scnd, bool sav = false);
 	void LoadSubtitles(const wxString &str, wxString &ext);
@@ -138,6 +139,7 @@ public:
 	void DummyUndo(int newIter);
 	void GetCommonStyles(SubsGridBase *grid, wxArrayString &styleTable);
 	int GetScrollPosition(){ return scrollPosition; }
+	void SetMDVDTime();
 
 	SubsGridBase(wxWindow *parent, const long int id, const wxPoint& pos, const wxSize& size, long style);
 	virtual ~SubsGridBase();

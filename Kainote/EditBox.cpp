@@ -522,6 +522,19 @@ void EditBox::UpdateChars()
 	Times->Update();
 }
 
+void EditBox::ResizeTimeControls(bool SRT)
+{
+	int fw, fh;
+	GetTextExtent(SRT? L"00:00:00,00000" : L"00:00:00,000", &fw, &fh);
+	fw += 6;
+	fh += 10;
+	wxSize minSize(fw, fh);
+	StartEdit->SetMinSize(minSize);
+	EndEdit->SetMinSize(minSize);
+	DurEdit->SetMinSize(minSize);
+	BoxSizer2->Layout();
+}
+
 //Getting data from editbox controls
 //gotoNextLine go to next line or stays in actual active
 //dummy do not save dialogue to grid
@@ -2150,7 +2163,7 @@ bool EditBox::SetFont(const wxFont &font)
 	fw += 6;
 	fh += 10;
 	LayerEdit->SetMinSize(wxSize(fw, fh));
-	GetTextExtent(L"00:00:00,000", &fw, &fh);
+	GetTextExtent(grid->subsFormat == SRT ? L"00:00:00,00000" : L"00:00:00,000", &fw, &fh);
 	fw += 6;
 	fh += 10;
 	StartEdit->SetMinSize(wxSize(fw, fh));

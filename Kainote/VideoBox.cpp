@@ -1514,6 +1514,11 @@ void VideoBox::GetFPSAndAspectRatio(float *FPS, float *AspectRatio, int *AspectR
 	}
 }
 
+float VideoBox::GetFPS()
+{
+	return (m_FPS > 0)? m_FPS : 23.976;
+}
+
 int VideoBox::GetDuration()
 {
 	if (renderer){

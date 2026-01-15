@@ -409,6 +409,8 @@ private:
 	int lastCheckedId = -1;
 	unsigned long lastCheckedTime = 0;
 	int fontDPI = 1.f;
+	Styles* conversionStyle = nullptr;
+
 public:
 	std::vector<Styles*> assstore;
 	wxString progname;
@@ -430,7 +432,8 @@ public:
 	void GetIntTable(CONFIG opt, wxArrayInt &tbl, int mode = 4);
 	void GetTableFromString(CONFIG opt, wxArrayString &tbl, wxString split, int mode = 4);
 	void GetCoords(CONFIG opt, int* coordx, int* coordy);
-
+	Styles *GetConversionStyle();
+	void DeleteConversionStyle();
 	void SetString(CONFIG opt, const wxString &sopt);
 	void SetBool(CONFIG opt, bool bopt);
 	void SetColour(COLOR opt, wxColour &copt);

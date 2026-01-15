@@ -462,11 +462,18 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 					styles.Add(Options.GetStyle(i)->Name);
 				}
 			}
-			KaiChoice *cmb = new KaiChoice(ConvOpt, (i == 0) ? 28888 : 28889, wxDefaultPosition, wxSize(200, -1), (i == 0) ? Options.dirs : styles, wxTE_PROCESS_ENTER);
+			KaiChoice *cmb = new KaiChoice(ConvOpt, 
+				(i == 0) ? ID_CONVERSION_STYLE_CATALOG : ID_CONVERSION_STYLE, 
+				wxDefaultPosition, wxSize(200, -1), (i == 0) ? Options.dirs : styles, wxTE_PROCESS_ENTER);
 
 			int sel = cmb->FindString(optname);
 
-			if (sel >= 0){ cmb->SetSelection(sel); if (i == 0 && Options.actualStyleDir != optname){ Options.LoadStyles(optname); } }
+			if (sel >= 0){ 
+				cmb->SetSelection(sel); 
+				if (i == 0 && Options.actualStyleDir != optname){ 
+					Options.LoadStyles(optname); 
+				} 
+			}
 			else{
 				if (i == 0){ sel = cmb->FindString(Options.actualStyleDir); }
 				cmb->SetSelection(MAX(0, sel));
@@ -479,7 +486,7 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 				obr->Add(cmb, 1, wxCENTER | wxALL, 2);
 				ConvOptSizer1->Add(obr, 0, wxRIGHT | wxEXPAND, 5);
 				Katlist = cmb;
-				Connect(28888, wxEVT_COMMAND_CHOICE_SELECTED, (wxObjectEventFunction)&OptionsDialog::OnChangeCatalog);
+				Connect(ID_CONVERSION_STYLE_CATALOG, wxEVT_COMMAND_CHOICE_SELECTED, (wxObjectEventFunction)&OptionsDialog::OnChangeCatalog);
 			}
 			else{
 				obr0->Add(cmb, 1, wxCENTER | wxALL, 2);
@@ -1105,6 +1112,10 @@ void OptionsDialog::SetOptions(bool saveall)
 						//vsfilter change
 						if (cbx->GetId() == ID_VSFILTER_PROVIDER){
 							SubtitlesProviderManager::DestroyProviders();
+							Notebook::RefreshVideo();
+						}
+						else if (cbx->GetId() == ID_CONVERSION_STYLE_CATALOG || cbx->GetId() == ID_CONVERSION_STYLE) {
+							Options.DeleteConversionStyle();
 							Notebook::RefreshVideo();
 						}
 					}
