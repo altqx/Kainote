@@ -618,7 +618,9 @@ void SubsGridBase::ChangeTimes(bool byFrame)
 			if (changeTagTimes){
 				int newStartTrimed = 0, newEndTrimed = 0;
 				tab->video->GetStartEndDelay(dialc->Start.mstime, dialc->End.mstime, &newStartTrimed, &newEndTrimed);
-				if (byFrame){ newEndTrimed += ((dialc->End.mstime - dialc->Start.mstime) - duration); }
+				if (byFrame){ 
+					newEndTrimed += ((dialc->End.mstime - dialc->Start.mstime) - duration); 
+				}
 				dialc->ChangeTimes(newStartTrimed - startTrimed, (newEndTrimed - endTrimed));
 			}
 
@@ -1328,6 +1330,7 @@ void SubsGridBase::LoadSubtitles(const wxString &str, wxString &ext)
 			filter.Filter(true);
 		}
 		edit->RebuildActorEffectLists();
+		SetLayoutFromSubsRes();
 	}
 	((SubsGridWindow*)this)->ScrollTo(active, false, -4);
 	if (subsFormat == SRT)
@@ -1714,24 +1717,46 @@ void SubsGridBase::GetASSRes(int *x, int *y)
 	int ny = wxAtoi(oldy);
 	bool changed = false;
 	if (nx < 1 && ny < 1){
-		nx = 384; ny = 288;
-		AddSInfo(L"PlayResX", L"384");
-		AddSInfo(L"PlayResY", L"288");
+		nx = 1280; ny = 720;
+		AddSInfo(L"PlayResX", L"1280");
+		AddSInfo(L"PlayResY", L"720");
 		changed = true;
 	}
 	else if (nx < 1){
-		nx = (float)ny*(4.0 / 3.0); if (ny == 1024){ nx = 1280; }
+		nx = (float)ny * (16.0 / 9.0);
 		AddSInfo(L"PlayResX", std::to_wstring(nx));
 		changed = true;
 	}
 	else if (ny < 1){
-		ny = (float)nx*(3.0 / 4.0); if (nx == 1280){ ny = 1024; }
+		ny = (float)nx * (9.0 / 16.0);
 		AddSInfo(L"PlayResY", std::to_wstring(ny));
 		changed = true;
 	}
 	*x = nx;
 	*y = ny;
 	//if(changed){SetModified(ASS_PROPERTIES, false, true, -1, false);}
+}
+
+void SubsGridBase::GetLayoutRes(int* x, int* y)
+{
+	//no need to set specially new resolution when 
+	//is not in subtitles
+	const wxString& oldx = GetSInfo(L"LayoutResX");
+	const wxString& oldy = GetSInfo(L"LayoutResY");
+	*x = wxAtoi(oldx);
+	*y = wxAtoi(oldy);
+}
+
+void SubsGridBase::SetLayoutFromSubsRes()
+{
+	if (!Options.GetBool(LINK_RESOLUTIONS))
+		return;
+
+	int x;
+	int y;
+	GetASSRes(&x, &y);
+	AddSInfo(L"LayoutResX", std::to_wstring(x));
+	AddSInfo(L"LayoutResY", std::to_wstring(y));
 }
 
 

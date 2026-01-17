@@ -370,7 +370,7 @@ void TimeCtrl::OnMouseEvent(wxMouseEvent &event) {
 		else{ grad = 10; }
 		mTime.SetRaw(GetValue(), showFrames ? FRAME : form);
 		int step = (event.GetWheelRotation() / event.GetWheelDelta())*grad;
-		if (form == FRAME){ mTime.orgframe += step; }
+		if (form == FRAME || form == MDVD){ mTime.orgframe += step; }
 		else{ mTime.mstime += step; }
 		if (mTime.mstime < 0 || mTime.mstime > 35999999 || mTime.orgframe < 0){ return; }
 		SetValue(mTime.raw(showFrames ? FRAME : form), true, false);

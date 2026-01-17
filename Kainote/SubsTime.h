@@ -18,11 +18,10 @@
 #include <wx/string.h>
 #include <wx/thread.h>
 
-
 class SubsTime
 {
 private:
-
+	static float FPS;
 	char form;
 
 public:
@@ -42,6 +41,7 @@ public:
 	void ChangeFormat(char format, float fps = 0);
 	wxString GetFormatted(char format);
 	void SetMDVDTime(float fps);
+	void SetMDVDFPS(float fps);
 	void Change(int ms);
 	void ChangeFrame(int ms);
 	bool operator> (const SubsTime &comp);

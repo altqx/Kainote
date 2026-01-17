@@ -243,8 +243,7 @@ int __stdcall Demux::GetSubtitles(long long Start, long long Duration, long long
 	}
 	subStart.NewTime(startTime);
 	subEnd.NewTime(endTime);
-	//wxLogMessage(subStart.GetASSFormated() + "-" + subEnd.GetASSFormated() + ": " + blockString);
-
+	
 	// Process SSA/ASS
 	if (demux->codecType < 2) {
 		// Get order number

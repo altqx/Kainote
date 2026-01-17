@@ -140,6 +140,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Thirdparty\luajit\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LUAJIT_ENABLE_LUA52COMPAT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -214,8 +216,8 @@
     <MiniLuaVM>vm_x86.dasc</MiniLuaVM>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rel_AVX512|Win32'">
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
@@ -232,7 +234,7 @@
   <Target Name="MiniLua" BeforeTargets="ClCompile" DependsOnTargets="PrepareForBuild" Inputs="..\..\LuaJIT\src\dynasm\dynasm.lua" Outputs="..\..\LuaJIT\src\host\buildvm_arch.h">
     <Exec Command="$(MiniLuaCommand) ..\dynasm\dynasm.lua -LN -D WIN -D JIT -D FFI $(MiniLuaPlat) -o ..\..\LuaJIT\src\host\buildvm_arch.h $(MiniLuaVM)" WorkingDirectory="..\..\LuaJIT\src" />
   </Target>
-   <Target Name="MiniLua" BeforeTargets="ClCompile" DependsOnTargets="PrepareForBuild" Inputs="$(SolutionDir)Thirdparty\luajit\src\host\genversion.lua" Outputs="$(SolutionDir)Thirdparty\LuaJIT\src\luajit.h">
+  <Target Name="MiniLua" BeforeTargets="ClCompile" DependsOnTargets="PrepareForBuild" Inputs="$(SolutionDir)Thirdparty\luajit\src\host\genversion.lua" Outputs="$(SolutionDir)Thirdparty\LuaJIT\src\luajit.h">
     <Exec Command="$(MiniLuaCommand) $(SolutionDir)Thirdparty\luajit\src\host\genversion.lua $(SolutionDir)Thirdparty\luajit\src\luajit_rolling.h $(SolutionDir)Thirdparty\luajit\src\luajit_relver.txt $(SolutionDir)Thirdparty\LuaJIT\src\luajit.h" WorkingDirectory="$(SolutionDir)Thirdparty\LuaJIT\src" />
   </Target>
   <ItemGroup>

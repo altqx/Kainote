@@ -2181,7 +2181,7 @@ int AudioDisplay::GetBoundarySnap(int ms, int rangeX, bool shiftHeld, bool start
 					int prevFrameTime = provider->GetMSfromFrame(frame - 1);
 					frameTime = keyMS + ((prevFrameTime - keyMS) / 2);
 				}
-				boundaries.Add(ZEROIT(frameTime/*-halfframe*/));
+				boundaries.Add(ZEROIT(frameTime));
 			}
 		}
 	}

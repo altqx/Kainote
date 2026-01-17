@@ -31,8 +31,10 @@ public:
 	virtual ~ScriptInfo();
 
 	NumCtrl* height;
+	NumCtrl* layoutHeight;
 	KaiTextCtrl* script;
 	NumCtrl* width;
+	NumCtrl* layoutWidth;
 	KaiTextCtrl* update;
 	MappedButton* save;
 	KaiChoice* wrapstyle;
@@ -45,11 +47,15 @@ public:
 	KaiTextCtrl* timing;
 	KaiTextCtrl* translation;
 	MappedButton* resolutionFromVideo;
+	MappedButton* layoutFromVideo;
+	ToggleButton* linkResoutions;
 
 	void DoTooltips();
 private:
 	wxSize res;
 	void OnVideoRes(wxCommandEvent& event);
+	void OnLayoutRes(wxCommandEvent& event);
+	void OnResolutionLink(wxCommandEvent& event);
 };
 
 

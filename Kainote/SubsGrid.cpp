@@ -1082,8 +1082,14 @@ void SubsGrid::OnMkvSubs(wxCommandEvent &event)
 		}
 		SetSubsFormat();
 		wxString ext = (subsFormat < SRT) ? L"ass" : L"srt";
-		if (subsFormat < SRT){ edit->TlMode->Enable(); }
-		else{ edit->TlMode->Enable(false); }
+		if (subsFormat < SRT){ 
+			edit->TlMode->Enable(); 
+			SetLayoutFromSubsRes();
+		}
+		else{ 
+			edit->TlMode->Enable(false); 
+			edit->ResizeTimeControls(SRT);
+		}
 
 		tab->SubsPath = mkvpath.BeforeLast(L'.') + L"." + ext;
 		tab->SubsName = tab->SubsPath.AfterLast(L'\\');

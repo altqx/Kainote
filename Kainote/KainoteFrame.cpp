@@ -999,6 +999,9 @@ void KainoteFrame::OnAssProps()
 	ngrid->GetASSRes(&nx, &ny);
 	sci.width->SetInt(nx);
 	sci.height->SetInt(ny);
+	ngrid->GetLayoutRes(&nx, &ny);
+	sci.layoutWidth->SetInt(nx);
+	sci.layoutHeight->SetInt(ny);
 	const wxString &matrix = ngrid->GetSInfo(L"YCbCr Matrix");
 	int result = sci.matrix->FindString(matrix);
 	if (matrix.IsEmpty() || result < 0){
@@ -1020,9 +1023,14 @@ void KainoteFrame::OnAssProps()
 	{
 		int newx = sci.width->GetInt();
 		int newy = sci.height->GetInt();
+		int newlx = sci.layoutWidth->GetInt();
+		int newly = sci.layoutHeight->GetInt();
 		if (newx < 1 && newy < 1){ newx = 1280; newy = 720; }
-		else if (newx < 1){ newx = (float)newy*(4.0 / 3.0); }
-		else if (newy < 1){ newy = (float)newx*(3.0 / 4.0); if (newx == 1280){ newy = 1024; } }
+		else if (newx < 1){ newx = (float)newy* (16.0 / 9.0); }
+		else if (newy < 1){ newy = (float)newx* (9.0 / 16.0); }
+		if (newlx < 1 && newly < 1) { newlx = 1280; newly = 720; }
+		else if (newlx < 1) { newlx = (float)newlx * (16.0 / 9.0); }
+		else if (newly < 1) { newly = (float)newlx * (9.0 / 16.0); }
 
 		if (sci.title->GetValue() != emptyString){ if (sci.title->IsModified()){ ngrid->AddSInfo(L"Title", sci.title->GetValue()); } }
 		else{ ngrid->AddSInfo(L"Title", L"Kainote Ass File"); }
@@ -1034,6 +1042,9 @@ void KainoteFrame::OnAssProps()
 
 		if (sci.width->IsModified()){ ngrid->AddSInfo(L"PlayResX", wxString::Format(L"%i", newx)); }
 		if (sci.height->IsModified()){ ngrid->AddSInfo(L"PlayResY", wxString::Format(L"%i", newy)); }
+		bool link = Options.GetBool(LINK_RESOLUTIONS);
+		if (sci.layoutWidth->IsModified() || link) { ngrid->AddSInfo(L"LayoutResX", wxString::Format(L"%i", link? newx : newlx)); }
+		if (sci.layoutHeight->IsModified() || link) { ngrid->AddSInfo(L"LayoutResY", wxString::Format(L"%i", link ? newy : newly)); }
 		int newMatrix = sci.matrix->GetSelection();
 		if (newMatrix != result){
 			wxString val = sci.matrix->GetString(sci.matrix->GetSelection());

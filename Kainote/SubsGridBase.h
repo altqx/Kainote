@@ -107,6 +107,8 @@ public:
 	bool SetTlMode(bool mode);
 	void LoadDefault(bool line = true, bool sav = true, bool endload = true);
 	void GetASSRes(int *x, int *y);
+	void GetLayoutRes(int* x, int* y);
+	void SetLayoutFromSubsRes();
 	size_t SInfoSize();
 	size_t GetCount();
 	void NextLine(int dir = 1);

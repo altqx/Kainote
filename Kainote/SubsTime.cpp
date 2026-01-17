@@ -18,6 +18,8 @@
 #include "SubsDialogue.h"
 #include <wx/log.h>
 
+float SubsTime::FPS = 23.976;
+
 SubsTime::SubsTime(){
 	mstime = 0;
 	form = ASS;
@@ -118,8 +120,8 @@ void SubsTime::Change(int ms)
 	mstime += ms;
 	if (mstime < 0){ mstime = 0; }
 	if (form == MDVD){
-		//MDVD format normally will take 25fps same as in Vobsub
-		orgframe = ceil(mstime * (25.f / 1000.f));
+		//MDVD format need to video FPS
+		orgframe = ceil(mstime * (FPS / 1000.f));
 	}
 }
 void SubsTime::ChangeFrame(int frame)
@@ -131,8 +133,8 @@ void SubsTime::NewTime(int ms)
 {
 	mstime = ms; if (mstime < 0){ mstime = 0; }
 	if (form == MDVD){
-		//MDVD format normally will take 25fps same as in Vobsub
-		orgframe = ceil(mstime * (25.f / 1000.f));
+		//MDVD format need to video FPS
+		orgframe = ceil(mstime * (FPS / 1000.f));
 	}
 
 }
@@ -153,15 +155,10 @@ void SubsTime::ChangeFormat(char format, float fps)
 		return;
 	if (format == ASS){ mstime = ZEROIT(mstime); }
 	//do not convert to MDVD cause MDVD have mstime updated to video
-	/*if (form == MDVD && format != FRAME){
-		float fpsa = (fps) ? fps : Options.GetFloat(CONVERT_FPS);
-		if (fpsa < 1){ fpsa = 23.976f; }
-		mstime = (orgframe / fpsa) * (1000);
-	}
-	else */if (format == MDVD && form != FRAME){
-		float fpsa = (fps) ? fps : Options.GetFloat(CONVERT_FPS);
-		if (fpsa<1){ fpsa = 23.976f; }
-		orgframe = ceil(mstime * (fpsa / 1000));
+	if (format == MDVD && form != FRAME){
+		/*float fpsa = (fps) ? fps : Options.GetFloat(CONVERT_FPS);
+		if (fpsa < 1) { fpsa = FPS; }*/
+		orgframe = ceil(mstime * (FPS/*fpsa*/ / 1000));
 	}
 	form = format;
 }
@@ -173,7 +170,15 @@ wxString SubsTime::GetFormatted(char format)
 
 void SubsTime::SetMDVDTime(float fps)
 {
+	if (FPS != fps)
+		FPS = fps;
+
 	mstime = (orgframe / fps) * 1000;
+}
+
+void SubsTime::SetMDVDFPS(float fps)
+{
+	FPS = fps;
 }
 
 bool SubsTime::operator> (const SubsTime &comp)

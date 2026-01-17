@@ -478,7 +478,7 @@ void ShiftTimes::OnSize(wxSizeEvent& event)
 	panel->GetBestSize(&w, &h);
 	int ctw, cth;
 	GetSize(&ctw, &cth);
-	if (!isscrollbar && gh < h)//pojawianie scrollbara
+	if (!isscrollbar && gh < h)//showing scrollbar
 	{
 		isscrollbar = true;
 		int thickness = scroll->GetThickness();
@@ -489,7 +489,7 @@ void ShiftTimes::OnSize(wxSizeEvent& event)
 		scroll->Show();
 
 	}
-	else if (isscrollbar && gh >= h)//znikanie scrollbara
+	else if (isscrollbar && gh >= h)//hiding scrollbar
 	{
 		isscrollbar = false;
 		scPos = 0;
