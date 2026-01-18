@@ -144,6 +144,12 @@ SubsResampleDialog::SubsResampleDialog(wxWindow *parent, const wxSize &subsSize,
 		grid->ResizeSubs(videoSizeX / (float)subsSizeX,
 			videoSizeY / (float)subsSizeY, resamplingOptions->IsEnabled() &&
 			resamplingOptions->GetSelection() == 1);
+
+		if (!grid->GetSInfo(L"LayoutResX").empty() || !grid->GetSInfo(L"LayoutResX").empty()) {
+			grid->AddSInfo(L"LayoutResX", std::to_wstring(videoSizeX));
+			grid->AddSInfo(L"LayoutResY", std::to_wstring(videoSizeY));
+		}
+
 		grid->SetModified(SUBTITLES_RESAMPLE);
 		grid->Refresh(false);
 		((KainoteFrame *)parent)->SetSubsResolution();
@@ -177,16 +183,20 @@ SubsMismatchResolutionDialog::SubsMismatchResolutionDialog(wxWindow *parent, con
 	resamplingOptions = new KaiRadioBox(this, -1, _("Opcje skalowania"), wxDefaultPosition, wxSize(160, -1), options);
 	resamplingOptions->SetSelection(1);
 	MappedButton *OK = new MappedButton(this, 26548, _("Zmień"));
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
+	/*Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
 		Notebook::GetTab()->grid->ResizeSubs(resizeX, resizeY,
 			resamplingOptions->GetSelection() == 2);
-	}, 26548);
+	}, 26548);*/
 	MappedButton *Cancel = new MappedButton(this, wxID_CANCEL, _("Nie zmieniaj"));
 	MappedButton *TurnOff = new MappedButton(this, 26549, _("Wyłącz ostrzeżenie"));
 	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
 		SubsGrid *grid = Notebook::GetTab()->grid;
 		grid->AddSInfo(L"PlayResX", std::to_wstring(videoSize.x));
 		grid->AddSInfo(L"PlayResY", std::to_wstring(videoSize.y));
+		if (!grid->GetSInfo(L"LayoutResX").empty() || !grid->GetSInfo(L"LayoutResX").empty()) {
+			grid->AddSInfo(L"LayoutResX", std::to_wstring(videoSize.x));
+			grid->AddSInfo(L"LayoutResY", std::to_wstring(videoSize.y));
+		}
 		if (resamplingOptions->GetSelection() != 0){
 			grid->ResizeSubs(resizeX, resizeY, resamplingOptions->GetSelection() == 2);
 		}

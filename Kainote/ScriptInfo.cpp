@@ -74,17 +74,27 @@ ScriptInfo::ScriptInfo(wxWindow* parent, int w, int h)
 
 	width = new NumCtrl(this, -1, emptyString, 100, 10000, true, wxDefaultPosition, wxSize(60, -1), wxTE_PROCESS_ENTER);
 	height = new NumCtrl(this, -1, emptyString, 100, 10000, true, wxDefaultPosition, wxSize(60, -1), wxTE_PROCESS_ENTER);
-	layoutWidth = new NumCtrl(this, -1, emptyString, 100, 10000, true, wxDefaultPosition, wxSize(60, -1), wxTE_PROCESS_ENTER);
-	layoutHeight = new NumCtrl(this, -1, emptyString, 100, 10000, true, wxDefaultPosition, wxSize(60, -1), wxTE_PROCESS_ENTER);
+	layoutWidth = new NumCtrl(this, -1, emptyString, 0, 10000, true, wxDefaultPosition, wxSize(60, -1), wxTE_PROCESS_ENTER);
+	layoutHeight = new NumCtrl(this, -1, emptyString, 0, 10000, true, wxDefaultPosition, wxSize(60, -1), wxTE_PROCESS_ENTER);
 	resolutionFromVideo = new MappedButton(this, 25456, _("Z wideo"), -1, wxDefaultPosition, wxSize(70, -1));
 	resolutionFromVideo->Enable(w > 0);
 	layoutFromVideo = new MappedButton(this, 25457, _("Z wideo"), -1, wxDefaultPosition, wxSize(70, -1));
 	layoutFromVideo->Enable(w > 0);
-	linkResoutions = new ToggleButton(this, 25458, L"", L"", wxDefaultPosition, wxSize(-1, 50));
+	linkResolutions = new ToggleButton(this, 25458, L"", L"", wxDefaultPosition, wxSize(26 * 1.5, 50));
 	const wxBitmap& link = wxBITMAP_PNG(L"button_link");
 	wxImage imgLink = link.ConvertToImage();
 	imgLink = imgLink.Rotate90(false);
-	linkResoutions->SetBitmap(wxBitmap(imgLink));
+	int ih = imgLink.GetHeight();
+	int iw = imgLink.GetWidth();
+	imgLink = imgLink.Scale(iw * 1.5, ih * 1.5);
+	linkResolutions->SetBitmap(wxBitmap(imgLink));
+	bool linkRes = Options.GetBool(LINK_RESOLUTIONS);
+	linkResolutions->SetValue(linkRes);
+	if (linkRes) {
+		layoutWidth->Enable(false);
+		layoutHeight->Enable(false);
+		layoutFromVideo->Enable(false);
+	}
 
 	boxsizer->Add(new KaiStaticText(this, -1, _("Napisy"), wxDefaultPosition, wxSize(-1, -1)), 1, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 	boxsizer->Add(width, 1, wxALL, 5);
@@ -101,7 +111,7 @@ ScriptInfo::ScriptInfo(wxWindow* parent, int w, int h)
 	boxsizer4->Add(boxsizer, 0, wxEXPAND);
 	boxsizer4->Add(boxsizer3, 0, wxEXPAND);
 	boxsizer5->Add(boxsizer4, 0, wxEXPAND);
-	boxsizer5->Add(linkResoutions, 0, wxTOP | wxBOTTOM | wxRIGHT | wxEXPAND, 5);
+	boxsizer5->Add(linkResolutions, 0, wxTOP | wxBOTTOM | wxRIGHT | wxEXPAND, 5);
 	StaticBox2->Add(boxsizer5, 0, wxEXPAND);
 
 	matrix = new KaiChoice(this, -1, wxDefaultPosition, wxSize(160, -1));
@@ -193,7 +203,7 @@ void ScriptInfo::OnLayoutRes(wxCommandEvent& event)
 
 void ScriptInfo::OnResolutionLink(wxCommandEvent& event)
 {
-	bool toggled = linkResoutions->GetValue();
+	bool toggled = linkResolutions->GetValue();
 	Options.SetBool(LINK_RESOLUTIONS, toggled);
 	layoutWidth->Enable(!toggled);
 	layoutHeight->Enable(!toggled);

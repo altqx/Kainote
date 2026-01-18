@@ -1043,8 +1043,9 @@ void KainoteFrame::OnAssProps()
 		if (sci.width->IsModified()){ ngrid->AddSInfo(L"PlayResX", wxString::Format(L"%i", newx)); }
 		if (sci.height->IsModified()){ ngrid->AddSInfo(L"PlayResY", wxString::Format(L"%i", newy)); }
 		bool link = Options.GetBool(LINK_RESOLUTIONS);
-		if (sci.layoutWidth->IsModified() || link) { ngrid->AddSInfo(L"LayoutResX", wxString::Format(L"%i", link? newx : newlx)); }
-		if (sci.layoutHeight->IsModified() || link) { ngrid->AddSInfo(L"LayoutResY", wxString::Format(L"%i", link ? newy : newly)); }
+		bool linkAndLayoutExists = link && (!ngrid->GetSInfo(L"LayoutResX").empty() || !ngrid->GetSInfo(L"LayoutResX").empty());
+		if (sci.layoutWidth->IsModified() || linkAndLayoutExists) { ngrid->AddSInfo(L"LayoutResX", wxString::Format(L"%i", link? newx : newlx)); }
+		if (sci.layoutHeight->IsModified() || linkAndLayoutExists) { ngrid->AddSInfo(L"LayoutResY", wxString::Format(L"%i", link ? newy : newly)); }
 		int newMatrix = sci.matrix->GetSelection();
 		if (newMatrix != result){
 			wxString val = sci.matrix->GetString(sci.matrix->GetSelection());

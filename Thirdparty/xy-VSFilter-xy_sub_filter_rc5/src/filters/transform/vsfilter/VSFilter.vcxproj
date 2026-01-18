@@ -43,6 +43,9 @@
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -91,6 +94,8 @@
       </IgnoreSpecificDefaultLibraries>
       <IgnoreSpecificDefaultLibraries Condition="'$(Configuration)|$(Platform)'=='Rel_AVX512|x64'">
       </IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">atls.lib;delayimp.lib;baseclasses.lib;dsutil.lib;subtitles.lib;boost.lib;subpic.lib;Kasumi.lib;system.lib;libssf.lib;unrar.lib;winmm.lib;dwmapi.lib;Mfuuid.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)bin\$(Platform)\$(Configuration)\;</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_AFXDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -99,7 +104,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)Thirdparty\baseclasses;$(SolutionDir)Thirdparty\xy-VSFilter-xy_sub_filter_rc5\include</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)Thirdparty\baseclasses;$(SolutionDir)Thirdparty\xy-VSFilter-xy_sub_filter_rc5\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)Thirdparty\xy-VSFilter-xy_sub_filter_rc5\include;$(SolutionDir)Thirdparty\baseclasses;$(SolutionDir)Thirdparty\xy-VSFilter-xy_sub_filter_rc5\src\filters\transform\vsfilter;$(SolutionDir)Thirdparty\xy-VSFilter-xy_sub_filter_rc5\src\thirdparty\log4cplus\include;$(SolutionDir)Thirdparty\boost\;$(SolutionDir)Thirdparty\xy-VSFilter-xy_sub_filter_rc5\src\subpic;L:\Kainote\Thirdparty\xy-VSFilter-xy_sub_filter_rc5\src\thirdparty\VirtualDub\h</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Rel_AVX512|Win32'">$(SolutionDir)Thirdparty\baseclasses;$(SolutionDir)Thirdparty\xy-VSFilter-xy_sub_filter_rc5\include</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile>

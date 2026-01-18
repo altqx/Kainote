@@ -1752,6 +1752,9 @@ void SubsGridBase::SetLayoutFromSubsRes()
 	if (!Options.GetBool(LINK_RESOLUTIONS))
 		return;
 
+	if (GetSInfo(L"LayoutResX").empty() && GetSInfo(L"LayoutResX").empty())
+		return;
+
 	int x;
 	int y;
 	GetASSRes(&x, &y);

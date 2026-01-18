@@ -1260,6 +1260,7 @@ void DrawingAndClip::CreateClipMask(const wxString& clip, wxString * clipTag)
 		text << L"{\\p1\\bord0\\shad0\\fscx100\\fscy100\\frz0\\1c&H000000&\\1a&H77&\\pos(0,0)\\an7\\" << tmp1 << clip << L")}m 0 0 l " <<
 			nx << L" 0 " << nx << L" " << ny << L" 0 " << ny << L"\r\n";
 		maskDialogue->SetTextElement(TXT, text);
+		maskDialogue->Layer = MAXINT;
 		clipMask.Empty();
 		maskDialogue->GetRaw(&clipMask);
 	}

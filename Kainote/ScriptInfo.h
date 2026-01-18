@@ -48,7 +48,7 @@ public:
 	KaiTextCtrl* translation;
 	MappedButton* resolutionFromVideo;
 	MappedButton* layoutFromVideo;
-	ToggleButton* linkResoutions;
+	ToggleButton* linkResolutions;
 
 	void DoTooltips();
 private:

@@ -420,6 +420,10 @@ int TagFindReplace::ReplaceAllByChar(const wxString& pattern, const wxString& ta
 int TagFindReplace::Replace(const wxString& replaceTxt, wxString* text)
 {
 	const wxPoint& pos = result.positionInText;
+	if (text->empty()) {
+		text->Append(L"{" + replaceTxt + L"}");
+		return 1;
+	}
 	if (!result.inBracket) {
 		text->insert(pos.x, L"{" + replaceTxt + L"}");
 		return 1;
