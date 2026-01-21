@@ -423,7 +423,6 @@ FindReplaceDialog::FindReplaceDialog(KainoteFrame *_Kai, int whichWindow)
 	DialogSizer *mainfrbsizer = new DialogSizer(wxVERTICAL);
 
 	findReplaceTabs = new KaiTabBar(this, -1);
-	//findReplaceTabs->SetFont(wxFont(13, wxSWISS, wxFONTSTYLE_NORMAL, wxNORMAL, false, L"Tahoma"));
 	findReplaceTabs->AddTab(new TabWindow(findReplaceTabs, -1, WINDOW_FIND, FR), _("Znajdź"));
 	findReplaceTabs->AddTab(new TabWindow(findReplaceTabs, -1, WINDOW_REPLACE, FR), _("Znajdź i zamień"));
 	findReplaceTabs->AddTab(new TabWindow(findReplaceTabs, -1, WINDOW_FIND_IN_SUBS, FR), _("Znajdź w napisach"));
@@ -469,7 +468,10 @@ FindReplaceDialog::FindReplaceDialog(KainoteFrame *_Kai, int whichWindow)
 	}, GLOBAL_FIND_REPLACE);
 	if (whichWindow != WINDOW_FIND)
 		findReplaceTabs->SetTab(whichWindow);
-
+	else {
+		//Change size of first showing tabs
+		findReplaceTabs->SetTabSize();
+	}
 	Show();
 	SetSelection(GetTab());
 }

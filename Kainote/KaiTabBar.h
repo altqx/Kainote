@@ -44,7 +44,7 @@ public:
 	wxWindow *GetTab(int i = -1);
 	wxString GetTabName(int i = -1);
 	void Fit();
-
+	void SetTabSize();
 private:
 	enum {
 		ID_GO_TO_LEFT_TAB = 5156,

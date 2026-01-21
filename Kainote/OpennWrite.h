@@ -28,7 +28,8 @@ public:
 	bool FileOpen(const wxString &filename, wxString *riddenText, bool test = true);
 	void FileWrite(const wxString &filename, const wxString &alltext, bool utf = true);
 	void PartFileWrite(const wxString &parttext);
-	bool IsUTF8withoutBOM(const char* buf, size_t size);
+	bool IsUTF8withoutBOM(char* buf, size_t size);
+	bool CheckCharSet(char* buf, size_t size, wxString *result);
 	wxFile file;
 private:
 

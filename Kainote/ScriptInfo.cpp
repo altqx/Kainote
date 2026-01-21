@@ -207,7 +207,7 @@ void ScriptInfo::OnResolutionLink(wxCommandEvent& event)
 	Options.SetBool(LINK_RESOLUTIONS, toggled);
 	layoutWidth->Enable(!toggled);
 	layoutHeight->Enable(!toggled);
-	layoutFromVideo->Enable(!toggled);
+	layoutFromVideo->Enable(!toggled && res.x > 0);
 }
 
 void ScriptInfo::DoTooltips()

@@ -283,8 +283,15 @@ void RendererDirectShow::Render(bool redrawSubsOnFrame, bool wait)
 			if (D3DERR_DEVICENOTRESET == hr)
 			{
 				Clear(true);
+				int i = 0;
 				while (!InitDX()) {
-					Sleep(20);
+					Sleep(500);
+					if (i > 10) {
+						//cannot render without initialized DX
+						//return when device will be active again it should work after refresh.
+						return;
+					}
+					i++;
 				}
 				RecreateSurface();
 				if (m_Visual){

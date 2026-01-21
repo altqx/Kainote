@@ -28,7 +28,7 @@ KaiTabBar::KaiTabBar(wxWindow * parent, int id, const wxPoint & position /*= wxD
 {
 	Bind(wxEVT_PAINT, &KaiTabBar::OnPaint, this);
 	Bind(wxEVT_LEFT_DOWN, &KaiTabBar::OnMouseEvent, this);
-	//Bind(wxEVT_LEFT_UP, &KaiTabBar::OnMouseEvent, this);
+	//Bind(wxEVT_SIZE, &KaiTabBar::OnSizeEvent, this);
 	Bind(wxEVT_MOTION, &KaiTabBar::OnMouseEvent, this);
 	Bind(wxEVT_LEAVE_WINDOW, &KaiTabBar::OnMouseEvent, this);
 	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent& evt) {Refresh(false); });
@@ -98,6 +98,9 @@ void KaiTabBar::SetTab(int tabNum)
 	currentTab = tabNum;
 	RefreshTabBar();
 	tabs[currentTab]->tab->Show();
+	wxSize tabsSize = GetClientSize();
+	tabsSize.y -= tabHeader;
+	tabs[currentTab]->tab->SetSize(tabsSize);
 	wxCommandEvent evt1(TAB_CHANGED, GetId());
 	ProcessEvent(evt1);
 }
@@ -249,6 +252,13 @@ void KaiTabBar::OnMouseEvent(wxMouseEvent &event)
 		tabHighlighted = numTab;
 		RefreshTabBar();
 	}
+}
+
+void KaiTabBar::SetTabSize()
+{
+	wxSize tabsSize = GetClientSize();
+	tabsSize.y -= tabHeader;
+	tabs[currentTab]->tab->SetSize(tabsSize);
 }
 
 void KaiTabBar::RefreshTabBar()

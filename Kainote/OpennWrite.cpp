@@ -20,6 +20,11 @@
 #include <wx/filefn.h>
 #include <wx/log.h>
 #include "LogHandler.h"
+#include <MLang.h>
+#include <chardet.h>
+//#include <icucommon.h>
+//#include <icui18n.h>
+//#include <unicode/ucsdet.h>
 
 OpenWrite::OpenWrite()
 {
@@ -50,11 +55,13 @@ bool OpenWrite::FileOpen(const wxString &filename, wxString *riddenText, bool te
 {
 
 	bool utf8 = true;
-	wxFile filetest;
+	wxMBConv *conv = NULL;
 	wxFileName fname;
 	fname.Assign(filename);
+
 	if (!fname.IsFileReadable()){ return false; }
 	if (test){
+		wxFile filetest;
 		wchar_t b[4];
 		filetest.Open(filename, wxFile::read, wxS_DEFAULT);
 		filetest.Read(b, 4);
@@ -65,6 +72,13 @@ bool OpenWrite::FileOpen(const wxString &filename, wxString *riddenText, bool te
 			char *buff = new char[size];
 			filetest.Read(buff, size);
 			utf8 = IsUTF8withoutBOM(buff, size);
+			if (!utf8) {
+				wxString result;
+				if (CheckCharSet(buff, size, &result)) {
+					result.MakeUpper();
+					conv = new wxCSConv(result);
+				}
+			}
 			delete[] buff;
 		}
 		filetest.Close();
@@ -75,11 +89,15 @@ bool OpenWrite::FileOpen(const wxString &filename, wxString *riddenText, bool te
 		if (utf8){
 			fileo.ReadAll(riddenText);
 		}
-		else{ fileo.ReadAll(riddenText, wxConvLocal); }
+		else{ fileo.ReadAll(riddenText, conv? *conv : wxConvLocal); }
 		fileo.Close();
+		if (conv)
+			delete conv;
 		if (riddenText->empty()) return false;
 		return true;
 	}
+	if (conv)
+		delete conv;
 
 	return false;
 }
@@ -129,7 +147,7 @@ void OpenWrite::CloseFile()
 	if (file.IsOpened()){ file.Close(); }
 }
 
-bool OpenWrite::IsUTF8withoutBOM(const char* buf, size_t size)
+bool OpenWrite::IsUTF8withoutBOM(char* buf, size_t size)
 {
 	bool only_saw_ascii_range = true;
 	size_t pos = 0;
@@ -181,4 +199,28 @@ bool OpenWrite::IsUTF8withoutBOM(const char* buf, size_t size)
 
 	return true;
 
+}
+
+bool OpenWrite::CheckCharSet(char* buf, size_t size, wxString* result)
+{
+	DetectObj* obj;
+
+	if ((obj = detect_obj_init()) == NULL) {
+		return false;
+	}
+
+	// from 1.0.5
+	switch (detect_r(buf, size, &obj))
+	{
+	case CHARDET_OUT_OF_MEMORY:
+		detect_obj_free(&obj);
+		return false;
+	case CHARDET_NULL_OBJECT:
+		return false;
+	}
+	if (obj->encoding)
+		*result = wxString(obj->encoding);
+
+	detect_obj_free(&obj);
+	return true;
 }
