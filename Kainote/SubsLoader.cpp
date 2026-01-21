@@ -157,21 +157,30 @@ bool SubsLoader::LoadASS(const wxString &text)
 	return grid->GetCount() > 0;
 }
 
-bool SubsLoader::LoadSRT(const wxString &text)
+bool SubsLoader::LoadSRT(const wxString &srttext)
 {
-	wxStringTokenizer tokenizer(text, L"\n", wxTOKEN_STRTOK);
-	tokenizer.GetNextToken();
-
+	wxStringTokenizer tokenizer(srttext, L"\n", wxTOKEN_STRTOK);
 	wxString text1;
+	
 	while (tokenizer.HasMoreTokens()){
 		wxString text = tokenizer.GetNextToken().Trim();
-		if (IsNumber(text)){
-			if (text1 != emptyString){
-				grid->AddLine(new Dialogue(text1.Trim()));
-				text1 = emptyString;
+		//seek for every times line
+		if (text.find(L" --> ") != -1){
+			//trim number of next line 
+			TrimLastNumber(&text1);
+			//first line is always empty after "1" trim
+			//it's not if there is no number
+			if (!text1.empty()){
+				grid->AddLine(new Dialogue(text1));
+				text1.Empty();
 			}
+			//set next line times
+			text1 << text << L"\r\n";
 		}
-		else{ text1 << text << L"\r\n"; }
+		else{ 
+			text1 << text << L"\r\n"; 
+		}
+		
 	}
 
 	if (text1 != emptyString){
@@ -189,5 +198,23 @@ bool SubsLoader::LoadTXT(const wxString &text)
 		grid->AddLine(new Dialogue(text.Trim()));
 	}
 	return grid->GetCount() > 0;
+}
+
+void SubsLoader::TrimLastNumber(wxString* text)
+{
+	wxString digits = L"0123456789\r\n";
+	
+	for (size_t i = text->length(); i > 0; i--) {
+		wxUniChar ch = (*text)[i - 1];
+		if (digits.find(ch) == -1) {
+			if (i != text->length()) {
+				//remove digits and \r \n
+				text->RemoveLast(text->length() - i);
+			}
+			break;
+		}
+		else if (i == 1)
+			text->Empty();
+	}
 }
 
