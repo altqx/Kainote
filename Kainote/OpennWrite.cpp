@@ -20,11 +20,8 @@
 #include <wx/filefn.h>
 #include <wx/log.h>
 #include "LogHandler.h"
-#include <MLang.h>
-#include <chardet.h>
-//#include <icucommon.h>
-//#include <icui18n.h>
-//#include <unicode/ucsdet.h>
+#include <uchardet.h>
+
 
 OpenWrite::OpenWrite()
 {
@@ -86,10 +83,11 @@ bool OpenWrite::FileOpen(const wxString &filename, wxString *riddenText, bool te
 	wxFFile fileo;
 	fileo.Open(filename, L"r");
 	if (fileo.IsOpened()){
+		wxCSConv convl = wxConvLocal;
 		if (utf8){
 			fileo.ReadAll(riddenText);
 		}
-		else{ fileo.ReadAll(riddenText, conv? *conv : wxConvLocal); }
+		else{ fileo.ReadAll(riddenText, conv? *conv : convl); }
 		fileo.Close();
 		if (conv)
 			delete conv;
@@ -203,24 +201,40 @@ bool OpenWrite::IsUTF8withoutBOM(char* buf, size_t size)
 
 bool OpenWrite::CheckCharSet(char* buf, size_t size, wxString* result)
 {
-	DetectObj* obj;
+	//DetectObj* obj;
 
-	if ((obj = detect_obj_init()) == NULL) {
-		return false;
-	}
+	//if ((obj = detect_obj_init()) == NULL) {
+	//	return false;
+	//}
 
-	// from 1.0.5
-	switch (detect_r(buf, size, &obj))
-	{
-	case CHARDET_OUT_OF_MEMORY:
-		detect_obj_free(&obj);
-		return false;
-	case CHARDET_NULL_OBJECT:
-		return false;
-	}
-	if (obj->encoding)
-		*result = wxString(obj->encoding);
+	//// from 1.0.5
+	//switch (detect_r(buf, size, &obj))
+	//{
+	//case CHARDET_OUT_OF_MEMORY:
+	//	detect_obj_free(&obj);
+	//	return false;
+	//case CHARDET_NULL_OBJECT:
+	//	return false;
+	//}
+	//if (obj->encoding)
+	//	*result = wxString(obj->encoding);
 
-	detect_obj_free(&obj);
+	//detect_obj_free(&obj);
+
+	uchardet_t detector = uchardet_new();
+	if (!detector)
+		return false;
+
+	int intresult = uchardet_handle_data(detector, buf, size);
+	uchardet_data_end(detector);
+	size_t ncandidates = uchardet_get_n_candidates(detector);
+	const char* encoding = uchardet_get_encoding(detector, 0);
+	if (ncandidates && encoding)
+		*result = wxString(encoding);
+	else
+		return false;
+
+	uchardet_delete(detector);
+
 	return true;
 }

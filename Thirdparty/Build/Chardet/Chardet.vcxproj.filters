@@ -15,168 +15,246 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libchardet\src\chardet.cpp">
+    <ClCompile Include="..\..\uchardet\src\uchardet.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\CharDistribution.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsEUCJPProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\JpCntx.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsEscSM.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsBig5Prober.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsEscCharsetProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsCharSetProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsCJKDetector.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsEscCharsetProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsCharSetProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsEscSM.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsBig5Prober.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsEUCJPProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\JpCntx.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsEUCKRProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\CharDistribution.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsEUCTWProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsUTF8Prober.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsGB2312Prober.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsUniversalDetector.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsHebrewProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsSJISProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsLatin1Prober.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsSBCSGroupProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsMBCSGroupProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsSBCharSetProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsMBCSSM.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsMBCSSM.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsSBCharSetProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsMBCSGroupProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsSBCSGroupProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsLatin1Prober.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsSJISProber.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsLanguageDetector.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsUniversalDetector.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsJohabProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\nsUTF8Prober.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsHebrewProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangArabicModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsGB2312Prober.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangBulgarianModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsEUCTWProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangCyrillicModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\nsEUCKRProber.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangDanishModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangGreekModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangEsperantoModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangHebrewModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangFrenchModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangHindiModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangGermanModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangHungarianModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangGreekModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangIrishModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangHebrewModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangItalianModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangHungarianModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangLatvianModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangSpanishModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangLithuanianModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangThaiModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangMacedonianModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangTurkishModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangMalteseModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libchardet\src\tables\LangVietnameseModel.cpp">
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangNorwegianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangPolishModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangPortugueseModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangRomanianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangRussianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSerbianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSlovakModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSloveneModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSpanishModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSwedishModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangThaiModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangTurkishModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangUkrainianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangVietnameseModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangArabicModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangBelarusianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangBulgarianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangCatalanModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangCroatianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangCzechModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangDanishModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangEnglishModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangEsperantoModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangEstonianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangFinnishModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangFrenchModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangGeorgianModel.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangGermanModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\libchardet\src\chardet.h">
+    <ClInclude Include="..\..\uchardet\src\CharDistribution.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\CharDistribution.h">
+    <ClInclude Include="..\..\uchardet\src\JpCntx.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\JpCntx.h">
+    <ClInclude Include="..\..\uchardet\src\nsBig5Prober.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsBig5Prober.h">
+    <ClInclude Include="..\..\uchardet\src\nsCharSetProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsCharSetProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsCodingStateMachine.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsCodingStateMachine.h">
+    <ClInclude Include="..\..\uchardet\src\nsEscCharsetProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsEscCharsetProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsEUCJPProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsEUCJPProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsEUCKRProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsEUCKRProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsEUCTWProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsEUCTWProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsGB2312Prober.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsGB2312Prober.h">
+    <ClInclude Include="..\..\uchardet\src\nsHebrewProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsHebrewProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsLatin1Prober.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsLatin1Prober.h">
+    <ClInclude Include="..\..\uchardet\src\nsMBCSGroupProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsMBCSGroupProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsPkgInt.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsPkgInt.h">
+    <ClInclude Include="..\..\uchardet\src\nsSBCharSetProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsSBCharSetProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsSBCSGroupProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsSBCSGroupProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsSJISProber.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsSJISProber.h">
+    <ClInclude Include="..\..\uchardet\src\nsUniversalDetector.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsUniversalDetector.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\libchardet\src\nsUTF8Prober.h">
+    <ClInclude Include="..\..\uchardet\src\nsUTF8Prober.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

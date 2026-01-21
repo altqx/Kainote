@@ -1096,7 +1096,7 @@ bool Notebook::LoadSubtitles(TabPanel *tab, const wxString & path, int active /*
 	}
 
 	tab->SubsPath = path;
-	if (ext == L"ssa"){ ext = L"ass"; tab->SubsPath = tab->SubsPath.BeforeLast(L'.') + L".ass"; }
+	if (ext == L"ssa"){ ext = L"ass"; }
 	tab->SubsName = tab->SubsPath.AfterLast(L'\\');
 	tab->video->DisableVisuals(ext != L"ass");
 	if (active != -1 && active != tab->grid->currentLine && active < tab->grid->GetCount()){

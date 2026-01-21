@@ -30,5 +30,8 @@ build/vvenc32/
 build/dav1dx32/
 xy-VSFilter-master/src/filters/transform/vsfilter/csri2.h
 curl/
+uchardet/build-mac/
+uchardet/script/
+uchardet/test/
 *.gz
 *.exe

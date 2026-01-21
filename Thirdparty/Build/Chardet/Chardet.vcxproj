@@ -24,6 +24,7 @@
     <ProjectGuid>{ef29e253-0356-42b1-b314-aec24ab1d028}</ProjectGuid>
     <RootNamespace>Chardet</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Uchardet</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -120,8 +121,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;HAVE_DLL_EXPORT;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Thirdparty\libchardet\src;$(SolutionDir)Thirdparty\libchardet\include</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)Thirdparty\uchardet\src;$(SolutionDir)Thirdparty\uchardet\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -136,8 +137,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;HAVE_DLL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Thirdparty\uchardet\src;$(SolutionDir)Thirdparty\uchardet\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,62 +149,88 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libchardet\src\chardet.cpp" />
-    <ClCompile Include="..\..\libchardet\src\CharDistribution.cpp" />
-    <ClCompile Include="..\..\libchardet\src\JpCntx.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsBig5Prober.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsCharSetProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsEscCharsetProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsEscSM.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsEUCJPProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsEUCKRProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsEUCTWProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsGB2312Prober.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsHebrewProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsLatin1Prober.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsMBCSGroupProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsMBCSSM.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsSBCharSetProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsSBCSGroupProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsSJISProber.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsUniversalDetector.cpp" />
-    <ClCompile Include="..\..\libchardet\src\nsUTF8Prober.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangArabicModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangBulgarianModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangCyrillicModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangDanishModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangEsperantoModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangFrenchModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangGermanModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangGreekModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangHebrewModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangHungarianModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangSpanishModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangThaiModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangTurkishModel.cpp" />
-    <ClCompile Include="..\..\libchardet\src\tables\LangVietnameseModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\CharDistribution.cpp" />
+    <ClCompile Include="..\..\uchardet\src\JpCntx.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangArabicModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangBelarusianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangBulgarianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangCatalanModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangCroatianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangCzechModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangDanishModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangEnglishModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangEsperantoModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangEstonianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangFinnishModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangFrenchModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangGeorgianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangGermanModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangGreekModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangHebrewModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangHindiModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangHungarianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangIrishModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangItalianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangLatvianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangLithuanianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangMacedonianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangMalteseModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangNorwegianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangPolishModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangPortugueseModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangRomanianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangRussianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSerbianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSlovakModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSloveneModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSpanishModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangSwedishModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangThaiModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangTurkishModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangUkrainianModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\LangModels\LangVietnameseModel.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsBig5Prober.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsCharSetProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsCJKDetector.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsEscCharsetProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsEscSM.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsEUCJPProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsEUCKRProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsEUCTWProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsGB2312Prober.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsHebrewProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsJohabProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsLanguageDetector.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsLatin1Prober.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsMBCSGroupProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsMBCSSM.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsSBCharSetProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsSBCSGroupProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsSJISProber.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsUniversalDetector.cpp" />
+    <ClCompile Include="..\..\uchardet\src\nsUTF8Prober.cpp" />
+    <ClCompile Include="..\..\uchardet\src\uchardet.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\libchardet\src\chardet.h" />
-    <ClInclude Include="..\..\libchardet\src\CharDistribution.h" />
-    <ClInclude Include="..\..\libchardet\src\JpCntx.h" />
-    <ClInclude Include="..\..\libchardet\src\nsBig5Prober.h" />
-    <ClInclude Include="..\..\libchardet\src\nsCharSetProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsCodingStateMachine.h" />
-    <ClInclude Include="..\..\libchardet\src\nsEscCharsetProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsEUCJPProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsEUCKRProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsEUCTWProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsGB2312Prober.h" />
-    <ClInclude Include="..\..\libchardet\src\nsHebrewProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsLatin1Prober.h" />
-    <ClInclude Include="..\..\libchardet\src\nsMBCSGroupProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsPkgInt.h" />
-    <ClInclude Include="..\..\libchardet\src\nsSBCharSetProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsSBCSGroupProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsSJISProber.h" />
-    <ClInclude Include="..\..\libchardet\src\nsUniversalDetector.h" />
-    <ClInclude Include="..\..\libchardet\src\nsUTF8Prober.h" />
+    <ClInclude Include="..\..\uchardet\src\CharDistribution.h" />
+    <ClInclude Include="..\..\uchardet\src\JpCntx.h" />
+    <ClInclude Include="..\..\uchardet\src\nsBig5Prober.h" />
+    <ClInclude Include="..\..\uchardet\src\nsCharSetProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsCodingStateMachine.h" />
+    <ClInclude Include="..\..\uchardet\src\nsEscCharsetProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsEUCJPProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsEUCKRProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsEUCTWProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsGB2312Prober.h" />
+    <ClInclude Include="..\..\uchardet\src\nsHebrewProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsLatin1Prober.h" />
+    <ClInclude Include="..\..\uchardet\src\nsMBCSGroupProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsPkgInt.h" />
+    <ClInclude Include="..\..\uchardet\src\nsSBCharSetProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsSBCSGroupProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsSJISProber.h" />
+    <ClInclude Include="..\..\uchardet\src\nsUniversalDetector.h" />
+    <ClInclude Include="..\..\uchardet\src\nsUTF8Prober.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
