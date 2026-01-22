@@ -202,15 +202,26 @@ bool SubsLoader::LoadTXT(const wxString &text)
 
 void SubsLoader::TrimLastNumber(wxString* text)
 {
+	//if size is less than 3 it means there is only \r\n
+	if (text->length() < 3) {
+		text->Empty();
+		return;
+	}
+
 	wxString digits = L"0123456789\r\n";
-	
-	for (size_t i = text->length(); i > 0; i--) {
+	bool foundR = false;
+	//skip first \r\n
+	for (size_t i = text->length() - 2; i > 0; i--) {
 		wxUniChar ch = (*text)[i - 1];
-		if (digits.find(ch) == -1) {
-			if (i != text->length()) {
-				//remove digits and \r \n
-				text->RemoveLast(text->length() - i);
-			}
+		size_t digitPos = digits.find(ch);
+		if (digitPos == -1) {
+			//remove digits and \r \n
+			text->RemoveLast(text->length() - i);
+			break;
+		}//ensure to remove only first number \r\nnumber\r\n
+		else if (digitPos == 10) {
+			//remove digits and \r \n
+			text->RemoveLast(text->length() - (i - 1));
 			break;
 		}
 		else if (i == 1)

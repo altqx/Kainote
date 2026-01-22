@@ -13,6 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with Kainote.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "Notebook.h"
 #include "FontCatalogList.h"
 #include "config.h"
 #include "KaiCheckBox.h"
@@ -142,6 +143,7 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 			if (KaiMessageBox(_("Czy na pewno chcesz usunąć ten katalog?"), _("Pytanie"), wxYES_NO, this) == wxYES) {
 				FCManagement.RemoveCatalog(ctlg);
 				catalog->Delete(ctlgIndex);
+				catalog->SetValue(L"");
 				CatalogList::RefreshCatalogList();
 			}
 		}
@@ -669,13 +671,14 @@ bool FontCatalogManagement::IsFontInCatalog(const wxString& catalog, const wxStr
 	return false;
 }
 
-void FontCatalogManagement::AddToCatalog(const wxString& font, const wxPoint& pos, wxWindow *parent)
+wxString FontCatalogManagement::AddToCatalog(const wxString& font, const wxPoint& pos, wxWindow *parent)
 {
 	if (!fontCatalogsNames.GetCount()) {
 		KaiLog(_("Aby móc dodawać czcionki do katalogu,\nnależy najpierw kliknąć przycisk \"Zarządzaj\",\nby utworzyć nowy katalog."));
-		return;
+		return L"";
 	}
 	Menu menuList;
+	menuList.Append(2999, _("Dodaj czcionki z napisów"), nullptr, emptyString, ITEM_NORMAL);
 	std::vector<bool> checkTable;
 	int i = 0;
 	for (auto& catalog : fontCatalogsNames) {
@@ -685,9 +688,13 @@ void FontCatalogManagement::AddToCatalog(const wxString& font, const wxPoint& po
 		i++;
 	}
 	int result = menuList.GetPopupMenuSelection(wxPoint(pos.x, pos.y), parent);
+	if (result == 2999) {
+		//write function for show dialog for adding fonts options
+		return ShowGetFromAssDialog(parent);
+	}
 	bool changed = false;
 	for (size_t j = 0; j < checkTable.size(); j++) {
-		MenuItem *item = menuList.FindItemByPosition(j);
+		MenuItem *item = menuList.FindItemByPosition(j + 1);
 		if (item && item->IsChecked() != checkTable[j]) {
 			if (item->IsChecked()) {
 				AddCatalogFont(item->GetLabel(), font, false);
@@ -700,11 +707,13 @@ void FontCatalogManagement::AddToCatalog(const wxString& font, const wxPoint& po
 	}
 	if (changed)
 		SaveCatalogs();
+
+	return L"";
 }
 
 //iterator is only used for load catalogs on window start
 //adding a new catalog from window passes NULL
-void FontCatalogManagement::AddCatalog(const wxString& catalog, std::map<wxString, fontList>::iterator* it)
+void FontCatalogManagement::AddCatalog(const wxString& catalog, std::map<wxString, fontList>::iterator* it, bool setTimer)
 {
 	auto itc = fontCatalogs.find(catalog);
 	bool itcEnd = !(itc != fontCatalogs.end());
@@ -721,7 +730,7 @@ void FontCatalogManagement::AddCatalog(const wxString& catalog, std::map<wxStrin
 		(*it) = itc;
 	}
 
-	if(!it) {
+	if(setTimer && !it) {
 		FontCatalogList::StartEditionTimer(saveInterval);
 	}
 }
@@ -825,6 +834,147 @@ void FontCatalogManagement::ReplaceCatalogFonts(const wxString& catalog, const w
 		}
 	}
 	FontCatalogList::StartEditionTimer(saveInterval);
+}
+
+class GetFontsFromASSDialog : public KaiDialog 
+{
+public:
+	GetFontsFromASSDialog(wxWindow *parent, wxArrayString *catalogs)
+		: KaiDialog(parent, -1, _("Dodaj czcionki z napisów"))
+	{
+		DialogSizer* main = new DialogSizer(wxVERTICAL);
+		wxBoxSizer* bsizer = new wxBoxSizer(wxHORIZONTAL);
+
+		catalog = new KaiChoice(this, -1, emptyString, wxDefaultPosition, wxDefaultSize, *catalogs);
+		catalog->SetSelection(0);
+		MappedButton* add = new MappedButton(this, 2998, _("Dodaj"));
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+			wxString ctlg = catalog->GetValue();
+			if (!ctlg.empty()) {
+				FCManagement.AddCatalog(ctlg, nullptr, false);
+				catalog->Append(ctlg);
+			}
+			}, 2998);
+
+		bsizer->Add(new KaiStaticText(this, -1, _("Katalogi:")), 1, wxALL | wxEXPAND | wxALIGN_RIGHT, 2);
+		bsizer->Add(catalog, 4, wxALL | wxEXPAND, 4);
+		bsizer->Add(add, 1, wxALL, 4);
+
+		emptyCatalog = new KaiCheckBox(this, -1, _("Usuń całą zawartość katalogu"));
+		allSubs = new KaiCheckBox(this, -1, _("Dodaj czcionki z wszystkich otwartych napisów"));
+
+		wxBoxSizer* buttonsizer = new wxBoxSizer(wxHORIZONTAL);
+		MappedButton* Buttonok = new MappedButton(this, wxID_OK, L"OK");
+		MappedButton* Buttoncancel = new MappedButton(this, 8999, _("Anuluj"));
+		SetEscapeId(8999);
+		buttonsizer->Add(Buttonok, 1, wxALL, 4);
+		buttonsizer->Add(Buttoncancel, 1, wxALL, 4);
+
+		main->Add(bsizer, 0, wxEXPAND);
+		main->Add(emptyCatalog, 0, wxALL | wxEXPAND, 4);
+		main->Add(allSubs, 0, wxALL | wxEXPAND, 4);
+		main->Add(buttonsizer, 0, wxEXPAND);
+
+		SetSizerAndFit(main);
+
+		CenterOnParent();
+	}
+	~GetFontsFromASSDialog(){}
+
+	KaiChoice* catalog;
+	KaiCheckBox* emptyCatalog;
+	KaiCheckBox* allSubs;
+};
+
+wxString FontCatalogManagement::ShowGetFromAssDialog(wxWindow *parent)
+{
+	GetFontsFromASSDialog dialog(parent, &fontCatalogsNames);
+	if (dialog.ShowModal() == wxID_OK) {
+		int selection = dialog.catalog->GetSelection();
+		if (selection == -1)
+			return L"";
+
+		wxString choosenCatalog = dialog.catalog->GetString(selection);
+		bool emptyCatalog = dialog.emptyCatalog->GetValue();
+		bool allSubs = dialog.allSubs->GetValue();
+		CollectFontsFromSubtitles(choosenCatalog, emptyCatalog, allSubs);
+		return choosenCatalog;
+	}
+	return L"";
+}
+
+void FontCatalogManagement::CollectFontsFromSubtitles(const wxString& catalog, bool emptyCatalog, bool addFromAllSubs)
+{
+	Notebook* tabs = Notebook::GetTabs();
+	size_t tabsSize = tabs->Size();
+	size_t i = addFromAllSubs? 0 : tabs->GetSelection();
+	auto it = fontCatalogs.find(catalog);
+	if (it == fontCatalogs.end()) {
+		//make some info
+		return;
+	}
+
+	if (emptyCatalog) {
+		it->second->Clear();
+	}
+
+
+	while (i < tabsSize) {
+		TabPanel* tab = tabs->Page(i);
+		SubsFile* subs = tab->grid->file;
+
+		std::vector<Styles*>* styles = subs->GetStyleTable();
+
+		for (size_t i = 0; i < styles->size(); i++)
+		{
+			Styles* style = (*styles)[i];
+			wxString fn = style->Fontname;
+			int iresult = it->second->Index(fn, false);
+			if (iresult == -1) {
+				it->second->Add(fn);
+			}
+			
+		}
+
+		wxString tags[] = { L"p", L"fn" };
+		size_t subsSize = subs->GetCount();
+		for (size_t i = 0; i < subsSize; i++)
+		{
+			Dialogue* dial = subs->GetDialogue(i);
+			if (dial->IsComment) { continue; }
+			ParseData* pdata = dial->ParseTags(tags, 2, true);
+			if (!pdata) { continue; }
+
+			const wxString& text = dial->GetTextNoCopy();
+
+			size_t tagsSize = pdata->tags.size();
+
+			for (size_t j = 0; j < tagsSize; j++)
+			{
+				TagData* tag = pdata->tags[j];
+				if (tag->tagName == L"p" || tag->tagName == L"pvector") { break; }
+				
+				if (tag->tagName == L"fn") {
+					wxString &fn = tag->value;
+					int iresult = it->second->Index(fn, false);
+					if (iresult == -1) {
+						it->second->Add(fn);
+					}
+				}
+					
+			}
+			dial->ClearParse();
+		}
+
+
+		if (addFromAllSubs)
+			i++;
+		else
+			break;
+
+	}
+
+	SaveCatalogs();
 }
 
 FontCatalogManagement FCManagement;

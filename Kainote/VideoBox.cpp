@@ -156,7 +156,7 @@ VideoBox::VideoBox(wxWindow *parent, const wxSize &size)
 		VIDEO_NEXT_FILE, _("Następny plik"), wxPoint(145, m_ToolBarHeight - 6), wxSize(26, 26));
 
 	m_VolumeSlider = new VolSlider(m_VideoPanel, ID_VOL, Options.GetInt(VIDEO_VOLUME), wxPoint(size.x - 110, m_ToolBarHeight - 5), wxSize(110, 25));
-	m_TimesTextField = new KaiTextCtrl(m_VideoPanel, -1, emptyString, wxPoint(180, m_ToolBarHeight - 6), wxSize(360, 26), wxTE_READONLY);
+	m_TimesTextField = new KaiTextCtrl(m_VideoPanel, -1, emptyString, wxPoint(180, m_ToolBarHeight - 6), wxSize(360, 25), wxTE_READONLY);
 	m_TimesTextField->SetWindowStyle(wxBORDER_NONE);
 	m_TimesTextField->SetCursor(wxCURSOR_ARROW);
 	m_TimesTextField->SetBackgroundColour(WINDOW_BACKGROUND);
@@ -426,7 +426,7 @@ void VideoBox::OnSize(wxSizeEvent& event)
 	m_ButtonPlayLine->SetPosition(wxPoint(75, m_ToolBarHeight - 6 + buttonHeight));
 	m_ButtonStop->SetPosition(wxPoint(110, m_ToolBarHeight - 6 + buttonHeight));
 	m_ButtonNextFile->SetPosition(wxPoint(145, m_ToolBarHeight - 6 + buttonHeight));
-	m_TimesTextField->SetSize(180, m_ToolBarHeight - 8, asize.x - difSize, m_ToolBarHeight + 2);
+	m_TimesTextField->SetSize(180, m_ToolBarHeight - 8, asize.x - difSize, m_ToolBarHeight + 1);
 	m_VideoToolbar->SetSize(0, m_PanelHeight - m_ToolBarHeight, asize.x, m_ToolBarHeight);
 	m_VolumeSlider->SetPosition(wxPoint(asize.x - 110, m_ToolBarHeight - 5));
 	m_SeekingSlider->SetSize(wxSize(asize.x, m_ToolBarHeight - 8));

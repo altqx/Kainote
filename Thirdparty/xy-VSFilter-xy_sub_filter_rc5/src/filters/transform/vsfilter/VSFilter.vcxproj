@@ -70,16 +70,16 @@
     <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\csri</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\csri\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\csri</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\csri\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rel_AVX512|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\csri</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\csri\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>

@@ -55,6 +55,7 @@ protected:
 	std::map<int, bool> *disabledItems;
 	wxWindow *Parent;
 	int orgY;
+	int height = 18;
 	KaiScrollbar *scroll;
 	wxPoint originalPosition;
 	DECLARE_EVENT_TABLE()

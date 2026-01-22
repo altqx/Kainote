@@ -434,7 +434,13 @@ FontDialog::FontDialog(wxWindow *parent, Styles *acst, bool changePointToPixel)
 		wxSize size = CatalogAdd->GetSize();
 		wxString font;
 		GetFontName(&font);
-		FCManagement.AddToCatalog(font, wxPoint(pos.x, pos.y + size.y), this);
+		wxString cat = FCManagement.AddToCatalog(font, wxPoint(pos.x, pos.y + size.y), this);
+		if (!cat.empty()) {
+			fontCatalog->PutArray(FCManagement.GetCatalogNames());
+			int sel = fontCatalog->FindString(cat);
+			fontCatalog->SetSelection(sel);
+			ChangeCatalog();
+		}
 		}, ID_CATALOG_ADD1);
 	Bind(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, [=](wxCommandEvent& evt) {
 		ChangeCatalog(true);

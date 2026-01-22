@@ -101,16 +101,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>$(ProjectName)</TargetName>
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rel_AVX512|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -166,15 +166,15 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>wx/wxprec.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>vc_mswud\$(Platform)\wxprec_baselib.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>vc_mswud\base\$(Platform)\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;WXBUILDING;wxUSE_GUI=0;wxUSE_BASE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -283,13 +283,13 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>wx/wxprec.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>vc_mswu\$(Platform)\wxprec_baselib.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>vc_mswu\base\$(Platform)\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>None</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDataBaseFileName>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <LanguageStandard>Default</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -327,16 +327,16 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>wx/wxprec.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>vc_mswu\$(Platform)\wxprec_baselib.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>vc_mswu\base\$(Platform)\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>None</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDataBaseFileName>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <LanguageStandard>Default</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;NDEBUG;_UNICODE;WXBUILDING;wxUSE_GUI=0;wxUSE_BASE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -96,15 +96,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <EmbedManifest>true</EmbedManifest>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rel_AVX512|x64'">
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
-    <OutDir>$(SolutionDir)$(Platform)\Release</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\Release\</OutDir>
     <TargetName>$(ProjectName)_AVX</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\$(Platform)\$(Configuration)\</OutDir>

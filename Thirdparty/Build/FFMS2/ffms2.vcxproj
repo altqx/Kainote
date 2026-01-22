@@ -159,8 +159,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(SolutionDir)Thirdparty\ffms2\include;$(SolutionDir)Thirdparty\AviSynthPlus\avs_core\include;$(SolutionDir)Thirdparty\AviSynthPlus\avs_core\core;$(SolutionDir)Thirdparty\zlib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -171,8 +171,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(SolutionDir)Thirdparty\ffms2\include;$(SolutionDir)Thirdparty\AviSynthPlus\avs_core\include;$(SolutionDir)Thirdparty\AviSynthPlus\avs_core\core;$(SolutionDir)Thirdparty\zlib-1.2.12;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -207,8 +207,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rel_AVX512|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Platform)\Release</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\Release\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(SolutionDir)Thirdparty\ffms2\include;$(SolutionDir)Thirdparty\AviSynthPlus\avs_core\include;$(SolutionDir)Thirdparty\AviSynthPlus\avs_core\core;$(SolutionDir)Thirdparty\zlib-1.2.12;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rel_AVX512|Win32'">

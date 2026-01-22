@@ -147,14 +147,17 @@ public:
 	wxString FindCatalogByFont(const wxString& font);
 	wxArrayString* GetCatalogFonts(const wxString& catalog);
 	bool IsFontInCatalog(const wxString& catalog, const wxString& font);
-	void AddToCatalog(const wxString& font, const wxPoint &pos, wxWindow *parent);
-	void AddCatalog(const wxString& catalog, std::map<wxString, fontList>::iterator *it = nullptr);
+	//returns true if loaded font from subtitle
+	wxString AddToCatalog(const wxString& font, const wxPoint &pos, wxWindow *parent);
+	void AddCatalog(const wxString& catalog, std::map<wxString, fontList>::iterator *it = nullptr, bool setTimer = true);
 	bool ChangeCatalogName(wxWindow *messagesParent, const wxString& oldCatalog, const wxString& newCatalog);
 	void RemoveCatalog(const wxString& catalog);
 	void AddCatalogFont(const wxString& catalog, const wxString& font, bool AutoSave = true);
 	void AddCatalogFonts(const wxString& catalog, const wxArrayString& fonts);
 	void RemoveCatalogFont(const wxString& catalog, const wxString& font, bool AutoSave = true);
 	void ReplaceCatalogFonts(const wxString& catalog, const wxArrayString& fonts);
+	wxString ShowGetFromAssDialog(wxWindow *parent);
+	void CollectFontsFromSubtitles(const wxString& catalog, bool emptyCatalog, bool addFromAllSubs);
 	std::map<wxString, fontList>* GetCatalogsMap() { return &fontCatalogs; };
 
 private:

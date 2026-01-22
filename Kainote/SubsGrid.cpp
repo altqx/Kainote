@@ -1088,7 +1088,7 @@ void SubsGrid::OnMkvSubs(wxCommandEvent &event)
 		}
 		else{ 
 			edit->TlMode->Enable(false); 
-			edit->ResizeTimeControls(SRT);
+			edit->ResizeTimeControls(true);
 		}
 
 		tab->SubsPath = mkvpath.BeforeLast(L'.') + L"." + ext;

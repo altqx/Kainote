@@ -561,7 +561,13 @@ void StyleChange::OnCatalogAdd(wxCommandEvent& event)
 {
 	wxPoint pos = CatalogAdd->GetPosition();
 	wxSize size = CatalogAdd->GetSize();
-	FCManagement.AddToCatalog(styleFont->GetValue(), wxPoint(pos.x, pos.y + size.y), this);
+	wxString cat = FCManagement.AddToCatalog(styleFont->GetValue(), wxPoint(pos.x, pos.y + size.y), this);
+	if (!cat.empty()) {
+		fontCatalog->PutArray(FCManagement.GetCatalogNames());
+		int sel = fontCatalog->FindString(cat);
+		fontCatalog->SetSelection(sel);
+		ChangeCatalog();
+	}
 }
 
 
