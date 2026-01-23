@@ -1613,7 +1613,7 @@ wxString *SubsGridBase::GetVisible(bool *visible, wxPoint *point, wxArrayInt *se
 	//subtitles is send to subtitles provider as ASS
 	GetAssHeader(txt);
 	edit->Send(EDITBOX_LINE_EDITION, false, true);
-	if ((_time >= (edit->line->Start.mstime - 5) || toEnd) && _time < (edit->line->End.mstime - 5)){
+	if ((_time >= (edit->line->Start.mstime - 5) || toEnd) && _time < (edit->line->End.mstime + 5)){
 		if (visible){ *visible = true; }
 	}
 	else if (visible){
@@ -1636,7 +1636,7 @@ wxString *SubsGridBase::GetVisible(bool *visible, wxPoint *point, wxArrayInt *se
 			continue;
 		}
 		
-		if ((toEnd && _time <= dial->Start.mstime) || (_time >= dial->Start.mstime && _time < dial->End.mstime) || allSubs){
+		if ((toEnd && _time <= (dial->Start.mstime - 5)) || (_time >= (dial->Start.mstime - 5) && _time < (dial->End.mstime + 5)) || allSubs){
 			//for realtime conversion copy the dialogue and convert it
 			if (subsFormat != ASS) {
 				dial = dial->Copy();
@@ -1684,11 +1684,38 @@ wxString *SubsGridBase::GetVisible(bool *visible, wxPoint *point, wxArrayInt *se
 	return txt;
 }
 
+void SubsGridBase::SelectVisible()
+{
+	file->ClearSelections();
+	int _time = tab->video->Tell();
+
+	for (size_t i = 0; i < file->GetCount(); i++)
+	{
+		Dialogue* dial = file->GetDialogue(i);
+		if (!ignoreFiltered && !dial->isVisible || dial->NonDialogue || dial->IsComment) { continue; }
+		if (i == currentLine) {
+			dial = edit->line;
+		}
+		
+
+		if ((_time >= (dial->Start.mstime - 5) && _time < (dial->End.mstime - 5))) {
+			file->InsertSelection(i);
+		}
+	}
+	int sel = file->FirstSelection();
+	if (sel != -1) {
+		edit->SetLine(sel);
+		ScrollTo(sel, true);
+	}
+	else
+		Refresh(false);
+}
+
 bool SubsGridBase::IsLineVisible()
 {
 	int _time = tab->video->Tell();
 	bool toEnd = tab->video->GetState() == Playing;
-	return ((_time >= (edit->line->Start.mstime - 5) || toEnd) && _time < (edit->line->End.mstime - 5));
+	return ((_time >= (edit->line->Start.mstime - 5) || toEnd) && _time < (edit->line->End.mstime + 5));
 }
 
 

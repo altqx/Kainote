@@ -206,6 +206,7 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	isEnabled = (sels > 0);
 	menu->SetAccMenu(GRID_MAKE_CONTINOUS_PREVIOUS_LINE, _("Ustaw czasy jako ciągłe (poprzednia linijka)"))->Enable(isEnabled);
 	menu->SetAccMenu(GRID_MAKE_CONTINOUS_NEXT_LINE, _("Ustaw czasy jako ciągłe (następna linijka)"))->Enable(isEnabled);
+	menu->SetAccMenu(GRID_SELECT_VISIBLE_LINES, _("Zaznacz wszystkie linie widoczne na wideo"))->Enable(isEnabled);
 	menu->SetAccMenu(GRID_COPY, _("Kopiuj\tCtrl-C"))->Enable(isEnabled);
 	menu->SetAccMenu(GRID_CUT, _("Wytnij\tCtrl-X"))->Enable(isEnabled);
 	menu->SetAccMenu(GRID_PASTE, _("Wklej\tCtrl-V"));
@@ -775,6 +776,7 @@ void SubsGrid::OnAccelerator(wxCommandEvent &event)
 	case GLOBAL_REMOVE_TEXT: if (sels > 0) DeleteText(); break;
 	case GRID_MAKE_CONTINOUS_PREVIOUS_LINE:
 	case GRID_MAKE_CONTINOUS_NEXT_LINE: if (sels > 0) OnMakeContinous(id); break;
+	case GRID_SELECT_VISIBLE_LINES: SelectVisible(); break;
 	case GRID_SWAP_LINES: if (sels == 2){ SwapRows(selections[0], selections[1], true); } break;
 	case GRID_SET_FPS_FROM_VIDEO: if (hasVideo && sels == 2){ OnSetFPSFromVideo(); } break;
 	case GRID_JOIN_LINES: if (sels > 1 && sels <= 20){ OnJoin(event); } break;

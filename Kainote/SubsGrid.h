@@ -41,7 +41,6 @@ public:
 	void ContextMenuTree(const wxPoint &pos, int treeLine);
 	bool SwapAssProperties(); 
 	void RefreshSubsOnVideo(int newActiveLine, bool scroll = true);
-	//void BindToAnotherWindow(int window, int id);
 protected:
 
 	wxArrayInt selections;
@@ -52,7 +51,6 @@ private:
 	void OnInsertBefore();
 	void OnInsertAfter();
 	void OnDuplicate();
-	//void OnJoinF(int id);
 	void OnPaste(int id);
 	void OnPasteTextTl();
 	void OnJoinToFirst(int id);

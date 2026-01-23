@@ -129,6 +129,7 @@ public:
 	Dialogue *GetDialogueWithOffset(size_t i, int offset);
 	// returns visible lines as string for Vsfilter
 	wxString *GetVisible(bool *visible = 0, wxPoint *point = nullptr, wxArrayInt *selected = nullptr, bool allSubs = false);
+	void SelectVisible();
 	bool IsLineVisible();
 	//Get line key from scrollPosition.
 	//Every value will be stored as key.
