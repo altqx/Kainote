@@ -213,7 +213,7 @@ bool kainoteApp::OnInit()
 		//handler for out of memory in new
 		std::set_new_handler(OnOutofMemory);
 		//start listen to font folders notifications
-		FontEnum.StartListening(Frame);
+		FontEnum.StartListening();
 		//EnableCrashingOnCrashes();
 		if (isGood == 2)
 			Frame->CenterOnScreen();
@@ -265,9 +265,11 @@ bool kainoteApp::OnInit()
 			}, 2299);
 		}
 
-		
 
-		//}
+		wxString path = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
+		if(!path.empty())
+			FontEnum.LoadExternalFontsToProcessFromThread(path);
+
 	}
 	else{
 		wxString subs;

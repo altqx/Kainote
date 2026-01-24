@@ -23,7 +23,7 @@
 #include "Hotkeys.h"
 #include "ShiftTimes.h"
 #include "AudioBox.h"
-#include <wx/sizer.h>"
+#include <wx/sizer.h>
 
 
 

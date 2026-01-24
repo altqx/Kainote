@@ -85,9 +85,9 @@ AllTagsEdition::AllTagsEdition(wxWindow* parent, const wxPoint& pos,
 	wxBoxSizer* valuesAndInsertModeSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxString insertModes[6] = { _("Dodaj"), _("Wstaw"), _("Pomnóż"), _("Pomnóż+"), _("Gradient tekst"), _("Gradient linia") };
 	wxString valuesStr[4] = { _("Brak dodatkowych wartości"), 
-		_("jedna dodatkowa wartość"), 
-		_("dwie dodatkowe wartości"), 
-		_("trzy dodatkowe wartości") };
+		_("Jedna dodatkowa wartość"), 
+		_("Dwie dodatkowe wartości"), 
+		_("Trzy dodatkowe wartości") };
 	numOfValues = new KaiChoice(this, ID_ADDITIONAL_VALUES_LIST, wxDefaultPosition, wxDefaultSize, 4, valuesStr);
 	numOfValues->SetToolTip(_("Używane tylko w przypadku gdy tag ma 2 wartości bądź więcej"));
 	numOfValues->SetSelection(currentTag.numOfValues - 1);

@@ -14,8 +14,9 @@
 //  along with Kainote.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "FontEnumerator.h"
-#include "kainoteFrame.h"
+//#include "kainoteFrame.h"
 #include "Notebook.h"
+#include "ProgressDialog.h"
 
 #include <wx/arrstr.h>
 #include <wx/filefn.h>
@@ -40,9 +41,10 @@ FontEnumerator::FontEnumerator()
 FontEnumerator::~FontEnumerator()
 {
 	SetEvent(eventKillSelf[0]);
-	//if (hasLocalFonts)
-	//
 	SetEvent(eventKillSelf[1]);
+	if(hasExternalFontsLoaded)
+		SetEvent(eventKillSelf[2]);
+
 	WaitForSingleObject(checkFontsThread, 2000);
 	delete Fonts;
 	delete FontsTmp;
@@ -50,16 +52,16 @@ FontEnumerator::~FontEnumerator()
 	wxDELETE(FilteredFontsTmp);
 }
 
-void FontEnumerator::StartListening(KainoteFrame* _parent)
+void FontEnumerator::StartListening()
 {
-	parent = _parent;
 	//Here check Windows Version and save it
 	//without manifest I get only version 6.2
 	//it means that user have Windows 8 without SP
 	for (int i = 0; i < 2; i++){
 		int * threadNum = new int(i);
 		checkFontsThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)CheckFontsProc, threadNum, 0, 0);
-		SetThreadPriority(checkFontsThread, THREAD_PRIORITY_LOWEST);
+		if(checkFontsThread)
+			SetThreadPriority(checkFontsThread, THREAD_PRIORITY_LOWEST);
 	}
 }
 
@@ -187,7 +189,7 @@ DWORD FontEnumerator::CheckFontsProc(int *threadNum)
 	wxString fontrealpath;
 	if (*threadNum == 0)
 		fontrealpath = wxGetOSDirectory() + L"\\fonts\\";
-	else{
+	else if(*threadNum == 1) {
 		WCHAR appDataPath[MAX_PATH];
 		if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE, nullptr, 0, appDataPath))){
 			fontrealpath = wxString(appDataPath) + L"\\Microsoft\\Windows\\Fonts\\";
@@ -197,6 +199,9 @@ DWORD FontEnumerator::CheckFontsProc(int *threadNum)
 			delete threadNum;
 			return 0;
 		}
+	}
+	else {
+		fontrealpath = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
 	}
 
 	HANDLE hDir = nullptr;
@@ -218,25 +223,35 @@ DWORD FontEnumerator::CheckFontsProc(int *threadNum)
 		FontEnum.eventKillSelf[*threadNum]
 	};
 
-	delete threadNum;
-
 	while(1){
 		DWORD wait_result = WaitForMultipleObjects(sizeof(events_to_wait)/sizeof(HANDLE), events_to_wait, FALSE, INFINITE);
 		if(wait_result == WAIT_OBJECT_0 + 0){
 			Sleep(1000);
+			if (*threadNum == 2) {
+				FontEnum.ReloadExternalFontsToProcess(fontrealpath, Notebook::GetTabs());
+			}
 			FontEnum.EnumerateFonts(true);
 			FontEnum.RefreshClientsFonts();
 			Notebook::RefreshVideo(true);
 			if(FindNextChangeNotification( hDir ) == 0){
 				KaiLog(_("Nie można stworzyć następnego uchwytu notyfikacji zmian folderu czcionek."));
+				delete threadNum;
 				return 0;
 			}
 		}else{
 			break;
 		}
 	}
-
+	delete threadNum;
 	return FindCloseChangeNotification( hDir );
+}
+
+DWORD FontEnumerator::LoadExternalFontsProc(void* path)
+{
+	wxString* fontpath = (wxString*)path;
+	FontEnum.LoadExternalFontsToProcess(*fontpath);
+	delete fontpath;
+	return 0;
 }
 
 //in Dc must be setted font
@@ -289,6 +304,101 @@ bool FontEnumerator::CheckGlyphsExists(HDC dc, const wxString &textForCheck, wxS
 	//ScriptFreeCache(&cache);
 	delete[] indices;
 	return succeeded;
+}
+
+void FontEnumerator::ReloadExternalFontsToProcess(const wxString& newFontsPath, wxWindow* parent)
+{
+	progress = new ProgressSink(parent, _("Usuwanie czcionek z zewnętrznego folderu"));
+	progress->SetAndRunTask([&]() {
+		if (hasExternalFontsLoaded) {
+			wxString path = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
+			RemoveExternalFontsFromProcess(path);
+		}
+		progress->Title(_("Wczytywanie czcionek z zewnętrznego folderu"));
+		LoadExternalFontsToProcess(newFontsPath);
+		return 1;
+		});
+	progress->ShowDialog();
+	progress->Wait();
+	progress->EndModal();
+	EnumerateFonts(true);
+	RefreshClientsFonts();
+	delete progress;
+	progress = nullptr;
+}
+
+bool FontEnumerator::LoadExternalFontsToProcess(const wxString& fontsPath)
+{
+	wxString seekpath = fontsPath + L"*";
+
+	WIN32_FIND_DATAW data;
+	HANDLE h = FindFirstFileW(seekpath.wc_str(), &data);
+	if (h == INVALID_HANDLE_VALUE)
+	{
+		KaiLog(_("Nie można wczytać zewnętrznego katalogu czcionek"));
+		return false;
+	}
+	int fontAdded = 0;
+	wxArrayString ExternalFonts;
+	while (1) {
+		int result = FindNextFileW(h, &data);
+		if (result == ERROR_NO_MORE_FILES || result == 0) { break; }
+		else if (data.nFileSizeLow == 0) { continue; }
+		wxString file = wxString(data.cFileName);
+		wxString ext = file.AfterLast(L'.');
+		if (ext == L"ttf" || ext == L"otf" || ext == L"ttc" || ext == L"pfb"/* || ext == L"pfm"*/) {
+			ExternalFonts.Add(file);
+		}
+	}
+	FindClose(h);
+	size_t size = ExternalFonts.Count();
+	for (size_t i = 0; i < size; i++) {
+		wxString pathAndFile = fontsPath + ExternalFonts[i];
+		int addResult = AddFontResourceExW(pathAndFile.wc_str(), FR_PRIVATE, nullptr);
+		if (addResult == 0)
+			KaiLogSilent(L"Cannot add external font file " + ExternalFonts[i] + L".\n");
+		else {
+			fontAdded += addResult;
+			if (progress)
+				progress->Progress(( i / (float)size) * 100);
+		}
+	}
+	KaiLogSilent(L"Loaded external font files " + std::to_wstring(fontAdded) + L".\n");
+	if (fontAdded)
+		hasExternalFontsLoaded = true;
+
+	return fontAdded > 0;
+}
+
+void FontEnumerator::LoadExternalFontsToProcessFromThread(const wxString& fontsPath)
+{
+	wxString* ppath = new wxString(fontsPath);
+	HANDLE loadFontsThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)LoadExternalFontsProc, ppath, 0, 0);
+	//Listening of external fonts folder
+	int* threadNum = new int(2);
+	checkFontsThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)CheckFontsProc, threadNum, 0, 0);
+	if (checkFontsThread)
+		SetThreadPriority(checkFontsThread, THREAD_PRIORITY_LOWEST);
+}
+
+void FontEnumerator::RemoveExternalFontsFromProcess(const wxString& fontsPath)
+{
+	int fontRemoved = 0;
+	size_t size = ExternalFonts.Count();
+	for (size_t i = 0; i < size; i++) {
+		wxString pathAndFile = fontsPath + ExternalFonts[i];
+		if (RemoveFontResourceExW(pathAndFile.wc_str(), FR_PRIVATE, nullptr)) {
+			fontRemoved++;
+			if (progress)
+				progress->Progress((i / (float)size) * 100);
+		}
+	}
+		
+	KaiLogSilent(L"Removed " + std::to_wstring(fontRemoved) + L" fonts.\n");
+	hasExternalFontsLoaded = false;
+	ExternalFonts.clear();
+
+	return;
 }
 
 FontEnumerator FontEnum;

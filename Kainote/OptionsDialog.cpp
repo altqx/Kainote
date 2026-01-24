@@ -36,7 +36,9 @@
 #include "SubsGrid.h"
 #include "AudioBox.h"
 #include "KaiStaticBoxSizer.h"
+#include "FontEnumerator.h"
 #include <wx/dir.h>
+#include <wx/dirdlg.h>
 //config have Windows trash
 #include "config.h"
 
@@ -260,7 +262,7 @@ int ItemHotkey::OnVisibilityChange(int mode){
 wxString *OptionsDialog::windowNames = nullptr;
 std::map<idAndType, hdata> OptionsDialog::hotkeysCopy;
 
-OptionsDialog::OptionsDialog(wxWindow *parent)
+OptionsDialog::OptionsDialog(wxWindow* parent)
 	: KaiDialog(parent, -1, _("Opcje"), wxDefaultPosition, wxDefaultSize, wxRESIZE_BORDER)
 {
 	windowNames = new wxString[5]{ _("Globalny"), _("Napisy"), _("Edytor"), _("Wideo"), _("Audio") };
@@ -273,24 +275,24 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 	icn.CopyFromBitmap(CreateBitmapFromPngResource(L"SETTINGS"));
 	SetIcon(icn);
 
-	wxWindow *GLOBAL_EDITOR = new wxWindow(OptionsTree, -1);
-	wxWindow *EditorAdvanced = new wxWindow(OptionsTree, -1);
-	wxWindow *ConvOpt = new wxWindow(OptionsTree, -1);
-	wxWindow *Hotkeyss = new wxWindow(OptionsTree, -1);
-	wxWindow *AudioMain = new wxWindow(OptionsTree, -1);
-	wxWindow *AudioSecond = new wxWindow(OptionsTree, -1);
-	wxWindow *video = new wxWindow(OptionsTree, -1);
-	wxWindow *Themes = new wxWindow(OptionsTree, -1);
-	wxWindow *Assocs = new wxWindow(OptionsTree, -1);
-	wxWindow *SubsProps = new SubtitlesProperties(OptionsTree, this);
+	wxWindow* GLOBAL_EDITOR = new wxWindow(OptionsTree, -1);
+	wxWindow* EditorAdvanced = new wxWindow(OptionsTree, -1);
+	wxWindow* ConvOpt = new wxWindow(OptionsTree, -1);
+	wxWindow* Hotkeyss = new wxWindow(OptionsTree, -1);
+	wxWindow* AudioMain = new wxWindow(OptionsTree, -1);
+	wxWindow* AudioSecond = new wxWindow(OptionsTree, -1);
+	wxWindow* video = new wxWindow(OptionsTree, -1);
+	wxWindow* Themes = new wxWindow(OptionsTree, -1);
+	wxWindow* Assocs = new wxWindow(OptionsTree, -1);
+	wxWindow* SubsProps = new SubtitlesProperties(OptionsTree, this);
 
 	hkeymodif = 0;
-	if (!Options.AudioOpts && !Options.LoadAudioOpts()){ KaiMessageBox(_("Nie można wczytać opcji audio"), _("Błąd")); }
+	if (!Options.AudioOpts && !Options.LoadAudioOpts()) { KaiMessageBox(_("Nie można wczytać opcji audio"), _("Błąd")); }
 
 	//Main
 	{
 		const int optsSize = 18;
-		wxBoxSizer *MainSizer = new wxBoxSizer(wxVERTICAL);
+		wxBoxSizer* MainSizer = new wxBoxSizer(wxVERTICAL);
 		wxString labels[optsSize] = { _("Wczytywanie posortowanych napisów"), _("Włącz sprawdzanie pisowni"),
 			_("Zaznaczaj linijkę z czasem aktywnej\nlinijki poprzedniej zakładki"),
 			_("Pokaż sugestie po dwukrotnym kliknięciu błędu"), _("Otwieraj napisy zawsze w nowej karcie"),
@@ -299,33 +301,33 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 			_("Włącz szukanie widocznej linii\npo wyjściu z pełnego ekranu"),
 			_("Włącz przenoszenie wartości pola przesuwania czasów"), _("Zmieniaj aktywną linię przy zaznaczaniu"),
 			_("Pokazuj oryginał w trybie tłumacza"), _("Ukryj oryginał na wideo w trybie tłumacza"),
-			_("Nie zmieniaj zaznaczeń przy duplikacji linii dialogowych"), 
+			_("Nie zmieniaj zaznaczeń przy duplikacji linii dialogowych"),
 			_("Nie wypośrodkowuj aktywnej linii w polu napisów"), _("Używaj skróty klawiszowe numpada w polach tekstowych"),
 			_("Wyłącz ostrzeżenia w narzędziach edycji wizualnej"), _("Nie ostrzegaj o niezgodności rozdzielczości"),
 			_("Kompatybilność ze starymi skryptami Kainote") };
 		CONFIG opts[optsSize] = { GRID_LOAD_SORTED_SUBS, SPELLCHECKER_ON, AUTO_SELECT_LINES_FROM_LAST_TAB,
 			EDITBOX_SUGGESTIONS_ON_DOUBLE_CLICK, OPEN_SUBS_IN_NEW_TAB, EDITBOX_DONT_GO_TO_NEXT_LINE_ON_TIMES_EDIT,
 			DISABLE_LIVE_VIDEO_EDITING, GRID_SET_VISIBLE_LINE_AFTER_FULL_SCREEN, SHIFT_TIMES_CHANGE_VALUES_WITH_TAB,
-			GRID_CHANGE_ACTIVE_ON_SELECTION, TL_MODE_SHOW_ORIGINAL, TL_MODE_HIDE_ORIGINAL_ON_VIDEO, 
+			GRID_CHANGE_ACTIVE_ON_SELECTION, TL_MODE_SHOW_ORIGINAL, TL_MODE_HIDE_ORIGINAL_ON_VIDEO,
 			GRID_DUPLICATION_DONT_CHANGE_SELECTION, GRID_DONT_CENTER_ACTIVE_LINE,
 			TEXT_FIELD_ALLOW_NUMPAD_HOTKEYS, VIDEO_VISUAL_WARNINGS_OFF,
 			DONT_ASK_FOR_BAD_RESOLUTION, AUTOMATION_OLD_SCRIPTS_COMPATIBILITY };
 		wxString localePath = Options.pathfull + L"\\Locale";
 		wxDir kat(localePath);
 		wxArrayString langs;
-		if (kat.IsOpened()){
+		if (kat.IsOpened()) {
 			kat.GetAllFiles(localePath, &langs, L"*.mo", wxDIR_FILES);
 		}
 		programLanguages.push_back(L"pl");
-		for (size_t i = 0; i < langs.GetCount(); i++){
+		for (size_t i = 0; i < langs.GetCount(); i++) {
 			wxString fulllang = langs[i].AfterLast(L'\\').BeforeLast(L'.');
 			programLanguages.push_back(fulllang);
-			const wxString &fullName = Options.FindLanguage(fulllang);
+			const wxString& fullName = Options.FindLanguage(fulllang);
 			langs[i] = fullName;
 		}
 		langs.Insert(L"Polski", 0);
-		KaiStaticBoxSizer *langSizer = new KaiStaticBoxSizer(wxVERTICAL, GLOBAL_EDITOR, _("Język (wymaga restartu programu)"));
-		KaiChoice *programLanguage = new KaiChoice(GLOBAL_EDITOR, ID_PROGRAM_LANGUAGE, wxDefaultPosition, wxDefaultSize, langs);
+		KaiStaticBoxSizer* langSizer = new KaiStaticBoxSizer(wxVERTICAL, GLOBAL_EDITOR, _("Język (wymaga restartu programu)"));
+		KaiChoice* programLanguage = new KaiChoice(GLOBAL_EDITOR, ID_PROGRAM_LANGUAGE, wxDefaultPosition, wxDefaultSize, langs);
 		int sel = programLanguage->FindString(Options.FindLanguage(Options.GetString(PROGRAM_LANGUAGE)));
 		if (sel < 0)
 			sel = 0;
@@ -336,10 +338,10 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 		MainSizer->Add(langSizer, 0, wxRIGHT | wxEXPAND, 5);
 		wxArrayString dictionaries;
 		SpellChecker::AvailableDics(dictionaries, dictionaryLanguagesSymbols);
-		if (dictionaries.size() == 0){ dictionaries.Add(_("Umieść pliki .dic i .aff do folderu \"Dictionary\"")); }
-		KaiStaticBoxSizer *dicSizer = new KaiStaticBoxSizer(wxVERTICAL, GLOBAL_EDITOR, _("Język sprawdzania pisowni (folder \"Dictionary\")"));
+		if (dictionaries.size() == 0) { dictionaries.Add(_("Umieść pliki .dic i .aff do folderu \"Dictionary\"")); }
+		KaiStaticBoxSizer* dicSizer = new KaiStaticBoxSizer(wxVERTICAL, GLOBAL_EDITOR, _("Język sprawdzania pisowni (folder \"Dictionary\")"));
 
-		KaiChoice *dic = new KaiChoice(GLOBAL_EDITOR, ID_DICTIONARY_LANGUAGE, wxDefaultPosition, wxDefaultSize, dictionaries);
+		KaiChoice* dic = new KaiChoice(GLOBAL_EDITOR, ID_DICTIONARY_LANGUAGE, wxDefaultPosition, wxDefaultSize, dictionaries);
 
 		dic->SetSelection(dic->FindString(Options.FindLanguage(Options.GetString(DICTIONARY_LANGUAGE))));
 		ConOpt(dic, DICTIONARY_LANGUAGE);
@@ -348,30 +350,31 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 
 		for (int i = 0; i < optsSize; i++)
 		{
-			KaiCheckBox *opt = new KaiCheckBox(GLOBAL_EDITOR, -1, labels[i]);
+			KaiCheckBox* opt = new KaiCheckBox(GLOBAL_EDITOR, -1, labels[i]);
 			opt->SetValue(Options.GetBool(opts[i]));
 			ConOpt(opt, opts[i]);
 			MainSizer->Add(opt, 0, wxALL, 2);
 		}
 		GLOBAL_EDITOR->SetSizerAndFit(MainSizer);
-
-		
-		wxBoxSizer *Main1Sizer = new wxBoxSizer(wxVERTICAL);
+	}
+	//editor advenced
+	{
+		wxBoxSizer* Main1Sizer = new wxBoxSizer(wxVERTICAL);
 		//Warning id ID_NUMBER_CONTROL is only for NumCtrl, normal text fields have to have another id
-		NumCtrl *gridSaveAfter = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(GRID_SAVE_AFTER_CHARACTER_COUNT), 0, 10000, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
+		NumCtrl* gridSaveAfter = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(GRID_SAVE_AFTER_CHARACTER_COUNT), 0, 10000, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
 		gridSaveAfter->SetToolTip(_("Zero całkowicie wyłącza zapis przy edycji"));
-		NumCtrl *autoSaveMax = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(AUTOSAVE_MAX_FILES), 2, 1000000, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
+		NumCtrl* autoSaveMax = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(AUTOSAVE_MAX_FILES), 2, 1000000, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
 		autoSaveMax->SetToolTip(_("Liczbę plików autozapisu można ustawić od 2 do 1000000"));
 		int numMaxChars = Options.GetInt(TAB_TEXT_MAX_CHARS);
 		if (!numMaxChars)
 			numMaxChars = 40;
-		NumCtrl *maxTabChars = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, std::to_wstring(numMaxChars), 20, 150, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
+		NumCtrl* maxTabChars = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, std::to_wstring(numMaxChars), 20, 150, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
 		maxTabChars->SetToolTip(_("Liczbę znaków widocznych na zakładce można ustawić od 20 do 150"));
-		NumCtrl *ltl = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(AUTOMATION_TRACE_LEVEL), 0, 5, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
-		NumCtrl *sc = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(GRID_INSERT_START_OFFSET), -100000, 100000, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
-		NumCtrl *sc1 = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(GRID_INSERT_END_OFFSET), -100000, 100000, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
-		KaiTextCtrl *sc2 = new KaiTextCtrl(EditorAdvanced, ID_TAGS_SWAP_CHARACTER, Options.GetString(GRID_TAGS_SWAP_CHARACTER), wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
-		
+		NumCtrl* ltl = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(AUTOMATION_TRACE_LEVEL), 0, 5, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
+		NumCtrl* sc = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(GRID_INSERT_START_OFFSET), -100000, 100000, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
+		NumCtrl* sc1 = new NumCtrl(EditorAdvanced, ID_NUMBER_CONTROL, Options.GetString(GRID_INSERT_END_OFFSET), -100000, 100000, true, wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
+		KaiTextCtrl* sc2 = new KaiTextCtrl(EditorAdvanced, ID_TAGS_SWAP_CHARACTER, Options.GetString(GRID_TAGS_SWAP_CHARACTER), wxDefaultPosition, wxSize(120, -1), wxTE_PROCESS_ENTER);
+
 		ConOpt(gridSaveAfter, GRID_SAVE_AFTER_CHARACTER_COUNT);
 		ConOpt(autoSaveMax, AUTOSAVE_MAX_FILES);
 		ConOpt(ltl, AUTOMATION_TRACE_LEVEL);
@@ -379,50 +382,63 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 		ConOpt(sc, GRID_INSERT_START_OFFSET);
 		ConOpt(sc1, GRID_INSERT_END_OFFSET);
 		ConOpt(sc2, GRID_TAGS_SWAP_CHARACTER);
-		wxBoxSizer *MainSizer2 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer2 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer2->Add(new KaiStaticText(EditorAdvanced, -1, _("Ilość edycji do zapisu")/*, wxDefaultPosition, wxSize(256, -1)*/), 5, wxALIGN_CENTRE_VERTICAL | wxEXPAND);
 		MainSizer2->Add(gridSaveAfter, 0, wxEXPAND);
-		wxBoxSizer *MainSizer3 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer3 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer3->Add(new KaiStaticText(EditorAdvanced, -1, _("Maksymalna ilość plików autozapisu")/*, wxDefaultPosition, wxSize(256, -1)*/), 5, /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND);
 		MainSizer3->Add(autoSaveMax, 0, wxEXPAND);
-		wxBoxSizer *MainSizer4 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer4 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer4->Add(new KaiStaticText(EditorAdvanced, -1, _("Przyspieszenie klatki początkowej w ms:")/*, wxDefaultPosition, wxSize(256, -1)*/), 5, /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND);
 		MainSizer4->Add(sc, 0, wxEXPAND);
-		wxBoxSizer *MainSizer5 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer5 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer5->Add(new KaiStaticText(EditorAdvanced, -1, _("Przyspieszenie klatki końcowej w ms:")), 5, /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND);
 		MainSizer5->Add(sc1, 0, wxEXPAND);
-		wxBoxSizer *MainSizer6 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer6 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer6->Add(new KaiStaticText(EditorAdvanced, -1, _("Znak podmiany tagów ASS:")), 5, /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND);
 		MainSizer6->Add(sc2, 0, wxEXPAND);
-		wxBoxSizer *MainSizer7 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer7 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer7->Add(new KaiStaticText(EditorAdvanced, -1, _("Ilość znaków widocznych na zakładce")), 5, /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND);
 		MainSizer7->Add(maxTabChars, 0, wxEXPAND);
-		wxBoxSizer *MainSizer8 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer8 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer8->Add(new KaiStaticText(EditorAdvanced, -1, _("Poziom śledzenia logów skryptów LUA")), 5, /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND);
 		MainSizer8->Add(ltl, 0, wxEXPAND);
 
 		//MainSizer->Add(MainSizer2,0,wxLEFT|wxTOP,2);
 
-		FontPickerButton *optf = new FontPickerButton(EditorAdvanced, -1, wxFont(Options.GetInt(GRID_FONT_SIZE), wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, Options.GetString(GRID_FONT)));
+		FontPickerButton* optf = new FontPickerButton(EditorAdvanced, -1, wxFont(Options.GetInt(GRID_FONT_SIZE), wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, Options.GetString(GRID_FONT)));
 		ConOpt(optf, GRID_FONT);
 		optf->SetMinSize(ltl->GetMinSize());
-		wxBoxSizer *MainSizer9 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer9 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer9->Add(new KaiStaticText(EditorAdvanced, -1, _("Czcionka pola napisów:")), 5, wxRIGHT | /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND, 10);
 		MainSizer9->Add(optf, 0, wxEXPAND);
 
-		FontPickerButton *programFont = new FontPickerButton(EditorAdvanced, -1, wxFont(Options.GetInt(PROGRAM_FONT_SIZE), wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, Options.GetString(PROGRAM_FONT)));
+		FontPickerButton* programFont = new FontPickerButton(EditorAdvanced, -1, wxFont(Options.GetInt(PROGRAM_FONT_SIZE), wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, Options.GetString(PROGRAM_FONT)));
 		ConOpt(programFont, PROGRAM_FONT);
 		programFont->SetMinSize(ltl->GetMinSize());
-		wxBoxSizer *MainSizer10 = new wxBoxSizer(wxHORIZONTAL);
+		wxBoxSizer* MainSizer10 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer10->Add(new KaiStaticText(EditorAdvanced, -1, _("Czcionka programu:")), 5, wxRIGHT | /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND, 10);
 		MainSizer10->Add(programFont, 0, wxEXPAND);
 
-		KaiStaticBoxSizer *alm = new KaiStaticBoxSizer(wxHORIZONTAL, EditorAdvanced, _("Sposób wczytywania skryptów autoload"));
+		KaiStaticBoxSizer* alm = new KaiStaticBoxSizer(wxHORIZONTAL, EditorAdvanced, _("Sposób wczytywania skryptów autoload"));
 		wxString methods[] = { _("Przy starcie programu asynchronicznie"), _("Przy starcie programu"), _("Przy otwarciu menu asynchronicznie"), _("Przy otwarciu menu") };
-		KaiChoice *cmb = new KaiChoice(EditorAdvanced, ID_KAI_CHOICE, wxDefaultPosition, wxSize(200, -1), 4, methods, wxTE_PROCESS_ENTER);
+		KaiChoice* cmb = new KaiChoice(EditorAdvanced, ID_KAI_CHOICE, wxDefaultPosition, wxSize(200, -1), 4, methods, wxTE_PROCESS_ENTER);
 		cmb->SetSelection(Options.GetInt(AUTOMATION_LOADING_METHOD));
 		ConOpt(cmb, AUTOMATION_LOADING_METHOD);
 		alm->Add(cmb, 1, wxCENTER | wxEXPAND | wxALL, 2);
+
+		KaiStaticBoxSizer* fontsPath = new KaiStaticBoxSizer(wxHORIZONTAL, EditorAdvanced, _("Folder z zewnętrznymi czcionkami"));
+		KaiTextCtrl* path = new KaiTextCtrl(EditorAdvanced, ID_EXTERNAL_FONTS_FOLDER, Options.GetString(EXTERNAL_FONTS_DIRECTORY));
+		ConOpt(path, EXTERNAL_FONTS_DIRECTORY);
+		MappedButton* choosePath = new MappedButton(EditorAdvanced, ID_EXTERNAL_FONTS_CHOOSE_FOLDER, _("Wybierz"));
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& event) {
+			wxDirDialog ddlg(this, _("Wybierz zewnętrzny folder czcionek"), path->GetValue());
+			ddlg.ShowModal();
+			path->SetValue(ddlg.GetPath());
+			}, ID_EXTERNAL_FONTS_CHOOSE_FOLDER);
+		
+		fontsPath->Add(path, 4, wxALL | wxEXPAND, 4);
+		fontsPath->Add(choosePath, 1, wxALL | wxEXPAND, 4);
 
 		Main1Sizer->Add(MainSizer2, 0, wxRIGHT | wxLEFT | wxTOP | wxEXPAND, 5);
 		Main1Sizer->Add(MainSizer3, 0, wxRIGHT | wxLEFT | wxTOP | wxEXPAND, 5);
@@ -434,20 +450,21 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 		Main1Sizer->Add(MainSizer9, 0, wxRIGHT | wxLEFT | wxTOP | wxEXPAND, 5);
 		Main1Sizer->Add(MainSizer10, 0, wxRIGHT | wxLEFT | wxTOP | wxEXPAND, 5);
 		Main1Sizer->Add(alm, 0, wxRIGHT | wxTOP | wxEXPAND, 4);
+		Main1Sizer->Add(fontsPath, 0, wxRIGHT | wxTOP | wxEXPAND, 4);
 
 		EditorAdvanced->SetSizerAndFit(Main1Sizer);
 	}
 
 	//conversion settings
 	{
-		wxBoxSizer *ConvOptSizer1 = new wxBoxSizer(wxVERTICAL);
+		wxBoxSizer* ConvOptSizer1 = new wxBoxSizer(wxVERTICAL);
 
-		KaiStaticBoxSizer *obr = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Wybierz katalog"));
-		KaiStaticBoxSizer *obr0 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Wybierz styl"));
-		KaiStaticBoxSizer *obr1 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Wybierz FPS"));
-		KaiStaticBoxSizer *obr2 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Czas w ms na jedną literę"));
-		KaiStaticBoxSizer *obr3 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Tagi wstawiane na początku każdej linijki ass"));
-		KaiStaticBoxSizer *obr4 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Rozdzielczość przy konwersji na ASS"));
+		KaiStaticBoxSizer* obr = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Wybierz katalog"));
+		KaiStaticBoxSizer* obr0 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Wybierz styl"));
+		KaiStaticBoxSizer* obr1 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Wybierz FPS"));
+		KaiStaticBoxSizer* obr2 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Czas w ms na jedną literę"));
+		KaiStaticBoxSizer* obr3 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Tagi wstawiane na początku każdej linijki ass"));
+		KaiStaticBoxSizer* obr4 = new KaiStaticBoxSizer(wxHORIZONTAL, ConvOpt, _("Rozdzielczość przy konwersji na ASS"));
 		wxArrayString styles;
 		wxArrayString FPSes;
 
@@ -455,50 +472,50 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 
 		FPSes.Add(L"23.976"); FPSes.Add(L"24"); FPSes.Add(L"25"); FPSes.Add(L"29.97"); FPSes.Add(L"30"); FPSes.Add(L"60");
 
-		for (int i = 0; i < 2; i++){
+		for (int i = 0; i < 2; i++) {
 			wxString optname = (i == 0) ? Options.GetString(CONVERT_STYLE_CATALOG) : Options.GetString(CONVERT_STYLE);
-			if (i != 0){
-				for (int i = 0; i < Options.StoreSize(); i++){
+			if (i != 0) {
+				for (int i = 0; i < Options.StoreSize(); i++) {
 					styles.Add(Options.GetStyle(i)->Name);
 				}
 			}
-			KaiChoice *cmb = new KaiChoice(ConvOpt, 
-				(i == 0) ? ID_CONVERSION_STYLE_CATALOG : ID_CONVERSION_STYLE, 
+			KaiChoice* cmb = new KaiChoice(ConvOpt,
+				(i == 0) ? ID_CONVERSION_STYLE_CATALOG : ID_CONVERSION_STYLE,
 				wxDefaultPosition, wxSize(200, -1), (i == 0) ? Options.dirs : styles, wxTE_PROCESS_ENTER);
 
 			int sel = cmb->FindString(optname);
 
-			if (sel >= 0){ 
-				cmb->SetSelection(sel); 
-				if (i == 0 && Options.actualStyleDir != optname){ 
-					Options.LoadStyles(optname); 
-				} 
+			if (sel >= 0) {
+				cmb->SetSelection(sel);
+				if (i == 0 && Options.actualStyleDir != optname) {
+					Options.LoadStyles(optname);
+				}
 			}
-			else{
-				if (i == 0){ sel = cmb->FindString(Options.actualStyleDir); }
+			else {
+				if (i == 0) { sel = cmb->FindString(Options.actualStyleDir); }
 				cmb->SetSelection(MAX(0, sel));
 				wxString what = (i == 0) ? _("katalog dla stylu") : _("styl");
 				KaiMessageBox(wxString::Format(_("Wybrany %s konwersji nie istnieje,\nzostanie zmieniony na domyślny"), what), _("Uwaga"));
 			}
 
 			ConOpt(cmb, (i == 0) ? CONVERT_STYLE_CATALOG : CONVERT_STYLE);
-			if (i == 0){
+			if (i == 0) {
 				obr->Add(cmb, 1, wxCENTER | wxALL, 2);
 				ConvOptSizer1->Add(obr, 0, wxRIGHT | wxEXPAND, 5);
 				Katlist = cmb;
 				Connect(ID_CONVERSION_STYLE_CATALOG, wxEVT_COMMAND_CHOICE_SELECTED, (wxObjectEventFunction)&OptionsDialog::OnChangeCatalog);
 			}
-			else{
+			else {
 				obr0->Add(cmb, 1, wxCENTER | wxALL, 2);
 				ConvOptSizer1->Add(obr0, 0, wxRIGHT | wxEXPAND, 5);
 				Stylelist = cmb;
 			}
 		}
-		const wxString & convFPS = Options.GetString(CONVERT_FPS);
-		KaiChoice *cmb = new KaiChoice(ConvOpt, -1, convFPS, wxDefaultPosition, wxSize(200, -1), FPSes, wxTE_PROCESS_ENTER);
+		const wxString& convFPS = Options.GetString(CONVERT_FPS);
+		KaiChoice* cmb = new KaiChoice(ConvOpt, -1, convFPS, wxDefaultPosition, wxSize(200, -1), FPSes, wxTE_PROCESS_ENTER);
 		int sel = cmb->FindString(convFPS);
-		if (sel >= 0){ cmb->SetSelection(sel); }
-		else{ cmb->SetValue(convFPS); }
+		if (sel >= 0) { cmb->SetSelection(sel); }
+		else { cmb->SetValue(convFPS); }
 
 		ConOpt(cmb, CONVERT_FPS);
 		obr1->Add(cmb, 1, wxCENTER | wxALL, 2);
@@ -507,7 +524,7 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 
 		for (int i = 0; i < 3; i++)
 		{
-			KaiCheckBox *opt = new KaiCheckBox(ConvOpt, -1, (i == 0) ? _("FPS z wideo") : 
+			KaiCheckBox* opt = new KaiCheckBox(ConvOpt, -1, (i == 0) ? _("FPS z wideo") :
 				(i == 1) ? _("Nowe czasy końcowe") : _("Pokaż okno przed konwersją"));
 			CONFIG optname = (i == 0) ? CONVERT_FPS_FROM_VIDEO : (i == 1) ? CONVERT_NEW_END_TIMES : CONVERT_SHOW_SETTINGS;
 			opt->SetValue(Options.GetBool(optname));
@@ -515,13 +532,13 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 			ConvOptSizer1->Add(opt, 0, wxRIGHT | wxEXPAND, 5);
 		}
 
-		NumCtrl *sc = new NumCtrl(ConvOpt, ID_NUMBER_CONTROL, Options.GetString(CONVERT_TIME_PER_CHARACTER), 30, 1000, true, 
+		NumCtrl* sc = new NumCtrl(ConvOpt, ID_NUMBER_CONTROL, Options.GetString(CONVERT_TIME_PER_CHARACTER), 30, 1000, true,
 			wxDefaultPosition, wxSize(250, -1), wxTE_PROCESS_ENTER);
 		ConOpt(sc, CONVERT_TIME_PER_CHARACTER);
 		obr2->Add(sc, 1, wxALL /*| wxALIGN_CENTER*/ | wxEXPAND, 2);
 		ConvOptSizer1->Add(obr2, 0, wxRIGHT | wxEXPAND, 5);
 
-		sc = new NumCtrl(ConvOpt, ID_NUMBER_CONTROL, Options.GetString(CONVERT_RESOLUTION_WIDTH), 1, 3000, true, 
+		sc = new NumCtrl(ConvOpt, ID_NUMBER_CONTROL, Options.GetString(CONVERT_RESOLUTION_WIDTH), 1, 3000, true,
 			wxDefaultPosition, wxSize(115, -1), wxTE_PROCESS_ENTER);
 		ConOpt(sc, CONVERT_RESOLUTION_WIDTH);
 		obr4->Add(sc, 1, wxALL /*| wxALIGN_CENTER*/ | wxEXPAND, 2);
@@ -534,7 +551,7 @@ OptionsDialog::OptionsDialog(wxWindow *parent)
 		obr4->Add(sc, 1, wxALL /*| wxALIGN_CENTER*/ | wxEXPAND, 2);
 		ConvOptSizer1->Add(obr4, 0, wxRIGHT | wxEXPAND, 5);
 
-		KaiTextCtrl *tc = new KaiTextCtrl(ConvOpt, -1, Options.GetString(CONVERT_ASS_TAGS_TO_INSERT_IN_LINE), wxDefaultPosition, wxSize(250, -1), wxTE_PROCESS_ENTER);
+		KaiTextCtrl* tc = new KaiTextCtrl(ConvOpt, -1, Options.GetString(CONVERT_ASS_TAGS_TO_INSERT_IN_LINE), wxDefaultPosition, wxSize(250, -1), wxTE_PROCESS_ENTER);
 		ConOpt(tc, CONVERT_ASS_TAGS_TO_INSERT_IN_LINE);
 		obr3->Add(tc, 1, wxALL /*| wxALIGN_CENTER*/ | wxEXPAND, 2);
 		ConvOptSizer1->Add(obr3, 0, wxRIGHT | wxEXPAND, 5);
@@ -1046,27 +1063,27 @@ void OptionsDialog::SetOptions(bool saveall)
 			bool value = cb->GetValue();
 			if (Options.GetBool(OB.option) != value){
 				Options.SetBool(OB.option, value);
-				if (OB.option <= AUDIO_WHEEL_DEFAULT_TO_ZOOM){ audio = true; }
-				if (OB.option == SPELLCHECKER_ON){
+				if (OB.option <= AUDIO_WHEEL_DEFAULT_TO_ZOOM) { audio = true; }
+				if (OB.option == SPELLCHECKER_ON) {
 					Notebook::GetTab()->edit->ClearErrs(true, value);
 				}
 			}
 		}
-		else if (OB.ctrl->IsKindOf(CLASSINFO(FontPickerButton))){
-			FontPickerButton *fpc = (FontPickerButton*)OB.ctrl;
+		else if (OB.ctrl->IsKindOf(CLASSINFO(FontPickerButton))) {
+			FontPickerButton* fpc = (FontPickerButton*)OB.ctrl;
 			wxFont font = fpc->GetSelectedFont();
 			wxString fontname = font.GetFaceName();
 			int fontsize = font.GetPointSize();
-			if (Options.GetString(OB.option) != fontname){
-				Options.SetString(OB.option, fontname); 
+			if (Options.GetString(OB.option) != fontname) {
+				Options.SetString(OB.option, fontname);
 				fontmod = true;
 			}
 			CONFIG fontSizeOption = (OB.option == GRID_FONT) ? GRID_FONT_SIZE : PROGRAM_FONT_SIZE;
-			if (Options.GetInt(fontSizeOption) != fontsize){
-				Options.SetInt(fontSizeOption, fontsize); 
+			if (Options.GetInt(fontSizeOption) != fontsize) {
+				Options.SetInt(fontSizeOption, fontsize);
 				fontmod = true;
 			}
-			if (OB.option == PROGRAM_FONT && fontmod){
+			if (OB.option == PROGRAM_FONT && fontmod) {
 				Options.FontsClear();
 				KainoteFrame* Kai =
 					/*wxDynamicCast<*/(KainoteFrame*)Notebook::GetTabs()->GetParent();//>
@@ -1076,41 +1093,41 @@ void OptionsDialog::SetOptions(bool saveall)
 				Kai->Layout();
 			}
 		}
-		else if (OB.ctrl->IsKindOf(CLASSINFO(KaiChoice))){
-			KaiChoice *cbx = (KaiChoice*)OB.ctrl;
-			if (cbx->GetWindowStyle() & KAI_COMBO_BOX){
+		else if (OB.ctrl->IsKindOf(CLASSINFO(KaiChoice))) {
+			KaiChoice* cbx = (KaiChoice*)OB.ctrl;
+			if (cbx->GetWindowStyle() & KAI_COMBO_BOX) {
 				wxString color = cbx->GetValue();
-				if (Options.GetString(OB.option) != color){
+				if (Options.GetString(OB.option) != color) {
 					Options.SetString(OB.option, color);
 				}
 			}
-			else if (cbx->GetId() != ID_KAI_CHOICE){
+			else if (cbx->GetId() != ID_KAI_CHOICE) {
 				//dictionary language
-				if (cbx->GetId() == ID_DICTIONARY_LANGUAGE){
+				if (cbx->GetId() == ID_DICTIONARY_LANGUAGE) {
 					int sel = cbx->GetSelection();
-					if (sel >= 0 && sel < dictionaryLanguagesSymbols.GetCount()){
+					if (sel >= 0 && sel < dictionaryLanguagesSymbols.GetCount()) {
 						wxString language = dictionaryLanguagesSymbols[sel];
-						if (Options.GetString(OB.option) != language){
+						if (Options.GetString(OB.option) != language) {
 							Options.SetString(OB.option, language);
 							SpellChecker::Destroy();
 							Notebook::GetTab()->edit->ClearErrs();
 						}
 					}
 				}//program language
-				else if (cbx->GetId() == ID_PROGRAM_LANGUAGE){
+				else if (cbx->GetId() == ID_PROGRAM_LANGUAGE) {
 					int sel = cbx->GetSelection();
-					if (sel >= 0 && sel < programLanguages.size()){
+					if (sel >= 0 && sel < programLanguages.size()) {
 						wxString language = programLanguages[sel];
 						if (Options.GetString(OB.option) != language)
 							Options.SetString(OB.option, language);
 					}
 				}
-				else{
+				else {
 					wxString option = cbx->GetString(cbx->GetSelection());
-					if (Options.GetString(OB.option) != option){
+					if (Options.GetString(OB.option) != option) {
 						Options.SetString(OB.option, option);
 						//vsfilter change
-						if (cbx->GetId() == ID_VSFILTER_PROVIDER){
+						if (cbx->GetId() == ID_VSFILTER_PROVIDER) {
 							SubtitlesProviderManager::DestroyProviders();
 							Notebook::RefreshVideo();
 						}
@@ -1121,24 +1138,32 @@ void OptionsDialog::SetOptions(bool saveall)
 					}
 				}
 			}
-			else{
-				if (Options.GetInt(OB.option) != cbx->GetSelection()){
+			else {
+				if (Options.GetInt(OB.option) != cbx->GetSelection()) {
 					Options.SetInt(OB.option, cbx->GetSelection());
 				}
 			}
-			if (OB.option <= AUDIO_WHEEL_DEFAULT_TO_ZOOM){ audio = true; }
+			if (OB.option <= AUDIO_WHEEL_DEFAULT_TO_ZOOM) { audio = true; }
 		}
-		else if (OB.ctrl->IsKindOf(CLASSINFO(KaiTextCtrl))){
+		else if (OB.ctrl->IsKindOf(CLASSINFO(KaiTextCtrl))) {
 
-			if (OB.ctrl->GetId() != ID_NUMBER_CONTROL){
-				KaiTextCtrl *sc = (KaiTextCtrl*)OB.ctrl;
+			if (OB.ctrl->GetId() != ID_NUMBER_CONTROL) {
+				KaiTextCtrl* sc = (KaiTextCtrl*)OB.ctrl;
 				wxString str = sc->GetValue();
-				if (Options.GetString(OB.option) != str){
+				if (Options.GetString(OB.option) != str) {
+					//we need to call function before set a new path
+					//to remove loaded fonts from last folder
+					if (OB.option == EXTERNAL_FONTS_DIRECTORY) {
+						if (!str.EndsWith(L"\\"))
+							str << L"\\";
+
+						FontEnum.ReloadExternalFontsToProcess(str, this);
+					}
 					Options.SetString(OB.option, str);
-					if (OB.option == GRID_TAGS_SWAP_CHARACTER){
+					if (OB.option == GRID_TAGS_SWAP_CHARACTER) {
 						Notebook* tabs = Notebook::GetTabs();
 						for (size_t i = 0; i < tabs->Size(); i++) {
-							TabPanel *page = tabs->Page(i);
+							TabPanel* page = tabs->Page(i);
 							page->grid->SpellErrors.clear();
 						}
 					}

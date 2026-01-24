@@ -28,25 +28,35 @@
 //#include <windef.h>
 //#include <wingdi.h>
 
-class KainoteFrame;
+
+//class KainoteFrame;
+class ProgressSink;
 
 class FontEnumerator
 {
 public:
 	FontEnumerator();
 	~FontEnumerator();
-	void StartListening(KainoteFrame* parent);
+	void StartListening();
 	void EnumerateFonts(bool reenumerate = false);
 	wxArrayString *GetFonts(const wxWindow *client, std::function<void()> func);
 	wxArrayString *GetFilteredFonts(const wxWindow *client, std::function<void()> func, const wxString &filter);
 	void AddClient(const wxWindow *client, std::function<void()> func);
 	void RemoveClient(const wxWindow *client);
 	void RemoveFilteredClient(const wxWindow *client, bool clearFiltered = true);
-	bool CheckGlyphsExists(HDC dc, const wxString &textForCheck, wxString &missing); 
+	bool CheckGlyphsExists(HDC dc, const wxString &textForCheck, wxString &missing);
+	void ReloadExternalFontsToProcess(const wxString& newFontsPath, wxWindow *parent);
+	bool LoadExternalFontsToProcess(const wxString &fontsPath);
+	void LoadExternalFontsToProcessFromThread(const wxString& fontsPath);
+	void RemoveExternalFontsFromProcess(const wxString& fontsPath);
+	bool HasExternalFontsLoaded() {
+		return hasExternalFontsLoaded;
+	}
 	wxArrayString* Fonts;
 	wxArrayString* FontsTmp;
 	wxArrayString* FilteredFonts;
 	wxArrayString* FilteredFontsTmp;
+	wxArrayString ExternalFonts;
 	HDC hdc;
 	wxString filter;
 private:
@@ -54,15 +64,16 @@ private:
 	static int __stdcall FontEnumeratorProc(LPLOGFONT lplf, TEXTMETRIC *lptm,
 		unsigned int WXUNUSED(dwStyle), long* lParam);
 	static DWORD CheckFontsProc(int *threadNum);
+	static DWORD LoadExternalFontsProc(void *path);
 	
 	
 	std::map<const wxWindow*, std::function<void()>> observers;
-	KainoteFrame* parent;
-	HANDLE eventKillSelf[2];
+	//KainoteFrame* parent;
+	HANDLE eventKillSelf[3];
 	HANDLE checkFontsThread;
 	wxMutex enumerateMutex;
-	
-	
+	bool hasExternalFontsLoaded = false;
+	ProgressSink* progress = nullptr;
 };
 
 extern FontEnumerator FontEnum;

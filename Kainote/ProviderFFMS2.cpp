@@ -54,7 +54,7 @@ ProviderFFMS2::ProviderFFMS2(const wxString& filename, RendererVideo* renderer,
 		*_success = m_success;
 	}
 	else {
-		progress->SetAndRunTask([=]() {return Init(); });
+		progress->SetAndRunTask([&]() {return Init(); });
 		progress->ShowDialog();
 		*_success = ((int)progress->Wait() == 1);
 	}

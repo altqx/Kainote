@@ -702,8 +702,7 @@ void FontCollector::CheckOrCopyFonts()
 		fontSizes.clear();
 		WIN32_FIND_DATAW data;
 		HANDLE h = FindFirstFileW(seekpath.wc_str(), &data);
-		if (h == INVALID_HANDLE_VALUE)
-		{
+		if (h == INVALID_HANDLE_VALUE){
 			SendMessageD(_("Nie można pobrać rozmiarów i nazw plików czcionek\nkopiowanie zostaje przerwane.\n"), fcd->warning);
 			return;
 		}
@@ -733,6 +732,23 @@ void FontCollector::CheckOrCopyFonts()
 					fontSizes.insert(std::pair<long, wxString>(data1.nFileSizeLow, wxString(data1.cFileName)));
 				}
 				FindClose(h1);
+			}
+		}
+		fontFolderExternal = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
+		if (!fontFolderExternal.empty()) {
+			WIN32_FIND_DATAW data2;
+			wxString seekpath = fontFolderExternal + L"*";
+			HANDLE h2 = FindFirstFileW(seekpath.wc_str(), &data2);
+			if (h2 != INVALID_HANDLE_VALUE){
+				//first file is "." second ".." after there are a font files
+				while (1) {
+					int result = FindNextFile(h2, &data2);
+					if (result == ERROR_NO_MORE_FILES || result == 0) { break; }
+					else if (data2.nFileSizeLow == 0) { continue; }
+					fontSizes.insert(std::pair<long, wxString>(data2.nFileSizeLow, wxString(data2.cFileName)));
+				}
+				FindClose(h2);
+				hasExternalFolder = true;
 			}
 		}
 		SubsTime processTime(sw.Time());
@@ -1103,6 +1119,10 @@ bool FontCollector::CheckPathAndGlyphs(int *found, int *notFound, int *notCopied
 				FILE *fp = _wfopen(fullpath.wc_str(), L"rb");
 				if (!fp){
 					fullpath = fontFolderLocal + fontSize->second;
+					fp = _wfopen(fullpath.wc_str(), L"rb");
+				}
+				if (!fp && hasExternalFolder) {
+					fullpath = fontFolderExternal + fontSize->second;
 					fp = _wfopen(fullpath.wc_str(), L"rb");
 				}
 				if (!fp){ 

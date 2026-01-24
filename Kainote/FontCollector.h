@@ -193,12 +193,13 @@ private:
 	std::multimap<long, wxString> fontSizes;
 	wxString fontfolder;
 	wxString fontFolderLocal;
+	wxString fontFolderExternal;
 	wxString muxerpath;
 	wxZipOutputStream *zip;
 	wxStopWatch sw;
 	int operation;
 	bool reloadFonts;
-	
+	bool hasExternalFolder = false;
 };
 
 class FontCollectorThread : public wxThread
