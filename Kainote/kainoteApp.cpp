@@ -268,7 +268,7 @@ bool kainoteApp::OnInit()
 
 		wxString path = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
 		if(!path.empty())
-			FontEnum.LoadExternalFontsToProcessFromThread(path);
+			FontEnum.LoadExternalFontsToProcessFromThread(path, Frame);
 
 	}
 	else{

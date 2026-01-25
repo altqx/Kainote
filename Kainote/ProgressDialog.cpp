@@ -19,9 +19,9 @@
 #include "SubsTime.h"
 #include "KaiStaticText.h"
 #include "KaiGauge.h"
-#include <wx/gauge.h>
+#include "KainoteFrame.h"
+//#include <wx/gauge.h>
 #include <ShObjIdl.h>
-
 
 wxDEFINE_EVENT(EVT_SHOW_DIALOG, wxThreadEvent);
 wxDEFINE_EVENT(EVT_SET_TITLE, wxThreadEvent);
@@ -170,12 +170,10 @@ ProgressSink::~ProgressSink()
 //shows dialog, use only from main thread
 void ProgressSink::ShowDialog()
 {
-	//wxThreadEvent *evt = new wxThreadEvent(EVT_SET_TITLE, dlg->GetId());
-	//wxQueueEvent(dlg, evt);
 	dlg->ShowModal();
 }
 
-// ustawia nazwę obecnego zadania
+// set name of current task
 void ProgressSink::Title(wxString title)
 {
 	wxThreadEvent *evt = new wxThreadEvent(EVT_SET_TITLE, dlg->GetId());
@@ -215,4 +213,110 @@ int ProgressSink::ShowSecondaryDialog(std::function<int()> dialfunction){
 	wxQueueEvent(dlg, evt);
 	sema.Wait();
 	return dlg->result;
+}
+
+ProgressSinkSilent::ProgressSinkSilent(KainoteFrame* _parent, const wxString& _title)
+{
+	//bool main = wxThread::IsMain();
+	//if (!main) { KaiLog(L"Constructor used not from main thread"); }
+	parent = _parent;
+	title = _title;
+	DWORD windowsVersion = GetVersion();
+	DWORD dwMajor = LOBYTE(LOWORD(windowsVersion));
+	DWORD dwMinor = HIBYTE(LOWORD(windowsVersion));
+	if (dwMajor > 6 || (dwMajor == 6 && dwMinor > 0)) {
+		CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, __uuidof(ITaskbarList3), (void**)&taskbar);
+		if (taskbar) {
+			taskbar->SetProgressState(parent->GetHWND(), TBPF_NORMAL);
+			taskbar->SetProgressValue(parent->GetHWND(), 0, 100);
+		}
+	}
+	parent->Bind(EVT_SET_PROGRESS, [&](wxThreadEvent &evt) {
+		OnProgress(evt);
+		});
+	parent->Bind(EVT_SET_TITLE, [&](wxThreadEvent& evt) {
+		OnTitle(evt);
+		});
+	parent->Bind(EVT_END_MODAL, [&](wxThreadEvent& evt) {
+		OnEndModal(evt);
+		});
+	firstTime = timeGetTime();
+}
+
+ProgressSinkSilent::~ProgressSinkSilent()
+{
+	//bool main = wxThread::IsMain();
+	//if (!main) { KaiLog(L"Destroyer used not from main thread"); }
+	//if (taskbar) {
+		//taskbar->SetProgressState(parent->GetHWND(), TBPF_NOPROGRESS);
+	//}
+	
+}
+
+void ProgressSinkSilent::Title(wxString _title)
+{
+	title = _title;
+	wxThreadEvent* evt = new wxThreadEvent(EVT_SET_TITLE, parent->GetId());
+	wxQueueEvent(parent, evt);
+}
+
+bool ProgressSinkSilent::WasCancelled()
+{
+	return false;
+}
+
+void ProgressSinkSilent::Progress(int num)
+{
+	int newtime = timeGetTime() - firstTime;
+	if (oldTime + 10 < newtime) {
+		wxThreadEvent* evt = new wxThreadEvent(EVT_SET_PROGRESS, parent->GetId());
+		evt->SetPayload(num);
+		wxQueueEvent(parent, evt);
+	}
+
+	oldTime = newtime;
+}
+
+void ProgressSinkSilent::EndModal()
+{
+	wxThreadEvent* evt = new wxThreadEvent(EVT_END_MODAL, parent->GetId());
+	wxQueueEvent(parent, evt);
+}
+
+void ProgressSinkSilent::OnProgress(wxThreadEvent& event)
+{
+	//bool main = wxThread::IsMain();
+	//if (!main) { KaiLog(L"OnProgress used not from main thread"); }
+	int num = event.GetPayload<int>();
+	if (taskbar) {
+		taskbar->SetProgressValue(parent->GetHWND(), (ULONGLONG)num, 100);
+	}
+	SubsTime progressTime;
+	progressTime.NewTime(timeGetTime() - firstTime);
+
+	parent->StatusBar->SetLabelText(0, title + L" " + std::to_wstring(num) + "%. " + wxString::Format(_("Upłynęło %s sekund"), progressTime.raw()));
+}
+
+void ProgressSinkSilent::OnTitle(wxThreadEvent& event)
+{
+	//bool main = wxThread::IsMain();
+	//if (!main) { KaiLog(L"OnTitle used not from main thread"); }
+	SubsTime progressTime;
+	progressTime.NewTime(timeGetTime() - firstTime);
+	parent->StatusBar->SetLabelText(0, title + L" 0%. " + wxString::Format(_("Upłynęło %s sekund"), progressTime.raw()));
+}
+
+void ProgressSinkSilent::OnEndModal(wxThreadEvent& event)
+{
+	//bool main = wxThread::IsMain();
+	//if (!main) { KaiLog(L"EndModal used not from main thread"); }
+	if (taskbar) {
+		taskbar->SetProgressState(parent->GetHWND(), TBPF_NOPROGRESS);
+		taskbar = nullptr;
+	}
+	parent->StatusBar->SetLabelText(0, L"");
+	delete this;
+	//Unbind(EVT_SET_PROGRESS, &ProgressSinkSilent::OnProgress, this);
+	//Unbind(EVT_SET_TITLE, &ProgressSinkSilent::OnTitle, this);
+	//Unbind(EVT_END_MODAL, &ProgressSinkSilent::OnEndModal, this);
 }

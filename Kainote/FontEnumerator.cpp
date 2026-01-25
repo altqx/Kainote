@@ -251,6 +251,15 @@ DWORD FontEnumerator::LoadExternalFontsProc(void* path)
 	wxString* fontpath = (wxString*)path;
 	FontEnum.LoadExternalFontsToProcess(*fontpath);
 	delete fontpath;
+	FontEnum.progress->EndModal();
+	FontEnum.progress = nullptr;
+
+	//Listening of external fonts folder
+	int* threadNum = new int(2);
+	FontEnum.checkFontsThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)CheckFontsProc, threadNum, 0, 0);
+	if (FontEnum.checkFontsThread)
+		SetThreadPriority(FontEnum.checkFontsThread, THREAD_PRIORITY_LOWEST);
+
 	return 0;
 }
 
@@ -308,8 +317,9 @@ bool FontEnumerator::CheckGlyphsExists(HDC dc, const wxString &textForCheck, wxS
 
 void FontEnumerator::ReloadExternalFontsToProcess(const wxString& newFontsPath, wxWindow* parent)
 {
-	progress = new ProgressSink(parent, _("Usuwanie czcionek z zewnętrznego folderu"));
-	progress->SetAndRunTask([&]() {
+	ProgressSink *progr = new ProgressSink(parent, _("Usuwanie czcionek z zewnętrznego folderu"));
+	progress = progr;
+	progr->SetAndRunTask([&]() {
 		if (hasExternalFontsLoaded) {
 			wxString path = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
 			RemoveExternalFontsFromProcess(path);
@@ -318,9 +328,9 @@ void FontEnumerator::ReloadExternalFontsToProcess(const wxString& newFontsPath, 
 		LoadExternalFontsToProcess(newFontsPath);
 		return 1;
 		});
-	progress->ShowDialog();
-	progress->Wait();
-	progress->EndModal();
+	progr->ShowDialog();
+	progr->Wait();
+	progr->EndModal();
 	EnumerateFonts(true);
 	RefreshClientsFonts();
 	delete progress;
@@ -370,15 +380,14 @@ bool FontEnumerator::LoadExternalFontsToProcess(const wxString& fontsPath)
 	return fontAdded > 0;
 }
 
-void FontEnumerator::LoadExternalFontsToProcessFromThread(const wxString& fontsPath)
+void FontEnumerator::LoadExternalFontsToProcessFromThread(const wxString& fontsPath, KainoteFrame* parent)
 {
+	ProgressSinkSilent* progr = new ProgressSinkSilent(parent, _("Ładowanie zewnętrznych czcionek"));
+	progress = progr;
+	//set worker thread
 	wxString* ppath = new wxString(fontsPath);
 	HANDLE loadFontsThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)LoadExternalFontsProc, ppath, 0, 0);
-	//Listening of external fonts folder
-	int* threadNum = new int(2);
-	checkFontsThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)CheckFontsProc, threadNum, 0, 0);
-	if (checkFontsThread)
-		SetThreadPriority(checkFontsThread, THREAD_PRIORITY_LOWEST);
+	
 }
 
 void FontEnumerator::RemoveExternalFontsFromProcess(const wxString& fontsPath)

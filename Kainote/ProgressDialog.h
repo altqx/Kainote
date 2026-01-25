@@ -20,6 +20,7 @@
 #include <wx/dialog.h>
 #include <functional>
 
+
 struct ITaskbarList3;
 class KaiGauge;
 class KaiStaticText;
@@ -51,15 +52,29 @@ public:
 	int result;
 };
 
-class ProgressSink : public wxThread
+class Sink 
+{
+public:
+	Sink() {};
+	virtual ~Sink() {};
+	virtual void Title(wxString title){};
+	virtual bool WasCancelled() { return false; };
+	virtual void Progress(int num) {};
+	virtual void EndModal() {};
+};
+//sink for show progress dialog and blocking
+//main window till task is ended
+class ProgressSink : public Sink, public wxThread
 {
 public:
 	ProgressSink(wxWindow *parent, const wxString &title, const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize, int style = 0);
 	virtual ~ProgressSink();
-	//Pamiêtaj o poprawnej kolejnoœci, najpierw tworzysz sink
-	//póŸniej ustawiasz zadanie b¹dŸ tworzysz w¹tek
-	//kolejnie pokazujesz dialog 
-	//a na koñcu czekasz na wykonanie zadania / w¹tku
+	//First make ProgressSink
+	//set or create thread
+	//show dialog from main thread
+	//and then wait for make task / thread
+	//in other thread can be used only Progress, 
+	//WasCancelled, Title, ShowSecondaryDialog and EndModal()
 	void SetAndRunTask(std::function<int()> _task)
 	{
 		task = _task;
@@ -68,10 +83,10 @@ public:
 	}
 	void ShowDialog();
 	int ShowSecondaryDialog(std::function<int()> dialfunction);
-	void Title(wxString title);
-	bool WasCancelled();
-	void Progress(int num);
-	void EndModal();
+	void Title(wxString title) override;
+	bool WasCancelled() override;
+	void Progress(int num) override;
+	void EndModal() override;
 private:
 	wxThread::ExitCode Entry();
 	std::function<int()> task;
@@ -79,5 +94,32 @@ private:
 
 };
 
+class KainoteFrame;
+
+//sink for showing progres only on statusbar
+//and taskbar not blocking main window
+class ProgressSinkSilent : public Sink, public wxEvtHandler
+{
+public:
+	//use constructor
+	//use Title, WasCancelled, Progress, from other thread
+	//use EndModal from main thread
+	ProgressSinkSilent(KainoteFrame* _parent, const wxString& title);
+	virtual ~ProgressSinkSilent();
+	
+	void Title(wxString _title) override;
+	bool WasCancelled() override;
+	void Progress(int num) override;
+	void EndModal() override;
+	void OnProgress(wxThreadEvent& event);
+	void OnTitle(wxThreadEvent& event);
+	void OnEndModal(wxThreadEvent& event);
+private:
+	ITaskbarList3* taskbar = nullptr;
+	KainoteFrame* parent;
+	int oldTime = 0;
+	int firstTime = 0;
+	wxString title;
+};
 
 

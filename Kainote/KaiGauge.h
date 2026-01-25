@@ -16,6 +16,7 @@
 #pragma once
 
 #include <wx/window.h>
+#include <wx/gauge.h>
 
 class KaiGauge : public wxWindow
 {
