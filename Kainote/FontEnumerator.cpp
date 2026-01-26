@@ -1,4 +1,4 @@
-﻿//  Copyright (c) 2016 - 2020, Marcin Drob
+﻿//  Copyright (c) 2016 - 2026, Marcin Drob
 
 //  Kainote is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -228,7 +228,8 @@ DWORD FontEnumerator::CheckFontsProc(int *threadNum)
 		if(wait_result == WAIT_OBJECT_0 + 0){
 			Sleep(1000);
 			if (*threadNum == 2) {
-				FontEnum.ReloadExternalFontsToProcess(fontrealpath, Notebook::GetTabs());
+				FontEnum.RemoveExternalFontsFromProcess(fontrealpath);
+				FontEnum.LoadExternalFontsToProcess(fontrealpath);
 			}
 			FontEnum.EnumerateFonts(true);
 			FontEnum.RefreshClientsFonts();

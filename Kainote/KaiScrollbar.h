@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2020, Marcin Drob
+//  Copyright (c) 2016 - 2026, Marcin Drob
 
 //  Kainote is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -88,12 +88,12 @@ public:
 	wxSize GetClientSize();
 	void AlwaysShowScrollbars (bool hflag=true, bool vflag=true){};
 	int GetScrollPos (int orientation) const {return (orientation == wxHORIZONTAL && horizontal)? horizontal->unitPos : (orientation == wxVERTICAL && vertical)? vertical->unitPos : 0;}
- 	int GetScrollRange (int orientation) const{return (orientation == wxHORIZONTAL && horizontal)? horizontal->allSize : (orientation == wxVERTICAL && vertical)?vertical->allSize : 0;}
- 	int GetScrollThumb (int orientation) const{return (orientation == wxHORIZONTAL && horizontal)? horizontal->visibleSize : (orientation == wxVERTICAL && vertical)?vertical->visibleSize : 0;}
+	int GetScrollRange (int orientation) const{return (orientation == wxHORIZONTAL && horizontal)? horizontal->allSize : (orientation == wxVERTICAL && vertical)?vertical->allSize : 0;}
+	int GetScrollThumb (int orientation) const{return (orientation == wxHORIZONTAL && horizontal)? horizontal->visibleSize : (orientation == wxVERTICAL && vertical)?vertical->visibleSize : 0;}
 	bool HasScrollbar (int orient) const {return (orient == wxHORIZONTAL)? (horizontal!=nullptr) : (vertical!=nullptr);};
 	bool IsScrollbarAlwaysShown (int orient) const{return false;};
- 	bool ScrollLines (int lines);
- 	bool ScrollPages (int pages);
+	bool ScrollLines (int lines);
+	bool ScrollPages (int pages);
 	void Refresh(bool eraseBackground=true, const wxRect *rect=0);
 	
 private:

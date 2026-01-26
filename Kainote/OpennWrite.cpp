@@ -1,4 +1,4 @@
-﻿//  Copyright (c) 2016 - 2020, Marcin Drob
+﻿//  Copyright (c) 2016 - 2026, Marcin Drob
 
 //  Kainote is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -201,26 +201,6 @@ bool OpenWrite::IsUTF8withoutBOM(char* buf, size_t size)
 
 bool OpenWrite::CheckCharSet(char* buf, size_t size, wxString* result)
 {
-	//DetectObj* obj;
-
-	//if ((obj = detect_obj_init()) == NULL) {
-	//	return false;
-	//}
-
-	//// from 1.0.5
-	//switch (detect_r(buf, size, &obj))
-	//{
-	//case CHARDET_OUT_OF_MEMORY:
-	//	detect_obj_free(&obj);
-	//	return false;
-	//case CHARDET_NULL_OBJECT:
-	//	return false;
-	//}
-	//if (obj->encoding)
-	//	*result = wxString(obj->encoding);
-
-	//detect_obj_free(&obj);
-
 	uchardet_t detector = uchardet_new();
 	if (!detector)
 		return false;

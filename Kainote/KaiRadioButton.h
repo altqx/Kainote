@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2020, Marcin Drob
+//  Copyright (c) 2016 - 2026, Marcin Drob
 
 //  Kainote is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ class KaiRadioButton : public KaiCheckBox
 {
 public:
 	KaiRadioButton(wxWindow *parent, int id, const wxString& label,
-             const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0);
+			 const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0);
 	virtual ~KaiRadioButton(){};
 	void SetValue(bool value);
 private:
@@ -41,7 +41,7 @@ class KaiRadioBox : public wxWindow
 {
 public:
 	KaiRadioBox(wxWindow *parent, int id, const wxString& label,
-             const wxPoint& pos, const wxSize& size, const wxArrayString &names, int spacing=1, long style = wxVERTICAL);
+			 const wxPoint& pos, const wxSize& size, const wxArrayString &names, int spacing=1, long style = wxVERTICAL);
 	virtual ~KaiRadioBox(){};
 	int GetSelection();
 	void SetSelection(int sel);

@@ -1,4 +1,4 @@
-//  Copyright (c) 2020, Marcin Drob
+//  Copyright (c) 2020 - 2026, Marcin Drob
 
 //  Kainote is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 #pragma once
 
 #include "RendererVideo.h"
-#include "include/ffms.h"
+//#include "include/ffms.h"
 #include <dxva2api.h>
 
 

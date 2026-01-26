@@ -1,4 +1,4 @@
-//  Copyright (c) 2021, Marcin Drob
+//  Copyright (c) 2021 - 2026, Marcin Drob
 
 //  Kainote is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #include <wx/arrstr.h>
 #include <wx/msw/winundef.h>
 #include <wx/zipstrm.h>
-#include "include/ffms.h"
+#include "../Thirdparty/ffms2/include/ffms.h"
 #include <vector>
 
 class SubsGrid;

@@ -1,5 +1,5 @@
 /***************************************************************
- * Copyright (c) 2012-2020, Marcin Drob
+ * Copyright (c) 2012 - 2026, Marcin Drob
  * Name:      kainoteMain.h
  * Purpose:   Subtitles editor and player
  * Author:    Bjakja (bjakja@op.pl)

@@ -1,5 +1,5 @@
 // Copyright (c) 2005, Rodrigo Braz Monteiro
-// Copyright (c) 2016 - 2020, Marcin Drob
+// Copyright (c) 2016 - 2026, Marcin Drob
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without

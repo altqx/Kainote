@@ -1,5 +1,5 @@
 ﻿/***************************************************************
-* Copyright (c) 2012-2020, Marcin Drob
+* Copyright (c) 2012 - 2026, Marcin Drob
 * Name:      kainoteMain.cpp
 * Purpose:   Subtitles editor and player
 * Author:    Bjakja (bjakja@op.pl)
@@ -1605,7 +1605,10 @@ void KainoteFrame::InsertTab(bool refresh/*=true*/)
 
 bool comp(wxString first, wxString second)
 {
-	return (first.CmpNoCase(second) < 0);
+	const std::collate<wchar_t>& f = std::use_facet<std::collate<wchar_t>>(KainoteFrame::GetLocale());
+	const wchar_t* s1 = first.wc_str();
+	const wchar_t* s2 = second.wc_str();
+	return (f.compare(&s1[0], &s1[0] + wcslen(s1), &s2[0], &s2[0] + wcslen(s2)) < 0);
 }
 
 //OpenFiles automatically cleares files table

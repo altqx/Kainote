@@ -1,4 +1,4 @@
-//  Copyright (c) 2016 - 2020, Marcin Drob
+//  Copyright (c) 2016 - 2026, Marcin Drob
 
 //  Kainote is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,15 +24,15 @@ class KainoteFrame;
 
 class DragnDrop : public wxFileDropTarget
 {
-    private:
-    KainoteFrame* Kai;
+	private:
+	KainoteFrame* Kai;
 	wxTimer timer;
 	wxArrayString files;
 	int x, y;
-    public:
-    DragnDrop(KainoteFrame* kfparent);
+	public:
+	DragnDrop(KainoteFrame* kfparent);
 	virtual ~DragnDrop(){ };
-    bool OnDropFiles(wxCoord posx, wxCoord posy, const wxArrayString& filenames);
+	bool OnDropFiles(wxCoord posx, wxCoord posy, const wxArrayString& filenames);
 	void OnDropTimer(wxTimerEvent &evt);
 };
 
