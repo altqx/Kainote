@@ -1,7 +1,10 @@
 # altinat <poiiiii4yy@gmail.com>, 2022.
-# labrie75 <labrie75@naver.com>, 2022.
+# labrie75 <labrie75@naver.com>, 2022, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2026.
+# LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
+# Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2026.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2022-06-20 01:43+0000\nLast-Translator: altinat <poiiiii4yy@gmail.com>\nLanguage-Team: Korean <https://hosted.weblate.org/projects/kainote/kainote/ko/>\nLanguage: ko_KR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 4.13.1-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-01-27 19:01+0000\nLast-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\nLanguage-Team: Korean <https://hosted.weblate.org/projects/kainote/kainote/ko/>\nLanguage: ko_KR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 5.16-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:72
 msgid "Pasek szukania"
@@ -1547,6 +1550,7 @@ msgid "To wideo nie jest plikiem MKV."
 msgstr "MKV 파일이 아닙니다."
 
 #: FontCollector.cpp:889
+#, fuzzy
 msgid "Nie można otworzyć pliku MKV"
 msgstr "MKV 파일을 열 수 없음."
 
@@ -2554,6 +2558,7 @@ msgid "Otwieraj wideo przez FFMS2"
 msgstr "FFMS2로 영상 열기"
 
 #: HotkeysNaming.cpp:249 KainoteFrame.cpp:255
+#, fuzzy
 msgid "Powiększ wideo"
 msgstr "영상 확대"
 
@@ -4873,6 +4878,7 @@ msgid "Za mało pamięci RAM"
 msgstr "RAM 부족"
 
 #: RendererDirectShow.cpp:59
+#, fuzzy
 msgid "Nie można stworzyć DXVA processor service"
 msgstr "DXVA 프로세서 서비스를 생성 할 수 없음"
 
@@ -4936,14 +4942,6 @@ msgstr "해상도 변경"
 #: ScriptInfo.cpp:62
 msgid "Z wideo"
 msgstr "영상에서"
-
-#: ScriptInfo.cpp:65
-msgid "Szerokość"
-msgstr "가로"
-
-#: ScriptInfo.cpp:67
-msgid "Wysokość"
-msgstr "세로"
 
 #: ScriptInfo.cpp:85
 msgid "Macierz YCbCr"
@@ -5289,6 +5287,7 @@ msgid "Przesuwa napisy o ustawiony czas / klatki"
 msgstr "시간 / 프레임"
 
 #: ShiftTimes.cpp:538
+#, fuzzy
 msgid ""
 "Przesuwa czasy tagów \\move, \\t, \\fad tak,\n"
 "by ich pozycja na wideo się nie zmieniła\n"
@@ -6203,6 +6202,7 @@ msgid "Zmień rozdzielczość"
 msgstr "자막해상도 변경"
 
 #: SubsResampleDialog.cpp:32
+#, fuzzy
 msgid "Rozdzielczość docelowa"
 msgstr "변경할 해상도"
 
@@ -7041,18 +7041,6 @@ msgstr "글자 시작 부분에 태그 삽입"
 msgid "Brak dodatkowych wartości"
 msgstr "추가 값 없음"
 
-#: VisualAllTagsEdition.cpp:88
-msgid "jedna dodatkowa wartość"
-msgstr "한 개 추가 값"
-
-#: VisualAllTagsEdition.cpp:89
-msgid "dwie dodatkowe wartości"
-msgstr "두 개의 추가 값"
-
-#: VisualAllTagsEdition.cpp:90
-msgid "trzy dodatkowe wartości"
-msgstr "세 개의 추가 값"
-
 #: VisualAllTagsEdition.cpp:95
 msgid "Opcje zmiany tagów"
 msgstr "태그 옵션 변경"
@@ -7859,6 +7847,7 @@ msgid ""
 msgstr "벡터 드로잉의 비율 유지 \n텍스트는 원래 위치를 변경하지 않습니다."
 
 #: VideoToolbar.cpp:96
+#, fuzzy
 msgid ""
 "Ustaw ruch 2 punktów i pozycji wideo.\n"
 "Po ustawieniu pierwszego punktu przed tekstem który się porusza.\n"
@@ -7904,3 +7893,73 @@ msgstr "\"%s\" 모양 에디션을 저장하시겠습니까?"
 msgid ""
 "Wideo musi być ustawione minimum jedną klatkę po czasie początkowym linijki"
 msgstr "영상 시작 시간 이후 최소 한 프레임 이상 설정해야 합니다"
+
+#: ScriptInfo.cpp:105
+#, fuzzy
+msgid "Układ"
+msgstr "제품정보"
+
+#: FontCatalogList.cpp:681 FontCatalogList.cpp:843
+#, fuzzy
+msgid "Dodaj czcionki z napisów"
+msgstr "Subtitles에서 글꼴 추가"
+
+#: FontCatalogList.cpp:863
+#, fuzzy
+msgid "Usuń całą zawartość katalogu"
+msgstr "카탈로그의 모든 내용 제거"
+
+#: FontCatalogList.cpp:864
+#, fuzzy
+msgid "Dodaj czcionki z wszystkich otwartych napisów"
+msgstr "모든 오픈 ASS 파일에서 글꼴 추가"
+
+#: SubsGrid.cpp:209
+#, fuzzy
+msgid "Zaznacz wszystkie linie widoczne na wideo"
+msgstr "동영상에 표시된 모든 줄 선택"
+
+#: VisualAllTagsEdition.cpp:88
+#, fuzzy
+msgid "Jedna dodatkowa wartość"
+msgstr "한 개 추가 값"
+
+#: VisualAllTagsEdition.cpp:90
+#, fuzzy
+msgid "Trzy dodatkowe wartości"
+msgstr "세 개의 추가 값"
+
+#: VisualAllTagsEdition.cpp:89
+#, fuzzy
+msgid "Dwie dodatkowe wartości"
+msgstr "추가 값 없음"
+
+#: FontEnumerator.cpp:231 FontEnumerator.cpp:395
+#, fuzzy
+msgid "Ładowanie czcionek zewnętrznych"
+msgstr "외부 글꼴 적재"
+
+#: FontEnumerator.cpp:330
+#, fuzzy
+msgid "Usuwanie czcionek z zewnętrznego folderu"
+msgstr "외부 폴더에서 글꼴 제거"
+
+#: FontEnumerator.cpp:337
+#, fuzzy
+msgid "Wczytywanie czcionek z zewnętrznego folderu"
+msgstr "외부 폴더에서 글꼴로드"
+
+#: FontEnumerator.cpp:358
+#, fuzzy
+msgid "Nie można wczytać zewnętrznego katalogu czcionek"
+msgstr "외부 글꼴 폴더를로드 할 수 없습니다"
+
+#: OptionsDialog.cpp:430
+#, fuzzy
+msgid "Folder z zewnętrznymi czcionkami"
+msgstr "외부 글꼴로 폴더"
+
+#: OptionsDialog.cpp:435
+#, fuzzy
+msgid "Wybierz zewnętrzny folder czcionek"
+msgstr "외부 글꼴 폴더를 선택하십시오"

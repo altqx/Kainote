@@ -3,8 +3,10 @@
 # This file is distributed under the GNU General Public License v3.0.
 # Marcin Drob <bjajka7@gmail.com>, 2022.
 # StarFang208 <polaritymanx@yahoo.it>, 2023.
+# Weblate <noreply-mt-weblate@weblate.org>, 2026.
+# LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2023-01-22 12:28+0000\nLast-Translator: Anonymous <noreply@weblate.org>\nLanguage-Team: Italian <https://hosted.weblate.org/projects/kainote/kainote/it/>\nLanguage: it\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 4.15.1\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-01-27 19:02+0000\nLast-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\nLanguage-Team: Italian <https://hosted.weblate.org/projects/kainote/kainote/it/>\nLanguage: it\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.16-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:103
 msgid "Połącz suwak głośności i rozciągnięcia"
@@ -6198,16 +6200,6 @@ msgstr "Risoluzione"
 msgid "Z wideo"
 msgstr "Dal video"
 
-#: ScriptInfo.cpp:65
-#, fuzzy
-msgid "Szerokość"
-msgstr "Larghezza"
-
-#: ScriptInfo.cpp:67
-#, fuzzy
-msgid "Wysokość"
-msgstr "Altezza"
-
 #: ScriptInfo.cpp:85
 #, fuzzy
 msgid "Macierz YCbCr"
@@ -8873,21 +8865,6 @@ msgstr "Numero dopo il punto:"
 msgid "Brak dodatkowych wartości"
 msgstr "Nessun valore aggiuntivo"
 
-#: VisualAllTagsEdition.cpp:88
-#, fuzzy
-msgid "jedna dodatkowa wartość"
-msgstr "Un valore aggiuntivo"
-
-#: VisualAllTagsEdition.cpp:89
-#, fuzzy
-msgid "dwie dodatkowe wartości"
-msgstr "due valori aggiuntivi"
-
-#: VisualAllTagsEdition.cpp:90
-#, fuzzy
-msgid "trzy dodatkowe wartości"
-msgstr "tre valori aggiuntivi"
-
 #: VisualAllTagsEdition.cpp:92
 #, fuzzy
 msgid "Używane tylko w przypadku gdy tag ma 2 wartości bądź więcej"
@@ -9418,3 +9395,73 @@ msgstr "Copiare lo stile dal magazzino all'ASS"
 #, fuzzy
 msgid "Oczyść napisy z nieużywanych stylów"
 msgstr "Eliminare gli stili ASS inutilizzati"
+
+#: ScriptInfo.cpp:105
+#, fuzzy
+msgid "Układ"
+msgstr "Layout"
+
+#: FontCatalogList.cpp:681 FontCatalogList.cpp:843
+#, fuzzy
+msgid "Dodaj czcionki z napisów"
+msgstr "Aggiungi font dai sottotitoli"
+
+#: FontCatalogList.cpp:863
+#, fuzzy
+msgid "Usuń całą zawartość katalogu"
+msgstr "Rimuovi tutti i contenuti del catalogo"
+
+#: FontCatalogList.cpp:864
+#, fuzzy
+msgid "Dodaj czcionki z wszystkich otwartych napisów"
+msgstr "Aggiungi font da tutti i file ASS aperti"
+
+#: SubsGrid.cpp:209
+#, fuzzy
+msgid "Zaznacz wszystkie linie widoczne na wideo"
+msgstr "Seleziona tutte le linee visibili sul video"
+
+#: VisualAllTagsEdition.cpp:88
+#, fuzzy
+msgid "Jedna dodatkowa wartość"
+msgstr "Un valore aggiuntivo"
+
+#: VisualAllTagsEdition.cpp:89
+#, fuzzy
+msgid "Dwie dodatkowe wartości"
+msgstr "Due valori aggiuntivi"
+
+#: VisualAllTagsEdition.cpp:90
+#, fuzzy
+msgid "Trzy dodatkowe wartości"
+msgstr "Tre valori aggiuntivi"
+
+#: FontEnumerator.cpp:231 FontEnumerator.cpp:395
+#, fuzzy
+msgid "Ładowanie czcionek zewnętrznych"
+msgstr "Caricamento di font esterni"
+
+#: FontEnumerator.cpp:330
+#, fuzzy
+msgid "Usuwanie czcionek z zewnętrznego folderu"
+msgstr "Rimozione dei font da cartella esterna"
+
+#: FontEnumerator.cpp:337
+#, fuzzy
+msgid "Wczytywanie czcionek z zewnętrznego folderu"
+msgstr "Caricamento di font da cartella esterna"
+
+#: FontEnumerator.cpp:358
+#, fuzzy
+msgid "Nie można wczytać zewnętrznego katalogu czcionek"
+msgstr "Non può caricare la cartella del carattere esterno"
+
+#: OptionsDialog.cpp:430
+#, fuzzy
+msgid "Folder z zewnętrznymi czcionkami"
+msgstr "Cartella con caratteri esterni"
+
+#: OptionsDialog.cpp:435
+#, fuzzy
+msgid "Wybierz zewnętrzny folder czcionek"
+msgstr "Scegliere la cartella font esterna"

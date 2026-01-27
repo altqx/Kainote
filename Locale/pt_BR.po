@@ -5,8 +5,10 @@
 # Douglas Lima <douglas.lim93@gmail.com>, 2023.
 # Carlos Luiz <ecarlos-luiz@hotmail.com>, 2024.
 # Carlos Luiz <ecarlosluiz9@gmail.com>, 2024.
+# Weblate <noreply-mt-weblate@weblate.org>, 2026.
+# LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2024-02-28 03:02+0000\nLast-Translator: Carlos Luiz <ecarlosluiz9@gmail.com>\nLanguage-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/kainote/kainote/pt_BR/>\nLanguage: pt_BR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.5-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-01-27 19:02+0000\nLast-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\nLanguage-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/kainote/kainote/pt_BR/>\nLanguage: pt_BR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.16-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:147
 msgid "Odtwórz przed znacznikiem"
@@ -1554,21 +1556,6 @@ msgstr "Número após ponto:"
 #, fuzzy
 msgid "Brak dodatkowych wartości"
 msgstr "Sem valores adicionais"
-
-#: VisualAllTagsEdition.cpp:88
-#, fuzzy
-msgid "jedna dodatkowa wartość"
-msgstr "Um valor adicional"
-
-#: VisualAllTagsEdition.cpp:89
-#, fuzzy
-msgid "dwie dodatkowe wartości"
-msgstr "dois valores adicionais"
-
-#: VisualAllTagsEdition.cpp:90
-#, fuzzy
-msgid "trzy dodatkowe wartości"
-msgstr "três valores adicionais"
 
 #: VisualAllTagsEdition.cpp:92
 #, fuzzy
@@ -7861,16 +7848,6 @@ msgstr "Resolução"
 msgid "Z wideo"
 msgstr "Do vídeo"
 
-#: ScriptInfo.cpp:65
-#, fuzzy
-msgid "Szerokość"
-msgstr "Largura"
-
-#: ScriptInfo.cpp:67
-#, fuzzy
-msgid "Wysokość"
-msgstr "Altura"
-
 #: ScriptInfo.cpp:85
 #, fuzzy
 msgid "Macierz YCbCr"
@@ -9428,3 +9405,73 @@ msgid ""
 "Złącza następną linijkę z zaznaczoną.\n"
 "Tłumaczenie idzie do góry."
 msgstr "Junte-se à linha selecionada com a linha seguinte.\nMove a tradução uma linha para cima."
+
+#: ScriptInfo.cpp:105
+#, fuzzy
+msgid "Układ"
+msgstr "Layout"
+
+#: FontCatalogList.cpp:681 FontCatalogList.cpp:843
+#, fuzzy
+msgid "Dodaj czcionki z napisów"
+msgstr "Adicionar fontes de legendas"
+
+#: FontCatalogList.cpp:863
+#, fuzzy
+msgid "Usuń całą zawartość katalogu"
+msgstr "Remover todos os conteúdos do catálogo"
+
+#: FontCatalogList.cpp:864
+#, fuzzy
+msgid "Dodaj czcionki z wszystkich otwartych napisów"
+msgstr "Adicionar fontes de todos os arquivos ASS abertos"
+
+#: SubsGrid.cpp:209
+#, fuzzy
+msgid "Zaznacz wszystkie linie widoczne na wideo"
+msgstr "Selecione todas as linhas visíveis no vídeo"
+
+#: VisualAllTagsEdition.cpp:88
+#, fuzzy
+msgid "Jedna dodatkowa wartość"
+msgstr "Um valor adicional"
+
+#: VisualAllTagsEdition.cpp:89
+#, fuzzy
+msgid "Dwie dodatkowe wartości"
+msgstr "Dois valores adicionais"
+
+#: VisualAllTagsEdition.cpp:90
+#, fuzzy
+msgid "Trzy dodatkowe wartości"
+msgstr "Três valores adicionais"
+
+#: FontEnumerator.cpp:231 FontEnumerator.cpp:395
+#, fuzzy
+msgid "Ładowanie czcionek zewnętrznych"
+msgstr "Carregando fontes externas"
+
+#: FontEnumerator.cpp:330
+#, fuzzy
+msgid "Usuwanie czcionek z zewnętrznego folderu"
+msgstr "Remover fontes da pasta externa"
+
+#: FontEnumerator.cpp:337
+#, fuzzy
+msgid "Wczytywanie czcionek z zewnętrznego folderu"
+msgstr "Carregando fontes da pasta externa"
+
+#: FontEnumerator.cpp:358
+#, fuzzy
+msgid "Nie można wczytać zewnętrznego katalogu czcionek"
+msgstr "Não é possível carregar pasta de fonte externa"
+
+#: OptionsDialog.cpp:430
+#, fuzzy
+msgid "Folder z zewnętrznymi czcionkami"
+msgstr "Pasta com fontes externas"
+
+#: OptionsDialog.cpp:435
+#, fuzzy
+msgid "Wybierz zewnętrzny folder czcionek"
+msgstr "Escolha a pasta de fonte externa"
