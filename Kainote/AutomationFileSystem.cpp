@@ -75,7 +75,7 @@ namespace Auto{
 	FINDEX_INFO_LEVELS find_info_level() {
 		OSVERSIONINFO osvi = {};
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-		GetVersionEx(&osvi);
+		GetVersionExW(&osvi);
 
 		if (osvi.dwMajorVersion > 6 || (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion >= 1))
 			return FindExInfoBasic;

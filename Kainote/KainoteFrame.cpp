@@ -71,6 +71,7 @@
 
 
 #include <windows.h>
+#include <ShObjIdl.h>
 
 
 #undef IsMaximized
@@ -82,6 +83,12 @@
 #define INSTRUCTIONS emptyString
 #endif
 
+wxDEFINE_EVENT(EVT_SETUP, wxThreadEvent);
+wxDEFINE_EVENT(EVT_SET_TITLE, wxThreadEvent);
+wxDEFINE_EVENT(EVT_SET_PROGRESS, wxThreadEvent);
+wxDEFINE_EVENT(EVT_END_PROGRESS, wxThreadEvent);
+
+KainoteFrame* KainoteFrame::This = nullptr;
 
 std::locale KainoteFrame::locale = std::locale();
 
@@ -90,6 +97,7 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 	pos, size, wxDEFAULT_FRAME_STYLE, L"Kainote_main_window")
 	, badResolution(false)
 {
+	This = this;
 	LogHandler::Create(this);
 	//when need log window on start uncomment this
 #ifdef _DEBUG
@@ -427,6 +435,22 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 
 	}, 6789);
 
+	Bind(EVT_SETUP, [&](wxThreadEvent& evt) {
+		wxString progtitle = evt.GetPayload<wxString>();
+		ProgressSetup(progtitle);
+		});
+	Bind(EVT_SET_PROGRESS, [&](wxThreadEvent& evt) {
+		int parprogres = evt.GetPayload<int>();
+		ProgressParcentProgress(parprogres);
+		});
+	Bind(EVT_SET_TITLE, [&](wxThreadEvent& evt) {
+		wxString progtitle = evt.GetPayload<wxString>();
+		ProgressTitle(progtitle);
+		});
+	Bind(EVT_END_PROGRESS, [&](wxThreadEvent& evt) {
+		ProgressEnd();
+		});
+
 	boost::locale::generator gen;
 	// Make system default locale global
 	std::locale loc = gen("");
@@ -486,11 +510,97 @@ void KainoteFrame::DestroyDialogs(){
 	if (MR){ MR->Destroy(); MR = nullptr; }
 	StyleStore::DestroyStore();
 }
+
+void KainoteFrame::ProgressSetup(const wxString& title)
+{
+	DWORD windowsVersion = GetVersion();
+	DWORD dwMajor = LOBYTE(LOWORD(windowsVersion));
+	DWORD dwMinor = HIBYTE(LOWORD(windowsVersion));
+	if (dwMajor > 6 || (dwMajor == 6 && dwMinor > 0)) {
+		CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, __uuidof(ITaskbarList3), (void**)&This->taskbar);
+		if (This->taskbar) {
+			This->taskbar->SetProgressState(This->GetHWND(), TBPF_NORMAL);
+			This->taskbar->SetProgressValue(This->GetHWND(), 0, 100);
+		}
+	}
+	This->progressFirstTime = timeGetTime();
+	if(!title.empty())
+		ProgressTitle(title);
+}
+
+void KainoteFrame::ProgressTitle(const wxString& title)
+{
+	This->progressTitle = title;
+	SubsTime progressTime;
+	progressTime.NewTime(timeGetTime() - This->progressFirstTime);
+
+	This->StatusBar->SetLabelText(0, This->progressTitle + L" 0%. " + 
+		wxString::Format(_("Upłynęło %s sekund"), progressTime.raw()));
+}
+
+void KainoteFrame::ProgressParcentProgress(int parcent, bool showOnStatusBar)
+{
+	int newTime = timeGetTime() - This->progressFirstTime;
+	if (newTime + 10 > This->progressLastTime) {
+		if (This->taskbar) {
+			This->taskbar->SetProgressValue(This->GetHWND(), (ULONGLONG)parcent, 100);
+		}
+		if (showOnStatusBar) {
+			SubsTime progressTime;
+			progressTime.NewTime(newTime);
+
+			This->StatusBar->SetLabelText(0, This->progressTitle + L" " + std::to_wstring(parcent)
+				+ "%. " + wxString::Format(_("Upłynęło %s sekund"), progressTime.raw()));
+		}
+	}
+
+	This->progressLastTime = newTime;
+}
+
+void KainoteFrame::ProgressEnd()
+{
+	if (This->taskbar) {
+		This->taskbar->SetProgressState(This->GetHWND(), TBPF_NOPROGRESS);
+		This->taskbar = nullptr;
+	}
+	This->StatusBar->SetLabelText(0, L"");
+}
+
+bool KainoteFrame::ProgressIsInitialized() {
+	return This->taskbar != nullptr;
+}
+
+void KainoteFrame::ProgressSetupEvent(const wxString& title)
+{
+	wxThreadEvent* evt = new wxThreadEvent(EVT_SETUP, This->GetId());
+	evt->SetPayload(title);
+	wxQueueEvent(This, evt);
+}
+
+void KainoteFrame::ProgressTitleEvent(const wxString& title)
+{
+	wxThreadEvent* evt = new wxThreadEvent(EVT_SET_TITLE, This->GetId());
+	evt->SetPayload(title);
+	wxQueueEvent(This, evt);
+}
+
+void KainoteFrame::ProgressParcentProgressEvent(int parcent)
+{
+	wxThreadEvent* evt = new wxThreadEvent(EVT_SET_PROGRESS, This->GetId());
+	evt->SetPayload(parcent);
+	wxQueueEvent(This, evt);
+}
+
+void KainoteFrame::ProgressEndEvent()
+{
+	wxThreadEvent* evt = new wxThreadEvent(EVT_END_PROGRESS, This->GetId());
+	wxQueueEvent(This, evt);
+}
+
 const std::locale & KainoteFrame::GetLocale()
 {
 	return locale;
 }
-;
 
 
 //elements of menu that can be disabled

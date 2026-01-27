@@ -15,7 +15,7 @@
 
 
 #include "ProgressDialog.h"
-#include "kainoteApp.h"
+//#include "kainoteApp.h"
 #include "SubsTime.h"
 #include "KaiStaticText.h"
 #include "KaiGauge.h"
@@ -36,7 +36,6 @@ ProgresDialog::ProgresDialog(wxWindow *_parent, const wxString &title, const wxP
 	SetForegroundColour(Options.GetColour(WINDOW_TEXT));
 	SetBackgroundColour(Options.GetColour(WINDOW_BACKGROUND));
 	SetFont(*Options.GetFont());
-	taskbar = nullptr;
 	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 	text = new KaiStaticText(this, -1, title);
 	gauge = new KaiGauge(this, -1, wxDefaultPosition, wxSize(300, 20), wxGA_HORIZONTAL);
@@ -47,7 +46,7 @@ ProgresDialog::ProgresDialog(wxWindow *_parent, const wxString &title, const wxP
 	sizer->Add(text1, 0, wxALIGN_CENTER | wxALL, 3);
 	sizer->Add(cancel, 0, wxALIGN_CENTER | wxALL, 3);
 
-	Connect(23333, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&ProgresDialog::OnCancel);
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &ProgresDialog::OnCancel, this, 23333);
 	Bind(EVT_SHOW_DIALOG, &ProgresDialog::OnShow, this);
 	Bind(EVT_SET_PROGRESS, &ProgresDialog::OnProgress, this);
 	Bind(EVT_SET_TITLE, &ProgresDialog::OnTitle, this);
@@ -61,37 +60,31 @@ ProgresDialog::ProgresDialog(wxWindow *_parent, const wxString &title, const wxP
 		firsttime = timeGetTime();
 	});
 	Bind(EVT_END_MODAL, [=](wxThreadEvent &evt){
-		if (IsModal()){ EndModal(wxID_OK); }
-		else{ Hide(); }
+		if (IsModal()){ 
+			EndModal(wxID_OK);
+		}
+		else{ 
+			Hide(); 
+		}
 	});
 	firsttime = timeGetTime();
 	canceled = false;
 	SetSizerAndFit(sizer);
 	CenterOnParent();
 	oldtime = 0;
-	DWORD windowsVersion = GetVersion();
-	DWORD dwMajor = LOBYTE(LOWORD(windowsVersion));
-	DWORD dwMinor = HIBYTE(LOWORD(windowsVersion));
-	if (dwMajor > 6 || (dwMajor == 6 && dwMinor > 0)){
-		CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, __uuidof(ITaskbarList3), (void**)&taskbar);
-		kainoteApp * Kaia = (kainoteApp *)wxTheApp;
-		if (taskbar){
-			taskbar->SetProgressState(Kaia->Frame->GetHWND(), TBPF_NORMAL);
-			taskbar->SetProgressValue(Kaia->Frame->GetHWND(), 0, 100);
-		}
+	//check if toolbar was initialized if was prevent to initialize it second time
+	//and release when other instance still doing task
+	wasTaskbarInitialized = KainoteFrame::ProgressIsInitialized();
+	if (!wasTaskbarInitialized) {
+		KainoteFrame::ProgressSetup();
 	}
-
-	//if(!main){
-	//wxSafeYield(this);
-	//}
 }
 
 
 ProgresDialog::~ProgresDialog()
 {
-	if (taskbar){
-		kainoteApp * Kaia = (kainoteApp *)wxTheApp;
-		taskbar->SetProgressState(Kaia->Frame->GetHWND(), TBPF_NOPROGRESS);
+	if (!wasTaskbarInitialized) {
+		KainoteFrame::ProgressEnd();
 	}
 }
 
@@ -99,12 +92,10 @@ void ProgresDialog::Progress(int num)
 {
 
 	int newtime = timeGetTime() - firsttime;
-	if (oldtime + 5 < newtime){
+	if (oldtime + 10 < newtime){
 		gauge->SetValue(num);
-
-		if (taskbar){
-			kainoteApp * Kaia = (kainoteApp *)wxTheApp;
-			taskbar->SetProgressValue(Kaia->Frame->GetHWND(), (ULONGLONG)num, 100);
+		if (!wasTaskbarInitialized) {
+			KainoteFrame::ProgressParcentProgress(num, false);
 		}
 		SubsTime progressTime;
 		progressTime.NewTime(newtime);
@@ -132,9 +123,8 @@ bool ProgresDialog::WasCancelled()
 void ProgresDialog::OnCancel(wxCommandEvent& event)
 {
 	canceled = true;
-	if (taskbar){
-		kainoteApp * Kaia = (kainoteApp *)wxTheApp;
-		taskbar->SetProgressState(Kaia->Frame->GetHWND(), TBPF_NOPROGRESS);
+	if (!wasTaskbarInitialized) {
+		KainoteFrame::ProgressEnd();
 	}
 	Hide();
 }
@@ -215,49 +205,21 @@ int ProgressSink::ShowSecondaryDialog(std::function<int()> dialfunction){
 	return dlg->result;
 }
 
-ProgressSinkSilent::ProgressSinkSilent(KainoteFrame* _parent, const wxString& _title)
+ProgressSinkSilent::ProgressSinkSilent(const wxString& _title)
 {
-	//bool main = wxThread::IsMain();
-	//if (!main) { KaiLog(L"Constructor used not from main thread"); }
-	parent = _parent;
-	title = _title;
-	DWORD windowsVersion = GetVersion();
-	DWORD dwMajor = LOBYTE(LOWORD(windowsVersion));
-	DWORD dwMinor = HIBYTE(LOWORD(windowsVersion));
-	if (dwMajor > 6 || (dwMajor == 6 && dwMinor > 0)) {
-		CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, __uuidof(ITaskbarList3), (void**)&taskbar);
-		if (taskbar) {
-			taskbar->SetProgressState(parent->GetHWND(), TBPF_NORMAL);
-			taskbar->SetProgressValue(parent->GetHWND(), 0, 100);
-		}
-	}
-	parent->Bind(EVT_SET_PROGRESS, [&](wxThreadEvent &evt) {
-		OnProgress(evt);
-		});
-	parent->Bind(EVT_SET_TITLE, [&](wxThreadEvent& evt) {
-		OnTitle(evt);
-		});
-	parent->Bind(EVT_END_MODAL, [&](wxThreadEvent& evt) {
-		OnEndModal(evt);
-		});
-	firstTime = timeGetTime();
+	KainoteFrame::ProgressSetupEvent(_title);
 }
 
 ProgressSinkSilent::~ProgressSinkSilent()
 {
-	//bool main = wxThread::IsMain();
-	//if (!main) { KaiLog(L"Destroyer used not from main thread"); }
-	//if (taskbar) {
-		//taskbar->SetProgressState(parent->GetHWND(), TBPF_NOPROGRESS);
-	//}
-	
+	if (hasProgressEnded) {
+		KainoteFrame::ProgressEndEvent();
+	}
 }
 
 void ProgressSinkSilent::Title(wxString _title)
 {
-	title = _title;
-	wxThreadEvent* evt = new wxThreadEvent(EVT_SET_TITLE, parent->GetId());
-	wxQueueEvent(parent, evt);
+	KainoteFrame::ProgressTitleEvent(_title);
 }
 
 bool ProgressSinkSilent::WasCancelled()
@@ -267,56 +229,12 @@ bool ProgressSinkSilent::WasCancelled()
 
 void ProgressSinkSilent::Progress(int num)
 {
-	int newtime = timeGetTime() - firstTime;
-	if (oldTime + 10 < newtime) {
-		wxThreadEvent* evt = new wxThreadEvent(EVT_SET_PROGRESS, parent->GetId());
-		evt->SetPayload(num);
-		wxQueueEvent(parent, evt);
-	}
-
-	oldTime = newtime;
+	KainoteFrame::ProgressParcentProgressEvent(num);
 }
 
 void ProgressSinkSilent::EndModal()
 {
-	wxThreadEvent* evt = new wxThreadEvent(EVT_END_MODAL, parent->GetId());
-	wxQueueEvent(parent, evt);
+	KainoteFrame::ProgressEndEvent();
+	hasProgressEnded = true;
 }
 
-void ProgressSinkSilent::OnProgress(wxThreadEvent& event)
-{
-	//bool main = wxThread::IsMain();
-	//if (!main) { KaiLog(L"OnProgress used not from main thread"); }
-	int num = event.GetPayload<int>();
-	if (taskbar) {
-		taskbar->SetProgressValue(parent->GetHWND(), (ULONGLONG)num, 100);
-	}
-	SubsTime progressTime;
-	progressTime.NewTime(timeGetTime() - firstTime);
-
-	parent->StatusBar->SetLabelText(0, title + L" " + std::to_wstring(num) + "%. " + wxString::Format(_("Upłynęło %s sekund"), progressTime.raw()));
-}
-
-void ProgressSinkSilent::OnTitle(wxThreadEvent& event)
-{
-	//bool main = wxThread::IsMain();
-	//if (!main) { KaiLog(L"OnTitle used not from main thread"); }
-	SubsTime progressTime;
-	progressTime.NewTime(timeGetTime() - firstTime);
-	parent->StatusBar->SetLabelText(0, title + L" 0%. " + wxString::Format(_("Upłynęło %s sekund"), progressTime.raw()));
-}
-
-void ProgressSinkSilent::OnEndModal(wxThreadEvent& event)
-{
-	//bool main = wxThread::IsMain();
-	//if (!main) { KaiLog(L"EndModal used not from main thread"); }
-	if (taskbar) {
-		taskbar->SetProgressState(parent->GetHWND(), TBPF_NOPROGRESS);
-		taskbar = nullptr;
-	}
-	parent->StatusBar->SetLabelText(0, L"");
-	delete this;
-	//Unbind(EVT_SET_PROGRESS, &ProgressSinkSilent::OnProgress, this);
-	//Unbind(EVT_SET_TITLE, &ProgressSinkSilent::OnTitle, this);
-	//Unbind(EVT_END_MODAL, &ProgressSinkSilent::OnEndModal, this);
-}

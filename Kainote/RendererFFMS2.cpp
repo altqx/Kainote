@@ -216,7 +216,6 @@ void RendererFFMS2::Render(bool redrawSubsOnFrame, bool wait)
 bool RendererFFMS2::OpenFile(const wxString &fname, int subsFlag, bool vobsub, bool changeAudio)
 {
 	wxMutexLocker lock(m_MutexOpen);
-	kainoteApp *Kaia = (kainoteApp*)wxTheApp;
 	Provider *tmpvff = nullptr;
 	if (m_State == Playing){ videoControl->Stop(); }
 
@@ -233,7 +232,7 @@ bool RendererFFMS2::OpenFile(const wxString &fname, int subsFlag, bool vobsub, b
 	if (tmpvff->m_width < 0 && tmpvff->GetSampleRate() > 0){
 		Provider *tmp = m_FFMS2;
 		m_FFMS2 = tmpvff;
-		Kaia->Frame->OpenAudioInTab(tab, 40000, fname);
+		KainoteFrame::Get()->OpenAudioInTab(tab, 40000, fname);
 		m_AudioPlayer = tab->edit->ABox->audioDisplay;
 		m_FFMS2 = tmp;
 		return false;
@@ -262,10 +261,10 @@ bool RendererFFMS2::OpenFile(const wxString &fname, int subsFlag, bool vobsub, b
 	m_Pitch = m_Width * 4;
 	if (changeAudio){
 		if (m_FFMS2->GetSampleRate() > 0){
-			Kaia->Frame->OpenAudioInTab(tab, 40000, fname);
+			KainoteFrame::Get()->OpenAudioInTab(tab, 40000, fname);
 			m_AudioPlayer = tab->edit->ABox->audioDisplay;
 		}
-		else if (m_AudioPlayer){ Kaia->Frame->OpenAudioInTab(tab, GLOBAL_CLOSE_AUDIO, emptyString); }
+		else if (m_AudioPlayer){ KainoteFrame::Get()->OpenAudioInTab(tab, GLOBAL_CLOSE_AUDIO, emptyString); }
 	}
 	if (!m_FFMS2 || m_FFMS2->m_width < 0){
 		return false;

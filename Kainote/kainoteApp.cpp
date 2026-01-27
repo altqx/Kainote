@@ -235,7 +235,7 @@ bool kainoteApp::OnInit()
 		Frame->Show();
 		SetTopWindow(Frame);
 		openTimer.SetOwner(this, 1199);
-		Connect(1199, wxEVT_TIMER, (wxObjectEventFunction)&kainoteApp::OnOpen);
+		Bind(wxEVT_TIMER, &kainoteApp::OnOpen, this, 1199);
 		if (opevent){
 			openTimer.Start(500, true);
 		}
@@ -268,7 +268,7 @@ bool kainoteApp::OnInit()
 
 		wxString path = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
 		if(!path.empty())
-			FontEnum.LoadExternalFontsToProcessFromThread(path, Frame);
+			FontEnum.LoadExternalFontsToProcessFromThread(path);
 
 	}
 	else{

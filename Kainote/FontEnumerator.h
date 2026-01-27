@@ -29,7 +29,6 @@
 //#include <wingdi.h>
 
 
-class KainoteFrame;
 class Sink;
 
 class FontEnumerator
@@ -47,7 +46,7 @@ public:
 	bool CheckGlyphsExists(HDC dc, const wxString &textForCheck, wxString &missing);
 	void ReloadExternalFontsToProcess(const wxString& newFontsPath, wxWindow *parent);
 	bool LoadExternalFontsToProcess(const wxString &fontsPath);
-	void LoadExternalFontsToProcessFromThread(const wxString& fontsPath, KainoteFrame *_parent);
+	void LoadExternalFontsToProcessFromThread(const wxString& fontsPath);
 	void RemoveExternalFontsFromProcess(const wxString& fontsPath);
 	bool HasExternalFontsLoaded() {
 		return hasExternalFontsLoaded;

@@ -34,7 +34,7 @@
 #include <wx/dc.h>
 #include "Config.h"
 #include "UtilsWindows.h"
-#include <locale>;
+#include <locale>
 
 #define ADD_QUOTES_HELPER(s) #s
 #define ADD_QUOTES(s) ADD_QUOTES_HELPER(s)

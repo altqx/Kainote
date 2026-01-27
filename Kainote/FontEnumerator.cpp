@@ -95,7 +95,7 @@ void FontEnumerator::EnumerateFonts(bool reenumerate)
 wxArrayString *FontEnumerator::GetFonts(const wxWindow *client, std::function<void()> func)
 {
 	wxMutexLocker lock(enumerateMutex);
-	if(Fonts->size()<1){
+	if(Fonts->size() < 1){
 		EnumerateFonts(false);
 	}
 	if(client){
@@ -228,8 +228,11 @@ DWORD FontEnumerator::CheckFontsProc(int *threadNum)
 		if(wait_result == WAIT_OBJECT_0 + 0){
 			Sleep(1000);
 			if (*threadNum == 2) {
+				ProgressSinkSilent* progr = new ProgressSinkSilent(_("Ładowanie czcionek zewnętrznych"));
+				FontEnum.progress = progr;
 				FontEnum.RemoveExternalFontsFromProcess(fontrealpath);
 				FontEnum.LoadExternalFontsToProcess(fontrealpath);
+				FontEnum.progress->EndModal();
 			}
 			FontEnum.EnumerateFonts(true);
 			FontEnum.RefreshClientsFonts();
@@ -253,7 +256,13 @@ DWORD FontEnumerator::LoadExternalFontsProc(void* path)
 	FontEnum.LoadExternalFontsToProcess(*fontpath);
 	delete fontpath;
 	FontEnum.progress->EndModal();
+	delete FontEnum.progress;
 	FontEnum.progress = nullptr;
+	if (FontEnum.Fonts->size()) {
+		FontEnum.EnumerateFonts(true);
+		FontEnum.RefreshClientsFonts();
+	}
+	//Notebook::RefreshVideo(true);
 
 	//Listening of external fonts folder
 	int* threadNum = new int(2);
@@ -381,9 +390,9 @@ bool FontEnumerator::LoadExternalFontsToProcess(const wxString& fontsPath)
 	return fontAdded > 0;
 }
 
-void FontEnumerator::LoadExternalFontsToProcessFromThread(const wxString& fontsPath, KainoteFrame* parent)
+void FontEnumerator::LoadExternalFontsToProcessFromThread(const wxString& fontsPath)
 {
-	ProgressSinkSilent* progr = new ProgressSinkSilent(parent, _("Ładowanie zewnętrznych czcionek"));
+	ProgressSinkSilent* progr = new ProgressSinkSilent(_("Ładowanie czcionek zewnętrznych"));
 	progress = progr;
 	//set worker thread
 	wxString* ppath = new wxString(fontsPath);

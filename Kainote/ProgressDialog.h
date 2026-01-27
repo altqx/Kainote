@@ -21,7 +21,7 @@
 #include <functional>
 
 
-struct ITaskbarList3;
+//struct ITaskbarList3;
 class KaiGauge;
 class KaiStaticText;
 
@@ -48,8 +48,8 @@ public:
 	void Title(wxString title);
 	bool WasCancelled();
 	MappedButton *cancel;
-	ITaskbarList3 *taskbar;
 	int result;
+	bool wasTaskbarInitialized = false;
 };
 
 class Sink 
@@ -98,28 +98,23 @@ class KainoteFrame;
 
 //sink for showing progres only on statusbar
 //and taskbar not blocking main window
+//Can be used totally from other thread
+//Every method is send as event to main thread
 class ProgressSinkSilent : public Sink, public wxEvtHandler
 {
 public:
-	//use constructor
+	//use constructor from other thread;
 	//use Title, WasCancelled, Progress, from other thread
 	//use EndModal from main thread
-	ProgressSinkSilent(KainoteFrame* _parent, const wxString& title);
+	ProgressSinkSilent(const wxString& title);
 	virtual ~ProgressSinkSilent();
 	
 	void Title(wxString _title) override;
 	bool WasCancelled() override;
 	void Progress(int num) override;
 	void EndModal() override;
-	void OnProgress(wxThreadEvent& event);
-	void OnTitle(wxThreadEvent& event);
-	void OnEndModal(wxThreadEvent& event);
 private:
-	ITaskbarList3* taskbar = nullptr;
-	KainoteFrame* parent;
-	int oldTime = 0;
-	int firstTime = 0;
-	wxString title;
+	bool hasProgressEnded = false;
 };
 
 

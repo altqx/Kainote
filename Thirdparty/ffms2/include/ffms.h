@@ -483,6 +483,27 @@ FFMS_API(int) FFMS_WriteIndexToBuffer(uint8_t **BufferPtr, size_t *Size, FFMS_In
 FFMS_API(void) FFMS_FreeIndexBuffer(uint8_t **BufferPtr);
 FFMS_API(int) FFMS_GetPixFmt(const char *Name);
 //Kainote functions
+typedef enum FFMS_ColorSpaces {
+    FFMS_CS_RGB = 0,
+    FFMS_CS_BT709 = 1,
+    FFMS_CS_UNSPECIFIED = 2,
+    FFMS_CS_FCC = 4,
+    FFMS_CS_BT470BG = 5,
+    FFMS_CS_SMPTE170M = 6,
+    FFMS_CS_SMPTE240M = 7,
+    FFMS_CS_YCOCG = 8,
+    FFMS_CS_BT2020_NCL = 9,
+    FFMS_CS_BT2020_CL = 10,
+    FFMS_CS_SMPTE2085 = 11, ///< SMPTE 2085, Y'D'zD'x
+    FFMS_CS_CHROMA_DERIVED_NCL = 12, ///< Chromaticity-derived non-constant luminance system
+    FFMS_CS_CHROMA_DERIVED_CL = 13, ///< Chromaticity-derived constant luminance system
+    FFMS_CS_ICTCP = 14, ///< ITU-R BT.2100-0, ICtCp
+    FFMS_CS_IPT_C2 = 15, ///< SMPTE ST 2128, IPT-C2
+    FFMS_CS_YCGCO_RE = 16, ///< YCgCo-R, even addition of bits
+    FFMS_CS_YCGCO_RO = 17, ///< YCgCo-R, odd addition of bits
+    FFMS_CS_NB                ///< Not part of ABI
+} FFMS_ColorSpaces;
+
 FFMS_API(const char*) FFMS_GetTrackName(FFMS_Indexer* Indexer, int Track);
 FFMS_API(const char*) FFMS_GetTrackLanguage(FFMS_Indexer* Indexer, int Track);
 typedef struct FFMS_Chapter {

@@ -38,20 +38,25 @@ unsigned int __stdcall DirectSoundPlayer2Thread::ThreadProc(void *parameter)
 
 void DirectSoundPlayer2Thread::Run()
 {
-
-	
-
-
 	// Create DirectSound object
 	IDirectSound8 * defaultPlayback = nullptr;
+	HRESULT hr = DS_OK;
 	
-	if (DirectSoundCreate8(&DSDEVID_DefaultPlayback, &defaultPlayback, 0))
-		KaiLogSilent("Cound not create DirectSound object");
-
-
-		// Ensure we can get interesting wave formats (unless we have PRIORITY we can only use a standard 8 bit format)
-		kainoteApp *app = (kainoteApp*) wxTheApp;
-		defaultPlayback->SetCooperativeLevel((HWND)app->Frame->GetHandle(), DSSCL_PRIORITY);
+	hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &defaultPlayback, 0);
+	if (!defaultPlayback) {
+		KaiLog("Cannot create DirectSound object"); 
+		SetEvent(error_happened);
+		return;
+	}
+	
+	// Ensure we can get interesting wave formats (unless we have PRIORITY we can only use a standard 8 bit format)
+	hr = defaultPlayback->SetCooperativeLevel(KainoteFrame::Get()->GetHWND(), DSSCL_PRIORITY);
+	if (hr != DS_OK) {
+		KaiLog("Cannot create set cooperativeLevel"); 
+		defaultPlayback->Release();
+		SetEvent(error_happened);
+		return;
+	}
 
 	// Describe the wave format
 	WAVEFORMATEX waveFormat;
@@ -78,16 +83,24 @@ void DirectSoundPlayer2Thread::Run()
 
 	// And then create the buffer
 	IDirectSoundBuffer *audioBuffer7 = 0;
-	if FAILED(defaultPlayback->CreateSoundBuffer(&desc, &audioBuffer7, 0))
-		KaiLogSilent("Could not create buffer");
-
+	if FAILED(defaultPlayback->CreateSoundBuffer(&desc, &audioBuffer7, 0)) {
+		KaiLog("Could not create buffer"); 
+		defaultPlayback->Release();
+		SetEvent(error_happened);
+		return;
+	}
 		// But it's an old version interface we get, query it for the DSound8 interface
-		IDirectSoundBuffer8 * audioBuffer = nullptr;
-		if (FAILED(audioBuffer7->QueryInterface(IID_IDirectSoundBuffer8, (LPVOID*)&audioBuffer)))
-			KaiLogSilent("Buffer doesn't support version 8 interface");
-		audioBuffer7->Release();
-	audioBuffer7 = 0;
+	IDirectSoundBuffer8 * audioBuffer = nullptr;
+	if (FAILED(audioBuffer7->QueryInterface(IID_IDirectSoundBuffer8, (LPVOID*)&audioBuffer)))
+		KaiLog("Buffer doesn't support version 8 interface");
 
+	audioBuffer7->Release();
+	audioBuffer7 = nullptr;
+
+	if (!audioBuffer) {
+		SetEvent(error_happened);
+		return;
+	}
 
 	// Now we're ready to roll!
 	SetEvent(thread_running);

@@ -2078,11 +2078,11 @@ bool EditBox::LoadAudio(const wxString &audioFileName, bool fromVideo)
 
 		if (ABox->audioDisplay->loaded){
 			windowResizer = new KaiWindowResizer(this,
-				[=](int newpos){//canSize
+				[&](int newpos){//canSize
 				wxSize size = GetClientSize();
 				int minEBSize = (TextEditOrig->IsShown()) ? 200 : 150;
 				return (newpos > 150 && size.y - newpos > minEBSize);
-			}, [=](int newpos, bool shiftDown){//doSize
+			}, [&](int newpos, bool shiftDown){//doSize
 				ABox->SetMinSize(wxSize(-1, newpos));
 				BoxSizer1->Layout();
 				TextEdit->Refresh(false);

@@ -41,7 +41,7 @@ class MenuBar;
 class KaiToolbar;
 class TabPanel;
 class MenuEvent;
-
+struct ITaskbarList3;
 
 
 
@@ -98,6 +98,18 @@ public:
 	void OnSize(wxSizeEvent& event);
 	bool Layout();
 	void DestroyDialogs();
+	//use from main thread
+	static void ProgressSetup(const wxString& title = L"");
+	static void ProgressTitle(const wxString &title);
+	static void ProgressParcentProgress(int parcent, bool showOnStatusBar = true);
+	static void ProgressEnd();
+	static bool ProgressIsInitialized();
+	//use from other thread
+	static void ProgressSetupEvent(const wxString& title);
+	static void ProgressTitleEvent(const wxString& title);
+	static void ProgressParcentProgressEvent(int parcent);
+	static void ProgressEndEvent();
+	static KainoteFrame * Get() { return This; };
 	const static std::locale &GetLocale();
 	FindReplaceDialog *FR = nullptr;
 	SelectLines *SL = nullptr;
@@ -138,6 +150,11 @@ private:
 	wxMutex m_BlockOpen;
 	wxTimer m_SendFocus;
 	static std::locale locale;
+	static KainoteFrame* This;
+	ITaskbarList3* taskbar = nullptr;
+	wxString progressTitle;
+	int progressFirstTime = 0;
+	int progressLastTime = 0;
 };
 
 

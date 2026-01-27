@@ -1287,7 +1287,6 @@ void AudioDisplay::SetFile(wxString file, bool fromvideo) {
 			// Get provider
 			VideoBox *vb = tab->video;
 			Provider *FFMS2 = vb->GetFFMS2();
-			kainoteApp *Kaia = (kainoteApp*)wxTheApp;
 			bool success = true;
 			if (FFMS2 && fromvideo){
 				provider = FFMS2;
@@ -1295,7 +1294,7 @@ void AudioDisplay::SetFile(wxString file, bool fromvideo) {
 				if (ownProvider){ FFMS2 = nullptr; }
 			}
 			else{
-				provider = Provider::Get(file, nullptr, Kaia->Frame, &success);
+				provider = Provider::Get(file, nullptr, KainoteFrame::Get(), &success);
 				if (!success || provider->GetSampleRate() < 0) {
 					delete provider; provider = 0;
 					loaded = false; return;

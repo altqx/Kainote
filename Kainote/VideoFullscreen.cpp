@@ -191,11 +191,10 @@ void Fullscreen::OnKeyPress(wxKeyEvent& evt)
 
 void Fullscreen::SetAccels()
 {
-	kainoteApp* Kaia = ((kainoteApp*)wxTheApp);
-	if (!Kaia)
+	KainoteFrame* Kai = KainoteFrame::Get();
+	if (!Kai)
 		return;
 
-	KainoteFrame* Kai = Kaia->Frame;
 	std::vector<wxAcceleratorEntry> entries;
 
 	const std::map<idAndType, hdata>& hkeys = Hkeys.GetHotkeysMap();

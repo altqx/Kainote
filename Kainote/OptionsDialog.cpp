@@ -1011,8 +1011,8 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 
 	CenterOnParent();
 
-	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&OptionsDialog::OnSaveClick);
-	Connect(ID_BCOMMIT, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&OptionsDialog::OnSaveClick);
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OptionsDialog::OnSaveClick, this, wxID_OK);
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OptionsDialog::OnSaveClick, this, ID_BCOMMIT);
 	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OptionsDialog::OnResetDefault, this, ID_RESET_DEFAULTS);
 }
 

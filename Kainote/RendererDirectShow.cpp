@@ -436,7 +436,6 @@ void RendererDirectShow::RecreateSurface()
 bool RendererDirectShow::OpenFile(const wxString &fname, int subsFlag, bool vobsub, bool changeAudio)
 {
 	wxMutexLocker lock(m_MutexOpen);
-	kainoteApp *Kaia = (kainoteApp*)wxTheApp;
 	if (m_State == Playing){ videoControl->Stop(); }
 
 	if (m_State != None){
@@ -466,7 +465,7 @@ bool RendererDirectShow::OpenFile(const wxString &fname, int subsFlag, bool vobs
 		(m_Format == YUY2) ? D3DFMT_YUY2 : D3DFMT_X8R8G8B8;
 
 	m_SwapFrame = (m_Format == RGB32 && !m_DirectShowPlayer->HasVobsub());
-	Kaia->Frame->OpenAudioInTab(tab, GLOBAL_CLOSE_AUDIO, emptyString);
+	KainoteFrame::Get()->OpenAudioInTab(tab, GLOBAL_CLOSE_AUDIO, emptyString);
 
 	diff = 0;
 	m_FrameDuration = (1000.0f / videoControl->m_FPS);
