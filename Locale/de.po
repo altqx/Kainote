@@ -2,10 +2,12 @@
 # Copyright (C) 2022
 # This file is distributed under the GNU General Public License v3.0.
 # Marcin Drob <bjajka7@gmail.com>, 2022.
-# Julian <hello@apollo.moe>, 2022.
-# Ettore Atalan <atalanttore@googlemail.com>, 2025.
+# Julian <hello@apollo.moe>, 2022, 2026.
+# Ettore Atalan <atalanttore@googlemail.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2026.
+# LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2025-03-18 20:02+0000\nLast-Translator: Ettore Atalan <atalanttore@googlemail.com>\nLanguage-Team: German <https://hosted.weblate.org/projects/kainote/kainote/de/>\nLanguage: de\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.11-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-01-27 19:02+0000\nLast-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\nLanguage-Team: German <https://hosted.weblate.org/projects/kainote/kainote/de/>\nLanguage: de\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.16-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:72
 msgid "Pasek szukania"
@@ -1623,7 +1625,7 @@ msgstr "Dieses Video ist keine MKV-Datei."
 
 #: FontCollector.cpp:889
 msgid "Nie można otworzyć pliku MKV"
-msgstr "MKV-Datei kann nicht geöffnet werden."
+msgstr "MKV-Datei kann nicht geöffnet werden"
 
 #: FontCollector.cpp:895
 msgid "Wczytany plik MKV nie ma żadnych czcionek."
@@ -2626,6 +2628,7 @@ msgid "Otwieraj wideo przez FFMS2"
 msgstr "Video mit FFMS2 öffnen"
 
 #: HotkeysNaming.cpp:249 KainoteFrame.cpp:255
+#, fuzzy
 msgid "Powiększ wideo"
 msgstr "Video vergrößern"
 
@@ -5133,16 +5136,6 @@ msgstr "Auflösung"
 #, fuzzy
 msgid "Z wideo"
 msgstr "Vom Video"
-
-#: ScriptInfo.cpp:65
-#, fuzzy
-msgid "Szerokość"
-msgstr "Breite"
-
-#: ScriptInfo.cpp:67
-#, fuzzy
-msgid "Wysokość"
-msgstr "Höhe"
 
 #: ScriptInfo.cpp:85
 #, fuzzy
@@ -7873,21 +7866,6 @@ msgstr "Nummer nach dem Punkt:"
 msgid "Brak dodatkowych wartości"
 msgstr "Keine zusätzlichen Werte"
 
-#: VisualAllTagsEdition.cpp:88
-#, fuzzy
-msgid "jedna dodatkowa wartość"
-msgstr "Ein zusätzlicher Wert"
-
-#: VisualAllTagsEdition.cpp:89
-#, fuzzy
-msgid "dwie dodatkowe wartości"
-msgstr "zwei zusätzliche Werte"
-
-#: VisualAllTagsEdition.cpp:90
-#, fuzzy
-msgid "trzy dodatkowe wartości"
-msgstr "drei zusätzliche Werte"
-
 #: VisualAllTagsEdition.cpp:92
 #, fuzzy
 msgid "Używane tylko w przypadku gdy tag ma 2 wartości bądź więcej"
@@ -8503,3 +8481,68 @@ msgstr "Nicht verwendete ASS-Stile löschen"
 #, fuzzy
 msgid "Filtrowanie"
 msgstr "Filter"
+
+#: ScriptInfo.cpp:105
+#, fuzzy
+msgid "Układ"
+msgstr "Layout"
+
+#: VisualAllTagsEdition.cpp:90
+msgid "Trzy dodatkowe wartości"
+msgstr "Drei zusätzliche Werte"
+
+#: FontCatalogList.cpp:681 FontCatalogList.cpp:843
+msgid "Dodaj czcionki z napisów"
+msgstr "Schriftarten aus Untertiteln hinzufügen"
+
+#: FontCatalogList.cpp:863
+msgid "Usuń całą zawartość katalogu"
+msgstr "Gesamten Kataloginhalt entfernen"
+
+#: VisualAllTagsEdition.cpp:89
+msgid "Dwie dodatkowe wartości"
+msgstr "Zwei zusätzliche Werte"
+
+#: VisualAllTagsEdition.cpp:88
+msgid "Jedna dodatkowa wartość"
+msgstr "Ein zusätzlicher Wert"
+
+#: FontCatalogList.cpp:864
+#, fuzzy
+msgid "Dodaj czcionki z wszystkich otwartych napisów"
+msgstr "Schriftarten aus allen geöffneten ASS-Dateien hinzufügen"
+
+#: SubsGrid.cpp:209
+#, fuzzy
+msgid "Zaznacz wszystkie linie widoczne na wideo"
+msgstr "Wählen Sie alle Zeilen, die auf Video sichtbar sind"
+
+#: FontEnumerator.cpp:231 FontEnumerator.cpp:395
+#, fuzzy
+msgid "Ładowanie czcionek zewnętrznych"
+msgstr "Laden von externen Schriftarten"
+
+#: FontEnumerator.cpp:330
+#, fuzzy
+msgid "Usuwanie czcionek z zewnętrznego folderu"
+msgstr "Entfernen von Schriftarten aus dem externen Ordner"
+
+#: FontEnumerator.cpp:337
+#, fuzzy
+msgid "Wczytywanie czcionek z zewnętrznego folderu"
+msgstr "Schriftarten aus dem externen Ordner laden"
+
+#: FontEnumerator.cpp:358
+#, fuzzy
+msgid "Nie można wczytać zewnętrznego katalogu czcionek"
+msgstr "Kann externe Schriftordner nicht laden"
+
+#: OptionsDialog.cpp:430
+#, fuzzy
+msgid "Folder z zewnętrznymi czcionkami"
+msgstr "Ordner mit externen Schriftarten"
+
+#: OptionsDialog.cpp:435
+#, fuzzy
+msgid "Wybierz zewnętrzny folder czcionek"
+msgstr "Wählen Sie den externen Schriftordner aus"
