@@ -13,10 +13,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with Kainote.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "AudioDeviceEnumeration.h"
 #if AUDIO_DEVICE_ENUMERATION
 
-#include "AudioDeviceEnumeration.h"
-#include "utils.h"
+#include "config.h"
 #include <Functiondiscoverykeys_devpkey.h>
 
 const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);

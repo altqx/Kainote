@@ -24,7 +24,7 @@
 #include "KaiWindowResizer.h"
 #include "SubsGrid.h"
 #include "Editbox.h"
-
+#include <wx/msw/winundef.h>
 #include <wx/sizer.h>
 
 class ShiftTimes;
@@ -48,6 +48,8 @@ public:
 	void SetAccels(bool onlyGridAudio = false);
 	void SetVideoWindowSizes(int w, int h, bool allTabs);
 	bool SetFont(const wxFont &font);
+	void SetLastSaveTime();
+	void ReloadSubsIfModified();
 
 	bool editor;
 	bool audioHotkeysLoaded = false;
@@ -66,6 +68,8 @@ private:
 	bool holding;
 	void OnFocus(wxChildFocusEvent& event);
 	void OnSize(wxSizeEvent & evt);
+	SYSTEMTIME lastSave;
+	bool blockRemovedFile = false;
 	DECLARE_EVENT_TABLE()
 };
 

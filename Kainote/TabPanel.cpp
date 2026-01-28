@@ -17,14 +17,15 @@
 #include "TabPanel.h"
 
 #include "Notebook.h"
-
+#include "KaiMessageBox.h"
 #include "KainoteFrame.h"
 #include "Config.h"
 #include "Hotkeys.h"
 #include "ShiftTimes.h"
 #include "AudioBox.h"
 #include <wx/sizer.h>
-
+#include "ModificationChecker.h"
+#include "OpennWrite.h"
 
 
 TabPanel::TabPanel(wxWindow *parent, KainoteFrame *kai, const wxPoint &pos, const wxSize &size)
@@ -33,6 +34,7 @@ TabPanel::TabPanel(wxWindow *parent, KainoteFrame *kai, const wxPoint &pos, cons
 	, editor(true)
 	, holding(false)
 {
+	GetSystemTime(&lastSave);
 	SetBackgroundColour(Options.GetColour(WINDOW_BACKGROUND));
 	VideoEditboxSizer = new wxBoxSizer(wxHORIZONTAL);
 	int vw, vh;
@@ -80,7 +82,6 @@ TabPanel::TabPanel(wxWindow *parent, KainoteFrame *kai, const wxPoint &pos, cons
 	SubsName = _("Bez tytułu");
 
 	SetAccels();
-	//Bind(wxEVT_NAVIGATION_KEY, &TabPanel::OnNavigation, this);
 }
 
 
@@ -279,6 +280,46 @@ bool TabPanel::SetFont(const wxFont &font)
 	shiftTimes->SetFont(font);
 
 	return wxWindow::SetFont(font);
+}
+
+void TabPanel::SetLastSaveTime()
+{
+	GetSystemTime(&lastSave);
+}
+
+void TabPanel::ReloadSubsIfModified()
+{
+	if (SubsPath.empty())
+		return;
+
+	int needReload = ModifChecker.NeedReload(SubsPath, &lastSave);
+	if (needReload == 1) {
+		int result = KaiMessageBox(_("Napisy zostały zmodyfikowane przez inny program, przeładować?"), _("Przeładowywanie"), wxYES | wxNO);
+		if (result == wxYES) {
+			wxString ext = SubsPath.AfterLast(L'.');
+			OpenWrite ow;
+			wxString s;
+			if (ow.FileOpen(SubsPath, &s)) {
+				grid->LoadSubtitles(s, ext);
+				if (video->GetState() != None) {
+					//OPEN_DUMMY
+					video->OpenSubs(1);
+					video->Render();
+				}
+			}
+		}
+		SetLastSaveTime();
+	}
+	else if(needReload == -1 && !blockRemovedFile){
+		//make file need to be saved cause was deleted
+		grid->file->RemoveLastIterSave();
+		grid->UpdateUR(true);
+		KainoteFrame::Get()->Label(grid->file->GetActualHistoryIter());
+		blockRemovedFile = true;
+	}
+	else if(needReload != -1 && blockRemovedFile)
+		blockRemovedFile = false;
+
 }
 
 void TabPanel::OnSize(wxSizeEvent & evt)

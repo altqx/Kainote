@@ -423,6 +423,7 @@ void SubsGridBase::SaveFile(const wxString &filename, bool normalSave, bool load
 	ow.CloseFile();
 	if (normalSave){
 		file->SetLastSave();
+		tab->SetLastSaveTime();
 		Refresh(false);
 	}
 }
@@ -1306,7 +1307,7 @@ void SubsGridBase::LoadSubtitles(const wxString &str, wxString &ext)
 	}
 	else{ edit->TlMode->Enable(false); }
 
-
+	tab->SetLastSaveTime();
 	file->InsertSelection(active);
 	lastRow = active;
 	markedLine = active;

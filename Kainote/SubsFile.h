@@ -195,6 +195,7 @@ public:
 	int GetActualHistoryIter();
 	int GetLastSaveIter(){ return lastSave; }
 	bool CanSave(){ return iter != lastSave; }
+	void RemoveLastIterSave() { lastSave = -1; }
 	const wxString &GetUndoName();
 	const wxString &GetRedoName();
 	bool edited;

@@ -2378,6 +2378,9 @@ void KainoteFrame::OnActivate(wxActivateEvent &evt)
 	}
 	if (evt.GetActive()){
 		m_SendFocus.Start(50, true);
+		TabPanel* tab = GetTab();
+		if(tab)
+			tab->ReloadSubsIfModified();
 	}
 }
 

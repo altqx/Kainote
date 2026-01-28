@@ -23,13 +23,13 @@
 #include "OpennWrite.h"
 #include "VideoBox.h"
 
-
 #include "Editbox.h"
 #include "SubsGrid.h"
 #include "Toolbar.h"
 #include "TabPanel.h"
 #include "shiftTimes.h"
 #include "KainoteFrame.h"
+#include "ModificationChecker.h"
 
 
 Notebook::Notebook(wxWindow *parent, int id)
@@ -249,6 +249,7 @@ void Notebook::DeletePage(int page)
 
 			Pages[newVisibleTab]->SetSize(Pages[page]->GetSize());
 			Pages[newVisibleTab]->SetPosition(Pages[page]->GetPosition());
+			Pages[newVisibleTab]->ReloadSubsIfModified();
 			Pages[newVisibleTab]->Show();
 		}
 	}
@@ -282,6 +283,7 @@ void Notebook::DeletePage(int page)
 	if (!split){
 		if (iter > rsize){ iter = rsize; }
 		else if (page < iter){ iter--; }
+		Pages[iter]->ReloadSubsIfModified();
 		Pages[iter]->Show();
 	}
 	//if (page < splititer){ splititer--; }
@@ -973,6 +975,7 @@ void Notebook::OnTabSel(int id)
 		CalcSizes();
 		if (w < 1){ GetClientSize(&w, &h); }
 		RefreshRect(wxRect(0, h - TabHeight, w, TabHeight), false);
+		Pages[iter]->ReloadSubsIfModified();
 		Pages[iter]->Show();
 		wxCommandEvent choiceSelectedEvent(wxEVT_COMMAND_CHOICE_SELECTED, GetId());
 		AddPendingEvent(choiceSelectedEvent);
@@ -981,6 +984,7 @@ void Notebook::OnTabSel(int id)
 		TabPanel *tmp = Page(firstVisibleTab);
 		tmp->Hide();
 		Pages[firstVisibleTab] = Pages[wtab];
+		Pages[firstVisibleTab]->ReloadSubsIfModified();
 		Pages[firstVisibleTab]->Show();
 		Pages[wtab] = tmp;
 		wxString tmp1 = tabNames[firstVisibleTab];
@@ -1035,6 +1039,7 @@ void Notebook::Split(size_t page)
 	splititer = page;
 	Pages[iter]->SetSize(1, 1, splitline - 3, h - TabHeight - 2);
 	Pages[splititer]->SetSize(splitline + 2, 1, w - (splitline + 3), h - TabHeight - 2);
+	Pages[splititer]->ReloadSubsIfModified();
 	Pages[splititer]->Show();
 	SetTimer(GetHWND(), 9876, 500, (TIMERPROC)OnResized);
 }
@@ -1466,7 +1471,7 @@ void Notebook::FindAutoSaveSubstitute(wxString* path, int tab)
 		FILETIME accessTime = data.ftLastWriteTime;
 		SYSTEMTIME accessSystemTime;
 		FileTimeToSystemTime(&accessTime, &accessSystemTime);
-		if (CheckDate(&highiestTime, &accessSystemTime) ){
+		if (ModifChecker.CheckDate(&highiestTime, &accessSystemTime) ){
 			highiestTime = accessSystemTime;
 			latestFile = wxString(data.cFileName);
 		}
@@ -1481,7 +1486,7 @@ void Notebook::FindAutoSaveSubstitute(wxString* path, int tab)
 		CloseHandle(ffile);
 		SYSTEMTIME accessSystemTime;
 		FileTimeToSystemTime(&ft, &accessSystemTime);
-		if (CheckDate(&accessSystemTime, &highiestTime)) {
+		if (ModifChecker.CheckDate(&accessSystemTime, &highiestTime)) {
 			*path = Options.pathfull + L"\\Subs\\" + latestFile;
 			sthis->loadedRecoverySubs = true;
 		}
@@ -1490,39 +1495,6 @@ void Notebook::FindAutoSaveSubstitute(wxString* path, int tab)
 		}
 	}
 	FindClose(h);
-}
-//first < second
-bool Notebook::CheckDate(SYSTEMTIME* firstDate, SYSTEMTIME* secondDate)
-{
-	if (firstDate->wYear < secondDate->wYear) 
-		return true;
-	else if(firstDate->wYear > secondDate->wYear)
-		return false;
-
-	if (firstDate->wMonth < secondDate->wMonth)
-		return true;
-	else if(firstDate->wMonth > secondDate->wMonth)
-		return false;
-
-	if (firstDate->wDay < secondDate->wDay)
-		return true;
-	else if (firstDate->wDay > secondDate->wDay)
-		return false;
-
-	if (firstDate->wHour < secondDate->wHour)
-		return true;
-	else if (firstDate->wHour > secondDate->wHour)
-		return false;
-
-	if (firstDate->wMinute < secondDate->wMinute)
-		return true;
-	else if (firstDate->wMinute < secondDate->wMinute)
-		return false;
-
-	if (firstDate->wSecond < secondDate->wSecond) 
-		return true;
-	
-	return false;
 }
 
 int Notebook::CheckLastSession()
@@ -1584,6 +1556,7 @@ void Notebook::ChangePage(int page, bool makeActiveVisible /*= false*/)
 	Freeze();
 	Pages[iter]->Hide();
 	tabSizes[iter] -= xWidth;
+	Pages[page]->ReloadSubsIfModified();
 	Pages[page]->Show();
 	tabSizes[page] += xWidth;
 	Thaw();

@@ -280,7 +280,7 @@ int config::FindStyle(const wxString &name, int *multiplication)
 		if (name == assstore[j]->Name){
 			isfound = j;
 			if (multiplication){
-				*multiplication++;
+				(*multiplication)++;
 			}
 			else{ break; }
 		}

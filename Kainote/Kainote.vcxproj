@@ -285,6 +285,7 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
   <ItemGroup>
     <ClCompile Include="Demux.cpp" />
     <ClCompile Include="DialogueTextEditor.cpp" />
+    <ClCompile Include="ModificationChecker.cpp" />
     <ClCompile Include="KainoteFrame.cpp" />
     <ClCompile Include="Notebook.cpp" />
     <ClCompile Include="TagFindReplace.cpp" />
@@ -489,6 +490,7 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
     <ClInclude Include="Demux.h" />
     <ClInclude Include="DialogueTextEditor.h" />
     <ClInclude Include="DummyVideo.h" />
+    <ClInclude Include="ModificationChecker.h" />
     <ClInclude Include="FontCatalogList.h" />
     <ClInclude Include="KaiGauge.h" />
     <ClInclude Include="KainoteFrame.h" />

@@ -478,6 +478,9 @@
     <ClCompile Include="VisualScale.cpp">
       <Filter>V</Filter>
     </ClCompile>
+    <ClCompile Include="ModificationChecker.cpp">
+      <Filter>M</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContextDX9.h">
@@ -872,6 +875,9 @@
     </ClInclude>
     <ClInclude Include="Visuals.h">
       <Filter>V</Filter>
+    </ClInclude>
+    <ClInclude Include="ModificationChecker.h">
+      <Filter>M</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
