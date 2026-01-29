@@ -34,6 +34,24 @@ enum {
 	OUTSIDE = 32
 };
 
+PosData::PosData(int _numpos, D3DXVECTOR2 _pos, wxPoint _TextPos, bool _putinBracket, double* _moveTable) {
+	numpos = _numpos;
+	pos = _pos;
+	lastpos = pos;
+	TextPos = _TextPos;
+	if (_moveTable) {
+		moveTable = new double[5];
+		//memcpy(moveTable, _moveTable, 5);
+		moveTable[0] = _moveTable[0];
+		moveTable[1] = _moveTable[1];
+		moveTable[2] = _moveTable[2];
+		moveTable[3] = _moveTable[3];
+		moveTable[4] = _moveTable[4];
+	}
+	putinBracket = _putinBracket;
+}
+
+
 Position::Position()
 	: Visuals()
 {
@@ -49,13 +67,19 @@ void Position::Draw(int time)
 	bool nothintoshow = true;
 	for (size_t i = 0; i < data.size(); i++){
 		auto pos = data[i];
-		Dialogue* dial = tab->grid->GetDialogue(pos.numpos);
+		Dialogue* dial = tab->grid->GetDialogue(pos->numpos);
 		if (!dial)
 			continue;
 		//don't forget to check if times are in range time >= start && time < end
 		if (time >= dial->Start.mstime && time < dial->End.mstime){
-			DrawCross(pos.pos);
-			DrawRect(pos.pos);
+			//calc move position only first time
+			if (pos->moveTable) {
+				CalcMovePosition(&pos->pos, pos->moveTable, time);
+				CalcMovePosition(&pos->lastpos, pos->moveTable, time);
+				SAFE_DELETE(pos->moveTable);
+			}
+			DrawCross(pos->pos);
+			DrawRect(pos->pos);
 			nothintoshow = false;
 		}
 	}
@@ -243,16 +267,18 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 
 	if (evt.RightDown() || evt.LeftDClick()){
 		for (size_t i = 0; i < data.size(); i++){
-			if (data[i].numpos == tab->grid->currentLine){
-				data[i].pos.x = x;
-				data[i].pos.y = y;
-				D3DXVECTOR2 diff(data[i].pos.x - data[i].lastpos.x, data[i].pos.y - data[i].lastpos.y);
-				data[i].lastpos = data[i].pos;
+			PosData* pos = data[i];
+			if (pos->numpos == tab->grid->currentLine){
+				pos->pos.x = x;
+				pos->pos.y = y;
+				D3DXVECTOR2 diff(pos->pos.x - pos->lastpos.x, pos->pos.y - pos->lastpos.y);
+				pos->lastpos = pos->pos;
 
 				for (size_t j = 0; j < data.size(); j++){
 					if (j == i){ continue; }
-					data[j].pos += diff;
-					data[j].lastpos = data[j].pos;
+					PosData* posj = data[j];
+					posj->pos += diff;
+					posj->lastpos = posj->pos;
 				}
 				ChangeMultiline(evt.RightDown());
 				break;
@@ -266,7 +292,7 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 		if (tab->video->HasCapture()){ tab->video->ReleaseMouse(); }
 		ChangeMultiline(true);
 		for (size_t i = 0; i < data.size(); i++){
-			data[i].lastpos = data[i].pos;
+			data[i]->lastpos = data[i]->pos;
 		}
 		if (!tab->video->HasArrow()){ tab->video->SetCursor(wxCURSOR_ARROW);}
 		movingHelperLine = false;
@@ -293,8 +319,8 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 	}
 	else if (holding){
 		for (size_t i = 0; i < data.size(); i++){
-			data[i].pos.x = data[i].lastpos.x - (firstmove.x - x);
-			data[i].pos.y = data[i].lastpos.y - (firstmove.y - y);
+			data[i]->pos.x = data[i]->lastpos.x - (firstmove.x - x);
+			data[i]->pos.y = data[i]->lastpos.y - (firstmove.y - y);
 			if (evt.ShiftDown()){
 				//if(axis == 0){
 				int diffx = abs(firstmove.x - x);
@@ -302,10 +328,10 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 				if (diffx != diffy){ if (diffx > diffy){ axis = 2; } else{ axis = 1; } }
 				//}
 				if (axis == 1){
-					data[i].pos.x = data[i].lastpos.x;
+					data[i]->pos.x = data[i]->lastpos.x;
 				}
 				else if (axis == 2){
-					data[i].pos.y = data[i].lastpos.y;
+					data[i]->pos.y = data[i]->lastpos.y;
 				}
 			}
 		}
@@ -322,8 +348,8 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 
 wxString Position::GetVisual(int datapos)
 {
-	return L"\\pos(" + getfloat(((data[datapos].pos.x / zoomScale.x) + zoomMove.x) * coeffW) + L"," +
-		getfloat(((data[datapos].pos.y / zoomScale.y) + zoomMove.y) * coeffH) + L")";
+	return L"\\pos(" + getfloat(GetCalculatedOutPosX(data[datapos]->pos.x)) + L"," +
+		getfloat(GetCalculatedOutPosX(data[datapos]->pos.y)) + L")";
 }
 
 
@@ -331,7 +357,7 @@ void Position::SetCurVisual()
 {
 	int oldalignment = curLineAlingment;
 	GetPosnScale(nullptr, &curLineAlingment, moveValues);
-	data.clear();
+	ClearData();
 	wxArrayInt sels;
 	tab->grid->file->GetSelections(sels);
 	bool putInBracket; 
@@ -341,9 +367,20 @@ void Position::SetCurVisual()
 		//fix to work with editbox changes
 		Dialogue *dial = (sels[i] == tab->grid->currentLine) ? tab->edit->line : tab->grid->GetDialogue(sels[i]);
 		if (dial->IsComment){ continue; }
-		D3DXVECTOR2 pos = GetPosition(dial, &putInBracket, &textPosition);
-		data.push_back(PosData(sels[i], D3DXVECTOR2(((pos.x / coeffW) - zoomMove.x)*zoomScale.x,
-			((pos.y / coeffH) - zoomMove.y)*zoomScale.y), textPosition, putInBracket));
+		double moveTable[5];
+		moveTable[4] = 0.;
+		D3DXVECTOR2 pos = GetPosition(dial, &putInBracket, &textPosition, moveTable);
+		pos.x = GetCalculatedInPosX(pos.x);
+		pos.y = GetCalculatedInPosY(pos.y);
+		//calculate position from move
+		bool hasMove = moveTable[4] != 0.;
+		if (hasMove) {
+			moveTable[0] = GetCalculatedInPosX(moveTable[0]);
+			moveTable[1] = GetCalculatedInPosY(moveTable[1]);
+		}
+	
+		data.push_back(new PosData(sels[i], pos, textPosition, 
+			putInBracket, hasMove? moveTable : nullptr));
 	}
 
 	if (hasPositionToRenctangle) {
@@ -377,7 +414,7 @@ void Position::ChangeMultiline(bool all, bool dummy)
 	int moveLength = 0;
 	const wxString &tlStyle = tab->grid->GetSInfo(L"TLMode Style");
 	for (size_t i = 0; i < data.size(); i++){
-		size_t k = data[i].numpos;
+		size_t k = data[i]->numpos;
 		Dialogue *Dial = (k == tab->grid->currentLine) ? tab->edit->line : tab->grid->GetDialogue(k);
 		if (!Dial)
 			continue;
@@ -387,10 +424,10 @@ void Position::ChangeMultiline(bool all, bool dummy)
 
 		wxString txt = Dial->GetTextNoCopy();
 
-		if (data[i].putinBracket){ visual = L"{" + visual + L"}"; }
-		txt.replace(data[i].TextPos.x, data[i].TextPos.y, visual);
+		if (data[i]->putinBracket){ visual = L"{" + visual + L"}"; }
+		txt.replace(data[i]->TextPos.x, data[i]->TextPos.y, visual);
 		if (all){
-			tab->grid->CopyDialogue(data[i].numpos)->SetText(txt);
+			tab->grid->CopyDialogue(data[i]->numpos)->SetText(txt);
 		}
 		else{
 			Dialogue Cpy = Dialogue(*Dial);
@@ -452,8 +489,8 @@ void Position::OnKeyPress(wxKeyEvent &evt)
 		directionY = (directionY / coeffH);
 
 		for (size_t i = 0; i < data.size(); i++){
-			data[i].pos.x = data[i].lastpos.x + directionX;
-			data[i].pos.y = data[i].lastpos.y + directionY;
+			data[i]->pos.x = data[i]->lastpos.x + directionX;
+			data[i]->pos.y = data[i]->lastpos.y + directionY;
 		}
 		ChangeMultiline(true);
 		return;
@@ -465,8 +502,8 @@ int Position::HitTest(const D3DXVECTOR2& pos, bool diff)
 {
 	int resultX = 0, resultY = 0, resultInside = 0, resultFinal = 0, oldpointx = 0, oldpointy = 0;
 	for (int i = 0; i < 2; i++) {
-		float pointx = ((PositionRectangle[i].x / coeffW) - zoomMove.x) * zoomScale.x,
-			pointy = ((PositionRectangle[i].y / coeffH) - zoomMove.y) * zoomScale.y;
+		float pointx = GetCalculatedInPosX(PositionRectangle[i].x),
+			pointy = GetCalculatedInPosY(PositionRectangle[i].y);
 		//bool hasResult = false;
 		if (abs(pos.x - pointx) < 5) {
 			if (diff) {
@@ -592,19 +629,21 @@ void Position::SetPosition()
 		}
 		
 		for (size_t i = 0; i < data.size(); i++) {
-			if (data[i].numpos == tab->grid->currentLine) {
+			PosData* pos = data[i];
+			if (pos->numpos == tab->grid->currentLine) {
 				if(hasPositionX)
-					data[i].pos.x = x + curLinePosition.x;
+					pos->pos.x = x + curLinePosition.x;
 				if (hasPositionY)
-					data[i].pos.y = y + curLinePosition.y;
-				data[i].pos = PositionToVideo(data[i].pos, hasPositionX, hasPositionY);
-				D3DXVECTOR2 diff(data[i].pos.x - data[i].lastpos.x, data[i].pos.y - data[i].lastpos.y);
-				data[i].lastpos = data[i].pos;
+					pos->pos.y = y + curLinePosition.y;
+				pos->pos = PositionToVideo(pos->pos, hasPositionX, hasPositionY);
+				D3DXVECTOR2 diff(pos->pos.x - pos->lastpos.x, pos->pos.y - pos->lastpos.y);
+				pos->lastpos = pos->pos;
 
 				for (size_t j = 0; j < data.size(); j++) {
 					if (j == i) { continue; }
-					data[j].pos += diff;
-					data[j].lastpos = data[j].pos;
+					PosData* posj = data[j];
+					posj->pos += diff;
+					posj->lastpos = posj->pos;
 				}
 				break;
 			}
@@ -616,8 +655,8 @@ void Position::SetPosition()
 
 D3DXVECTOR2 Position::PositionToVideo(D3DXVECTOR2 point, bool changeX, bool changeY)
 {
-	float pointx = changeX? ((point.x / coeffW) - zoomMove.x) * zoomScale.x : point.x,
-		pointy = changeY? ((point.y / coeffH) - zoomMove.y) * zoomScale.y : point.y;
+	float pointx = changeX? GetCalculatedInPosX(point.x) : point.x,
+		pointy = changeY? GetCalculatedInPosY(point.y) : point.y;
 	return D3DXVECTOR2(pointx, pointy);
 }
 
@@ -645,4 +684,28 @@ void Position::GetPositioningData()
 	else if (curLineAlingment <= 9) {
 		curLinePosition.y -= textSize.y;
 	}
+}
+
+void Position::CalcMovePosition(D3DXVECTOR2* point, double* moveTable, int time)
+{
+	float tmpt = time - moveTable[2];
+	float tmpt1 = moveTable[3] - moveTable[2];
+	float actime = tmpt / tmpt1;
+	float distx, disty;
+	if (time < moveTable[2]) { distx = point->x, disty = point->y; }
+	else if (time > moveTable[3]) { distx = moveTable[0], disty = moveTable[1]; }
+	else {
+		distx = point->x - ((point->x - moveTable[0]) * actime);
+		disty = point->y - ((point->y - moveTable[1]) * actime);
+	}
+	point->x = distx;
+	point->y = disty;
+}
+
+void Position::ClearData()
+{
+	for (size_t i = 0; i < data.size(); i++) {
+		delete data[i];
+	}
+	data.clear();
 }

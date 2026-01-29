@@ -126,7 +126,23 @@ public:
 	D3DXVECTOR2 GetDrawingSize(const wxString& drawing, D3DXVECTOR2 *position = nullptr);
 	D3DXVECTOR2 GetPosnScale(D3DXVECTOR2 *scale, byte *AN, double *tbl);
 	D3DXVECTOR2 CalcMovePos();
-	D3DXVECTOR2 GetPosition(Dialogue *Dial, bool *putinBracket, wxPoint *TextPos);
+	D3DXVECTOR2 GetPosition(Dialogue *Dial, bool *putinBracket, wxPoint *TextPos, double* moveTable = nullptr);
+	//((posx / coeffW) - zoomMove.x) * zoomScale.x
+	inline float GetCalculatedInPosX(float posx){
+		return ((posx / coeffW) - zoomMove.x) * zoomScale.x;
+	}
+	//((posy / coeffH) - zoomMove.y) * zoomScale.y
+	inline float GetCalculatedInPosY(float posy) {
+		return ((posy / coeffH) - zoomMove.y) * zoomScale.y;
+	}
+	//((posx / zoomScale.x) + zoomMove.x) * coeffW
+	inline float GetCalculatedOutPosX(float posx) {
+		return ((posx / zoomScale.x) + zoomMove.x) * coeffW;
+	}
+	//((posy / zoomScale.y) + zoomMove.y) * coeffH
+	inline float GetCalculatedOutPosY(float posy) {
+		return ((posy / zoomScale.y) + zoomMove.y) * coeffH;
+	}
 	D3DXVECTOR2 to;
 	D3DXVECTOR2 lastmove;
 	D3DXVECTOR2 firstmove;
@@ -171,18 +187,16 @@ private:
 
 class PosData{
 public:
-	PosData(int _numpos, D3DXVECTOR2 _pos, wxPoint _TextPos, bool _putinBracket){
-		numpos = _numpos; 
-		pos = _pos; 
-		lastpos = pos; 
-		TextPos = _TextPos; 
-		putinBracket = _putinBracket;
+	PosData(int _numpos, D3DXVECTOR2 _pos, wxPoint _TextPos, bool _putinBracket, double* _moveTable);
+	~PosData() {
+		SAFE_DELETE(moveTable);
 	}
 	D3DXVECTOR2 pos;
 	D3DXVECTOR2 lastpos;
 	wxPoint TextPos;
 	bool putinBracket;
 	int numpos;
+	double* moveTable = nullptr;
 };
 
 class Cross : public Visuals{
@@ -209,6 +223,7 @@ class Position : public Visuals
 {
 public:
 	Position();
+	virtual ~Position() { ClearData(); }
 	void OnMouseEvent(wxMouseEvent &event);
 	wxString GetVisual(int datapos);
 	void ChangeMultiline(bool all, bool dummy = false);
@@ -222,7 +237,9 @@ private:
 	void SetPosition();
 	D3DXVECTOR2 PositionToVideo(D3DXVECTOR2 point, bool changeX = true, bool changeY = true);
 	void GetPositioningData();
-	std::vector<PosData> data;
+	void CalcMovePosition(D3DXVECTOR2 *point, double *moveTable, int time);
+	void ClearData();
+	std::vector<PosData *> data;
 	wxPoint helperLinePos;
 	bool hasHelperLine = false;
 	bool movingHelperLine = false;

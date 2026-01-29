@@ -178,10 +178,8 @@ bool kainoteApp::OnInit()
 				posy -= mposy;
 				posx *= scalex;
 				posy *= scaley;
-				if (posx == -1)
-					posx = 0;
-				if (posy == -1)
-					posy = 0;
+				posx += rt.x;
+				posy += rt.y;
 				sizex *= scalex;
 				sizey *= scaley;
 				vsizex *= scalex;
@@ -206,6 +204,9 @@ bool kainoteApp::OnInit()
 		if (sizex < 1000 || sizey < 700) {
 			sizex = 1000; sizey = 700;
 		}
+
+		Options.SetCoords(WINDOW_POSITION, posx, posy);
+		Options.SetCoords(WINDOW_SIZE, sizex, sizey);
 		
 
 		Frame = nullptr;

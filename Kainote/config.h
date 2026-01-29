@@ -43,7 +43,6 @@ const wxString emptyString;
 	CG(AUDIO_AUTO_COMMIT,=1)\
 	CG(AUDIO_AUTO_FOCUS,)\
 	CG(AUDIO_AUTO_SCROLL,)\
-	CG(AUDIO_BOX_HEIGHT,)\
 	CG(AUDIO_CACHE_FILES_LIMIT,)\
 	CG(AUDIO_DELAY,)\
 	CG(AUDIO_DONT_PLAY_WHEN_LINE_CHANGES,)\
@@ -76,6 +75,7 @@ const wxString emptyString;
 	CG(AUDIO_VOLUME,)\
 	CG(AUDIO_WHEEL_DEFAULT_TO_ZOOM,)\
 	CG(ACCEPTED_AUDIO_STREAM,)\
+	CG(AUDIO_BOX_HEIGHT,)\
 	CG(ASS_PROPERTIES_TITLE,)\
 	CG(ASS_PROPERTIES_SCRIPT,)\
 	CG(ASS_PROPERTIES_TRANSLATION,)\
@@ -477,7 +477,7 @@ public:
 	//if failed returns symbol
 	const wxString & FindLanguage(const wxString & symbol);
 	//main value is 10 offset from 10
-	wxFont *GetFont(int offset = 0);
+	wxFont *GetFont(int offset = 0, const wxString& name = L"", bool bold = false);
 	void FontsClear();
 	int GetDPI();
 	void FontsRescale(int dpi);

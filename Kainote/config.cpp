@@ -914,11 +914,17 @@ void config::SaveColors(const wxString &path){
 	}
 }
 
-wxFont *config::GetFont(int offset)
+wxFont *config::GetFont(int offset, const wxString& name, bool bold)
 {
 	auto it = programFonts.find(10 + offset);
 	if (it != programFonts.end()){
-		return it->second;
+		bool nameMatch = true;
+		if(!name.empty())
+			nameMatch = name == it->second->GetFaceName();
+		bool fontBold = wxFONTWEIGHT_BOLD == it->second->GetFaceName();
+		bool boldMatch = bold == fontBold;
+		if(nameMatch && boldMatch)
+			return it->second;
 	}
 	
 	int fontSize = GetInt(PROGRAM_FONT_SIZE);
@@ -926,12 +932,14 @@ wxFont *config::GetFont(int offset)
 		fontSize = 10;
 	fontSize += offset;
 	wxString fontName = GetString(PROGRAM_FONT);
-	if (fontName.empty())
+	if (!name.empty())
+		fontName = name;
+	else if (fontName.empty())
 		fontName = L"Tahoma";
 
 	int newPixelSize = -(int)(((double)fontSize * ((double)fontDPI) / 72.0) + 0.5);
 
-	wxFont *newFont = new wxFont(wxSize(0, newPixelSize), wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, fontName);
+	wxFont *newFont = new wxFont(wxSize(0, newPixelSize), wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, bold? wxFONTWEIGHT_BOLD : wxFONTWEIGHT_NORMAL, false, fontName);
 	programFonts.insert(std::pair<int, wxFont*>(10 + offset, newFont));
 	return newFont;
 }

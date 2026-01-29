@@ -64,7 +64,8 @@ private:
 	int frameTopBorder = 26;
 	wxRect LastMonitorRect = { -1, -1, -1, -1 };
 	bool wasWindowsSize = false;
-	
+	wxPoint lastPosition = { 0, 0 };
+	wxSize lastSize = { 0,0 };
 	wxDECLARE_ABSTRACT_CLASS(KaiFrame);
 };
 

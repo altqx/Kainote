@@ -38,13 +38,6 @@ void Move::DrawVisual(int time)
 		if (lineStartTime == -1)
 			lineStartTime = time;
 
-		/*if (time == lineStartTime) {
-			wxString text = _("Edycja");
-			RECT rect = { lineToMoveStart.x + 10, lineToMoveStart.y - 100, 
-				lineToMoveStart.x + 150, lineToMoveStart.y + 100 };
-			DRAWOUTTEXT(font, text, rect, DT_VCENTER, 0xFFFFFFFF);
-		}*/
-
 		if (lineToMoveVisibility[1]) {
 			D3DXVECTOR2 v2[2];
 			v2[0] = lineToMoveStart;
@@ -55,12 +48,6 @@ void Move::DrawVisual(int time)
 			line->Draw(v2, 2, 0xFFBB0000);
 			line->End();
 			DrawCircle(lineToMoveEnd);
-			/*if (lastVideoTime == time) {
-				wxString text = _("Edycja");
-				RECT rect = { lineToMoveEnd.x + 10, lineToMoveEnd.y - 100, 
-					lineToMoveEnd.x + 150, lineToMoveEnd.y + 100 };
-				DRAWOUTTEXT(font, text, rect, DT_VCENTER, 0xFFFFFFFF);
-			}*/
 		}
 	}
 
@@ -317,12 +304,12 @@ void Move::OnMouseEvent(wxMouseEvent &evt)
 void Move::SetCurVisual()
 {
 	D3DXVECTOR2 linepos = GetPosnScale(nullptr, nullptr, moveValues);
-	from = to = D3DXVECTOR2(((linepos.x / coeffW) - zoomMove.x) * zoomScale.x,
-		((linepos.y / coeffH) - zoomMove.y) * zoomScale.y);
+	from = to = D3DXVECTOR2(GetCalculatedInPosX(linepos.x),
+		GetCalculatedInPosY(linepos.y));
 
 	if (moveValues[6] > 3){
-		to.x = ((moveValues[2] / coeffW) - zoomMove.x) * zoomScale.x;
-		to.y = ((moveValues[3] / coeffH) - zoomMove.y) * zoomScale.y;
+		to.x = GetCalculatedInPosX(moveValues[2]);
+		to.y = GetCalculatedInPosY(moveValues[3]);
 	}
 	moveDistance = to - from;
 	int startIter = 4, endIter = 5;
@@ -368,10 +355,10 @@ wxPoint Move::ChangeVisual(wxString* txt)
 {
 	FindTag(L"(move|pos).+", *txt, 1);
 	int startTime = ZEROIT(tab->edit->line->Start.mstime);
-	wxString visual = L"\\move(" + getfloat(((from.x / zoomScale.x) + zoomMove.x) * coeffW) + L"," +
-		getfloat(((from.y / zoomScale.y) + zoomMove.y) * coeffH) + L"," +
-		getfloat(((to.x / zoomScale.x) + zoomMove.x) * coeffW) + L"," +
-		getfloat(((to.y / zoomScale.y) + zoomMove.y) * coeffH) + L"," +
+	wxString visual = L"\\move(" + getfloat(GetCalculatedOutPosX(from.x)) + L"," +
+		getfloat(GetCalculatedOutPosY(from.y)) + L"," +
+		getfloat(GetCalculatedOutPosX(to.x)) + L"," +
+		getfloat(GetCalculatedOutPosY(to.y)) + L"," +
 		getfloat(moveValues[4] - startTime) + L"," +
 		getfloat(moveValues[5] - startTime) + L")";
 

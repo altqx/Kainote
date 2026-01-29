@@ -210,8 +210,7 @@ void MoveAll::SetCurVisual()
 	byte alignment = 1;
 	drawingPos = GetPosnScale(&scale, &alignment, moveValues);
 	if (moveValues[6] > 3){ drawingPos = CalcMovePos(); }
-	from = to = D3DXVECTOR2(((drawingPos.x / coeffW) - zoomMove.x) * zoomScale.x,
-		((drawingPos.y / coeffH) - zoomMove.y) * zoomScale.y);
+	from = to = D3DXVECTOR2(GetCalculatedInPosX(drawingPos.x), GetCalculatedInPosY(drawingPos.y));
 	
 	Clear();
 
@@ -220,9 +219,7 @@ void MoveAll::SetCurVisual()
 		
 		if (GetTwoValueDouble(&orx, &ory)) {
 			moveElems* orgelem = new moveElems(
-				D3DXVECTOR2(((orx / coeffW) - zoomMove.x) * zoomScale.x,
-				((ory / coeffH) - zoomMove.y) * zoomScale.y),
-				TAGORG);
+				D3DXVECTOR2(GetCalculatedInPosX(orx), GetCalculatedInPosY(ory)), TAGORG);
 			elems.push_back(orgelem);
 		}
 	}
@@ -233,8 +230,8 @@ void MoveAll::SetCurVisual()
 		drawingOriginalPos = D3DXVECTOR2(0, 0);
 		int repl = data.finding.Freq(L',');
 		if (re.Matches(data.finding)){
-			elem->elem = D3DXVECTOR2(((wxAtoi(re.GetMatch(data.finding, 1)) / coeffW) - zoomMove.x) * zoomScale.x,
-				((wxAtoi(re.GetMatch(data.finding, 2)) / coeffH) - zoomMove.y) * zoomScale.y);
+			elem->elem = D3DXVECTOR2(GetCalculatedInPosX(wxAtoi(re.GetMatch(data.finding, 1))), 
+				GetCalculatedInPosY(wxAtoi(re.GetMatch(data.finding, 2))));
 			std::vector<ClipPoint>* points = new std::vector<ClipPoint>();
 			if (repl > 0) {
 				wxString clipWithoutScale;
@@ -268,10 +265,9 @@ void MoveAll::SetCurVisual()
 				float pt2 = wxAtof(point2);
 				float pt3 = wxAtof(point3);
 				float pt4 = wxAtof(point4);
-				elem->elem = D3DXVECTOR2(((pt1 / coeffW) - zoomMove.x) * zoomScale.x,
-					((pt2 / coeffH) - zoomMove.y) * zoomScale.y);
-				pt3 = ((pt3 / coeffW) - zoomMove.x) * zoomScale.x;
-				pt4 = ((pt4 / coeffH) - zoomMove.y) * zoomScale.y;
+				elem->elem = D3DXVECTOR2(GetCalculatedInPosX(pt1), GetCalculatedInPosY(pt2));
+				pt3 = GetCalculatedInPosX(pt3);
+				pt4 = GetCalculatedInPosY(pt4);
 
 				std::vector<ClipPoint>* points = new std::vector<ClipPoint>();
 				points->push_back(ClipPoint(elem->elem.x, elem->elem.y, "m", true));
@@ -374,21 +370,18 @@ void MoveAll::SetCurVisual()
 	}
 	if (moveValues[6] == 2){
 		moveElems* elem = new moveElems();
-		elem->elem = D3DXVECTOR2(((moveValues[0] / coeffW) - zoomMove.x) * zoomScale.x,
-			((moveValues[1] / coeffH) - zoomMove.y) * zoomScale.y);
+		elem->elem = D3DXVECTOR2(GetCalculatedInPosX(moveValues[0]), GetCalculatedInPosY(moveValues[1]));
 		elem->type = TAGPOS;
 		elems.push_back(elem);
 	}
 	if (moveValues[6] >= 4){
 		moveElems* elem = new moveElems();
-		elem->elem = D3DXVECTOR2(((moveValues[0] / coeffW) - zoomMove.x) * zoomScale.x,
-			((moveValues[1] / coeffH) - zoomMove.y) * zoomScale.y);
+		elem->elem = D3DXVECTOR2(GetCalculatedInPosX(moveValues[0]), GetCalculatedInPosY(moveValues[1]));
 		elem->type = TAGMOVES;
 		elems.push_back(elem);
 		moveElems* elem1 = new moveElems();
 		elem1->type = TAGMOVEE;
-		elem1->elem = D3DXVECTOR2(((moveValues[2] / coeffW) - zoomMove.x) * zoomScale.x,
-			((moveValues[3] / coeffH) - zoomMove.y) * zoomScale.y);
+		elem1->elem = D3DXVECTOR2(GetCalculatedInPosX(moveValues[2]), GetCalculatedInPosY(moveValues[3]));
 		elems.push_back(elem1);
 	}
 

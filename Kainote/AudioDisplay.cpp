@@ -95,8 +95,8 @@ AudioDisplay::AudioDisplay(wxWindow *parent)
 	playingToEnd = false;
 	LastSize = wxSize(-1, -1);
 	int fontSize = Options.GetInt(PROGRAM_FONT_SIZE);
-	verdana11 = wxFont(fontSize + 1, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, L"Verdana");
-	tahoma13 = wxFont(fontSize + 3, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, L"Tahoma");
+	verdana11 = *Options.GetFont(1, L"Verdana");
+	tahoma13 = *Options.GetFont(3, L"Tahoma");
 	tahoma8 = *Options.GetFont(-1);
 	int fh;
 	GetTextExtent(L"#TWFfGH", nullptr, &fh, nullptr, nullptr, &tahoma8);
@@ -2539,9 +2539,8 @@ void AudioDisplay::DrawKeyframes() {
 
 bool AudioDisplay::SetFont(const wxFont &font)
 {
-	int fontSize = Options.GetInt(PROGRAM_FONT_SIZE);
-	verdana11 = wxFont(fontSize + 1, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, L"Verdana");
-	tahoma13 = wxFont(fontSize + 3, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, L"Tahoma");
+	verdana11 = *Options.GetFont(1, L"Verdana");
+	tahoma13 = *Options.GetFont(3, L"Tahoma");
 	tahoma8 = *Options.GetFont(-1);
 	int fh;
 	GetTextExtent(L"#TWFfGH", nullptr, &fh, nullptr, nullptr, &tahoma8);
@@ -2549,6 +2548,7 @@ bool AudioDisplay::SetFont(const wxFont &font)
 	LastSize.y = h;
 	GetClientSize(&w, &h);
 	h -= timelineHeight;
+	ClearDX();
 	//update image instant to avoid crash when sliding
 	//window from one monitor to another
 	UpdateImage(true, true);

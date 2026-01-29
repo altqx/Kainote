@@ -755,7 +755,7 @@ void Visuals::SetVisual(bool dummy)
 	}
 }
 
-D3DXVECTOR2 Visuals::GetPosition(Dialogue *Dial, bool *putinBracket, wxPoint *TextPos)
+D3DXVECTOR2 Visuals::GetPosition(Dialogue *Dial, bool *putinBracket, wxPoint *TextPos, double* moveTable)
 {
 	
 	//to fix bug with positioning multiple lines without \pos
@@ -773,6 +773,27 @@ D3DXVECTOR2 Visuals::GetPosition(Dialogue *Dial, bool *putinBracket, wxPoint *Te
 		wxString rest, rest1;
 		bool res1 = txtpos.BeforeFirst(L',', &rest).ToCDouble(&posx);
 		bool res2 = rest.BeforeFirst(L',', &rest1).ToCDouble(&posy);
+		if (moveTable) {
+			wxString posormove = pos.GetMatch(txt, 1);
+			if (posormove == L"move" && !rest1.empty()) {
+				wxStringTokenizer tkz(rest1, L",");
+				int ipos = 0;
+				while (tkz.HasMoreTokens() && ipos < 4) {
+					wxString token = tkz.GetNextToken();
+					if (!token.ToDouble(&moveTable[ipos])) { moveTable[ipos] = 0; }
+					ipos++;
+				}
+				if (ipos < 2) {
+					moveTable[2] = Dial->Start.mstime;
+					moveTable[3] = Dial->End.mstime;
+				}
+				else {
+					moveTable[2] += Dial->Start.mstime;
+					moveTable[3] += Dial->Start.mstime;
+				}
+				moveTable[4] = ipos;
+			}
+		}
 		size_t startMatch, lenMatch;
 		if (pos.GetMatch(&startMatch, &lenMatch, 0)){
 			TextPos->x = startMatch;

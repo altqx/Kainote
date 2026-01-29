@@ -2097,6 +2097,7 @@ bool EditBox::LoadAudio(const wxString &audioFileName, bool fromVideo)
 				int audioHeight = Options.GetInt(AUDIO_BOX_HEIGHT);
 				int minEBSize = (TextEditOrig->IsShown()) ? 200 : 150;
 				SetMinSize(wxSize(500, audioHeight + minEBSize));
+				ABox->SetMinSize(wxSize(-1, audioHeight));
 				GetParent()->Layout();
 			}else
 				Layout();
