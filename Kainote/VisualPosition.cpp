@@ -73,13 +73,12 @@ void Position::Draw(int time)
 		//don't forget to check if times are in range time >= start && time < end
 		if (time >= dial->Start.mstime && time < dial->End.mstime){
 			//calc move position only first time
+			D3DXVECTOR2 convPos = pos->pos;
 			if (pos->moveTable) {
-				CalcMovePosition(&pos->pos, pos->moveTable, time);
-				CalcMovePosition(&pos->lastpos, pos->moveTable, time);
-				SAFE_DELETE(pos->moveTable);
+				CalcMovePosition(&convPos, pos->moveTable, time);
 			}
-			DrawCross(pos->pos);
-			DrawRect(pos->pos);
+			DrawCross(convPos);
+			DrawRect(convPos);
 			nothintoshow = false;
 		}
 	}
@@ -273,12 +272,13 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 				pos->pos.y = y;
 				D3DXVECTOR2 diff(pos->pos.x - pos->lastpos.x, pos->pos.y - pos->lastpos.y);
 				pos->lastpos = pos->pos;
-
+				SAFE_DELETE(pos->moveTable);
 				for (size_t j = 0; j < data.size(); j++){
 					if (j == i){ continue; }
 					PosData* posj = data[j];
 					posj->pos += diff;
 					posj->lastpos = posj->pos;
+					SAFE_DELETE(posj->moveTable);
 				}
 				ChangeMultiline(evt.RightDown());
 				break;
@@ -292,6 +292,7 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 		if (tab->video->HasCapture()){ tab->video->ReleaseMouse(); }
 		ChangeMultiline(true);
 		for (size_t i = 0; i < data.size(); i++){
+			SetMovePosition(data[i]);
 			data[i]->lastpos = data[i]->pos;
 		}
 		if (!tab->video->HasArrow()){ tab->video->SetCursor(wxCURSOR_ARROW);}
@@ -319,6 +320,7 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 	}
 	else if (holding){
 		for (size_t i = 0; i < data.size(); i++){
+			SetMovePosition(data[i]);
 			data[i]->pos.x = data[i]->lastpos.x - (firstmove.x - x);
 			data[i]->pos.y = data[i]->lastpos.y - (firstmove.y - y);
 			if (evt.ShiftDown()){
@@ -349,7 +351,7 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 wxString Position::GetVisual(int datapos)
 {
 	return L"\\pos(" + getfloat(GetCalculatedOutPosX(data[datapos]->pos.x)) + L"," +
-		getfloat(GetCalculatedOutPosX(data[datapos]->pos.y)) + L")";
+		getfloat(GetCalculatedOutPosY(data[datapos]->pos.y)) + L")";
 }
 
 
@@ -485,10 +487,11 @@ void Position::OnKeyPress(wxKeyEvent &evt)
 			directionX /= 10;
 			directionY /= 10;
 		}*/
-		directionX = (directionX / coeffW);
-		directionY = (directionY / coeffH);
+		directionX = (directionX / coeffW) * zoomScale.x;
+		directionY = (directionY / coeffH) * zoomScale.y;
 
 		for (size_t i = 0; i < data.size(); i++){
+			SetMovePosition(data[i]);
 			data[i]->pos.x = data[i]->lastpos.x + directionX;
 			data[i]->pos.y = data[i]->lastpos.y + directionY;
 		}
@@ -638,17 +641,19 @@ void Position::SetPosition()
 				pos->pos = PositionToVideo(pos->pos, hasPositionX, hasPositionY);
 				D3DXVECTOR2 diff(pos->pos.x - pos->lastpos.x, pos->pos.y - pos->lastpos.y);
 				pos->lastpos = pos->pos;
-
+				SAFE_DELETE(pos->moveTable);
 				for (size_t j = 0; j < data.size(); j++) {
 					if (j == i) { continue; }
 					PosData* posj = data[j];
 					posj->pos += diff;
 					posj->lastpos = posj->pos;
+					SAFE_DELETE(posj->moveTable);
 				}
 				break;
 			}
 
 		}
+		
 	}
 	
 }
@@ -700,6 +705,17 @@ void Position::CalcMovePosition(D3DXVECTOR2* point, double* moveTable, int time)
 	}
 	point->x = distx;
 	point->y = disty;
+}
+
+void Position::SetMovePosition(PosData* data)
+{
+	if (!data->moveTable)
+		return;
+
+	int time = tab->video->Tell();
+	CalcMovePosition(&data->pos, data->moveTable, time);
+	CalcMovePosition(&data->lastpos, data->moveTable, time);
+	SAFE_DELETE(data->moveTable);
 }
 
 void Position::ClearData()

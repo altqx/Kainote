@@ -36,33 +36,22 @@
 #include "loghandler.h"
 
 #include "UtilsWindows.h"
+#include <versionhelpers.h>
+
+typedef enum MONITOR_DPI_TYPE {
+	MDT_EFFECTIVE_DPI = 0,
+	MDT_ANGULAR_DPI = 1,
+	MDT_RAW_DPI = 2,
+	MDT_DEFAULT = MDT_EFFECTIVE_DPI
+} MONITOR_DPI_TYPE;
+
+STDAPI GetDpiForMonitor(
+	_In_ HMONITOR hmonitor,
+	_In_ MONITOR_DPI_TYPE dpiType,
+	_Out_ UINT* dpiX,
+	_Out_ UINT* dpiY);
 
 
-
-
-
-
-//void EnableCrashingOnCrashes()
-//{
-//	typedef BOOL(WINAPI *tGetPolicy)(LPDWORD lpFlags);
-//	typedef BOOL(WINAPI *tSetPolicy)(DWORD dwFlags);
-//	const DWORD EXCEPTION_SWALLOWING = 0x1;
-//
-//	HMODULE kernel32 = LoadLibraryA("kernel32.dll");
-//	tGetPolicy pGetPolicy = (tGetPolicy)GetProcAddress(kernel32,
-//		"GetProcessUserModeExceptionPolicy");
-//	tSetPolicy pSetPolicy = (tSetPolicy)GetProcAddress(kernel32,
-//		"SetProcessUserModeExceptionPolicy");
-//	if (pGetPolicy && pSetPolicy)
-//	{
-//		DWORD dwFlags;
-//		if (pGetPolicy(&dwFlags))
-//		{
-//			// Turn off the filter
-//			pSetPolicy(dwFlags & ~EXCEPTION_SWALLOWING);
-//		}
-//	}
-//}
 
 void kainoteApp::OnOutofMemory()
 {
@@ -165,8 +154,17 @@ bool kainoteApp::OnInit()
 		Options.GetCoords(WINDOW_POSITION, &posx, &posy);
 		Options.GetCoords(WINDOW_SIZE, &sizex, &sizey);
 		Options.GetCoords(MONITOR_SIZE, &msizex, &msizey);
+		//wxRect(posx, posy, sizex, sizey)
+		wxPoint posOnScreen = wxGetMousePosition();
 		if (msizex && msizey) {
-			wxRect rt = GetMonitorRect1(-1, nullptr, wxRect(posx, posy, sizex, sizey));
+			if (IsWindows8OrGreater()) {
+				HMONITOR hmon = MonitorFromPoint(POINT(posOnScreen.x, posOnScreen.y), MONITOR_DEFAULTTONEAREST);
+				unsigned int dpiy = 96, dpix = 96;
+				HRESULT hr = GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &dpix, &dpiy);
+				if (hr == S_OK)
+					Options.FontsRescale(dpiy);
+			}
+			wxRect rt = GetMonitorRect1(0/*-1*/, nullptr, wxRect(posOnScreen.x, posOnScreen.y, 1, 1));
 			if (rt.width != msizex || rt.height != msizey) {
 				int mposx, mposy, vsizex, vsizey;
 				Options.GetCoords(MONITOR_POSITION, &mposx, &mposy);
@@ -211,11 +209,12 @@ bool kainoteApp::OnInit()
 
 		Frame = nullptr;
 		Frame = new KainoteFrame(wxPoint(posx, posy), wxSize(sizex, sizey));
+
 		//handler for out of memory in new
 		std::set_new_handler(OnOutofMemory);
 		//start listen to font folders notifications
 		FontEnum.StartListening();
-		//EnableCrashingOnCrashes();
+		
 		if (isGood == 2)
 			Frame->CenterOnScreen();
 

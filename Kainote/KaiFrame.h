@@ -62,7 +62,7 @@ private:
 	bool isActive;
 	int frameBorder = 7;
 	int frameTopBorder = 26;
-	wxRect LastMonitorRect = { -1, -1, -1, -1 };
+	//wxRect LastMonitorRect = { -1, -1, -1, -1 };
 	bool wasWindowsSize = false;
 	wxPoint lastPosition = { 0, 0 };
 	wxSize lastSize = { 0,0 };

@@ -59,6 +59,7 @@
 #include "Audiobox.h"
 #include "TabPanel.h"
 #include "VideoFullscreen.h"
+#include "FontEnumerator.h"
 #include <wx/accel.h>
 #include <wx/dir.h>
 #include <wx/sysopt.h>
@@ -72,6 +73,7 @@
 
 #include <windows.h>
 #include <ShObjIdl.h>
+#include <versionhelpers.h>
 
 
 #undef IsMaximized
@@ -463,6 +465,7 @@ KainoteFrame::~KainoteFrame()
 	//this will prevent crashes when function want to use relesed elements
 	//when closing it can be skipped
 	Options.SetClosing();
+	FontEnum.StopEnumeration();
 	Unbind(wxEVT_ACTIVATE, &KainoteFrame::OnActivate, this);
 	bool im = IsMaximized();
 	if (!im && !IsIconized()){
@@ -513,10 +516,10 @@ void KainoteFrame::DestroyDialogs(){
 
 void KainoteFrame::ProgressSetup(const wxString& title)
 {
-	DWORD windowsVersion = GetVersion();
-	DWORD dwMajor = LOBYTE(LOWORD(windowsVersion));
-	DWORD dwMinor = HIBYTE(LOWORD(windowsVersion));
-	if (dwMajor > 6 || (dwMajor == 6 && dwMinor > 0)) {
+	//DWORD windowsVersion = GetVersion();
+	//DWORD dwMajor = LOBYTE(LOWORD(windowsVersion));
+	//DWORD dwMinor = HIBYTE(LOWORD(windowsVersion));
+	if (IsWindows8OrGreater()) {
 		CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, __uuidof(ITaskbarList3), (void**)&This->taskbar);
 		if (This->taskbar) {
 			This->taskbar->SetProgressState(This->GetHWND(), TBPF_NORMAL);

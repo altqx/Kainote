@@ -255,6 +255,9 @@ DWORD FontEnumerator::LoadExternalFontsProc(void* path)
 	wxString* fontpath = (wxString*)path;
 	FontEnum.LoadExternalFontsToProcess(*fontpath);
 	delete fontpath;
+	if (!FontEnum.progress)
+		return 0;
+
 	FontEnum.progress->EndModal();
 	delete FontEnum.progress;
 	FontEnum.progress = nullptr;
@@ -381,9 +384,11 @@ bool FontEnumerator::LoadExternalFontsToProcess(const wxString& fontsPath)
 			fontAdded += addResult;
 			if (progress)
 				progress->Progress(( i / (float)size) * 100);
+			else
+				break;
 		}
 	}
-	KaiLogSilent(L"Loaded external font files " + std::to_wstring(fontAdded) + L".\n");
+	//KaiLogSilent(L"Loaded external font files " + std::to_wstring(fontAdded) + L".\n");
 	if (fontAdded)
 		hasExternalFontsLoaded = true;
 
@@ -410,14 +415,23 @@ void FontEnumerator::RemoveExternalFontsFromProcess(const wxString& fontsPath)
 			fontRemoved++;
 			if (progress)
 				progress->Progress((i / (float)size) * 100);
+			else
+				break;
 		}
 	}
 		
-	KaiLogSilent(L"Removed " + std::to_wstring(fontRemoved) + L" fonts.\n");
+	//KaiLogSilent(L"Removed " + std::to_wstring(fontRemoved) + L" fonts.\n");
 	hasExternalFontsLoaded = false;
 	ExternalFonts.clear();
 
 	return;
+}
+
+void FontEnumerator::StopEnumeration()
+{
+	Sink* tmpProgress = progress;
+	progress = nullptr;
+	delete tmpProgress;
 }
 
 FontEnumerator FontEnum;

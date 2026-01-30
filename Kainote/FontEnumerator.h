@@ -51,6 +51,7 @@ public:
 	bool HasExternalFontsLoaded() {
 		return hasExternalFontsLoaded;
 	}
+	void StopEnumeration();
 	wxArrayString* Fonts;
 	wxArrayString* FontsTmp;
 	wxArrayString* FilteredFonts;

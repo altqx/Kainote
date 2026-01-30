@@ -15,8 +15,6 @@
 
 #pragma once
 
-//#ifdef guano
-
 #include "ListControls.h"
 #include "MappedButton.h"
 #include "KaiTreebook.h"

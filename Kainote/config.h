@@ -410,7 +410,7 @@ private:
 	bool ConfigNeedToConvert(const wxString & fullVersion);
 	int lastCheckedId = -1;
 	unsigned long lastCheckedTime = 0;
-	int fontDPI = 1.f;
+	int fontDPI = 96;
 	Styles* conversionStyle = nullptr;
 
 public:

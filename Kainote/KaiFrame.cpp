@@ -23,14 +23,13 @@
 #include "VideoBox.h"
 #include "Notebook.h"
 #include "AudioBox.h"
+#include "LogHandler.h"
 #include <wx/dc.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
 #include "wx/msw/private.h"
 #include "UtilsWindows.h"
 #include <Dwmapi.h>
-//#include "GraphicsD2D.h"
-//#include <shellscalingapi.h>
 
 #define GET_X_LPARAM(lp)                        ((int)(short)LOWORD(lp))
 #define GET_Y_LPARAM(lp)                        ((int)(short)HIWORD(lp))
@@ -68,7 +67,7 @@ KaiFrame::KaiFrame(wxWindow *parent, wxWindowID id, const wxString& title/*=""*/
 	WXDWORD flags = MSWGetCreateWindowFlags(&exflags);
 	const wxChar *registredName = wxApp::GetRegisteredClassName(name.c_str(), COLOR_BTNFACE);
 
-	ret = MSWCreate(registredName, title.c_str(), wxDefaultPosition, wxDefaultSize, flags, exflags);
+	ret = MSWCreate(registredName, title.c_str(), pos, sizeReal, flags, exflags);
 
 	if (ret)
 	{
@@ -78,7 +77,7 @@ KaiFrame::KaiFrame(wxWindow *parent, wxWindowID id, const wxString& title/*=""*/
 
 	MARGINS borderless = { 0, 0, 0, 0 };
 	DwmExtendFrameIntoClientArea(m_hWnd, &borderless);
-	wxWindow::SetFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+	wxWindow::SetFont(*Options.GetFont());
 
 	SetForegroundColour(Options.GetColour(WINDOW_TEXT));
 	SetBackgroundColour(Options.GetColour(WINDOW_BACKGROUND));
@@ -89,9 +88,9 @@ KaiFrame::KaiFrame(wxWindow *parent, wxWindowID id, const wxString& title/*=""*/
 	Bind(wxEVT_LEFT_DCLICK, &KaiFrame::OnMouseEvent, this);
 	Bind(wxEVT_LEAVE_WINDOW, &KaiFrame::OnMouseEvent, this);
 	Bind(wxEVT_MOTION, &KaiFrame::OnMouseEvent, this);
-	LastMonitorRect = GetMonitorRect1(-1, nullptr, wxRect(0, 0, 0, 0));
-	SetSize(pos.x, pos.y, size.x, size.y);
-	Options.SetCoords(WINDOW_SIZE, size.x, size.y);
+	//LastMonitorRect = GetMonitorRect1(-1, nullptr, wxRect(0, 0, 0, 0));
+	//SetSize(pos.x, pos.y, size.x, size.y);
+	//Options.SetCoords(WINDOW_SIZE, size.x, size.y);
 }
 
 KaiFrame::~KaiFrame()
@@ -293,16 +292,17 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 	}
 
 	if (uMsg == WM_MOVE) {
-		int x = LOWORD(lParam);
-		int y = HIWORD(lParam);
+		int x = (int)(short)LOWORD(lParam);
+		int y = (int)(short)HIWORD(lParam);
+		
 		Options.GetCoords(WINDOW_POSITION, &lastPosition.x, &lastPosition.y);
 		Options.SetCoords(WINDOW_POSITION, x, y);
 	}
 
 	if (uMsg == WM_SIZE)
 	{
-		int w = LOWORD(lParam);
-		int h = HIWORD(lParam);
+		int w = (int)(short)LOWORD(lParam);
+		int h = (int)(short)HIWORD(lParam);
 		
 		wxRect rc(0, 0, w, frameTopBorder);
 		Refresh(false, &rc);
@@ -414,14 +414,14 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		wxRect oldRt;
 		Options.GetCoords(MONITOR_SIZE, &oldRt.width, &oldRt.height);
 		Options.GetCoords(MONITOR_POSITION, &oldRt.x, &oldRt.y);
-		wxRect oldWindow = { lastPosition.x, lastPosition.y, lastSize.x, lastSize.y };
-		//Options.GetCoords(WINDOW_POSITION, &oldWindow.x, &oldWindow.y);
-		//Options.GetCoords(WINDOW_SIZE, &oldWindow.width, &oldWindow.height);
-
+	
 		RECT *newRect = (RECT*)lParam;
 		wxRect newRt = wxRect(newRect->left, newRect->top, abs(newRect->right - newRect->left), abs(newRect->bottom - newRect->top));
 		std::vector<RECT> monitors;
 		wxRect rt = GetMonitorRect1(0, &monitors, newRt);
+
+		KaiLogSilent(wxString::Format(L"old monitor x: %d, y: %d, w: %d, h: %d", oldRt.x, oldRt.y, oldRt.width, oldRt.height));
+		KaiLogSilent(wxString::Format(L"new monitor x: %d, y: %d, w: %d, h: %d", rt.x, rt.y, rt.width, rt.height));
 		
 		float fontScale = ((float)ydpi / (float)currentDPI);
 		
@@ -431,17 +431,19 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		//this case should not happen
 		//but who knows
 		if (!tabs) {
-			LastMonitorRect = rt;
+			//LastMonitorRect = rt;
 			Options.SetCoords(MONITOR_SIZE, rt.width, rt.height);
 			Options.SetCoords(MONITOR_POSITION, rt.x, rt.y);
 			return 1;
 		}
 
+		KainoteFrame::Get()->Freeze();
+		//setFont to all windows
 		wxFont *font = Options.GetFont();
 		SetFont(*font);
 
-		KainoteFrame::Get()->Freeze();
 
+		//check if window is set on half of monitor
 		bool noResize = false;
 		if ((newRt.x == rt.width / 2 || newRt.x == 0) && newRt.y == 0 && newRt.width == rt.width / 2) {
 			noResize = true;
@@ -450,17 +452,8 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		int sizex = lastSize.x, sizey = lastSize.y;
 		//Windows bug when shift win arrow is used window is shrink to display rect
 		//then event of DPI_CHANGED is sent
-		float scalex = (float)rt.width / (float)LastMonitorRect.width;
-		float scaley = (float)rt.height / (float)LastMonitorRect.height;
-		bool needLayout = false;
-		/*if (fontScale <= 1.f) {
-			Options.GetCoords(WINDOW_SIZE, &sizex, &sizey);
-			needLayout = true;
-		}
-		else {
-			GetSize(&sizex, &sizey);
-			
-		}*/
+		float scalex = (float)rt.width / (float)oldRt.width;
+		float scaley = (float)rt.height / (float)oldRt.height;
 		
 		int vsizex, vsizey;
 		Options.GetCoords(VIDEO_WINDOW_SIZE, &vsizex, &vsizey);
@@ -469,10 +462,10 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		vsizex *= scalex;
 		vsizey *= scaley;
 		audioHeight *= scaley;
-		//if (!wasWindowsSize) {
-		sizex *= scalex;
-		sizey *= scaley;
-		//}
+		if (!wasWindowsSize) {
+			sizex *= scalex;
+			sizey *= scaley;
+		}
 		newRt.width = sizex;
 		newRt.height = sizey;
 		
@@ -482,9 +475,8 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		Options.SetCoords(MONITOR_SIZE, rt.width, rt.height);
 		Options.SetCoords(MONITOR_POSITION, rt.x, rt.y);
 		Options.SetInt(AUDIO_BOX_HEIGHT, audioHeight);
-		//Options.SetCoords(WINDOW_POSITION, newRt.x, newRt.y);
 		
-
+		//rescale all tabs
 		for (size_t i = 0; i < tabs->Size(); i++) {
 			TabPanel *tab = tabs->Page(i);
 			wxSize minVideoSize = tab->video->GetMinSize();
@@ -507,60 +499,51 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 				tab->MainSizer->Layout();
 			}
 		}
-		wxRect primaryMonitorRect;
-		wxRect secondMonitorRect; 
-		if (monitors.size() && monitors[0].left == rt.x && monitors[0].top == rt.y) { 
-			primaryMonitorRect = rt;
-			secondMonitorRect = LastMonitorRect;
-		} 
-		else {
-			primaryMonitorRect = LastMonitorRect;
-			secondMonitorRect = rt;
-		}
+		bool moveToScreenOnLeft = oldRt.x == rt.x + rt.width && (lastPosition.x + (lastSize.x / 2)) <= oldRt.x;
+		bool moveToScreenOnRight = oldRt.x + oldRt.width == rt.x && (lastPosition.x + (lastSize.x / 2)) >= rt.x;
+		bool moveToScreenOnTop = oldRt.y == rt.y + rt.height && (lastPosition.y + (lastSize.y / 2)) <= oldRt.y;
+		bool moveToScreenOnBottom = oldRt.y + oldRt.height == rt.y && (lastPosition.y + (lastSize.y / 2)) >= rt.y;
+		
 		if (noResize || IsMaximized()) {
 			Options.SetCoords(WINDOW_SIZE, sizex, sizey);
 			Layout();
 			wasWindowsSize = noResize;
 		}
-		else if (rt.Contains(newRt)) {
+		else if (moveToScreenOnLeft || moveToScreenOnRight || moveToScreenOnTop || moveToScreenOnBottom) {
+			int posx, posy;
+			GetPosition(&posx, &posy);
+			wxPoint posOnScreen = wxGetMousePosition();
+			wxRect mouseMonitor = GetMonitorRect1(0/*-1*/, nullptr, wxRect(posOnScreen.x, posOnScreen.y, 1, 1));
+			if(mouseMonitor.x > rt.x || mouseMonitor.x > oldRt.x)
+				posx -= (sizex - lastSize.x);
+
+			Options.SetCoords(WINDOW_SIZE, sizex, sizey);
+			if (wasWindowsSize) {
+				SetPosition(wxPoint(posx, posy));
+				Layout();
+				wasWindowsSize = false;
+			}
+			else
+				SetSize(posx, posy, sizex, sizey);
+
+			Options.SetCoords(WINDOW_POSITION, posx, posy);
+		}
+		else{
 			Options.SetCoords(WINDOW_SIZE, sizex, sizey);
 			if (wasWindowsSize) {
 				SetPosition(wxPoint(rt.x, rt.y));
 				Layout();
 				wasWindowsSize = false;
-			}else{
+			}
+			else {
 				SetSize(newRt.x, newRt.y, newRt.width, newRt.height);
 			}
 			Options.SetCoords(WINDOW_POSITION, newRt.x, newRt.y);
 		}
-		else/* if (secondMonitorRect.x < primaryMonitorRect.x && primaryMonitorRect.y + primaryMonitorRect.height > secondMonitorRect.y) */{
-				int posx, posy, osizex, osizey;
-				GetPosition(&posx, &posy);
-				Options.GetCoords(WINDOW_SIZE, &osizex, &osizey);
-				posx -= (sizex - osizex);
-				if (posx == -1)
-					posx = 0;
-				if (posy == -1)
-					posy = 0;
-				Options.SetCoords(WINDOW_SIZE, sizex, sizey);
-				if (wasWindowsSize) {
-					SetPosition(wxPoint(posx, posy));
-					Layout();
-					wasWindowsSize = false;
-				}else
-					SetSize(posx, posy, sizex, sizey);
-		}
-		/*else {
-			Options.SetCoords(WINDOW_SIZE, sizex, sizey);
-			if (wasWindowsSize) {
-				Layout();
-				wasWindowsSize = false;
-			}else
-				SetSize(sizex, sizey);
-		}*/
+		
 		KainoteFrame::Get()->Thaw();
 		Options.SetCoords(VIDEO_WINDOW_SIZE, vsizex, vsizey);
-		LastMonitorRect = rt;
+		//LastMonitorRect = rt;
 	}
 	
 	return wxTopLevelWindow::MSWWindowProc(uMsg, wParam, lParam);
