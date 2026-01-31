@@ -68,16 +68,18 @@ int LastModificationChecker::NeedReload(const wxString& fullpath, SYSTEMTIME* la
 {
 	FILETIME ft;
 	HANDLE ffile = CreateFileW(fullpath.wc_str(), GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	//Consider to return true when file don't exist
-	//and check existance before loading
+	//return -1 to show that file not exist;
 	if (ffile == INVALID_HANDLE_VALUE)
 		return -1;
 
-	GetFileTime(ffile, 0, 0, &ft);
+	if (!GetFileTime(ffile, 0, 0, &ft)) {
+		KaiLogSilent(L"Could not get subtitles modification time");
+	}
 	CloseHandle(ffile);
 	SYSTEMTIME st;
-	if (FileTimeToSystemTime(&ft, &st)) {
-		KaiLogSilent(L"Could no convert time from file time to system time");
+	if (!FileTimeToSystemTime(&ft, &st)) {
+		KaiLogSilent(L"Could not convert time from file time to system time");
+		return 0;
 	}
 	if (CheckDate(lastSaveTime, &st)) {
 		return 1;

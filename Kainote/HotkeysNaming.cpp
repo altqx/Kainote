@@ -164,6 +164,7 @@ void HotkeysNaming::CreateNamesMap()
 	names[GRID_HIDE_START] = _("Ukryj czas początkowy");
 	names[GRID_HIDE_STYLE] = _("Ukryj styl");
 	names[GRID_TREE_MAKE] = _("Stwórz drzewko");
+	names[GRID_SELECT_VISIBLE_LINES] = _("Zaznacz wszystkie linie widoczne na wideo");
 	names[GLOBAL_HELP] = _("Pomoc (niekompletna, ale jednak)");
 	names[GLOBAL_HELPERS] = _("Lista osób pomocnych przy tworzeniu programu");
 	names[VIDEO_HIDE_PROGRESS_BAR] = _("Ukryj / pokaż pasek postępu");

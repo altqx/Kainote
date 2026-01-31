@@ -419,7 +419,8 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		wxRect newRt = wxRect(newRect->left, newRect->top, abs(newRect->right - newRect->left), abs(newRect->bottom - newRect->top));
 		std::vector<RECT> monitors;
 		wxRect rt = GetMonitorRect1(0, &monitors, newRt);
-
+		KaiLogSilent(wxString::Format(L"old Kainote position and size x: %d, y: %d, w: %d, h: %d", 
+			lastPosition.x, lastPosition.y, lastSize.x, lastSize.y));
 		KaiLogSilent(wxString::Format(L"old monitor x: %d, y: %d, w: %d, h: %d", oldRt.x, oldRt.y, oldRt.width, oldRt.height));
 		KaiLogSilent(wxString::Format(L"new monitor x: %d, y: %d, w: %d, h: %d", rt.x, rt.y, rt.width, rt.height));
 		
@@ -527,6 +528,7 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 				SetSize(posx, posy, sizex, sizey);
 
 			Options.SetCoords(WINDOW_POSITION, posx, posy);
+			KaiLogSilent(wxString::Format(L"moving by mouse to other monitor x: %d, y: %d, w: %d, h: %d", posx, posy, sizex, sizey));
 		}
 		else{
 			Options.SetCoords(WINDOW_SIZE, sizex, sizey);
@@ -539,6 +541,7 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 				SetSize(newRt.x, newRt.y, newRt.width, newRt.height);
 			}
 			Options.SetCoords(WINDOW_POSITION, newRt.x, newRt.y);
+			KaiLogSilent(wxString::Format(L"shortcut and windows moving x: %d, y: %d, w: %d, h: %d", newRt.x, newRt.y, sizex, sizey));
 		}
 		
 		KainoteFrame::Get()->Thaw();

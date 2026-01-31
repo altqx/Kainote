@@ -134,10 +134,9 @@ void LogHandler::Destroy()
 void LogHandler::LogMessage(const wxString &format, bool showMessage)
 {
 	wxMutexLocker lock(mutex);
-	//lastLog = wxString::Format(format).Trim();
 	lastLog = format;
 	SYSTEMTIME st;
-	GetSystemTime(&st);
+	GetLocalTime(&st);
 	logToAppend << wxString::Format(L"%02i:%02i:%02i ", st.wHour, st.wMinute, st.wSecond);
 	logToAppend << lastLog << L"\n";
 	if (showMessage) {
