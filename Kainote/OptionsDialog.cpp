@@ -263,7 +263,7 @@ wxString *OptionsDialog::windowNames = nullptr;
 std::map<idAndType, hdata> OptionsDialog::hotkeysCopy;
 
 OptionsDialog::OptionsDialog(wxWindow* parent)
-	: KaiDialog(parent, -1, _("Opcje"), wxDefaultPosition, wxDefaultSize, wxRESIZE_BORDER)
+	: KaiDialog(parent, -1, _("Opcje"), wxDefaultPosition, wxDefaultSize, wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
 {
 	windowNames = new wxString[5]{ _("Globalny"), _("Napisy"), _("Edytor"), _("Wideo"), _("Audio") };
 	OptionsTree = new KaiTreebook(this, -1);

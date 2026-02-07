@@ -451,8 +451,11 @@ void KaiDialog::OnPaint(wxPaintEvent &evt)
 void KaiDialog::OnSize(wxSizeEvent &evt)
 {
 	//when update always delete background to avoid glitches
-	Refresh(/*false*/);
-	Update();
+	bool fullRepaint = style & wxFULL_REPAINT_ON_RESIZE;
+	Refresh(fullRepaint);
+	if(fullRepaint)
+		Update();
+
 	evt.Skip();
 }
 

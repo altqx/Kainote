@@ -264,8 +264,8 @@ namespace Auto{
 		}
 
 		double width = 0, height = 0, descent = 0, extlead = 0;
-		double fontsize = st->GetFontSizeDouble() * 32;
-		double spacing = wxAtof(st->Spacing) * 32;
+		double fontsize = st->GetFontSizeDouble() * 64;
+		double spacing = wxAtof(st->Spacing) * 64;
 
 		SIZE sz;
 		size_t thetextlen = text.length();
@@ -318,10 +318,10 @@ namespace Auto{
 		
 		double scalex = wxAtof(st->ScaleX) / 100.0;
 		double scaley = wxAtof(st->ScaleY) / 100.0;
-		width = scalex * (width / 32);
-		height = scaley * (height / 32);
-		descent = scaley * (descent / 32);
-		extlead = scaley * (extlead / 32);
+		width = scalex * (width / 64.f);
+		height = scaley * (height / 64.f);
+		descent = scaley * (descent / 64.f);
+		extlead = scaley * (extlead / 64.f);
 		SAFE_DELETE(e);
 
 		lua_pushnumber(L, width);

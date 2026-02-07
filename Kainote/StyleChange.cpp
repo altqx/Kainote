@@ -14,9 +14,7 @@
 //  along with Kainote.  If not, see <http://www.gnu.org/licenses/>.
 
 
-//#include "Utils.h"
 #include "StyleChange.h"
-//#include <wx/settings.h>
 #include "FontEnumerator.h"
 #include "config.h" 
 #include "ColorPicker.h"

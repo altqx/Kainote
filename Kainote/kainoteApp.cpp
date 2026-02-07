@@ -150,10 +150,11 @@ bool kainoteApp::OnInit()
 
 		for (int i = 1; i < argc; i++) { paths.Add(argv[i]); }
 
-		int posx, posy, sizex, sizey, msizex, msizey;
+		int posx, posy, sizex, sizey, msizex, msizey, sposx, sposy;
 		Options.GetCoords(WINDOW_POSITION, &posx, &posy);
 		Options.GetCoords(WINDOW_SIZE, &sizex, &sizey);
 		Options.GetCoords(MONITOR_SIZE, &msizex, &msizey);
+		Options.GetCoords(STYLE_MANAGER_POSITION, &sposx, &sposy);
 		//wxRect(posx, posy, sizex, sizey)
 		wxPoint posOnScreen = wxGetMousePosition();
 		if (msizex && msizey) {
@@ -172,14 +173,24 @@ bool kainoteApp::OnInit()
 				int audioHeight = Options.GetInt(AUDIO_BOX_HEIGHT);
 				float scalex = (float)rt.width / (float)msizex;
 				float scaley = (float)rt.height / (float)msizey;
+				//program position
 				posx -= mposx;
 				posy -= mposy;
 				posx *= scalex;
 				posy *= scaley;
 				posx += rt.x;
 				posy += rt.y;
+				//style manager
+				sposx -= mposx;
+				sposy -= mposy;
+				sposx *= scalex;
+				sposy *= scaley;
+				sposx += rt.x;
+				sposy += rt.y;
+				//program size
 				sizex *= scalex;
 				sizey *= scaley;
+				//video size
 				vsizex *= scalex;
 				vsizey *= scaley;
 				audioHeight *= scaley;
@@ -194,6 +205,12 @@ bool kainoteApp::OnInit()
 			if (sizey > rt.height) {
 				sizey = rt.height - 100;
 			}
+			//check position of spellchecker
+			if (!rt.Contains(wxRect(sposx, sposy, 400, 800))) {
+				sposx = rt.x + ((float)(rt.width - 400) / 2.f);
+				sposy = rt.y + ((float)(rt.height - 800) / 2.f);
+			}
+			//check position of main window
 			if (!rt.Contains(wxRect(posx, posy, sizex, sizey))) {
 				posx = rt.x + ((float)(rt.width - sizex) / 2.f),
 				posy = rt.y + ((float)(rt.height - sizey) / 2.f);
@@ -205,7 +222,7 @@ bool kainoteApp::OnInit()
 
 		Options.SetCoords(WINDOW_POSITION, posx, posy);
 		Options.SetCoords(WINDOW_SIZE, sizex, sizey);
-		
+		Options.SetCoords(STYLE_MANAGER_POSITION, sposx, sposy);
 
 		Frame = nullptr;
 		Frame = new KainoteFrame(wxPoint(posx, posy), wxSize(sizex, sizey));

@@ -287,6 +287,7 @@ namespace Auto{
 		, closedialog(false)
 		, L(_L)
 	{
+		SetFont(*Options.GetFont());
 		SetForegroundColour(Options.GetColour(WINDOW_TEXT));
 		SetBackgroundColour(Options.GetColour(WINDOW_BACKGROUND));
 		progress_display = new KaiGauge(this, -1, wxDefaultPosition, wxSize(600, 20));
