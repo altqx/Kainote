@@ -83,13 +83,14 @@ namespace Auto{
 
 	char *clipboard_get()
 	{
-		std::string data;
+		wxString data;
 		wxClipboard *cb = wxClipboard::Get();
 		if (cb->Open()) {
 			if (cb->IsSupported(wxDF_TEXT) || cb->IsSupported(wxDF_UNICODETEXT)) {
 				wxTextDataObject raw_data;
 				cb->GetData(raw_data);
-				data = raw_data.GetText().ToStdString();
+				data = raw_data.GetText();
+				data.Replace(L"\r", emptyString);
 			}
 			cb->Close();
 		}
@@ -101,14 +102,6 @@ namespace Auto{
 	bool clipboard_set(const char *str)
 	{
 		bool succeeded = false;
-
-		//#if wxUSE_OLE
-		//		// OLE needs to be initialized on each thread that wants to write to
-		//		// the clipboard, which wx does not handle automatically
-		//		wxClipboard cb;
-		//#else
-		//wxClipboard &cb = *wxTheClipboard;
-		//#endif
 		wxClipboard *cb = wxClipboard::Get();
 		if (cb->Open()) {
 			succeeded = cb->SetData(new wxTextDataObject(wxString::FromUTF8(str)));
@@ -264,8 +257,8 @@ namespace Auto{
 		}
 
 		double width = 0, height = 0, descent = 0, extlead = 0;
-		double fontsize = st->GetFontSizeDouble() * 64;
-		double spacing = wxAtof(st->Spacing) * 64;
+		double fontsize = st->GetFontSizeDouble() * 64.0;
+		double spacing = wxAtof(st->Spacing) * 64.0;
 
 		SIZE sz;
 		size_t thetextlen = text.length();
@@ -318,10 +311,10 @@ namespace Auto{
 		
 		double scalex = wxAtof(st->ScaleX) / 100.0;
 		double scaley = wxAtof(st->ScaleY) / 100.0;
-		width = scalex * (width / 64.f);
-		height = scaley * (height / 64.f);
-		descent = scaley * (descent / 64.f);
-		extlead = scaley * (extlead / 64.f);
+		width = scalex * (width / 64.0);
+		height = scaley * (height / 64.0);
+		descent = scaley * (descent / 64.0);
+		extlead = scaley * (extlead / 64.0);
 		SAFE_DELETE(e);
 
 		lua_pushnumber(L, width);

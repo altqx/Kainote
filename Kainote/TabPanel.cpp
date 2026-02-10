@@ -309,6 +309,7 @@ void TabPanel::ReloadSubsIfModified()
 			}
 		}
 		SetLastSaveTime();
+		KainoteFrame::Get()->Label(grid->file->GetActualHistoryIter());
 	}
 	else if(needReload == -1 && !blockRemovedFile){
 		//make file need to be saved cause was deleted

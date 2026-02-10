@@ -44,11 +44,12 @@ KaiTextCtrl::KaiTextCtrl(wxWindow *parent, int id, const wxString &text, const w
 	Fheight = fh;
 	wxSize newSize((size.x < 1) ? 100 : size.x, (size.y < 1) ? fh + 10 : size.y);
 
+	KText.Replace(L"\r", emptyString);
+
 	multiline = (style & wxTE_MULTILINE) != 0;
 	if (multiline){ maxSize = MAXINT; }
 	else{
 		style |= wxALIGN_CENTER_VERTICAL; maxSize = 1000;
-		KText.Replace(L"\r", emptyString);
 		KText.Replace(L"\n", emptyString);
 	}
 	SetCursor(wxCURSOR_IBEAM);
@@ -154,8 +155,8 @@ void KaiTextCtrl::SetValue(const wxString &text, bool modif, bool newSel)
 	wxMutexLocker lock(mutex);
 	if (modif){ modified = modif; }
 	KText = text;
+	KText.Replace(L"\r", emptyString);
 	if (!multiline){
-		KText.Replace(L"\r", emptyString);
 		KText.Replace(L"\n", emptyString);
 	}
 	textStyles.clear();
@@ -180,8 +181,9 @@ void KaiTextCtrl::AppendText(const wxString &text)
 	else{
 		KText << text;
 	}
+
+	KText.Replace(L"\r", emptyString);
 	if (!multiline){
-		KText.Replace(L"\r", emptyString);
 		KText.Replace(L"\n", emptyString);
 	}
 	CalcWrap(false, (len < 1) ? 0 : (KText[len - 1] == L'\n') ? len : len - 1);
@@ -354,10 +356,10 @@ void KaiTextCtrl::CalcWrapsGDI(int windowWidth, int currentPosition)
 				wxWindow::GetTextExtent(L"        ", &gfw, &gfh, nullptr, nullptr, &font);
 				fontGDISizes.insert(std::pair<wxUniChar, int>(ch, gfw));
 			}//calculate size of \r to 0 to not slow code when splitting it on \n
-			else if (ch == L'\r') {
+			/*else if (ch == L'\r') {
 				gfw = 0;
 				fontGDISizes.insert(std::pair<wxUniChar, int>(ch, 0));
-			}
+			}*/
 			else {
 				wxWindow::GetTextExtent(ch, &gfw, &gfh, nullptr, nullptr, &font);
 				fontGDISizes.insert(std::pair<wxUniChar, int>(ch, gfw));
@@ -430,10 +432,10 @@ void KaiTextCtrl::CalcWrapsD2D(GraphicsContext *graphicsContext, int windowWidth
 				graphicsContext->GetTextExtent(L"        ", &gfw, &gfh);
 				fontSizes.insert(std::pair<wxUniChar, int>(ch, gfw));
 			}//calculate size of \r to 0 to not slow code when splitting it on \n
-			else if (ch == L'\r') {
+			/*else if (ch == L'\r') {
 				gfw = 0;
 				fontSizes.insert(std::pair<wxUniChar, int>(ch, 0));
-			}
+			}*/
 			else {
 				graphicsContext->GetTextExtent(ch, &gfw, &gfh);
 				fontSizes.insert(std::pair<wxUniChar, double>(ch, gfw));
@@ -1020,7 +1022,7 @@ void KaiTextCtrl::DrawFld(wxDC &dc, int w, int h)
 						else{ fww = 0; }
 						dc.SetTextForeground(fg);
 						wxString normalText = line.SubString((lastto < linefrom) ? 0 : lastto - linefrom, newto);
-						normalText.Replace(L"\r", emptyString);
+						//normalText.Replace(L"\r", emptyString);
 						normalText.Replace(L"\n", emptyString);
 						normalText.Replace(L"\t", L"        ");
 						dc.DrawText(normalText, positioning[i] + tmpPosX + fww, tmpPosY);
@@ -1031,7 +1033,7 @@ void KaiTextCtrl::DrawFld(wxDC &dc, int w, int h)
 				else{ drawX = 0; }
 				dc.SetTextForeground(textStyles[k].color);
 				wxString colorizedText = line.SubString((from < linefrom) ? 0 : from - linefrom, (to < lineto) ? to - linefrom : line.length() - 1);
-				colorizedText.Replace(L"\r", emptyString);
+				//colorizedText.Replace(L"\r", emptyString);
 				colorizedText.Replace(L"\n", emptyString);
 				colorizedText.Replace(L"\t", L"        ");
 				dc.DrawText(colorizedText, positioning[i] + tmpPosX + drawX, tmpPosY);
@@ -1062,14 +1064,14 @@ void KaiTextCtrl::DrawFld(wxDC &dc, int w, int h)
 				else{ drawX = 0; }
 				dc.SetTextForeground(fg);
 				wxString normalText = line.SubString(lastto >= linefrom ? lastto - linefrom : 0, line.length() - 1);
-				normalText.Replace(L"\r", emptyString);
+				//normalText.Replace(L"\r", emptyString);
 				normalText.Replace(L"\n", emptyString);
 				normalText.Replace(L"\t", L"        ");
 				dc.DrawText(normalText, positioning[i] + tmpPosX + drawX, tmpPosY);
 			}
 		}
 		else{
-			line.Replace(L"\r", emptyString);
+			//line.Replace(L"\r", emptyString);
 			line.Replace(L"\n", emptyString);
 			line.Replace(L"\t", L"        ");
 			dc.SetTextForeground((enabled) ? fg : textInactive);
@@ -1215,7 +1217,7 @@ void KaiTextCtrl::DrawFieldD2D(GraphicsContext *graphicsContext, int w, int h)
 						else{ fww = 0; }
 						graphicsContext->SetFont(font, fg);
 						wxString normalText = line.SubString((lastto < linefrom) ? 0 : lastto - linefrom, newto);
-						normalText.Replace(L"\r", emptyString);
+						//normalText.Replace(L"\r", emptyString);
 						normalText.Replace(L"\n", emptyString);
 						normalText.Replace(L"\t", L"        ");
 						graphicsContext->DrawTextU(normalText, positioning[i] + tmpPosX + fww, tmpPosY);
@@ -1226,7 +1228,7 @@ void KaiTextCtrl::DrawFieldD2D(GraphicsContext *graphicsContext, int w, int h)
 				else{ drawX = 0; }
 				graphicsContext->SetFont(font, textStyles[k].color);
 				wxString colorizedText = line.SubString((from < linefrom) ? 0 : from - linefrom, (to < lineto) ? to - linefrom : line.length() - 1);
-				colorizedText.Replace(L"\r", emptyString);
+				//colorizedText.Replace(L"\r", emptyString);
 				colorizedText.Replace(L"\n", emptyString);
 				colorizedText.Replace(L"\t", L"        ");
 				graphicsContext->DrawTextU(colorizedText, positioning[i] + tmpPosX + drawX, tmpPosY);
@@ -1257,14 +1259,14 @@ void KaiTextCtrl::DrawFieldD2D(GraphicsContext *graphicsContext, int w, int h)
 				else{ drawX = 0; }
 				graphicsContext->SetFont(font, fg);
 				wxString normalText = line.SubString(lastto >= linefrom ? lastto - linefrom : 0, line.length() - 1);
-				normalText.Replace(L"\r", emptyString);
+				//normalText.Replace(L"\r", emptyString);
 				normalText.Replace(L"\n", emptyString);
 				normalText.Replace(L"\t", L"        ");
 				graphicsContext->DrawTextU(normalText, positioning[i] + tmpPosX + drawX, tmpPosY);
 			}
 		}
 		else{
-			line.Replace(L"\r", emptyString);
+			//line.Replace(L"\r", emptyString);
 			line.Replace(L"\n", emptyString);
 			line.Replace(L"\t", L"        ");
 			graphicsContext->SetFont(font, (enabled) ? fg : textInactive);
@@ -1546,10 +1548,9 @@ void KaiTextCtrl::Paste()
 			wxTextDataObject data;
 			wxTheClipboard->GetData(data);
 			wxString whatpaste = data.GetText();
-			//whatpaste.Replace("\t"," ");
+			whatpaste.Replace(L"\r", emptyString);
 			if (!multiline){
 				whatpaste.Replace(L"\n", L" ");
-				whatpaste.Replace(L"\r", emptyString);
 			}
 
 			if (KText.length() >= maxSize){
@@ -1647,7 +1648,7 @@ void KaiTextCtrl::OnScroll(wxScrollWinEvent& event)
 void KaiTextCtrl::GetTextExtent(const wxString &textToMesure, int *textWidth, int *textHeight)
 {
 	wxString txt = textToMesure;
-	txt.Replace(L"\r", emptyString);
+	//txt.Replace(L"\r", emptyString);
 	txt.Replace(L"\n", emptyString);
 	txt.Replace(L"\t", L"        ");
 	wxWindow::GetTextExtent(txt, textWidth, textHeight, 0, 0, &font);
@@ -1656,7 +1657,7 @@ void KaiTextCtrl::GetTextExtent(const wxString &textToMesure, int *textWidth, in
 void KaiTextCtrl::GetTextExtent(GraphicsContext *graphicsContext, const wxString &textToMesure, double *textWidth, double *textHeight)
 {
 	wxString txt = textToMesure;
-	txt.Replace(L"\r", emptyString);
+	//txt.Replace(L"\r", emptyString);
 	txt.Replace(L"\n", emptyString);
 	txt.Replace(L"\t", L"        ");
 	graphicsContext->GetTextExtent(txt, textWidth, textHeight);

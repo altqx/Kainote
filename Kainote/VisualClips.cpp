@@ -1359,9 +1359,16 @@ void DrawingAndClip::RemovePoints(int selectedPoint, bool fromKeyboard)
 	GetSelected(&sels);
 	size_t ssize = sels.size();
 	if (selectedPoint != -1) {
-		sels.push_back(selectedPoint);
-		ssize = sels.size();
-		std::sort(sels.begin(), sels.end());
+		bool needToAdd = true;
+		for (size_t i = 0; i < ssize; i++) {
+			if (sels[i] == selectedPoint)
+				needToAdd = false;
+		}
+		if (needToAdd) {
+			sels.push_back(selectedPoint);
+			ssize = sels.size();
+			std::sort(sels.begin(), sels.end());
+		}
 	}
 
 	if (ssize < 1)
@@ -1422,8 +1429,15 @@ void DrawingAndClip::RemovePoints(int selectedPoint, bool fromKeyboard)
 		//set new m if last was removed
 		if (type == L"m") {
 			if (j < Points.size() && Points[j].type != L"m") {
+				bool isBezier = Points[j].type == L"b";
 				Points[j].type = L"m";
 				Points[j].start = true;
+				//remove Bezier from start when 'm' was removed and its first 
+				//point is converted to 'm' set the last point to "l"
+				if (isBezier && j == 0 && j + 2 < Points.size()) {
+					Points[2].type = L"l";
+					Points.erase(Points.begin() + 1, Points.begin() + 2);
+				}
 			}
 		}
 			
