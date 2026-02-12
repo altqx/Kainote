@@ -95,7 +95,7 @@ namespace Auto{
 
 		lua_newtable(L);
 		if (i < sinfo){
-			//to jest odczyt więc nie kopiujemy
+			//it's reading, do not copy
 			SInfo *info = Subs->sinfo[i];
 
 			lua_pushstring(L, "[Script Info]");
@@ -116,8 +116,13 @@ namespace Auto{
 		}
 		else if (i < styles)
 		{
-			//to jest odczyt więc nie kopiujemy
-			Styles *astyle = Subs->styles[i - sinfo];
+			//check if it's not oute of size
+			size_t j = i - sinfo;
+			if (j >= Subs->styles.size())
+				return false;
+
+			//it's reading, do not copy
+			Styles *astyle = Subs->styles[j];
 
 			lua_pushstring(L, "[V4+ Styles]");
 			lua_setfield(L, -2, "section");
@@ -196,8 +201,12 @@ namespace Auto{
 		}
 		else if (i < dials)
 		{
-			//to jest odczyt więc nie kopiujemy
-			Dialogue *adial = Subs->dialogues[i - styles];
+			//check if it's not oute of size
+			size_t j = i - styles;
+			if (j >= Subs->dialogues.size())
+				return false;
+			//it's reading, do not copy
+			Dialogue *adial = Subs->dialogues[j];
 
 			lua_pushstring(L, "[Events]");
 			lua_setfield(L, -2, "section");

@@ -605,7 +605,7 @@ namespace Auto{
 		if (!Install(L, include_path)) {
 			description = get_string_or_default(L, 1);
 			lua_pop(L, 1);
-			//lua_gc(L, LUA_GCCOLLECT, 0);
+			lua_gc(L, LUA_GCCOLLECT, 0);
 			return;
 		}
 		stackcheck.check_stack(0);

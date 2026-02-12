@@ -62,5 +62,8 @@
     <ClInclude Include="..\..\Thirdparty\zlib\contrib\minizip\zip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Downloader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

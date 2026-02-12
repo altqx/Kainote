@@ -59,7 +59,7 @@ namespace Auto {
 				size -= 3;
 			}
 		}
-		wxString name = filename.AfterLast('\\');
+		//wxString name = filename.AfterLast('\\');
 		if (!filename.EndsWith("moon")){
 			bool ret = luaL_loadbuffer(L, (compatybility) ? constbuff : buff, size, filename.utf8_str().data()) == 0;
 
@@ -75,7 +75,7 @@ namespace Auto {
 		// error handling
 		lua_pushlstring(L, (compatybility) ? constbuff : buff, size);
 		lua_pushvalue(L, -1);
-		lua_setfield(L, LUA_REGISTRYINDEX, ("raw moonscript: " + name).utf8_str().data());
+		lua_setfield(L, LUA_REGISTRYINDEX, ("raw moonscript: " + filename).utf8_str().data());
 		
 		push_value(L, filename);
 		if (lua_pcall(L, 2, 2, 0))

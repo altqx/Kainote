@@ -33,10 +33,14 @@
 #include <wx/ipc.h>
 #include <wx/utils.h>
 #include <wx/intl.h>
+#include <wx/stdpaths.h>
 #include "loghandler.h"
 
 #include "UtilsWindows.h"
 #include <versionhelpers.h>
+//#include <boost/stacktrace.hpp>
+#include <dbghelp.h>
+
 
 typedef enum MONITOR_DPI_TYPE {
 	MDT_EFFECTIVE_DPI = 0,
@@ -50,6 +54,43 @@ STDAPI GetDpiForMonitor(
 	_In_ MONITOR_DPI_TYPE dpiType,
 	_Out_ UINT* dpiX,
 	_Out_ UINT* dpiY);
+
+
+
+LONG __stdcall MyCustomFilter(EXCEPTION_POINTERS* pep)
+{
+	wxStandardPathsBase& paths = wxStandardPaths::Get();
+	wxString exePath = paths.GetExecutablePath().BeforeLast(L'\\') + L"\\MiniDump.dmp";
+	HANDLE hFile = CreateFileW(exePath.wc_str(), GENERIC_READ | GENERIC_WRITE,
+		0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if ((hFile != NULL) && (hFile != INVALID_HANDLE_VALUE))
+	{
+		// Create the minidump 
+
+		MINIDUMP_EXCEPTION_INFORMATION mdei;
+
+		mdei.ThreadId = GetCurrentThreadId();
+		mdei.ExceptionPointers = pep;
+		mdei.ClientPointers = FALSE;
+
+		MINIDUMP_TYPE mdt = MiniDumpNormal;
+
+		BOOL rv = MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(),
+			hFile, mdt, (pep != 0) ? &mdei : 0, 0, 0);
+
+		/*if (!rv)
+			_tprintf(_T("MiniDumpWriteDump failed. Error: %u \n"), GetLastError());
+		else
+			_tprintf(_T("Minidump created.\n"));*/
+
+		// Close the file 
+
+		CloseHandle(hFile);
+
+	}
+	return EXCEPTION_EXECUTE_HANDLER;
+}
 
 
 
@@ -133,11 +174,9 @@ bool kainoteApp::OnInit()
 				}
 			}
 		}
+		
+		SetUnhandledExceptionFilter(MyCustomFilter);
 
-		/*if (!Options.GetBool(DONT_SHOW_CRASH_INFO)) {
-			signal(SIGSEGV, seg_handler);
-			std::set_terminate(std_handler);
-		}*/
 		//on x64 it makes not working unicode toupper tolower conversion
 		//setlocale(LC_CTYPE, "C");
 		//locale numbers changes here cause of it is set with wxlocale, I have to change it back

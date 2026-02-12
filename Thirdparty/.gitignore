@@ -33,5 +33,7 @@ curl/
 uchardet/build-mac/
 uchardet/script/
 uchardet/test/
+curl1/
+openssl-3.6.1/
 *.gz
 *.exe

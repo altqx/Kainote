@@ -1574,7 +1574,7 @@ void TextEditor::DrawFieldD2D(GraphicsContext *gc, int w, int h, int windowh)
 	if (statusBarHeight > 0){
 		gc->SetBrush(cbackground);
 		gc->SetPen(wxPen(border));
-		gc->SetFont(font, ctext);
+		gc->SetFont(font, Options.GetColour(EDITOR_TEXT));
 		gc->DrawRectangle(0, h, w, statusBarHeight);
 		int ypos = ((statusBarHeight - fontHeight) / 2) + h;
 		double lnfw, lifw, lfw, colfw, selfw;
@@ -1992,7 +1992,7 @@ void TextEditor::DrawFieldGDI(wxDC &dc, int w, int h, int windowh)
 	if (statusBarHeight > 0){
 		dc.SetBrush(cbackground);
 		dc.SetPen(wxPen(border));
-		dc.SetTextForeground(ctext);
+		dc.SetTextForeground(Options.GetColour(EDITOR_TEXT));
 		dc.DrawRectangle(0, h, w, statusBarHeight);
 		int ypos = ((statusBarHeight - fontHeight) / 2) + h;
 		int fh, lnfw, lifw, lfw, colfw, selfw;

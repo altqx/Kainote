@@ -16,83 +16,156 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
-#include <windows.h>
-#include <WinInet.h>
+#include <fstream>
+#include "Downloader.h"
 
-#pragma comment (lib, "Wininet.lib")
+size_t CurlWriteCallback(const char* buffer, size_t itemsize, size_t numitems, void* userdata) {
+	((Downloader*)userdata)->WriteCallback(buffer, itemsize * numitems);
+}
 
-using namespace std;
+size_t CurlHeaderCallback(const char* buffer, size_t itemsize, size_t numitems, void* userdata) {
+	((Downloader*)userdata)->HeaderCallback(buffer, itemsize * numitems);
+}
 
-int Downloader(const wchar_t *server, const wchar_t *page, const wchar_t *filename, string *output)
+bool Downloader::SeekHeader(const std::string& what, std::string* result)
 {
-	char szData[1024];
-	bool writeToFile = filename != NULL;
-	if (!output && !writeToFile)
-		return 5;
-	
-	HANDLE hFile = INVALID_HANDLE_VALUE;
-	if (writeToFile){
-		hFile = CreateFileW(filename, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
-		SetFilePointer(hFile, 0, NULL, FILE_BEGIN);
-	}
-	DWORD ss;
-	// initialize WinInet
-	HINTERNET hInternet = InternetOpen(TEXT("Kainote updater"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
-	if (hInternet != NULL)
-	{
-		// open HTTP session
-		HINTERNET hConnect = InternetConnectW(hInternet, server, INTERNET_DEFAULT_HTTPS_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 1);
-		if (hConnect != NULL)
-		{
-			//wstring request = page;
-
-			// open request
-			HINTERNET hRequest = HttpOpenRequestW(hConnect, L"GET", page, NULL, NULL, 0, INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_SECURE, 1);
-			if (hRequest != NULL)
-			{
-				// send request
-				BOOL isSend = HttpSendRequestW(hRequest, NULL, 0, NULL, 0);
-
-				if (isSend)
-				{
-					for (;;)
-					{
-						// reading data
-						DWORD dwByteRead;
-						BOOL isRead = InternetReadFile(hRequest, szData, sizeof(szData), &dwByteRead);
-
-						// break cycle if error or end
-						if (isRead == FALSE || dwByteRead == 0)
-							break;
-
-						// saving result
-						if (writeToFile){
-							WriteFile(hFile, szData, dwByteRead, &ss, NULL);
-							if (dwByteRead != ss){
-								return 1;
-							}
-						}
-						else{
-							(*output) += string(szData, dwByteRead);
-						}
-					}
-				}
-				else{ return 4; }
-
-				// close request
-				InternetCloseHandle(hRequest);
-			}
-			else{ return 3; }
-			// close session
-			InternetCloseHandle(hConnect);
+	size_t position = header.find(what);
+	if (position != -1) {
+		position += what.size() + 1;
+		size_t endposition = header.find('\n', position);
+		size_t endposition1 = header.find('\r', position);
+		if (endposition1 != -1 && endposition1 < endposition) {
+			result->substr(position, endposition1);
 		}
-		else{ return 2; }
-		// close WinInet
-		InternetCloseHandle(hInternet);
+		else//no need to check endposition if is -1 it get rest of text
+			result->substr(position, endposition);
+
+		return true;
 	}
-	if (writeToFile){
-		CloseHandle(hFile);
+	return false;
+}
+
+//int Downloader::ProgressCallback(curl_off_t totalDL, curl_off_t currentDL)
+//{
+//
+//}
+
+size_t Downloader::WriteCallback(const char* buffer, size_t size)
+{
+	outputBuffer.append(buffer);
+	return size;
+}
+
+size_t Downloader::HeaderCallback(const char* buffer, size_t size)
+{
+	header.append(buffer);
+	return size;
+}
+
+Downloader::Downloader(const std::string& URL, const std::string& _outputFile, bool _saveToFile, bool getLocationFromHeader)
+{
+	url = URL;
+	outputFile = _outputFile;
+	saveToFile = _saveToFile;
+	getLocation = getLocationFromHeader;
+
+	thread = std::thread(&Downloader::ThreadProcess, this);
+}
+
+Downloader::~Downloader()
+{
+}
+
+void Downloader::ThreadProcess()
+{
+	char curlError[CURL_ERROR_SIZE];
+	CURL* curl = curl_easy_init();
+	if (!curl) {
+		errorMsg = "Could not initialize CURL";
+		return;
 	}
-	//cout << output;
-	return 0;
+
+
+	if (getLocation) {
+		if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_HEADERDATA, this)) {
+			errorMsg = "Could not set header callback userdata.";
+			goto failed;
+		}
+		if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, CurlHeaderCallback)) {
+			errorMsg = "Could not set header callback function.";
+			goto failed;
+		}
+	}
+
+	if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_WRITEDATA, this)) {
+		errorMsg = "Could not set write callback userdata.";
+		goto failed;
+	}
+	if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlWriteCallback)) {
+		errorMsg = "Could not set write callback function.";
+		goto failed;
+	}
+	if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1)) {
+		errorMsg = "Could not set redirect following.";
+		goto failed;
+	}
+	if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1)) {
+		errorMsg = "Could not disable progress callback";
+		goto failed;
+	}
+	if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1)) {
+		errorMsg = "Could not fail on error.";
+		goto failed;
+	}
+	if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_URL, url.c_str())) {
+		errorMsg = "Could not set fetch url.";
+		goto failed;
+	}
+	
+	if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, curlError)) {
+		errorMsg = "Could not set error buffer.";
+		goto failed;
+	}
+
+	CURLcode result = curl_easy_perform(curl);
+	if (result) {
+		if(result == CURLE_WRITE_ERROR)
+			errorMsg = "Curl write error.";
+		else
+			errorMsg = std::string(curlError);
+	}
+
+	Finalize();
+	downloadSucceded = true;
+
+failed:
+	curl_easy_cleanup(curl);
+}
+
+void Downloader::Finalize()
+{
+	if (saveToFile) {
+		std::fstream outStream(outputFile, std::ios::out | std::ios::binary);
+		if (outStream.fail()) {
+			errorMsg = "Couldn't open output file: " + outputFile;
+			downloadSucceded = false;
+			return;
+		}
+
+		outStream << outputBuffer;
+		outStream.close();
+	}
+}
+
+bool Downloader::JoinThread()
+{
+	if (!threadJoined)
+		thread.join();
+
+	return downloadSucceded;
+}
+
+const std::string& Downloader::GetOutput()
+{
+	return outputBuffer;
 }

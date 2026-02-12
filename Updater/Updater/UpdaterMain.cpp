@@ -17,38 +17,37 @@
 #include <stdio.h>
 #include <iostream>
 #include "ZipHandler.h"
+#include "Downloader.h"
 
-//#include <vld.h>
-//#include <WinInet.h>
-
-//#pragma comment (lib, "Wininet.lib")
 
 using namespace std;
 
-int main(int argc, char **argv)
+int wmain(int argc, wchar_t **argv)
 {
-	//const wchar_t server[] = L"www.dropbox.com";//"github.com";
-	//const wchar_t page[] = L"s/t8pkey94ruakyox/Kainote%20x64.zip?dl=1";//"bjakja/Kainote/blob/master/Kaiplayer/VersionKainote.h";
-	//const wchar_t filename[] = L"C:\\testowy Kainote.zip";
-	//wchar_t filename[] = L"H:\Kainote\x64\Release\\Kainote x64.zip";
-	//wchar_t targetfilename[]=L"I:\\レジェンドオブ・デュオ";
-	//wchar_t targetfilename1[3000];
-	// phrase[3000];
+	std::string url = "https://drive.google.com/uc?id=1ECqsrLo5d1jPoz-FKvJrS0279YeTKrmS&export=download";
+	std::wstring path;
+	if (argc) {
+		path.assign(argv[0]);
+		size_t position = path.find_last_of(L'\\');
+		//check / slashes?
+		if (position != -1) {
+			path = path.substr(0, position - 1);
+		}//if cannot find slash means that there is only file name
+		else {
+			path.clear();
+		}
+	}
+	if (path.empty()) {
+		wcout << L"Could not get program path";
+		system("pause");
+		return 0;
+	}
+
+
 	wchar_t targetfilename1[] = L"J:\\Easeus 11 22_24\\Nowy(F)\\Lost Files\\#2 Lost Partition(NTFS)\\Anime";
-	//wchar_t targetfilename2[] = L"H:\\";
-	//wchar_t targetfilename3[] = L"F:\\";
-	//wchar_t filesDir[] = L"H:\\Kainote\\x64\\Release";
-	//wchar_t zipPatch[] = L"H:\\Kainote\\x64\\Release\\Kainote x64 b909.zip";
-	//const wchar_t *excludes[] = { L"audiocache", L"indices", L"subs" };
+
 	wcout << L"Podaj sciezke for zero size seeking: ";
 	wcout << targetfilename1;
-	//wcin >> targetfilename1;
-	//while (wcslen(targetfilename1) == 0)
-	//wcin >> targetfilename1;
-	/*wcout << L"Podaj fraze: ";
-	wcin >> phrase;
-	while (wcslen(phrase) == 0)
-	wcin >> phrase;*/
 	
 	ZipHandler zh;
 	//zh.ZipFolder(filesDir, zipPatch, excludes, 3);
