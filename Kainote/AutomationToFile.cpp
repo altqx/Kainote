@@ -909,8 +909,7 @@ namespace Auto{
 		lua_rawseti(L, -2, kcount++);
 		wxString tags[] = { L"kf", L"ko", L"k", L"K" };
 		ParseData* Data = e->adial->ParseTags(tags, 4);
-		//wxStringTokenizer ktok(e->adial->Text,"\\",wxTOKEN_STRTOK);
-		const wxString & text = e->adial->Text;
+		const wxString & text = e->adial->TextTl != emptyString? e->adial->TextTl : e->adial->Text;
 		size_t lastPosition = 0;
 		wxString rest;
 		//wxString deb;
@@ -925,9 +924,11 @@ namespace Auto{
 				nextKstart = Data->tags[i + 1]->startTextPos;
 				wxString newtxt = text.Mid(lastPosition, nextKstart - lastPosition);
 				size_t bracketstartpos = newtxt.Find(L'{', true);
+				//when no start backet its tags is ignored
+				//should not happen
 				if (bracketstartpos == wxNOT_FOUND){
 					size_t bracketendpos = newtxt.Find(L'}', true);
-					size_t firstSlash = newtxt.find(L'//', bracketendpos + 1);
+					size_t firstSlash = newtxt.find(L'\\', bracketendpos + 1);
 					if (firstSlash != wxNOT_FOUND)
 						nextKstart = firstSlash - 1;
 				}
@@ -965,7 +966,7 @@ namespace Auto{
 
 		}
 		if (kcount < 2){
-			ktext_stripped = e->adial->Text;
+			ktext_stripped = text;
 			reg.ReplaceAll(&ktext_stripped, _T(""));
 
 			lua_createtable(L, 0, 6);
@@ -973,7 +974,7 @@ namespace Auto{
 			set_field(L, "start_time", e->adial->Start.mstime);
 			set_field(L, "end_time", e->adial->End.mstime);
 			set_field(L, "tag", "k");
-			set_field(L, "text", e->adial->Text->mb_str(wxConvUTF8).data());
+			set_field(L, "text", text.mb_str(wxConvUTF8).data());
 			set_field(L, "text_stripped", ktext_stripped.mb_str(wxConvUTF8).data());
 			lua_rawseti(L, -2, kcount++);
 		}
@@ -1020,7 +1021,7 @@ namespace Auto{
 	int AutoToFile::LuaGetFreqencyReach(lua_State *L)
 	{
 		if (!lua_isnumber(L, 1) || !lua_isnumber(L, 2) || !lua_isnumber(L, 3) || !lua_isnumber(L, 4) || !lua_isnumber(L, 5)) {
-			lua_pushstring(L, "Non number argument of function GetFreqencyReach");
+			lua_pushstring(L, "Non number argument of function get_frequency_peaks");
 			lua_error(L);
 			return 0;
 		}
@@ -1028,13 +1029,13 @@ namespace Auto{
 		Provider* FFMS2 = tab->video->GetFFMS2();
 		if (!FFMS2){
 			if (!tab->edit->ABox){
-				lua_pushstring(L, "GetFreqencyReach needs loaded audio by FFMS2");
+				lua_pushstring(L, "get_frequency_peaks needs loaded audio by FFMS2");
 				lua_error(L);
 				return 0;
 			}
 			FFMS2 = tab->edit->ABox->audioDisplay->provider;
 			if (!FFMS2){
-				lua_pushstring(L, "GetFreqencyReach cannot get audio provider");
+				lua_pushstring(L, "get_frequency_peaks cannot get audio provider");
 				lua_error(L);
 				return 0;
 			}
@@ -1049,7 +1050,7 @@ namespace Auto{
 		std::vector<int> output;
 		std::vector<int> intensities;
 		if (start < 0 || end < 0){
-			lua_pushstring(L, "GetFreqencyReach start or end time less than zero");
+			lua_pushstring(L, "get_frequency_peaks start or end time less than zero");
 			lua_error(L);
 			return 0;
 		}
