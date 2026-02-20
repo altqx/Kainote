@@ -103,7 +103,8 @@ public:
 	int GetFrameTimeFromTime(int time, bool start = true);
 	int GetFrameTimeFromFrame(int frame, bool start = true);
 	void GetStartEndDelay(int startTime, int endTime, int *retStart, int *retEnd);
-	void SetZoom();
+	void SetZoom(bool reset = false);
+	bool HasZoom();
 	void GoToNextKeyframe();
 	void GoToPrevKeyframe();
 	void OpenKeyframes(const wxString &filename);

@@ -31,7 +31,7 @@ int wmain(int argc, wchar_t **argv)
 		size_t position = path.find_last_of(L'\\');
 		//check / slashes?
 		if (position != -1) {
-			path = path.substr(0, position - 1);
+			path = path.substr(0, position);
 		}//if cannot find slash means that there is only file name
 		else {
 			path.clear();
@@ -42,26 +42,21 @@ int wmain(int argc, wchar_t **argv)
 		system("pause");
 		return 0;
 	}
+	path += L"\\Kainote_x64.zip";
 
+	Downloader DL(url, path);
+	bool result = DL.JoinThread();
+	if (!result) {
+		wcout << DL.GetError();
+	}
+	else {
+		wcout << L"Saved to: " << path;
+	}
 
-	wchar_t targetfilename1[] = L"J:\\Easeus 11 22_24\\Nowy(F)\\Lost Files\\#2 Lost Partition(NTFS)\\Anime";
-
-	wcout << L"Podaj sciezke for zero size seeking: ";
-	wcout << targetfilename1;
-	
-	ZipHandler zh;
+	//ZipHandler zh;
 	//zh.ZipFolder(filesDir, zipPatch, excludes, 3);
 	////zh.UnZipFile(zipPatch, targetfilename);
-	size_t dirs=0;
-	size_t files=0;
-	zh.CheckFiles(targetfilename1, &dirs, &files, NULL);
-	wcout << L"location: " << targetfilename1 << L"\n";
-	wcout << L"dirs: " << dirs<<L"\n";
-	wcout << L"files: " << files << L"\n";
-	if (zh.found.size()){
-		wcout << L"found:\n";
-		wcout << zh.found;
-	}
+	
 	system("pause");
 	return 0;
 }

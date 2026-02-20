@@ -331,7 +331,7 @@ void RendererDirectShow::Render(bool redrawSubsOnFrame, bool wait)
 	// DXVA2_VideoProcess_YUV2RGBExtended
 	blt.DestFormat.VideoChromaSubsampling = DXVA2_VideoChromaSubsampling_MPEG2;
 	//big wtf looks like bad enumerator name and it used video range
-	blt.DestFormat.NominalRange = DXVA2_NominalRange_16_235;
+	blt.DestFormat.NominalRange = DXVA2_NominalRange_0_255/*DXVA2_NominalRange_16_235*/;
 	blt.DestFormat.VideoTransferMatrix = m_VideoMatrix;
 	blt.DestFormat.VideoLighting = DXVA2_VideoLighting_dark;
 	blt.DestFormat.VideoPrimaries = DXVA2_VideoPrimaries_BT709;
@@ -829,7 +829,7 @@ byte *RendererDirectShow::GetFrameWithSubs(bool subs, bool *del)
 	// DXVA2_VideoProcess_YUV2RGBExtended
 	blt.DestFormat.VideoChromaSubsampling = DXVA2_VideoChromaSubsampling_Unknown;
 	//big wtf looks like bad enumerator name and it used video range
-	blt.DestFormat.NominalRange = DXVA2_NominalRange_16_235;
+	blt.DestFormat.NominalRange = DXVA2_NominalRange_0_255/*DXVA2_NominalRange_16_235*/;
 	blt.DestFormat.VideoTransferMatrix = m_VideoMatrix;
 	blt.DestFormat.VideoLighting = DXVA2_VideoLighting_dark;
 	blt.DestFormat.VideoPrimaries = DXVA2_VideoPrimaries_BT709;

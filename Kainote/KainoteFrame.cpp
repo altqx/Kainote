@@ -265,6 +265,7 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 	VidMenu->AppendTool(Toolbar, GLOBAL_SET_AUDIO_MARK_FROM_VIDEO, 
 		_("Ustaw znacznik audio z czasem wideo"), emptyString, PTR_BITMAP_PNG(L"SETVIDEOTIMEONAUDIOMARK"));
 	VidMenu->AppendTool(Toolbar, GLOBAL_VIDEO_ZOOM, _("Powiększ wideo"), "", PTR_BITMAP_PNG(L"zoom"));
+	VidMenu->AppendTool(Toolbar, GLOBAL_RESET_VIDEO_ZOOM, _("Wyłącz powiększenie wideo"), "", PTR_BITMAP_PNG(L"zoom"));
 	bool videoIndex = Options.GetBool(VIDEO_INDEX);
 	VidMenu->Append(GLOBAL_VIDEO_INDEXING, _("Otwieraj wideo przez FFMS2"), 
 		_("Otwiera wideo przez FFMS2, co daje dokładność klatkową"), true, 
@@ -736,8 +737,8 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 			}
 		}
 	}
-	else if (id == GLOBAL_VIDEO_ZOOM){
-		tab->video->SetZoom();
+	else if (id == GLOBAL_VIDEO_ZOOM || id == GLOBAL_RESET_VIDEO_ZOOM){
+		tab->video->SetZoom(id == GLOBAL_RESET_VIDEO_ZOOM);
 	}
 	else if (id >= GLOBAL_OPEN_AUDIO && id <= GLOBAL_CLOSE_AUDIO){
 		OnOpenAudio(event);
@@ -1634,13 +1635,6 @@ void KainoteFrame::Label(int iter/*=0*/, bool video/*=false*/, int wtab/*=-1*/, 
 	wxString whiter;
 	if (atab->grid->IsModified()){ whiter << iter << L"*"; }
 
-	/*MEMORYSTATUSEX statex;
-	statex.dwLength = sizeof (statex);
-	GlobalMemoryStatusEx (&statex);
-	int div=1024;
-	int availmem=statex.ullAvailVirtual/div;
-	int totalmem=statex.ullTotalVirtual/div;
-	wxString memtxt= wxString::Format(" RAM: %i KB / %i KB", totalmem-availmem, totalmem);*/
 	wxString name = (video) ? atab->VideoName : whiter + atab->SubsName;
 	if (!onlyTabs)
 		SetLabel(name + L" - " + Options.progname + L" " + wxString(INSTRUCTIONS));
@@ -2145,11 +2139,13 @@ void KainoteFrame::OnMenuOpened(MenuEvent& event)
 		if(editor && curMenu)
 			AppendRecent(3);
 
+		bool hasFFMS2 = tab->video->HasFFMS2();
+		bool hasVideoLoaded = (tab->video->GetState() != None);
+
 		for (int i = 0; i < VidMenu->GetMenuItemCount(); i++) {
 			MenuItem * vitem = VidMenu->FindItemByPosition(i);
 			if (vitem) {
-				bool hasFFMS2 = tab->video->HasFFMS2();
-				bool hasVideoLoaded = (tab->video->GetState() != None);
+				
 				switch (vitem->GetId()) {
 				case GLOBAL_GO_TO_PREVIOUS_KEYFRAME:
 				case GLOBAL_GO_TO_NEXT_KEYFRAME:
@@ -2164,6 +2160,9 @@ void KainoteFrame::OnMenuOpened(MenuEvent& event)
 				case GLOBAL_NEXT_FRAME:
 				case GLOBAL_VIDEO_ZOOM:
 					vitem->Enable(hasVideoLoaded);
+					break;
+				case GLOBAL_RESET_VIDEO_ZOOM:
+					vitem->Enable(hasVideoLoaded && tab->video->HasZoom());
 					break;
 				case GLOBAL_VIDEO_INDEXING:
 				case GLOBAL_OPEN_VIDEO:

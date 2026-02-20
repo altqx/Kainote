@@ -23,7 +23,7 @@ SimpleSubPicProvider::SimpleSubPicProvider( int alpha_blt_dst_type, SIZE spd_siz
     , m_consumer(consumer)
 {
     if(phr) {
-        *phr = consumer ? S_OK : E_INVALIDARG;
+        *phr = S_OK;
     }
 
     m_prefered_colortype.AddTail(MSP_AYUV_PLANAR);
@@ -246,14 +246,15 @@ HRESULT SimpleSubPicProvider::RenderTo( IXySubRenderFrame** pSubPic, REFERENCE_T
     CAtlList<CRect> rectList;
 
     CComPtr<IXySubRenderFrame> sub_render_frame;
-    SIZE size_render_with;
-    ASSERT(m_consumer);
-    hr = m_consumer->XyGetSize(DirectVobSubXyOptions::SIZE_LAYOUT_WITH, &size_render_with);
-    if (FAILED(hr))
-    {
-        return hr;
+    SIZE size_render_with = m_spd_size;
+    //ASSERT(m_consumer);
+    if (m_consumer) {
+        hr = m_consumer->XyGetSize(DirectVobSubXyOptions::SIZE_LAYOUT_WITH, &size_render_with);
+        if (FAILED(hr))
+        {
+            return hr;
+        }
     }
-
     hr = pSubPicProviderEx->RenderEx(pSubPic, m_spd_type,
         CRect(CPoint(),m_spd_size), CRect(CPoint(),m_spd_size),
         size_render_with, 
@@ -318,7 +319,7 @@ SimpleSubPicProvider2::SimpleSubPicProvider2( int alpha_blt_dst_type, SIZE max_s
 {
     if (phr)
     {
-        *phr= consumer ? S_OK : E_INVALIDARG;
+        *phr= S_OK;
     }
     m_ex_provider = NULL;
     m_old_provider = NULL;

@@ -1585,10 +1585,21 @@ int VideoBox::GetFrameTimeFromFrame(int frame, bool start)
 		return renderer->GetFrameTimeFromFrame(frame, start);
 	return 0;
 }
-void VideoBox::SetZoom()
+void VideoBox::SetZoom(bool reset)
+{
+	if (renderer) {
+		if(reset)
+			renderer->ResetZoom();
+		else
+			renderer->SetZoom();
+	}
+}
+bool VideoBox::HasZoom()
 {
 	if (renderer)
-		renderer->SetZoom();
+		return renderer->m_ZoomParcent != 1.f;
+	
+	return false;
 }
 void VideoBox::GoToNextKeyframe()
 {
