@@ -461,7 +461,7 @@ void VideoBox::OnMouseEvent(wxMouseEvent& event)
 	bool onVideo = m_Y < h - m_PanelHeight;
 
 	if (event.GetWheelRotation() != 0) {
-
+		bool DefaultVisual = !renderer->HasVisual(true);
 		if (event.ControlDown() && !m_IsFullscreen){
 			int step = event.GetWheelRotation() / event.GetWheelDelta();
 
@@ -475,7 +475,15 @@ void VideoBox::OnMouseEvent(wxMouseEvent& event)
 			}
 			return;
 		}
-		else if (!renderer->HasVisual(true)){
+		else if(onVideo && !event.ControlDown() && DefaultVisual){
+			float curzoom = renderer->m_ZoomParcent;
+			float step = event.GetWheelRotation() / event.GetWheelDelta();
+			float newzoom = MID(1.f, curzoom + (step / 10.f), 10.f);
+			if (curzoom != newzoom) {
+				renderer->SetZoom(newzoom, event.GetPosition());
+			}
+		}// no need check visuals cause it's used only on video panel
+		else if(!onVideo){
 			if (!m_IsDirectShow){
 				AudioBox *box = tab->edit->ABox;
 				if (box){

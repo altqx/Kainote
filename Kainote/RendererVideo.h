@@ -173,7 +173,7 @@ public:
 	void Zoom(const wxSize &size);
 	void DrawZoom();
 	void ZoomMouseHandle(wxMouseEvent &evt);
-	void SetZoom();
+	void SetZoom(float parcent = -1, const wxPoint &mousePos = wxDefaultPosition);
 	void ResetZoom();
 	void SetVisualZoom();
 	void SetVisual(bool settext = false, bool noRefresh = false);
