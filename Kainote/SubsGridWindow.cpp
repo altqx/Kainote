@@ -267,7 +267,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 			}
 			else{
 				TextData &Misspells = SpellErrors[key];
-				strings.push_back(wxString::Format(L"%i", id + 1));
+				strings.push_back(wxString::Format(L"%i", key + 1));
 
 				isComment = Dial->IsComment;
 				if (key == markedLine)
@@ -366,7 +366,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 				visibleLines.push_back(visibleLine);
 			}
 
-			if (isFiltered){
+			if (file->IsFiltered()){
 				posX = 11;
 				unsigned char hasHiddenBlock = file->CheckIfHasHiddenBlock(key, isHeadline);
 				if (hasHiddenBlock){
@@ -519,7 +519,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 			key++;
 		}
 
-		posX = (isFiltered) ? 11 : 0;
+		posX = (file->IsFiltered()) ? 11 : 0;
 		if (bg){
 			tdc.SetPen(*wxTRANSPARENT_PEN);
 			tdc.SetBrush(wxBrush(Options.GetColour(GRID_BACKGROUND)));
@@ -657,7 +657,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 		}
 		else{
 			TextData &Misspells = SpellErrors[key];
-			strings.push_back(wxString::Format(L"%i", id + 1));
+			strings.push_back(wxString::Format(L"%i", key + 1));
 
 			isComment = Dial->IsComment;
 			if (key == markedLine)
@@ -760,7 +760,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 			visibleLines.push_back(visibleLine);
 		}
 
-		if (isFiltered){
+		if (file->IsFiltered()){
 			posX = 11;
 			unsigned char hasHiddenBlock = file->CheckIfHasHiddenBlock(key, isHeadline);
 			if (hasHiddenBlock){
@@ -946,7 +946,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 		key++;
 	}
 
-	posX = (isFiltered) ? 11 : 0;
+	posX = (file->IsFiltered()) ? 11 : 0;
 	if (bg){
 		gc->SetPen(*wxTRANSPARENT_PEN);
 		gc->SetBrush(wxBrush(Options.GetColour(GRID_BACKGROUND)));
@@ -1322,7 +1322,7 @@ void SubsGridWindow::SetVideoLineTime(wxMouseEvent &evt, int mvtal)
 		int whh = 2;
 		for (int i = 0; i <= wh; i++){ whh += GridWidth[i]; }
 		whh -= scHor;
-		if (isFiltered){ whh += 11; }
+		if (file->IsFiltered()){ whh += 11; }
 		bool isstart;
 		int vczas;
 		bool getEndTime = evt.GetX() >= whh && evt.GetX() < whh + GridWidth[wh + 1] && subsFormat != TMP;
@@ -1384,7 +1384,7 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 	int row = GetKeyFromScrollPos(curY / (GridHeight + 1)) - 1;
 	//int rowId = curY / (GridHeight + 1) + scrollPosition - 1;
 	bool outOfPosition = (row < scrollPosition || row >= size);
-	int hideColumnWidth = (isFiltered) ? 12 : 0;
+	int hideColumnWidth = (file->IsFiltered()) ? 12 : 0;
 	bool isNumerizeColumn = (curX >= hideColumnWidth && curX < GridWidth[0] + hideColumnWidth);
 
 	if (left_up && !holding) {

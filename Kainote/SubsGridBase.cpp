@@ -136,14 +136,11 @@ SubsGridBase::~SubsGridBase()
 	Clearing();
 }
 
-
-
 void SubsGridBase::Clearing()
 {
 	SAFE_DELETE(Comparison);
 	SAFE_DELETE(file);
 	SpellErrors.clear();
-	isFiltered = false;
 	showOriginal = false;
 	first = true;
 	scrollPosition = 0;
@@ -151,6 +148,7 @@ void SubsGridBase::Clearing()
 	lastRow = 0;
 	scHor = 0;
 }
+
 void SubsGridBase::AddLine(Dialogue *line)
 {
 	file->AppendDialogue(line);
@@ -1326,7 +1324,7 @@ void SubsGridBase::LoadSubtitles(const wxString &str, wxString &ext)
 		int filterBy = Options.GetInt(GRID_FILTER_BY);
 		if (filterBy && Options.GetBool(GRID_FILTER_AFTER_LOAD) && 
 			filterBy != FILTER_BY_SELECTIONS){
-			isFiltered = true;
+			file->SetFiltered();
 			SubsGridFiltering filter((SubsGrid*)this, currentLine);
 			filter.Filter(true);
 		}
@@ -1993,7 +1991,7 @@ size_t SubsGridBase::GetKeyFromScrollPos(int numOfLines)
 			if (numOfLines == visibleLines)
 				return i;
 
-			if (*GetDialogue(i)->isVisible)
+			if (GetDialogue(i)->isVisible)
 				visibleLines--;
 		}
 		return 0;
@@ -2004,7 +2002,7 @@ size_t SubsGridBase::GetKeyFromScrollPos(int numOfLines)
 		if (numOfLines == visibleLines)
 			return i;
 
-		if (*GetDialogue(i)->isVisible)
+		if (GetDialogue(i)->isVisible)
 			visibleLines++;
 	}
 
@@ -2022,7 +2020,7 @@ size_t SubsGridBase::GetKeyFromPosition(size_t position, int delta, bool safe /*
 		size_t i = position + 1;
 		while (i < GetCount()){
 
-			if (*GetDialogue(i)->isVisible)
+			if (GetDialogue(i)->isVisible)
 				visibleLines++;
 			
 			if (delta == visibleLines)
@@ -2036,7 +2034,7 @@ size_t SubsGridBase::GetKeyFromPosition(size_t position, int delta, bool safe /*
 	else if (delta < 0 && position > 0){
 		size_t i = position - 1;
 		while (i + 1 > 0){
-			if (*GetDialogue(i)->isVisible)
+			if (GetDialogue(i)->isVisible)
 				visibleLines--;
 
 			if (delta == visibleLines)

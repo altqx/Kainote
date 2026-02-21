@@ -24,6 +24,28 @@
 #include <wx/colour.h>
 #include <vector>
 
+enum {
+	LAYER = 1,
+	START = 2,
+	END = 4,
+	STYLE = 8,
+	ACTOR = 16,
+	MARGINL = 32,
+	MARGINR = 64,
+	MARGINV = 128,
+	EFFECT = 256,
+	CPS = 512,
+	TXT = 1024,
+	TXTTL = 2048,
+	COMMENT = 4096,
+	WRAPS = 8192,
+	NOT_VISIBLE = 0,
+	VISIBLE,
+	VISIBLE_BLOCK,
+	TREE_DESCRIPTION,
+	TREE_CLOSED,
+	TREE_OPENED
+};
 //isVisible helper class
 class StoreHelper {
 public:
@@ -266,7 +288,7 @@ public:
 	short MarginL, MarginR, MarginV;
 	char Format, treeState = 0;
 	bool NonDialogue, IsComment;
-	StoreHelper isVisible;
+	unsigned char isVisible = VISIBLE;
 
 	char GetState();
 	//it works like XOR
@@ -297,25 +319,3 @@ public:
 	~Dialogue();
 };
 
-enum{
-	LAYER = 1,
-	START = 2,
-	END = 4,
-	STYLE = 8,
-	ACTOR = 16,
-	MARGINL = 32,
-	MARGINR = 64,
-	MARGINV = 128,
-	EFFECT = 256,
-	CPS = 512,
-	TXT = 1024,
-	TXTTL = 2048,
-	COMMENT = 4096,
-	WRAPS = 8192,
-	NOT_VISIBLE = 0,
-	VISIBLE,
-	VISIBLE_BLOCK,
-	TREE_DESCRIPTION,
-	TREE_CLOSED,
-	TREE_OPENED
-};

@@ -156,7 +156,6 @@ public:
 	int currentLine = 0;
 	bool showFrames = false;
 	bool savedSelections = false;
-	bool isFiltered = false;
 	bool ignoreFiltered = false;
 	std::vector<TextData> SpellErrors;
 	std::vector<compareData> *Comparison;

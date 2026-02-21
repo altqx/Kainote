@@ -103,13 +103,14 @@ File *File::Copy(bool copySelections)
 	file->activeLine = activeLine;
 	file->markerLine = markerLine;
 	file->scrollPosition = scrollPosition;
+	file->isFiltered = isFiltered;
 	return file;
 }
 
 SubsFile::SubsFile(wxMutex * editionGuard)
 {
-	historyNames = new wxString[AUTOMATION_SCRIPT + 1]{
-		//first element is not used but is to sacure from number 0
+	historyNames = new wxString[FILTERING_CHANGE + 1]{
+		//first element is not used but is to secure it from number 0
 		emptyString,
 			_("Otwarcie napisów"),
 			_("Nowe napisy"),
@@ -166,7 +167,8 @@ SubsFile::SubsFile(wxMutex * editionGuard)
 			_("Ustawienie opisu"),
 			_("Dodanie linii do drzewka"),
 			_("Usunięcie drzewka"),
-			_("Skrypt automatyzacji")
+			_("Skrypt automatyzacji"),
+			_("Filtrowanie")
 	};
 	iter = 0;
 	edited = false;
@@ -305,7 +307,7 @@ size_t SubsFile::GetIdCount()
 {
 	size_t idCount = 0;
 	for (Dialogue * dial : subs->dialogues){
-		if (*dial->isVisible)
+		if (dial->isVisible)
 			idCount++;
 	}
 
@@ -412,7 +414,7 @@ void SubsFile::GetSelections(wxArrayInt &selections, bool deselect/*=false*/, bo
 	selections.clear();
 	for (std::set<int>::iterator i = subs->Selections.begin(); i != subs->Selections.end(); i++){
 		int sel = (*i);
-		if (!checkVisible || (sel < subs->dialogues.size() && *subs->dialogues[sel]->isVisible))
+		if (!checkVisible || (sel < subs->dialogues.size() && subs->dialogues[sel]->isVisible))
 			selections.Add(sel);
 	}
 	if (deselect){ subs->Selections.clear(); }
@@ -430,7 +432,7 @@ void SubsFile::InsertSelections(size_t from, size_t to, bool deselect /*= false*
 	if (from >= dialsize){ return; }
 	if (to >= dialsize){ to = dialsize - 1; }
 	for (size_t i = from; i <= to; i++){
-		if (!skipHidden || *subs->dialogues[i]->isVisible){
+		if (!skipHidden || subs->dialogues[i]->isVisible){
 			subs->Selections.insert(i);
 		}
 	}
@@ -488,7 +490,7 @@ size_t SubsFile::GetElementById(size_t id)
 {
 	size_t countid = -1;
 	for (size_t i = 0; i < subs->dialogues.size(); i++){
-		if (*subs->dialogues[i]->isVisible)
+		if (subs->dialogues[i]->isVisible)
 			countid++;
 
 		if (countid == id){
@@ -510,7 +512,7 @@ size_t SubsFile::GetElementByKey(size_t key)
 		if (i == key){
 			return countid;
 		}
-		if (*subs->dialogues[i]->isVisible)
+		if (subs->dialogues[i]->isVisible)
 			countid++;
 	}
 	//it's possible to get here?
@@ -595,7 +597,7 @@ unsigned char SubsFile::CheckIfHasHiddenBlock(int i, bool firstLine /*= false*/)
 
 	size_t numOfLines = 0;
 	while (keyFirst < subs->dialogues.size()){
-		if (*subs->dialogues[keyFirst]->isVisible){ 
+		if (subs->dialogues[keyFirst]->isVisible){ 
 			if (numOfLines)
 				return 1;
 			else
@@ -619,7 +621,7 @@ size_t SubsFile::GetKeyFromPos(size_t position, size_t numOfLines)
 		if (numOfLines == visibleLines)
 			return i;
 
-		if (*subs->dialogues[i]->isVisible)
+		if (subs->dialogues[i]->isVisible)
 			visibleLines++;
 	}
 
@@ -715,6 +717,16 @@ const wxString & SubsFile::GetRedoName()
 		return emptyString;
 
 	return historyNames[undo[iter + 1]->editionType];
+}
+
+bool SubsFile::IsFiltered()
+{
+	return subs->isFiltered;
+}
+
+void SubsFile::SetFiltered(bool filtered)
+{
+	subs->isFiltered = filtered;
 }
 
 void SubsFile::AddStyle(Styles *nstyl)
@@ -838,7 +850,7 @@ size_t SubsFile::FirstSelection(size_t *id /*= nullptr*/)
 		// return only visible element when nothing is visible, return -1;
 		for (auto it = subs->Selections.begin(); it != subs->Selections.end(); it++){
 			int sel = (*it);
-			if (sel < subs->dialogues.size() && *subs->dialogues[sel]->isVisible){
+			if (sel < subs->dialogues.size() && subs->dialogues[sel]->isVisible){
 				if (id){
 					*id = GetElementByKey(sel);
 					if (*id == -1)

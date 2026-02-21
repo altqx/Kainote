@@ -181,7 +181,7 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	filterMenu->SetAccMenu(GRID_FILTER_BY_DOUBTFUL, _("Pokaż niepewne"), _("Pokaż niepewne"), hasTLMode, ITEM_CHECK)->Check(filterBy & FILTER_BY_DOUBTFUL && hasTLMode);
 	filterMenu->SetAccMenu(GRID_FILTER_BY_UNTRANSLATED, _("Pokaż nieprzetłumaczone"), _("Pokaż nieprzetłumaczone"), hasTLMode, ITEM_CHECK)->Check(filterBy & FILTER_BY_UNTRANSLATED && hasTLMode);
 	filterMenu->SetAccMenu(GRID_FILTER, _("Filtruj"), _("Filtruj"));
-	filterMenu->SetAccMenu(GRID_FILTER_BY_NOTHING, _("Wyłącz filtrowanie"), _("Wyłącz filtrowanie"))->Enable(isFiltered);
+	filterMenu->SetAccMenu(GRID_FILTER_BY_NOTHING, _("Wyłącz filtrowanie"), _("Wyłącz filtrowanie"))->Enable(file->IsFiltered());
 
 	bool isEnabled;
 	isEnabled = (sels > 0);
@@ -334,7 +334,7 @@ void SubsGrid::OnDuplicate()
 			dupl.push_back(dial);
 			i++; rw1++; 
 		}
-		else if (*GetDialogue(rw1)->isVisible){ 
+		else if (GetDialogue(rw1)->isVisible){ 
 			break; 
 		}
 		else
@@ -785,8 +785,8 @@ void SubsGrid::OnAccelerator(wxCommandEvent &event)
 	case GRID_HIDE_SELECTED:
 	{
 		SubsGridFiltering filter(this, currentLine);
+		file->SetFiltered();
 		filter.HideSelections();
-		isFiltered = true;
 		break;
 	}
 	case GRID_TREE_MAKE:
@@ -1484,13 +1484,7 @@ bool SubsGrid::SwapAssProperties()
 void SubsGrid::Filter(int id)
 {
 	SubsGridFiltering filter((SubsGrid*)this, currentLine);
-	/*const wxString & styles = Options.GetString(GRID_FILTER_STYLES);
-	if (!styles.empty()){
-		int filterBy = Options.GetInt(GRID_FILTER_BY);
-		Options.SetInt(GRID_FILTER_BY, filterBy | FILTER_BY_STYLES);
-	}*/
-	if (id != GRID_FILTER_BY_NOTHING){ isFiltered = true; }
-	//else{ Options.SetInt(GRID_FILTER_BY, 0); }
+	if (id != GRID_FILTER_BY_NOTHING){ file->SetFiltered(true); }
 	filter.Filter(false, id == GRID_FILTER_BY_NOTHING);
 }
 

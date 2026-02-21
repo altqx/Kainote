@@ -100,6 +100,7 @@ bool SubsLoader::LoadASS(const wxString &text)
 	wxStringTokenizer tokenizer(text, L"\n", wxTOKEN_STRTOK);
 
 	bool tlmode = false;
+	bool hasFiltering = false;
 	wxString tlstyle;
 
 
@@ -126,6 +127,8 @@ bool SubsLoader::LoadASS(const wxString &text)
 			else{
 				grid->AddLine(dl);
 			}
+			if (!hasFiltering && dl->isVisible != VISIBLE)
+				hasFiltering = true;
 		}
 		else if (token.StartsWith(L"Style:"))
 		{
@@ -152,6 +155,7 @@ bool SubsLoader::LoadASS(const wxString &text)
 		}
 	}
 	grid->hasTLMode = tlmode;
+	grid->file->SetFiltered(hasFiltering);
 	const wxString &matrix = grid->GetSInfo(L"YCbCr Matrix");
 	if (matrix == emptyString || matrix == L"None"){ grid->AddSInfo(L"YCbCr Matrix", L"TV.601"); }
 	return grid->GetCount() > 0;

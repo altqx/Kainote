@@ -78,7 +78,8 @@ enum{
 	TREE_SET_DESCRIPTION,
 	TREE_ADD_LINES,
 	TREE_REMOVE,
-	AUTOMATION_SCRIPT
+	AUTOMATION_SCRIPT,
+	FILTERING_CHANGE
 };
 
 //Filtering is treated as keys, every dialogue get/set functions use keys, ids are only for paint or mouse using
@@ -98,6 +99,7 @@ public:
 	int activeLine;
 	int markerLine = 0;
 	int scrollPosition = 0;
+	bool isFiltered = false;
 	File();
 	~File();
 	void Clear();
@@ -185,6 +187,7 @@ public:
 	int OpenCloseTree(size_t i);
 	void GetURStatus(bool *_undo, bool *_redo);
 	bool IsNotSaved();
+	void SetAsEdited() { edited = true; }
 	int maxx();
 	int Iter();
 	void RemoveFirst(int num);
@@ -198,6 +201,8 @@ public:
 	void RemoveLastIterSave() { lastSave = -1; }
 	const wxString &GetUndoName();
 	const wxString &GetRedoName();
+	bool IsFiltered();
+	void SetFiltered(bool filtered = true);
 	bool edited;
 	wxString *historyNames = nullptr;
 	wxMutex *historyGuard = nullptr;

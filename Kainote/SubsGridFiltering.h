@@ -36,7 +36,8 @@ public:
 private:
 	inline bool CheckHiding(Dialogue *dial, int i);
 	void TurnOffFiltering();
-	void FilteringFinalize();
+	//FILTERING_CHANGE = 57
+	void FilteringFinalize(int id = 57);
 	SubsGrid *grid;
 	bool Invert;
 	//int activeLineDiff = 0;

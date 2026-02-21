@@ -308,6 +308,12 @@ void Dialogue::SetRaw(const wxString &ldial)
 				if (Actor->Replace(L"[bookmark]", emptyString)){
 					State |= 8;
 				}
+				else if (Actor->Replace(L"[hidden]", emptyString)) {
+					isVisible = NOT_VISIBLE;
+				}
+				else if (Actor->Replace(L"[visible]", emptyString)) {
+					isVisible = VISIBLE_BLOCK;
+				}
 				else if (Actor->Replace(L"[tree_closed]", emptyString)){
 					treeState = TREE_CLOSED;
 					isVisible = NOT_VISIBLE;
@@ -423,6 +429,10 @@ void Dialogue::GetRaw(wxString *txt, bool tl/*=false*/, const wxString &style/*=
 			ActorWithStates.Prepend((treeState == TREE_DESCRIPTION) ? wxString(L"[tree_description]") :
 				(treeState == TREE_OPENED) ? wxString(L"[tree_opened]") :
 				(treeState == TREE_CLOSED) ? wxString(L"[tree_closed]") : emptyString);
+		}
+		else if (isVisible != VISIBLE) {
+			ActorWithStates.Prepend((isVisible == NOT_VISIBLE)? wxString(L"[hidden]") : 
+				(isVisible == VISIBLE_BLOCK) ? wxString(L"[visible]") : emptyString);
 		}
 		line << Layer << L","
 			<< Start.raw(Format) << L","
@@ -655,7 +665,7 @@ Dialogue *Dialogue::Copy(bool keepstate, bool copyIsVisible)
 	dial->Text = Text;
 	dial->TextTl = TextTl;
 	dial->treeState = treeState;
-	dial->isVisible.Store(isVisible, copyIsVisible);
+	dial->isVisible = isVisible;/*.Store(isVisible, copyIsVisible);*/
 	dial->parseData = nullptr;
 	return dial;
 }

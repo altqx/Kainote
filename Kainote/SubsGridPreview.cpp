@@ -228,7 +228,7 @@ void SubsGridPreview::OnPaint(wxPaintEvent &evt)
 			if (!Dial->isVisible){ key++; continue; }
 		}
 
-		if (previewGrid->isFiltered){
+		if (previewGrid->file->IsFiltered()){
 			posX = 15;
 			unsigned char hasHiddenBlock = previewGrid->file->CheckIfHasHiddenBlock(key, isHeadline);
 			if (hasHiddenBlock){
@@ -485,7 +485,7 @@ void SubsGridPreview::OnPaint(wxPaintEvent &evt)
 		key++;
 	}
 
-	posX = (previewGrid->isFiltered) ? 15 : 4;
+	posX = (previewGrid->file->IsFiltered()) ? 15 : 4;
 	if (bg){
 		tdc.SetPen(*wxTRANSPARENT_PEN);
 		tdc.SetBrush(wxBrush(Options.GetColour(GRID_BACKGROUND)));
@@ -583,7 +583,7 @@ void SubsGridPreview::OnMouseEvent(wxMouseEvent &event)
 	if (curX < 0 || curX > w - 4){ return; }
 
 	int row = previewGrid->GetKeyFromScrollPos(curY / (previewGrid->GridHeight + 1)) - 1;
-	int hideColumnWidth = (previewGrid->isFiltered) ? 12 : 0;
+	int hideColumnWidth = (previewGrid->file->IsFiltered()) ? 12 : 0;
 	bool isNumerizeColumn = (curX >= hideColumnWidth && curX < previewGrid->GridWidth[0] + hideColumnWidth);
 
 	if (left_up && !holding) {
