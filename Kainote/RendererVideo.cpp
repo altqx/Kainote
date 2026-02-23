@@ -331,7 +331,7 @@ void RendererVideo::SetZoom(float parcent, const wxPoint& mousePos)
 	else {
 		m_HasZoom = !m_HasZoom;
 
-		if (m_ZoomParcent == 1.f || m_ZoomRect.width < 1) {
+		if ((m_ZoomParcent == 1.f && m_HasZoom) || m_ZoomRect.width < 1) {
 			float nparcent = 2.f;
 			float x = m_BackBufferRect.right - m_BackBufferRect.left;
 			float y = m_BackBufferRect.bottom - m_BackBufferRect.top;

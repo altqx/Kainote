@@ -26,7 +26,6 @@ private:
 
 public:
 	int orgframe;
-	//wxString raw;
 	int mstime;
 
 	SubsTime();
@@ -36,7 +35,7 @@ public:
 	void NewTime(int ms);
 	void NewFrame(int frame);
 	void ParseMS(wxString time);
-	wxString raw(char format = 0);//, float fps=0
+	wxString raw(char format = 0);
 	char GetFormat();
 	void ChangeFormat(char format, float fps = 0);
 	wxString GetFormatted(char format);

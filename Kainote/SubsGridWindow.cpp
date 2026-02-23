@@ -16,9 +16,6 @@
 
 #include "SubsGridWindow.h"
 #include "config.h"
-//#include "TabPanel.h"
-
-//#include "kainoteFrame.h"
 #include "kaiMessageBox.h"
 #include "SubsGridFiltering.h"
 #include "SubsGridPreview.h"

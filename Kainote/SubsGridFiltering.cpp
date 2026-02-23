@@ -75,23 +75,23 @@ void SubsGridFiltering::Filter(bool autoFiltering, bool removeFiltering)
 		if (dial->NonDialogue) continue;
 		bool hideDialogue = CheckHiding(dial, i);
 		if (hideDialogue && !Invert || !hideDialogue && Invert){
-			Dialogue* dialc = grid->file->CopyDialogue(i);
+			Dialogue* dialc = grid->file->CopyDialogue(i, true, true);
 			dialc->isVisible = NOT_VISIBLE;
 		}
 		else if (addToFilter){
 			if (lastDial && lastDial->isVisible == VISIBLE_BLOCK && dial->isVisible == NOT_VISIBLE){ 
-				Dialogue* dialc = grid->file->CopyDialogue(i);
+				Dialogue* dialc = grid->file->CopyDialogue(i, true, true);
 				dialc->isVisible = VISIBLE_BLOCK; 
 			}
 			else if (lastDial && lastDial->isVisible == NOT_VISIBLE && dial->isVisible == VISIBLE_BLOCK){ 
-				Dialogue* dialc = grid->file->CopyDialogue(lastI);
+				Dialogue* dialc = grid->file->CopyDialogue(lastI, true, true);
 				dialc->isVisible = VISIBLE_BLOCK;
 			}
 			lastDial = dial;
 			lastI = i;
 		}
 		else{
-			Dialogue* dialc = grid->file->CopyDialogue(i);
+			Dialogue* dialc = grid->file->CopyDialogue(i, true, true);
 			dialc->isVisible = VISIBLE;
 		}
 	}
@@ -103,27 +103,28 @@ void SubsGridFiltering::FilterPartial(int from)
 {
 	Dialogue *lastDial = nullptr;
 	int keyFrom = from? from + 1 : from;
-	int keyTo = keyFrom;
+	//int keyTo = keyFrom;
 	bool hide = true;
-	bool changed = false;
+	//bool changed = false;
 
 	for (size_t i = keyFrom; i < grid->file->GetCount(); i++){
 		Dialogue *dial = grid->file->GetDialogue(i);
 		if (!dial->NonDialogue){
 			if (lastDial && dial->isVisible == VISIBLE){
-				keyTo = i - 1;
-				changed = true;
+				//keyTo = i - 1;
+				//changed = true;
 				break;
 			}
 			if (!dial->isVisible){ hide = false; }
-			dial->isVisible = !hide ? VISIBLE_BLOCK : NOT_VISIBLE;
+			Dialogue* dialc = grid->file->CopyDialogue(i, true, true);
+			dialc->isVisible = !hide ? VISIBLE_BLOCK : NOT_VISIBLE;
 			lastDial = dial;
 		}
 	}
-	if (!changed){
-		keyTo = grid->file->GetCount() - 1;
+	//if (!changed){
+		//keyTo = grid->file->GetCount() - 1;
 		//KaiLogDebug("Something went wrong with partially hiding it is better to check it for potencial bugs.");
-	}
+	//}
 	grid->RefreshSubsOnVideo(activeLine, false);
 	grid->RefreshColumns();
 }
@@ -174,18 +175,18 @@ void SubsGridFiltering::MakeTree()
 		if (j < selssize){ isSelected = keySelections[j] == i; if (isSelected){ j++; } }
 		if (isSelected){
 			if (startSelection){
-				Dialogue *treeStart = dial->Copy();
+				Dialogue *treeStart = new Dialogue();
+				treeStart->End = 0;
+				treeStart->Style = dial->Style;
 				treeStart->IsComment = true;
 				treeStart->isVisible = VISIBLE;
 				treeStart->treeState = TREE_DESCRIPTION;
-				treeStart->Text = emptyString;
-				treeStart->TextTl = emptyString;
 				grid->InsertRows(i + treeDiff, 1, treeStart, true, false);
 				treeDiff++;
 				startSelection = false;
 			}
 			//to make adding tree works with history dials need to be copied
-			Dialogue* dialc = grid->file->CopyDialogue(i + treeDiff);
+			Dialogue* dialc = grid->file->CopyDialogue(i + treeDiff, true, true);
 			dialc->isVisible = NOT_VISIBLE;
 			dialc->treeState = TREE_CLOSED;
 		}
@@ -208,7 +209,7 @@ void SubsGridFiltering::TurnOffFiltering()
 	for (size_t i = 0; i < grid->file->GetCount(); i++){
 		Dialogue *dial = grid->file->GetDialogue(i);
 		if (dial->isVisible != VISIBLE && !dial->NonDialogue){
-			Dialogue* dialc = grid->file->CopyDialogue(i);
+			Dialogue* dialc = grid->file->CopyDialogue(i, true, true);
 			dialc->isVisible = VISIBLE;
 		}
 	}
