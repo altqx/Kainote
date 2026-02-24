@@ -532,6 +532,7 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		}
 		else{
 			Options.SetCoords(WINDOW_SIZE, sizex, sizey);
+			KaiLogSilent(wxString::Format(L"shortcut and windows moving x: %d, y: %d, w: %d, h: %d no resize %d", newRt.x, newRt.y, sizex, sizey, (int)wasWindowsSize));
 			if (wasWindowsSize) {
 				SetPosition(wxPoint(rt.x, rt.y));
 				Layout();
@@ -541,7 +542,6 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 				SetSize(newRt.x, newRt.y, newRt.width, newRt.height);
 			}
 			Options.SetCoords(WINDOW_POSITION, newRt.x, newRt.y);
-			KaiLogSilent(wxString::Format(L"shortcut and windows moving x: %d, y: %d, w: %d, h: %d", newRt.x, newRt.y, sizex, sizey));
 		}
 		
 		KainoteFrame::Get()->Thaw();

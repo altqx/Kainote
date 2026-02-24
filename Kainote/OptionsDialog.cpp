@@ -562,9 +562,10 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 	{
 		wxString voptspl[] = { _("Otwórz wideo z menu kontekstowego na pełnym ekranie"), _("Lewy przycisk myszy pauzuje wideo"),
 			_("Otwieraj wideo z czasem aktywnej linii"), _("Preferowane ścieżki audio (oddzielone średnikiem)"),
-			_("Sposób szukania wideo w FFMS2 (wymaga ponownego wczytania)"), _("Filtr wyświetlania napisów") };
+			_("Sposób szukania wideo w FFMS2 (wymaga ponownego wczytania)"), _("Filtr wyświetlania napisów"), 
+			_("Początkowy zoom wideo w procentach")};
 		CONFIG vopts[] = { VIDEO_FULL_SCREEN_ON_START, VIDEO_PAUSE_ON_CLICK, OPEN_VIDEO_AT_ACTIVE_LINE,
-			ACCEPTED_AUDIO_STREAM, FFMS2_VIDEO_SEEKING, VSFILTER_INSTANCE };
+			ACCEPTED_AUDIO_STREAM, FFMS2_VIDEO_SEEKING, VSFILTER_INSTANCE, VIDEO_ZOOM_PERCENT };
 		wxBoxSizer *MainSizer = new wxBoxSizer(wxVERTICAL);
 		for (int i = 0; i < 3; i++)
 		{
@@ -577,7 +578,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		KaiTextCtrl *tc = new KaiTextCtrl(video, -1, Options.GetString(vopts[3]), 
 			wxDefaultPosition, wxSize(250, -1), wxTE_PROCESS_ENTER);
 		ConOpt(tc, vopts[3]);
-		prefaudio->Add(tc, 1, wxALL /*| wxALIGN_CENTER*/ | wxEXPAND, 2);
+		prefaudio->Add(tc, 1, wxALL | wxEXPAND, 2);
 		MainSizer->Add(prefaudio, 0, wxRIGHT | wxEXPAND, 5);
 		KaiStaticBoxSizer *seekingsizer = new KaiStaticBoxSizer(wxHORIZONTAL, video, voptspl[4]);
 
@@ -592,7 +593,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 			Options.SaveOptions(true, false);
 		}
 		sopts->SetSelection(selection);
-		seekingsizer->Add(sopts, 1, wxALL /*| wxALIGN_CENTER*/ | wxEXPAND, 2);
+		seekingsizer->Add(sopts, 1, wxALL | wxEXPAND, 2);
 		MainSizer->Add(seekingsizer, 0, wxRIGHT | wxEXPAND, 5);
 		ConOpt(sopts, vopts[4]);
 
@@ -606,8 +607,18 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		if (result < 0)
 			result = 0;
 		vsfiltersList->SetSelection(result);
-		filtersizer->Add(vsfiltersList, 1, wxALL /*| wxALIGN_CENTER*/ | wxEXPAND, 2);
+		filtersizer->Add(vsfiltersList, 1, wxALL | wxEXPAND, 2);
 		MainSizer->Add(filtersizer, 0, wxRIGHT | wxEXPAND, 5);
+
+		KaiStaticBoxSizer* zoomsizer = new KaiStaticBoxSizer(wxHORIZONTAL, video, voptspl[6]);
+		int percent = Options.GetInt(vopts[6]);
+		if (percent < 100 || percent > 1100)
+			percent = 200;
+
+		NumCtrl* zoomPercent = new NumCtrl(video, ID_VIDEO_ZOOM_PERCENT, (double)percent, 100., 1100., true);
+		ConOpt(zoomPercent, vopts[6]);
+		zoomsizer->Add(zoomPercent, 1, wxALL | wxEXPAND, 2);
+		MainSizer->Add(zoomsizer, 0, wxRIGHT | wxEXPAND, 5);
 		ConOpt(vsfiltersList, vopts[5]);
 		video->SetSizerAndFit(MainSizer);
 	}

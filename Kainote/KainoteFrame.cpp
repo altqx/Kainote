@@ -265,7 +265,7 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 	VidMenu->AppendTool(Toolbar, GLOBAL_SET_AUDIO_MARK_FROM_VIDEO, 
 		_("Ustaw znacznik audio z czasem wideo"), emptyString, PTR_BITMAP_PNG(L"SETVIDEOTIMEONAUDIOMARK"));
 	VidMenu->AppendTool(Toolbar, GLOBAL_VIDEO_ZOOM, _("Powiększ wideo"), "", PTR_BITMAP_PNG(L"zoom"));
-	VidMenu->AppendTool(Toolbar, GLOBAL_RESET_VIDEO_ZOOM, _("Wyłącz powiększenie wideo"), "", PTR_BITMAP_PNG(L"zoom"));
+	VidMenu->Append(GLOBAL_RESET_VIDEO_ZOOM, _("Wyłącz powiększenie wideo"));
 	bool videoIndex = Options.GetBool(VIDEO_INDEX);
 	VidMenu->Append(GLOBAL_VIDEO_INDEXING, _("Otwieraj wideo przez FFMS2"), 
 		_("Otwiera wideo przez FFMS2, co daje dokładność klatkową"), true, 
@@ -612,23 +612,26 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 {
 	int id = event.GetId();
 	int Modif = event.GetInt();
-	MenuItem *item = Menubar->FindItem(id);
+	Menu* itemMenu = nullptr;
+	MenuItem *item = Menubar->FindItem(id, &itemMenu);
 
 	TabPanel *tab = GetTab();
 	if (Modif == wxMOD_SHIFT && item){
 		Hkeys.OnMapHkey(id, emptyString, this, GLOBAL_HOTKEY);
 		return;
 	}
-	if (item && !item->enabled)
-		return;
+	//check actual item state
+	if (event.GetClientData() == nullptr && item && itemMenu) {
+		MenuEvent evt(wxEVT_NULL, 0, itemMenu);
+		OnMenuOpened(evt);
+		if (!item->enabled)
+			return;
+	}
 
 	//it should not be blocked, frames should go as fast as possible
 	if ((id == GLOBAL_PREVIOUS_FRAME || id == GLOBAL_NEXT_FRAME)){
 		tab->video->ChangePositionByFrame((id == GLOBAL_PREVIOUS_FRAME) ? -1 : 1);
 	}
-
-	//if (Options.CheckLastKeyEvent(id))
-		//return;
 
 	if (id == GLOBAL_SAVE_SUBS){
 		Save(Tabs->HasRecoverySubs());

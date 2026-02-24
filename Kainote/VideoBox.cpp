@@ -476,7 +476,7 @@ void VideoBox::OnMouseEvent(wxMouseEvent& event)
 			return;
 		}
 		else if(onVideo && !event.ControlDown() && DefaultVisual){
-			float curzoom = renderer->m_ZoomParcent;
+			float curzoom = renderer->m_ZoomPercent;
 			float step = event.GetWheelRotation() / event.GetWheelDelta();
 			float newzoom = MID(1.f, curzoom + (step / 10.f), 10.f);
 			if (curzoom != newzoom) {
@@ -1194,7 +1194,7 @@ void VideoBox::SetScaleAndZoom()
 	KainoteFrame* Kai = (KainoteFrame*)Notebook::GetTabs()->GetParent();
 	Kai->SetStatusText(scale, 1);
 	wxString zoom;
-	zoom << (int)(renderer->m_ZoomParcent * 100) << L"%";
+	zoom << (int)(renderer->m_ZoomPercent * 100) << L"%";
 	
 	Kai->SetStatusText(zoom, 2);
 }
@@ -1605,7 +1605,7 @@ void VideoBox::SetZoom(bool reset)
 bool VideoBox::HasZoom()
 {
 	if (renderer)
-		return renderer->m_ZoomParcent != 1.f;
+		return renderer->m_ZoomPercent != 1.f;
 	
 	return false;
 }

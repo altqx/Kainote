@@ -141,7 +141,7 @@ public:
 	RECT m_BackBufferRect;
 	unsigned char m_Format;
 	float m_FrameDuration = 0.f;
-	float m_ZoomParcent = 1.f;
+	float m_ZoomPercent = 1.f;
 	wxString m_ProgressBarTime;
 	ID3DXLine *m_D3DLine = nullptr;
 	ID3DXFont *m_D3DFont = nullptr;
@@ -173,7 +173,7 @@ public:
 	void Zoom(const wxSize &size);
 	void DrawZoom();
 	void ZoomMouseHandle(wxMouseEvent &evt);
-	void SetZoom(float parcent = -1, const wxPoint &mousePos = wxDefaultPosition);
+	void SetZoom(float percent = -1, const wxPoint &mousePos = wxDefaultPosition);
 	void ResetZoom();
 	void SetVisualZoom();
 	void SetVisual(bool settext = false, bool noRefresh = false);

@@ -296,15 +296,15 @@ bool RendererVideo::PlayLine(int start, int eend)
 	return true;
 }
 
-void RendererVideo::SetZoom(float parcent, const wxPoint& mousePos)
+void RendererVideo::SetZoom(float percent, const wxPoint& mousePos)
 {
 	if (m_State == None){ return; }
-	if (parcent != -1) {
-		m_ZoomParcent = parcent;
+	if (percent != -1) {
+		m_ZoomPercent = percent;
 		float x = m_BackBufferRect.right - m_BackBufferRect.left;
 		float y = m_BackBufferRect.bottom - m_BackBufferRect.top;
-		float xpar = x / parcent;
-		float ypar = y / parcent;
+		float xpar = x / percent;
+		float ypar = y / percent;
 		float left = m_BackBufferRect.left + mousePos.x - (xpar / 2.f);
 		float top = m_BackBufferRect.top + mousePos.y - (ypar / 2.f);
 		if (left + xpar > x)
@@ -324,19 +324,20 @@ void RendererVideo::SetZoom(float parcent, const wxPoint& mousePos)
 		m_MainStreamRect.top = (m_ZoomRect.y - m_BackBufferRect.top) / videoToScreenYY;
 		m_MainStreamRect.right = (m_ZoomRect.width - m_BackBufferRect.left) / videoToScreenXX;
 		m_MainStreamRect.bottom = (m_ZoomRect.height - m_BackBufferRect.top) / videoToScreenYY;
-		m_ZoomParcent = x / (m_ZoomRect.width - m_ZoomRect.x);
+		m_ZoomPercent = x / (m_ZoomRect.width - m_ZoomRect.x);
 		ZoomChanged();
 		videoControl->SetScaleAndZoom();
 	}
 	else {
 		m_HasZoom = !m_HasZoom;
 
-		if ((m_ZoomParcent == 1.f && m_HasZoom) || m_ZoomRect.width < 1) {
-			float nparcent = 2.f;
+		if ((m_ZoomPercent == 1.f && m_HasZoom) || m_ZoomRect.width < 1) {
+			float npercent = Options.GetInt(VIDEO_ZOOM_PERCENT) / 100.f;
+			npercent = (npercent < 1.f || npercent > 11.f)? 2.f : npercent;
 			float x = m_BackBufferRect.right - m_BackBufferRect.left;
 			float y = m_BackBufferRect.bottom - m_BackBufferRect.top;
-			float xpar = x / nparcent;
-			float ypar = y / nparcent;
+			float xpar = x / npercent;
+			float ypar = y / npercent;
 			float left = m_BackBufferRect.left + ((x - xpar) / 2.f);
 			float top = m_BackBufferRect.top + ((y - ypar) / 2.f);
 			m_ZoomRect = FloatRect(left, top, xpar + left, ypar + top);
@@ -346,7 +347,7 @@ void RendererVideo::SetZoom(float parcent, const wxPoint& mousePos)
 			m_MainStreamRect.top = (m_ZoomRect.y - m_BackBufferRect.top) / videoToScreenYY;
 			m_MainStreamRect.right = (m_ZoomRect.width - m_BackBufferRect.left) / videoToScreenXX;
 			m_MainStreamRect.bottom = (m_ZoomRect.height - m_BackBufferRect.top) / videoToScreenYY;
-			m_ZoomParcent = x / (m_ZoomRect.width - m_ZoomRect.x);
+			m_ZoomPercent = x / (m_ZoomRect.width - m_ZoomRect.x);
 			ZoomChanged();
 			videoControl->SetScaleAndZoom();
 		}
@@ -365,7 +366,7 @@ void RendererVideo::ResetZoom()
 	m_MainStreamRect.top = (m_ZoomRect.y - m_BackBufferRect.top) / videoToScreenYY;
 	m_MainStreamRect.right = (m_ZoomRect.width - m_BackBufferRect.left) / videoToScreenXX;
 	m_MainStreamRect.bottom = (m_ZoomRect.height - m_BackBufferRect.top) / videoToScreenYY;
-	m_ZoomParcent = size.x / (m_ZoomRect.width - m_ZoomRect.x);
+	m_ZoomPercent = size.x / (m_ZoomRect.width - m_ZoomRect.x);
 	ZoomChanged();
 	Render();
 	videoControl->SetScaleAndZoom();
@@ -380,7 +381,7 @@ void RendererVideo::Zoom(const wxSize &size)
 	m_MainStreamRect.top = (m_ZoomRect.y - m_BackBufferRect.top) / videoToScreenYY;
 	m_MainStreamRect.right = (m_ZoomRect.width - m_BackBufferRect.left) / videoToScreenXX;
 	m_MainStreamRect.bottom = (m_ZoomRect.height - m_BackBufferRect.top) / videoToScreenYY;
-	m_ZoomParcent = size.x / (m_ZoomRect.width - m_ZoomRect.x/* + backBufferRect.left*/);
+	m_ZoomPercent = size.x / (m_ZoomRect.width - m_ZoomRect.x/* + backBufferRect.left*/);
 	if (videoControl->m_IsFullscreen){ UpdateRects(false); }
 	if (m_Visual){
 		SetVisualZoom();

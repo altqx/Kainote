@@ -1066,12 +1066,17 @@ int MenuBar::CalcMousePos(wxPoint *pos)
 	return -1;
 }
 
-MenuItem *MenuBar::FindItem(int id)
+MenuItem *MenuBar::FindItem(int id, Menu** menuptr)
 {
 	MenuItem *item = nullptr;
 	for (auto menu : Menus){
 		item = menu->FindItem(id);
-		if (item) { return item; }
+		if (item) { 
+			if (menuptr)
+				(*menuptr) = menu;
+
+			return item; 
+		}
 	}
 	return nullptr;
 }

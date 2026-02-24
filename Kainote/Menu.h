@@ -250,7 +250,7 @@ public:
 	void Append(Menu *menu, const wxString &title);
 	void Prepend(Menu *menu, const wxString &title);
 	void Insert(int position, Menu *menu, const wxString &title);
-	MenuItem *FindItem(int id);
+	MenuItem *FindItem(int id, Menu **menuptr = nullptr);
 	void Enable(int id, bool enable = true);
 	//void AppendAccelerators(std::vector <wxAcceleratorEntry> *entries);
 	bool SetFont(const wxFont &font);
