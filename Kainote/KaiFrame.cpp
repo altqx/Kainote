@@ -419,6 +419,8 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		wxRect newRt = wxRect(newRect->left, newRect->top, abs(newRect->right - newRect->left), abs(newRect->bottom - newRect->top));
 		std::vector<RECT> monitors;
 		wxRect rt = GetMonitorRect1(0, &monitors, newRt);
+		int sizex = lastSize.x, sizey = lastSize.y;
+		int lposx = lastPosition.x, lposy = lastPosition.y;
 		KaiLogSilent(wxString::Format(L"old Kainote position and size x: %d, y: %d, w: %d, h: %d", 
 			lastPosition.x, lastPosition.y, lastSize.x, lastSize.y));
 		KaiLogSilent(wxString::Format(L"old monitor x: %d, y: %d, w: %d, h: %d", oldRt.x, oldRt.y, oldRt.width, oldRt.height));
@@ -427,34 +429,31 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		float fontScale = ((float)ydpi / (float)currentDPI);
 		
 		Options.FontsRescale(ydpi);
-
+		
 		Notebook *tabs = Notebook::GetTabs();
 		//this case should not happen
 		//but who knows
 		if (!tabs) {
-			//LastMonitorRect = rt;
+			KaiLogSilent(L"No tabs");
 			Options.SetCoords(MONITOR_SIZE, rt.width, rt.height);
 			Options.SetCoords(MONITOR_POSITION, rt.x, rt.y);
 			return 1;
 		}
-
+		
 		KainoteFrame::Get()->Freeze();
-		//setFont to all windows
-		wxFont *font = Options.GetFont();
-		SetFont(*font);
-
-
+		
 		//check if window is set on half of monitor
 		bool noResize = false;
 		if ((newRt.x == rt.width / 2 || newRt.x == 0) && newRt.y == 0 && newRt.width == rt.width / 2) {
 			noResize = true;
 		}
-
-		int sizex = lastSize.x, sizey = lastSize.y;
+		
 		//Windows bug when shift win arrow is used window is shrink to display rect
 		//then event of DPI_CHANGED is sent
 		float scalex = (float)rt.width / (float)oldRt.width;
 		float scaley = (float)rt.height / (float)oldRt.height;
+
+		KaiLogSilent(wxString::Format(L"scale x: %s, y: %s", getfloat(scalex).wc_str(), getfloat(scaley).wc_str()));
 		
 		int vsizex, vsizey;
 		Options.GetCoords(VIDEO_WINDOW_SIZE, &vsizex, &vsizey);
@@ -463,29 +462,36 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		vsizex *= scalex;
 		vsizey *= scaley;
 		audioHeight *= scaley;
+
 		if (!wasWindowsSize) {
 			sizex *= scalex;
 			sizey *= scaley;
+			KaiLogSilent(wxString::Format(L"size x: %d, y: %d", sizex, sizey));
 		}
 		newRt.width = sizex;
 		newRt.height = sizey;
 		
-		newRt.x = ((lastPosition.x - oldRt.x) * scalex) + rt.x;
-		newRt.y = ((lastPosition.y - oldRt.y) * scaley) + rt.y;
+		newRt.x = ((lposx - oldRt.x) * scalex) + rt.x;
+		newRt.y = ((lposy - oldRt.y) * scaley) + rt.y;
+		KaiLogSilent(wxString::Format(L"pos x: %d, y: %d", newRt.x, newRt.y));
 		
 		Options.SetCoords(MONITOR_SIZE, rt.width, rt.height);
 		Options.SetCoords(MONITOR_POSITION, rt.x, rt.y);
 		Options.SetInt(AUDIO_BOX_HEIGHT, audioHeight);
+
+		//setFont to all windows
+		wxFont* font = Options.GetFont();
+		SetFont(*font);
 		
 		//rescale all tabs
 		for (size_t i = 0; i < tabs->Size(); i++) {
 			TabPanel *tab = tabs->Page(i);
 			wxSize minVideoSize = tab->video->GetMinSize();
-			int panelHeight = tab->video->GetPanelHeight();
-			minVideoSize.y -= panelHeight;
+			//int panelHeight = tab->video->GetPanelHeight();
+			//minVideoSize.y -= panelHeight;
 			minVideoSize.x *= scalex;
 			minVideoSize.y *= scaley;
-			minVideoSize.y += panelHeight;
+			//minVideoSize.y += panelHeight;
 			tab->video->SetMinSize(minVideoSize);
 			tab->edit->SetMinSize(wxSize(-1, minVideoSize.y));
 			if (tab->edit->ABox) {
@@ -500,6 +506,8 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 				tab->MainSizer->Layout();
 			}
 		}
+
+
 		bool moveToScreenOnLeft = oldRt.x == rt.x + rt.width && (lastPosition.x + (lastSize.x / 2)) <= oldRt.x;
 		bool moveToScreenOnRight = oldRt.x + oldRt.width == rt.x && (lastPosition.x + (lastSize.x / 2)) >= rt.x;
 		bool moveToScreenOnTop = oldRt.y == rt.y + rt.height && (lastPosition.y + (lastSize.y / 2)) <= oldRt.y;
@@ -532,7 +540,7 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		}
 		else{
 			Options.SetCoords(WINDOW_SIZE, sizex, sizey);
-			KaiLogSilent(wxString::Format(L"shortcut and windows moving x: %d, y: %d, w: %d, h: %d no resize %d", newRt.x, newRt.y, sizex, sizey, (int)wasWindowsSize));
+			KaiLogSilent(wxString::Format(L"shortcut and windows moving x: %d, y: %d, w: %d, h: %d noresize %d", newRt.x, newRt.y, sizex, sizey, (int)wasWindowsSize));
 			if (wasWindowsSize) {
 				SetPosition(wxPoint(rt.x, rt.y));
 				Layout();

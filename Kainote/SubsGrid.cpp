@@ -15,20 +15,12 @@
 
 
 #include "SubsGrid.h"
-//#include "RendererVideo.h"
-//#include "config.h"
-//#include "KainoteFrame.h"
-//#include "Hotkeys.h"
 #include "OpennWrite.h"
 #include "TLDialog.h"
 #include "Demux.h"
-//#include "Stylelistbox.h"
-//#include "Menu.h"
 #include "KaiMessageBox.h"
 #include "SubsGridFiltering.h"
 #include "SubsGridDialogs.h"
-//#include "TabPanel.h"
-//#include "EditBox.h"
 #include "shiftTimes.h"
 #include "VideoBox.h"
 #include "Notebook.h"
@@ -665,7 +657,7 @@ void SubsGrid::CopyRows(int id)
 	for (size_t i = 0; i < selections.GetCount(); i++)
 	{
 		if (id != GRID_COPY_COLUMNS){
-			//tłumaczenie ma pierwszeństwo w kopiowaniu
+			//translation is copied as first
 			if (subsFormat == SRT)
 				whatcopy << (selections[i] + 1) << L"\r\n";
 

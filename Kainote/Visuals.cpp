@@ -437,6 +437,12 @@ void Visuals::Draw(int time)
 	if (!(time >= start && time < end) || (notDialogue && Visual != VECTORDRAW && Visual != VECTORCLIP)){
 		DrawWarning(notDialogue); 
 		blockevents = true; 
+		if (tab->video->HasCapture()) { 
+			tab->video->ReleaseMouse(); 
+		}
+		if (!tab->video->HasArrow()) { 
+			tab->video->SetCursor(wxCURSOR_ARROW); 
+		}
 		return; 
 	}
 	else if (blockevents){ blockevents = false; }

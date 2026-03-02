@@ -210,6 +210,7 @@ bool kainoteApp::OnInit()
 				Options.GetCoords(MONITOR_POSITION, &mposx, &mposy);
 				Options.GetCoords(VIDEO_WINDOW_SIZE, &vsizex, &vsizey);
 				int audioHeight = Options.GetInt(AUDIO_BOX_HEIGHT);
+				KaiLogSilent(wxString::Format(L"Audio Height %d", audioHeight));
 				float scalex = (float)rt.width / (float)msizex;
 				float scaley = (float)rt.height / (float)msizey;
 				//program position
@@ -237,6 +238,7 @@ bool kainoteApp::OnInit()
 				Options.SetCoords(MONITOR_SIZE, rt.width, rt.height);
 				Options.SetCoords(MONITOR_POSITION, rt.x, rt.y);
 				Options.SetInt(AUDIO_BOX_HEIGHT, audioHeight);
+				KaiLogSilent(wxString::Format(L"Audio Height scaled %d", audioHeight));
 			}
 			if (sizex > rt.width) {
 				sizex = rt.width;

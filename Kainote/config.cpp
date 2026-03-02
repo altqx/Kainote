@@ -335,6 +335,7 @@ void config::SaveOptions(bool cfg, bool style, bool crashed)
 void config::LoadDefaultConfig(wxString * defaultOptions)
 {
 	wxString * configTable = (defaultOptions) ? defaultOptions : stringConfig;
+	configTable[AUDIO_BOX_HEIGHT] = L"170";
 	configTable[SHIFT_TIMES_TIME] = L"2000";
 	configTable[SHIFT_TIMES_WHICH_LINES] = L"0";
 	configTable[CONVERT_RESOLUTION_WIDTH] = L"1280";
@@ -793,7 +794,6 @@ void config::LoadDefaultAudioConfig(wxString * defaultOptions)
 	configTable[AUDIO_AUTO_COMMIT] = L"true";
 	configTable[AUDIO_AUTO_FOCUS] = L"true";
 	configTable[AUDIO_AUTO_SCROLL] = L"true";
-	configTable[AUDIO_BOX_HEIGHT] = L"169";
 	configTable[AUDIO_CACHE_FILES_LIMIT] = L"10";
 	configTable[AUDIO_DELAY] = L"0";
 	configTable[AUDIO_DRAW_TIME_CURSOR] = L"true";

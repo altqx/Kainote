@@ -235,6 +235,7 @@ private:
 	int HitTest(const D3DXVECTOR2& pos, bool diff = false);
 	void SortPoints();
 	void SetPosition();
+	void SavePosition();
 	D3DXVECTOR2 PositionToVideo(D3DXVECTOR2 point, bool changeX = true, bool changeY = true);
 	void GetPositioningData();
 	void CalcMovePosition(D3DXVECTOR2 *point, double *moveTable, int time);

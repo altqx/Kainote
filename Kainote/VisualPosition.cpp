@@ -104,7 +104,13 @@ void Position::Draw(int time)
 
 	line->SetAntialias(FALSE);
 	oldtime = time;
-	if (nothintoshow){ DrawWarning(notDialogue); blockevents = true; }
+	if (nothintoshow){ 
+		DrawWarning(notDialogue); 
+		blockevents = true; 
+		if (tab->video->HasCapture()) { tab->video->ReleaseMouse(); }
+		if (!tab->video->HasArrow()) { tab->video->SetCursor(wxCURSOR_ARROW); }
+		movingHelperLine = false;
+	}
 	else {
 		if (blockevents)
 			blockevents = false;
@@ -289,14 +295,7 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 	}
 
 	if (evt.LeftUp()){
-		if (tab->video->HasCapture()){ tab->video->ReleaseMouse(); }
-		ChangeMultiline(true);
-		for (size_t i = 0; i < data.size(); i++){
-			SetMovePosition(data[i]);
-			data[i]->lastpos = data[i]->pos;
-		}
-		if (!tab->video->HasArrow()){ tab->video->SetCursor(wxCURSOR_ARROW);}
-		movingHelperLine = false;
+		SavePosition();
 	}
 	if (movingHelperLine){
 		helperLinePos = evt.GetPosition();
@@ -656,6 +655,18 @@ void Position::SetPosition()
 		
 	}
 	
+}
+
+void Position::SavePosition()
+{
+	if (tab->video->HasCapture()) { tab->video->ReleaseMouse(); }
+	ChangeMultiline(true);
+	for (size_t i = 0; i < data.size(); i++) {
+		SetMovePosition(data[i]);
+		data[i]->lastpos = data[i]->pos;
+	}
+	if (!tab->video->HasArrow()) { tab->video->SetCursor(wxCURSOR_ARROW); }
+	movingHelperLine = false;
 }
 
 D3DXVECTOR2 Position::PositionToVideo(D3DXVECTOR2 point, bool changeX, bool changeY)

@@ -416,21 +416,21 @@ namespace Auto{
 
 	void LuaProgressDialog::SetTitle(wxThreadEvent &evt)
 	{
-		wxMutexLocker lock(data_mutex);
+		//wxMutexLocker lock(data_mutex);
 		title_display->SetLabelText(evt.GetPayload<wxString>());
 		Layout();
 	}
 
 	void LuaProgressDialog::SetTask(wxThreadEvent &evt)
 	{
-		wxMutexLocker lock(data_mutex);
+		//wxMutexLocker lock(data_mutex);
 		task_display->SetLabelText(evt.GetPayload<wxString>());
 		Layout();
 	}
 
 	void LuaProgressDialog::SetProgress(wxThreadEvent &evt)
 	{
-		wxMutexLocker lock(data_mutex);
+		//wxMutexLocker lock(data_mutex);
 		int prg = evt.GetPayload<int>();
 		progress_display->SetValue(prg);
 		//progress_display->Pulse();
@@ -439,12 +439,13 @@ namespace Auto{
 	void LuaProgressDialog::OnUpdate(wxTimerEvent &event)
 	{
 
-		if (finished){
-			if (!pending_debug_output.empty()){
-				//wxMutexLocker lock(data_mutex);
-				debug_output->AppendText(pending_debug_output);
-				pending_debug_output.Empty();
-			}
+		if (!pending_debug_output.empty()){
+			//wxMutexLocker lock(data_mutex);
+			debug_output->AppendText(pending_debug_output);
+			pending_debug_output.Empty();
+		}
+		if (finished) {
+			progress_display->SetValue(100);
 			update_timer.Stop();
 			cancel_button->SetLabelText(_("Zamknij"));
 		}

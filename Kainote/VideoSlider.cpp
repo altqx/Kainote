@@ -243,7 +243,7 @@ void VideoSlider::OnMouseEvent(wxMouseEvent& event)
 	
 	if (event.GetWheelRotation() != 0 && VB->HasFFMS2()) {
 		int step = event.GetWheelRotation() / event.GetWheelDelta();
-		VB->ChangePositionByFrame((step > 0) ? 1 : -1);
+		VB->ChangePositionByFrame((step > 0) ? -1 : 1);
 		return;
 	}
 	

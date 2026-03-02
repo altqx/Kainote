@@ -1371,6 +1371,7 @@ void EditBox::OnSize(wxSizeEvent& event)
 		if ((h - aboxSize.y) < minEBSize){
 			ABox->SetMinSize(wxSize(-1, h - minEBSize));
 			Options.SetInt(AUDIO_BOX_HEIGHT, h - minEBSize);
+			KaiLogSilent(wxString::Format(L"Audio Height on size %d", h - minEBSize));
 		}
 	}
 
@@ -2088,7 +2089,7 @@ bool EditBox::LoadAudio(const wxString &audioFileName, bool fromVideo)
 				TextEdit->Refresh(false);
 				TlMode->Refresh(false);
 				Options.SetInt(AUDIO_BOX_HEIGHT, newpos);
-				Options.SaveAudioOpts();
+				KaiLogSilent(wxString::Format(L"Audio Height resize by bar %d", newpos));
 			});
 			BoxSizer1->Prepend(windowResizer, 0, wxEXPAND);
 			BoxSizer1->Prepend(ABox, 0, wxLEFT | wxRIGHT | wxEXPAND, 4);

@@ -1469,11 +1469,11 @@ bool VideoBox::SetFont(const wxFont &font)
 	m_TimesTextField->SetFont(font);
 	m_VideoToolbar->SetFont(font);
 	m_VideoToolbar->SetHeight(m_ToolBarHeight);
-	if (IsShown()){
+	/*if (IsShown()){
 		wxSize windowSize = GetSize();
 		windowSize.y -= (oldPanelHeight - m_PanelHeight);
 		tab->SetVideoWindowSizes(windowSize.x, windowSize.y, false);
-	}
+	}*/
 
 	if (m_FullScreenWindow){
 		wxSize size1 = m_FullScreenWindow->panel->GetSize();
