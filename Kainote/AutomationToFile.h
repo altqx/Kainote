@@ -58,7 +58,7 @@ namespace Auto{
 		~AutoToFile();
 		static bool LineToLua(lua_State *L, int i); 
 		static SubsEntry *LuaToLine(lua_State *L);
-		void Cancel();
+		static void Cancel();
 	
 	private:
 		File *file;
@@ -66,6 +66,7 @@ namespace Auto{
 		lua_State *L;
 
 		bool can_modify;
+		bool was_cancelled = false;
 		char subsFormat = ASS;
 		void CheckAllowModify(); // throws an error if modification is disallowed
 

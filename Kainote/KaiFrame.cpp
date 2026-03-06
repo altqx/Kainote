@@ -421,6 +421,14 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		wxRect rt = GetMonitorRect1(0, &monitors, newRt);
 		int sizex = lastSize.x, sizey = lastSize.y;
 		int lposx = lastPosition.x, lposy = lastPosition.y;
+
+		if (!IsMonitorRect(&monitors, oldRt)) {
+			if (!GetMonitorWithSize(&monitors, &oldRt)) {
+				KaiLogSilent(L"There is no monitor with size. Was removed?");
+				//how to calculate the position, maybe not need cause program was on that monitor
+				//or maybe it changed after removed
+			}
+		}
 		KaiLogSilent(wxString::Format(L"old Kainote position and size x: %d, y: %d, w: %d, h: %d", 
 			lastPosition.x, lastPosition.y, lastSize.x, lastSize.y));
 		KaiLogSilent(wxString::Format(L"old monitor x: %d, y: %d, w: %d, h: %d", oldRt.x, oldRt.y, oldRt.width, oldRt.height));

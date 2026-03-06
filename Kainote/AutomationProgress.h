@@ -61,8 +61,7 @@ namespace Auto{
 		wxString pending_debug_output;
 		volatile bool cancelled;
 		volatile bool finished;
-		//volatile bool data_updated;
-		volatile bool closedialog;
+		volatile bool closedialog = false;
 	private:
 		wxTimer update_timer;
 		void SetTitle(wxThreadEvent &evt);

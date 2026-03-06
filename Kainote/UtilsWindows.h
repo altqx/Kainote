@@ -25,6 +25,9 @@ struct tagRECT;
 wxRect GetMonitorWorkArea(int wmonitor, std::vector<tagRECT> *MonitorRects, const wxPoint &position, bool workArea);
 wxRect GetMonitorRect1(int wmonitor, std::vector<tagRECT> *MonitorRects, const wxRect &programRect);
 int FindMonitor(std::vector<tagRECT> *MonitorRects, const wxPoint &pos);
+bool IsMonitorRect(std::vector<tagRECT>* MonitorRects, const wxRect& rect);
+//put rect with seeking size
+bool GetMonitorWithSize(std::vector<tagRECT>* MonitorRects, wxRect *monrect);
 
 #ifdef _M_IX86
 void SetThreadName(DWORD id, LPCSTR szThreadName);

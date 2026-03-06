@@ -81,7 +81,11 @@ namespace Auto{
 
 	bool AutoToFile::LineToLua(lua_State *L, int i)
 	{
-		//AutoToFile *laf = GetObjPointer(L, 1);
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return false;
+		}
 		File *Subs = GetSubs(L);
 		if (!Subs) {
 			return false;
@@ -268,8 +272,12 @@ namespace Auto{
 
 	SubsEntry *AutoToFile::LuaToLine(lua_State *L)
 	{
-		SubsEntry *e = NULL;
-
+		SubsEntry* e = NULL;
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return e;
+		}
 		if (!lua_istable(L, -1)) {
 			lua_pushstring(L, "Cannot convert non table value");//nie można przekonwertować wartości która nie jest tablicą");
 			lua_error(L);
@@ -451,6 +459,11 @@ namespace Auto{
 
 	int AutoToFile::ObjectIndexRead(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		File *Subs = GetSubs(L);
 		if (!Subs) {
 			return 0;
@@ -544,6 +557,11 @@ namespace Auto{
 
 	int AutoToFile::ObjectIndexWrite(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		// instead of implementing everything twice, just call the other modification-functions from here
 		// after modifying the stack to match their expectations
 
@@ -643,6 +661,11 @@ namespace Auto{
 
 	int AutoToFile::ObjectGetLen(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		File *Subs = GetSubs(L);
 		if (!Subs) {
 			return 0;
@@ -654,6 +677,11 @@ namespace Auto{
 
 	int AutoToFile::ObjectLens(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		File* Subs = GetSubs(L);
 		if (!Subs) {
 			return 0;
@@ -667,6 +695,12 @@ namespace Auto{
 
 	int AutoToFile::ObjectDelete(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
+
 		File* Subs = GetSubs(L);
 		if (!Subs) {
 			return 0;
@@ -725,6 +759,11 @@ namespace Auto{
 
 	int AutoToFile::ObjectDeleteRange(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		File* Subs = GetSubs(L);
 		if (!Subs) {
 			return 0;
@@ -767,6 +806,11 @@ namespace Auto{
 
 	int AutoToFile::ObjectAppend(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		File* Subs = GetSubs(L);
 		if (!Subs) {
 			return 0;
@@ -804,6 +848,11 @@ namespace Auto{
 
 	int AutoToFile::ObjectInsert(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		File* Subs = GetSubs(L);
 		if (!Subs) {
 			return 0;
@@ -884,6 +933,11 @@ namespace Auto{
 
 	int AutoToFile::LuaParseKaraokeData(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		SubsEntry *e = LuaToLine(L);
 		if (!e){ return 0; }
 		else if (e->lclass != L"dialogue"){
@@ -994,6 +1048,11 @@ namespace Auto{
 
 	int AutoToFile::IterNext(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		File* Subs = GetSubs(L);
 		if (!Subs) {
 			return 0;
@@ -1011,6 +1070,11 @@ namespace Auto{
 
 	int AutoToFile::LuaGetScriptResolution(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		int w, h;
 		Notebook::GetTab()->grid->GetASSRes(&w, &h);
 		push_value(L, w);
@@ -1020,6 +1084,11 @@ namespace Auto{
 
 	int AutoToFile::LuaGetFreqencyReach(lua_State *L)
 	{
+		if (laf->was_cancelled) {
+			lua_pushstring(L, "cancelled");
+			lua_error(L);
+			return 0;
+		}
 		if (!lua_isnumber(L, 1) || !lua_isnumber(L, 2) || !lua_isnumber(L, 3) || !lua_isnumber(L, 4) || !lua_isnumber(L, 5)) {
 			lua_pushstring(L, "Non number argument of function get_frequency_peaks");
 			lua_error(L);
@@ -1117,7 +1186,7 @@ namespace Auto{
 
 	void AutoToFile::Cancel()
 	{
-		delete this;
+		laf->was_cancelled = true;
 	}
 
 	int AutoToFile::ObjectGarbageCollect(lua_State *L){

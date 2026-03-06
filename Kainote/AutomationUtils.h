@@ -73,7 +73,7 @@ namespace Auto{
 
 	/// Set the name of the calling thread in the Visual Studio debugger
 	/// @param name New name for the thread
-	void SetThreadName(const char *name);
+	//void SetThreadName(const char *name);
 
 	/// A thin wrapper around this_thread::sleep_for that uses std::thread on
 	/// Windows (to avoid having to compile boost.thread) and boost::thread

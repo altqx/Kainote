@@ -115,6 +115,30 @@ int FindMonitor(std::vector<tagRECT> *MonitorRects, const wxPoint &pos) {
 	return -1;
 }
 
+bool IsMonitorRect(std::vector<tagRECT>* MonitorRects, const wxRect& rect)
+{
+	for (size_t i = 0; i < MonitorRects->size(); i++) {
+		if ((*MonitorRects)[i].left == rect.x && rect.width == ((*MonitorRects)[i].right - (*MonitorRects)[i].left) &&
+			(*MonitorRects)[i].top == rect.y && rect.height == ((*MonitorRects)[i].bottom - (*MonitorRects)[i].top)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool GetMonitorWithSize(std::vector<tagRECT>* MonitorRects, wxRect* monrect)
+{
+	for (size_t i = 0; i < MonitorRects->size(); i++) {
+		if (monrect->width == ((*MonitorRects)[i].right - (*MonitorRects)[i].left) &&
+			monrect->height == ((*MonitorRects)[i].bottom - (*MonitorRects)[i].top)) {
+			monrect->x = (*MonitorRects)[i].left;
+			monrect->y = (*MonitorRects)[i].top;
+			return true;
+		}
+	}
+	return false;
+}
+
 
 
 #ifdef _M_IX86

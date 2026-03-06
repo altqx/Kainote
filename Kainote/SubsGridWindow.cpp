@@ -223,6 +223,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 		//refresh have to be fast, reduce recalculation id to key to minimum
 		//scrollPositionId it's also strored 
 		int key = scrollPosition - 1;
+		int numeration = key;
 		int id = scrollPositionId - 1;
 		int idmarkerPos = -1;
 		int idcurrentLine = -1;
@@ -231,7 +232,12 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 			bool isHeadline = (key < scrollPosition);
 			if (!isHeadline){
 				Dial = file->GetDialogue(key);
-				if (!Dial->isVisible){ key++; continue; }
+				if (!Dial->isVisible){ 
+					if (!Dial->NonDialogue)
+						numeration++;
+					key++; 
+					continue; 
+				}
 			}
 			bool comparison = false;
 			bool isSelected = false;
@@ -264,7 +270,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 			}
 			else{
 				TextData &Misspells = SpellErrors[key];
-				strings.push_back(wxString::Format(L"%i", key + 1));
+				strings.push_back(wxString::Format(L"%i", numeration + 1));
 
 				isComment = Dial->IsComment;
 				if (key == markedLine)
@@ -514,6 +520,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 			}
 			id++;
 			key++;
+			numeration++;
 		}
 
 		posX = (file->IsFiltered()) ? 11 : 0;
@@ -609,6 +616,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 	//refresh have to be fast, reduce recalculation id to key to minimum
 	//scrollPositionId it's also strored 
 	int key = scrollPosition - 1;
+	int numeration = key;
 	int id = scrollPositionId - 1;
 	int idmarkerPos = -1;
 	int idcurrentLine = -1;
@@ -619,7 +627,12 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 		bool isHeadline = (key < scrollPosition);
 		if (!isHeadline){
 			Dial = file->GetDialogue(key);
-			if (!Dial->isVisible){ key++; continue; }
+			if (!Dial->isVisible){ 
+				if (!Dial->NonDialogue)
+					numeration++;
+				key++; 
+				continue; 
+			}
 		}
 		bool comparison = false;
 		bool isSelected = false;
@@ -654,7 +667,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 		}
 		else{
 			TextData &Misspells = SpellErrors[key];
-			strings.push_back(wxString::Format(L"%i", key + 1));
+			strings.push_back(wxString::Format(L"%i", numeration + 1));
 
 			isComment = Dial->IsComment;
 			if (key == markedLine)
@@ -941,6 +954,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 		}
 		id++;
 		key++;
+		numeration++;
 	}
 
 	posX = (file->IsFiltered()) ? 11 : 0;

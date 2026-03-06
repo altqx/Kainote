@@ -29,7 +29,7 @@
 // Aegisub Project http://www.aegisub.org/
 
 #include "AutomationProgress.h"
-//#include "AutomationDialog.h"
+#include "AutomationToFile.h"
 #include "AutomationUtils.h"
 #include "Config.h"
 #include "KaiTextCtrl.h"
@@ -196,7 +196,8 @@ namespace Auto{
 	int LuaProgressSink::LuaGetCancelled(lua_State *L)
 	{
 		//LuaProgressSink *ps = GetObjPointer(L, lua_upvalueindex(1));
-		bool val = (ps->lpd) ? ps->lpd->cancelled : false;
+		//if lpd is null then its released after canceling, error or end of script
+		bool val = (ps->lpd) ? ps->lpd->cancelled : true;
 		lua_pushboolean(L, val);
 		return 1;
 	}
@@ -284,7 +285,6 @@ namespace Auto{
 		:wxDialog(parent, -1, L"", wxDefaultPosition, wxDefaultSize, 0)
 		, cancelled(false)
 		, finished(false)
-		, closedialog(false)
 		, L(_L)
 	{
 		SetFont(*Options.GetFont());
@@ -293,7 +293,7 @@ namespace Auto{
 		progress_display = new KaiGauge(this, -1, wxDefaultPosition, wxSize(600, 20));
 		title_display = new KaiStaticText(this, -1, L"");
 		task_display = new KaiStaticText(this, -1, L"");
-		cancel_button = new MappedButton(this, wxID_CANCEL, _("Anuluj"));
+		cancel_button = new MappedButton(this, 6666, _("Anuluj"));
 		debug_output = new KaiTextCtrl(this, -1, L"", wxDefaultPosition, wxSize(600, 220), wxTE_MULTILINE | wxTE_READONLY);
 		//debug_output->Hide();
 		// put it in a sizer
@@ -323,9 +323,7 @@ namespace Auto{
 		SetSizerAndFit(sizer);
 		Center();
 
-		//Bind(wxEVT_TIMER, &LuaProgressDialog::OnUpdate, this);
-
-
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, &LuaProgressDialog::OnCancel, this, 6666);
 		Bind(EVT_TITLE, &LuaProgressDialog::SetTitle, this);
 		Bind(EVT_MESSAGE, &LuaProgressDialog::AddDebugOutput, this);
 		Bind(EVT_PROGRESS, &LuaProgressDialog::SetProgress, this);
@@ -452,6 +450,8 @@ namespace Auto{
 		if (cancelled || closedialog){
 			update_timer.Stop();
 			EndModal(0);
+			if(cancelled)
+				AutoToFile::Cancel();
 		}
 	}
 	void LuaProgressDialog::ShowConfigDialog(wxThreadEvent &evt)

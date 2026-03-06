@@ -57,6 +57,8 @@
 #include <wx/dir.h>
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
+
+#include "UtilsWindows.h"
 //#include <thread>
 //#include <tuple>
 
@@ -823,7 +825,8 @@ namespace Auto{
 
 	wxThread::ExitCode LuaThreadedCall::Entry()
 	{
-
+		size_t id = GetCurrentId();
+		SetThreadName(id, "Automation");
 		bool failed = false;
 		bool hasMessage = false;
 		int nargs = 3, nresults = 2;
