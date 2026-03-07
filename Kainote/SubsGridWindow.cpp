@@ -1649,7 +1649,7 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 			}
 
 			// Toggle each
-			file->InsertSelections(i1, i2, !ctrl);
+			file->InsertSelections(i1, i2, !ctrl, false);
 			if (changeActive){
 				lastActiveLine = currentLine;
 				edit->SetLine(row, true, true, false);
@@ -1696,9 +1696,9 @@ void SubsGridWindow::SelectRow(int row, bool addToSelected /*= false*/, bool sel
 		if (!select){ file->EraseSelection(row); }
 		else{ file->InsertSelection(row); }
 		if (norefresh){ return; }
-		int w = 0;
+		/*int w = 0;
 		int h = 0;
-		GetClientSize(&w, &h);
+		GetClientSize(&w, &h);*/
 		/*if (row >= scrollPosition){
 			size_t rowkey = GetKeyFromPosition(scrollPosition, row + 1 - scrollPosition);
 			RefreshRect(wxRect(0, (rowkey + 1 - scrollPosition) * (GridHeight + 1), w, GridHeight + 1), false);
@@ -1780,7 +1780,7 @@ void SubsGridWindow::OnKeyPress(wxKeyEvent &event) {
 
 	// Select all
 	if (key == L'A' && ctrl && !alt && !shift) {
-		file->InsertSelections(0, -1);
+		file->InsertSelections(0, -1, false, true);
 		Refresh(false);
 	}
 
@@ -1862,7 +1862,7 @@ void SubsGridWindow::OnKeyPress(wxKeyEvent &event) {
 				i2 = aux;
 			}
 
-			file->InsertSelections(i1, i2, true);
+			file->InsertSelections(i1, i2, true, false);
 			if (changeActive) {
 				lastActiveLine = currentLine;
 				edit->SetLine(i11, true, true, false);

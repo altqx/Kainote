@@ -472,6 +472,7 @@ namespace Auto{
 	void LuaProgressDialog::OnCancel(wxCommandEvent &evt)
 	{
 		cancelled = true;
+		EndModal(0);
 	}
 
 

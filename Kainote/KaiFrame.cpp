@@ -424,11 +424,20 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 
 		if (!IsMonitorRect(&monitors, oldRt)) {
 			if (!GetMonitorWithSize(&monitors, &oldRt)) {
-				KaiLogSilent(L"There is no monitor with size. Was removed?");
+				KaiLogSilent(wxString::Format(L"There is no monitor with size x: %d, y: %d, w: %d, h: %d", oldRt.x, oldRt.y, oldRt.width, oldRt.height));
 				//how to calculate the position, maybe not need cause program was on that monitor
 				//or maybe it changed after removed
 			}
 		}
+
+		/*HMONITOR mon = MonitorFromWindow(GetHWND(), MONITOR_DEFAULTTONEAREST);
+		MONITORINFO info;
+		info.cbSize = sizeof(MONITORINFO);
+		if (GetMonitorInfoW(mon, &info)) {
+			x -= info.rcMonitor.left;
+			y -= info.rcMonitor.top;
+		}*/
+
 		KaiLogSilent(wxString::Format(L"old Kainote position and size x: %d, y: %d, w: %d, h: %d", 
 			lastPosition.x, lastPosition.y, lastSize.x, lastSize.y));
 		KaiLogSilent(wxString::Format(L"old monitor x: %d, y: %d, w: %d, h: %d", oldRt.x, oldRt.y, oldRt.width, oldRt.height));
@@ -456,7 +465,7 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 			noResize = true;
 		}
 		
-		//Windows bug when shift win arrow is used window is shrink to display rect
+		//Windows bug when shift-win-arrow is used window is shrink to display rect
 		//then event of DPI_CHANGED is sent
 		float scalex = (float)rt.width / (float)oldRt.width;
 		float scaley = (float)rt.height / (float)oldRt.height;
@@ -475,12 +484,27 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 			sizex *= scalex;
 			sizey *= scaley;
 			KaiLogSilent(wxString::Format(L"size x: %d, y: %d", sizex, sizey));
+			//I don't know now why sometimes it set Kainote size to 200 x 60 or something like that
+			//block it
+			if (sizex < 1000 || sizey < 700) {
+				sizex = 1000; sizey = 700;
+			}
 		}
 		newRt.width = sizex;
 		newRt.height = sizey;
 		
 		newRt.x = ((lposx - oldRt.x) * scalex) + rt.x;
 		newRt.y = ((lposy - oldRt.y) * scaley) + rt.y;
+		bool wasBadPosition = false;
+		if (newRt.x + (newRt.width / 2) > rt.width + rt.x || newRt.x + (newRt.width / 2) < rt.x) {
+			newRt.x = rt.x + ((float)(rt.width - sizex) / 2.f);
+			wasBadPosition = true;
+		}
+		if (newRt.y + (newRt.height / 2) > rt.height + rt.y || newRt.y + (newRt.height / 2) < rt.y) {
+			newRt.y = rt.y + ((float)(rt.height - sizey) / 2.f);
+			wasBadPosition = true;
+		}
+
 		KaiLogSilent(wxString::Format(L"pos x: %d, y: %d", newRt.x, newRt.y));
 		
 		Options.SetCoords(MONITOR_SIZE, rt.width, rt.height);
@@ -516,17 +540,17 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		}
 
 
-		bool moveToScreenOnLeft = oldRt.x == rt.x + rt.width && (lastPosition.x + (lastSize.x / 2)) <= oldRt.x;
-		bool moveToScreenOnRight = oldRt.x + oldRt.width == rt.x && (lastPosition.x + (lastSize.x / 2)) >= rt.x;
-		bool moveToScreenOnTop = oldRt.y == rt.y + rt.height && (lastPosition.y + (lastSize.y / 2)) <= oldRt.y;
-		bool moveToScreenOnBottom = oldRt.y + oldRt.height == rt.y && (lastPosition.y + (lastSize.y / 2)) >= rt.y;
+		bool moveToScreenOnLeft = oldRt.x == rt.x + rt.width && (lposx + (lastSize.x / 2)) <= oldRt.x;
+		bool moveToScreenOnRight = oldRt.x + oldRt.width == rt.x && (lposx + (lastSize.x / 2)) >= rt.x;
+		bool moveToScreenOnTop = oldRt.y == rt.y + rt.height && (lposy + (lastSize.y / 2)) <= oldRt.y;
+		bool moveToScreenOnBottom = oldRt.y + oldRt.height == rt.y && (lposy + (lastSize.y / 2)) >= rt.y;
 		
 		if (noResize || IsMaximized()) {
 			Options.SetCoords(WINDOW_SIZE, sizex, sizey);
 			Layout();
 			wasWindowsSize = noResize;
 		}
-		else if (moveToScreenOnLeft || moveToScreenOnRight || moveToScreenOnTop || moveToScreenOnBottom) {
+		else if ((moveToScreenOnLeft || moveToScreenOnRight || moveToScreenOnTop || moveToScreenOnBottom) && !wasBadPosition) {
 			int posx, posy;
 			GetPosition(&posx, &posy);
 			wxPoint posOnScreen = wxGetMousePosition();

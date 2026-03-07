@@ -584,6 +584,7 @@ void SubsGrid::OnPaste(int id)
 void SubsGrid::CopyRows(int id)
 {
 	int cols = 0;
+	file->GetSelections(selections, false, false);
 	if (id == GRID_COPY_COLUMNS){
 		wxArrayString arr;
 		wxArrayInt vals;
