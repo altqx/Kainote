@@ -505,7 +505,7 @@ void AudioDisplay::DoUpdateImage(bool weak) {
 				int karstart = selStart;
 				wxString acsyl;
 				D3DXVECTOR2 v2[2] = { D3DXVECTOR2(0, 0), D3DXVECTOR2(0, h) };
-				for (size_t j = 0; j < karaoke->syls.size(); j++)
+				for (size_t j = 0; j < karaoke->syltimes.size(); j++)
 				{
 					karaoke->GetTextStripped(j, acsyl);
 
@@ -1520,7 +1520,7 @@ void AudioDisplay::GetTimesDialogue(int &start, int &end) {
 ////////////////////////////
 // Get samples of selection
 void AudioDisplay::GetTimesSelection(int &start, int &end, bool rangeEnd /*= false*/, bool ignoreKara /*= false*/) {
-	if (hasKara && !ignoreKara){
+	if (hasKara && karaoke->syls.size() && !ignoreKara){
 		currentSyllable = MID(0, currentSyllable, (int)karaoke->syls.size() - 1);
 		if (rangeEnd)
 			karaoke->GetSylVisibleTimes(currentSyllable, start, end);

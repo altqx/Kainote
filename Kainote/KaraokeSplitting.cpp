@@ -51,7 +51,11 @@ void Karaoke::Split()
 
 	wxString textlow = Text;
 	textlow = textlow.Lower();
-	if (textlow.Find(L"\\k") != -1){
+	wxRegEx re(L"{([^}]*)\\\\kf?o?[0-9]([^}]*)}", wxRE_ADVANCED);
+	if (!re.IsValid())
+		KaiLogSilent(L"Karaoke regex not valid");
+
+	if (re.Matches(textlow)){
 		Text << L"{";
 
 		size_t strt = 0;
@@ -303,14 +307,14 @@ bool Karaoke::GetLetterAtX(int x, int *syl, int *result)
 
 void Karaoke::GetSylTimes(int i, int &start, int &end)
 {
-	start = (i == 0) ? AD->curStartMS : syltimes[i - 1];
+	start = (i < 1) ? AD->curStartMS : syltimes[i - 1];
 	end = syltimes[i];
 }
 
 void Karaoke::GetSylVisibleTimes(int i, int &start, int &end)
 {
-	start = (i == 0) ? AD->curStartMS : syltimes[i - 1];
-	end = (i < syltimes.size() - 1) ? syltimes[i + 1] : AD->curEndMS;
+	start = (i < 1) ? AD->curStartMS : syltimes[i - 1];
+	end = (i + 1 < syltimes.size()) ? syltimes[i + 1] : AD->curEndMS;
 }
 
 void Karaoke::GetLetters(int line, int nletters, wxString &first, wxString &second){
