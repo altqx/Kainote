@@ -46,7 +46,7 @@ class Karaoke
 
 	private:
 		wxArrayString syls;
-		wxArrayString kaas;
+		wxArrayString ktags;
 		wxArrayInt syltimes;
 		//std::vector<bool> modifs;
 		AudioDisplay *AD;
