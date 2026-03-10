@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: poiiiii4yy@gmail.com\n"
-"POT-Creation-Date: 2026-01-27 17:54+0100\n"
-"PO-Revision-Date: 2026-01-27 17:58+0100\n"
+"POT-Creation-Date: 2026-03-10 09:29+0100\n"
+"PO-Revision-Date: 2026-03-10 09:30+0100\n"
 "Last-Translator: Marcin Drob <bjakja7@gmail.com>\n"
 "Language-Team: English <https://hosted.weblate.org/projects/kainote/kainote/"
 "en/>\n"
@@ -112,11 +112,11 @@ msgstr "Add lead-in to the active line"
 msgid "Dodaj zakończenie do aktywnej linijki"
 msgstr "Add lead-out to the active line"
 
-#: AudioBox.cpp:170 Hotkeys.cpp:195 HotkeysNaming.cpp:96
+#: AudioBox.cpp:170 Hotkeys.cpp:195 HotkeysNaming.cpp:76
 msgid "Zatwierdź zmiany"
 msgstr "Apply changes"
 
-#: AudioBox.cpp:172 Hotkeys.cpp:210 HotkeysNaming.cpp:62
+#: AudioBox.cpp:172 Hotkeys.cpp:210 HotkeysNaming.cpp:57
 msgid "Przejdź do zaznaczenia"
 msgstr "Go to selection"
 
@@ -152,13 +152,13 @@ msgstr "Spectrum speech frequency enhancement"
 msgid "Nieprawidłowy format klatek kluczowych"
 msgstr "Invalid keyframes format"
 
-#: AudioBox.cpp:268 Automation.cpp:1408 Automation.cpp:1455
-#: KainoteFrame.cpp:853 KainoteFrame.cpp:857 KainoteFrame.cpp:2067
-#: KainoteFrame.cpp:2068 KainoteFrame.cpp:2507 KainoteFrame.cpp:2533
-#: KainoteFrame.cpp:2537 OptionsDialog.cpp:290 OptionsDialog.cpp:639
-#: Provider.cpp:178 VisualAllTagsEdition.cpp:166 VisualAllTagsEdition.cpp:170
-#: VisualAllTagsEdition.cpp:188 VisualAllTagsEdition.cpp:295
-#: VisualAllTagsEdition.cpp:303 VisualAllTagsEdition.cpp:307
+#: AudioBox.cpp:268 Automation.cpp:1406 Automation.cpp:1453
+#: KainoteFrame.cpp:860 KainoteFrame.cpp:864 KainoteFrame.cpp:2067
+#: KainoteFrame.cpp:2068 KainoteFrame.cpp:2515 KainoteFrame.cpp:2541
+#: KainoteFrame.cpp:2545 OptionsDialog.cpp:290 OptionsDialog.cpp:650
+#: Provider.cpp:178 VisualAllTagsEdition.cpp:167 VisualAllTagsEdition.cpp:171
+#: VisualAllTagsEdition.cpp:189 VisualAllTagsEdition.cpp:296
+#: VisualAllTagsEdition.cpp:304 VisualAllTagsEdition.cpp:308
 #: VisualDrawingShapes.cpp:144 VisualDrawingShapes.cpp:148
 #: VisualDrawingShapes.cpp:166 VisualDrawingShapes.cpp:270
 msgid "Błąd"
@@ -201,7 +201,7 @@ msgstr "Cannot open D3DX line"
 
 #: AudioDisplay.cpp:304 AudioDisplay.cpp:305 AudioDisplay.cpp:306
 #: ContextDX9.cpp:196 RendererVideo.cpp:261 RendererVideo.cpp:263
-#: VisualCross.cpp:262 Visuals.cpp:458
+#: VisualCross.cpp:262 Visuals.cpp:464
 msgid "Nie można stworzyć czcionki D3DX"
 msgstr "Cannot create D3DX font"
 
@@ -254,20 +254,20 @@ msgstr "Files"
 msgid "Wersje"
 msgstr "Versions"
 
-#: AutoSaveOpen.cpp:57 KainoteFrame.cpp:1475
+#: AutoSaveOpen.cpp:57 KainoteFrame.cpp:1482
 msgid "Otwórz"
 msgstr "Open"
 
 #: AutoSaveOpen.cpp:58 AutomationHotkeysDialog.cpp:146
-#: AutomationProgress.cpp:295 ColorPicker.cpp:629 ColorPicker.cpp:1397
-#: DummyVideo.cpp:102 EditBox.cpp:96 EditBox.cpp:1714 FontCatalogList.cpp:70
+#: AutomationProgress.cpp:296 ColorPicker.cpp:629 ColorPicker.cpp:1397
+#: DummyVideo.cpp:102 EditBox.cpp:96 EditBox.cpp:1715 FontCatalogList.cpp:70
 #: FontCatalogList.cpp:868 FontDialog.cpp:408 KaiMessageBox.cpp:77
-#: MappedButton.cpp:39 NewCatalog.cpp:42 OptionsDialog.cpp:999
+#: MappedButton.cpp:39 NewCatalog.cpp:42 OptionsDialog.cpp:1010
 #: ProgressDialog.cpp:43 ScriptInfo.cpp:160 ShiftTimes.cpp:67
-#: StyleChange.cpp:272 Stylelistbox.cpp:34 Stylelistbox.cpp:58
-#: Stylelistbox.cpp:112 Stylelistbox.cpp:147 SubsFile.cpp:44 SubsGrid.cpp:1416
+#: StyleChange.cpp:270 Stylelistbox.cpp:34 Stylelistbox.cpp:58
+#: Stylelistbox.cpp:112 Stylelistbox.cpp:147 SubsFile.cpp:44 SubsGrid.cpp:1409
 #: SubsGridDialogs.cpp:54 SubsGridDialogs.cpp:85 SubsResampleDialog.cpp:158
-#: VisualAllTagsEdition.cpp:126 VisualDrawingShapes.cpp:103
+#: VisualAllTagsEdition.cpp:127 VisualDrawingShapes.cpp:103
 msgid "Anuluj"
 msgstr "Cancel"
 
@@ -287,7 +287,7 @@ msgstr "Auto save folder is empty"
 msgid "Wczytywanie autozapisu nie powiodło się"
 msgstr "Could not open auto save folder"
 
-#: AutoSavesRemoving.cpp:28 KainoteFrame.cpp:179
+#: AutoSavesRemoving.cpp:28 KainoteFrame.cpp:181
 msgid "Usuń pliki tymczasowe"
 msgstr "Remove temporary files"
 
@@ -427,7 +427,7 @@ msgstr "Choose file to remove"
 msgid "Nie można otworzyć folderu plików tymczasowych"
 msgstr "Cannot open temporary files folder"
 
-#: Automation.cpp:683
+#: Automation.cpp:678
 #, c-format
 msgid ""
 "Błąd inicjalizacji skryptu Lua \"%s\":\n"
@@ -438,7 +438,7 @@ msgstr ""
 "\n"
 "%s."
 
-#: Automation.cpp:695
+#: Automation.cpp:690
 msgid ""
 "Próbujesz wczytać skrypt Automatyzacji 3 jako skrypt Automatyzacji 4. "
 "Automatyzacja 3 nie jest już wspierana."
@@ -446,17 +446,17 @@ msgstr ""
 "You are trying to load the script Automation 3 as a script Automation 4. "
 "Automation 3 is no longer supported."
 
-#: Automation.cpp:736
+#: Automation.cpp:731
 #, c-format
 msgid "Makro o nazwie '%s' jest już zdefiniowane w skrypcie '%s'"
 msgstr "Macro named '%s' is already defined in the script '%s'"
 
-#: Automation.cpp:847
+#: Automation.cpp:845
 msgid "Wystąpił błąd podczas wykonywania skryptu Lua:\n"
 msgstr "An error occurred during the loading of the script Lua:\n"
 
-#: Automation.cpp:1268 Automation.cpp:1309 KainoteFrame.cpp:857
-#: KainoteFrame.cpp:2537
+#: Automation.cpp:1266 Automation.cpp:1307 KainoteFrame.cpp:864
+#: KainoteFrame.cpp:2545
 #, c-format
 msgid ""
 "Błąd wczytywania skryptu Lua: %s\n"
@@ -465,12 +465,12 @@ msgstr ""
 "Error loading script Lua: %s\n"
 "%s"
 
-#: Automation.cpp:1272 Automation.cpp:1313
+#: Automation.cpp:1270 Automation.cpp:1311
 #, c-format
 msgid "Nieznany błąd wczytywania skryptu Lua: %s."
 msgstr "Unknown error loading the script Lua: %s."
 
-#: Automation.cpp:1279
+#: Automation.cpp:1277
 msgid ""
 "Jeden bądź więcej skryptów autoload zawiera błędy.\n"
 "Obejrzyj opisy skryptów, by uzyskać więcej informacji."
@@ -478,7 +478,7 @@ msgstr ""
 "One or more autoload script contains errors.\n"
 "See descriptions of the script for more information."
 
-#: Automation.cpp:1317
+#: Automation.cpp:1315
 msgid ""
 "Co najmniej jeden skrypt z pliku napisów zawiera błędy.\n"
 "Zobacz opisy skryptów, by uzyskać więcej informacji."
@@ -486,33 +486,33 @@ msgstr ""
 "At least one script from a subtitles file contains errors.\n"
 "See description of the script for more information."
 
-#: Automation.cpp:1327
+#: Automation.cpp:1325
 msgid "Wybierz edytor skryptów"
 msgstr "Select a script editor"
 
-#: Automation.cpp:1328
+#: Automation.cpp:1326
 msgid "Programy (*.exe)|*.exe|Wszystkie pliki (*.*)|*.*"
 msgstr "Programs (* .exe) | * .exe | All Files (*. *) | *. *"
 
-#: Automation.cpp:1344
+#: Automation.cpp:1342
 msgid "Nie można uruchomić edytora."
 msgstr "Cannot start editor."
 
-#: Automation.cpp:1344
+#: Automation.cpp:1342
 msgid "Błąd automatyzacji"
 msgstr "Automation error"
 
-#: Automation.cpp:1410 Automation.cpp:1457
+#: Automation.cpp:1408 Automation.cpp:1455
 msgid "Pełny opis błędu Lua"
 msgstr "Full description of the error Lua"
 
-#: Automation.cpp:1415 Automation.cpp:1462 EditBox.cpp:289
-#: FontCatalogList.cpp:108 VideoToolbar.cpp:509 VideoToolbar.cpp:526
-#: VideoToolbar.cpp:772 stylestore.cpp:88 stylestore.cpp:141
+#: Automation.cpp:1413 Automation.cpp:1460 EditBox.cpp:289
+#: FontCatalogList.cpp:108 StyleStore.cpp:88 StyleStore.cpp:141
+#: VideoToolbar.cpp:509 VideoToolbar.cpp:526 VideoToolbar.cpp:778
 msgid "Edytuj"
 msgstr "Edit"
 
-#: Automation.cpp:1420 Automation.cpp:1467
+#: Automation.cpp:1418 Automation.cpp:1465
 msgid "Odśwież"
 msgstr "Refresh"
 
@@ -528,7 +528,7 @@ msgstr "Path and script name"
 msgid "Makro"
 msgstr "Macro"
 
-#: AutomationHotkeysDialog.cpp:74 OptionsDialog.cpp:634
+#: AutomationHotkeysDialog.cpp:74 OptionsDialog.cpp:645
 msgid "Skrót"
 msgstr "Hotkey"
 
@@ -540,18 +540,18 @@ msgstr "Autoload folder"
 msgid "Z napisów"
 msgstr "From subs"
 
-#: AutomationHotkeysDialog.cpp:142 OptionsDialog.cpp:646
+#: AutomationHotkeysDialog.cpp:142 OptionsDialog.cpp:657
 msgid "Mapuj skrót"
 msgstr "Map hotkey"
 
 #: AutomationHotkeysDialog.cpp:144 AutomationHotkeysDialog.cpp:240
 #: AutomationHotkeysDialog.cpp:250 Hotkeys.cpp:479 Hotkeys.cpp:490
-#: OptionsDialog.cpp:118 OptionsDialog.cpp:128 OptionsDialog.cpp:650
+#: OptionsDialog.cpp:118 OptionsDialog.cpp:128 OptionsDialog.cpp:661
 msgid "Usuń skrót"
 msgstr "Delete hotkey"
 
 #: AutomationHotkeysDialog.cpp:212 Hotkeys.cpp:452 OptionsDialog.cpp:268
-#: OptionsDialog.cpp:626
+#: OptionsDialog.cpp:637
 msgid "Globalny"
 msgstr "Global"
 
@@ -561,17 +561,17 @@ msgid "Napisy"
 msgstr "Subtitles"
 
 #: AutomationHotkeysDialog.cpp:212 Hotkeys.cpp:452 OptionsDialog.cpp:268
-#: OptionsDialog.cpp:981
+#: OptionsDialog.cpp:992
 msgid "Edytor"
 msgstr "Editor"
 
 #: AutomationHotkeysDialog.cpp:212 Hotkeys.cpp:452 OptionsDialog.cpp:268
-#: OptionsDialog.cpp:985
+#: OptionsDialog.cpp:996
 msgid "Wideo"
 msgstr "Video"
 
 #: AutomationHotkeysDialog.cpp:212 Hotkeys.cpp:452 OptionsDialog.cpp:268
-#: OptionsDialog.cpp:986
+#: OptionsDialog.cpp:997
 msgid "Audio"
 msgstr "Audio"
 
@@ -585,11 +585,12 @@ msgstr ""
 "What to do?"
 
 #: AutomationHotkeysDialog.cpp:238 AutomationHotkeysDialog.cpp:247
-#: Hotkeys.cpp:477 Hotkeys.cpp:487 KainoteFrame.cpp:1206 KainoteFrame.cpp:1222
-#: KainoteFrame.cpp:1336 KainoteFrame.cpp:2404 OptionsDialog.cpp:116
-#: OptionsDialog.cpp:125 OptionsDialog.cpp:498 SpellCheckerDialog.cpp:145
-#: SubsGrid.cpp:1106 SubsGridBase.cpp:519 SubsGridBase.cpp:548 VideoBox.cpp:301
-#: VisualClips.cpp:1004 kainoteApp.cpp:114 kainoteApp.cpp:158
+#: Hotkeys.cpp:477 Hotkeys.cpp:487 KainoteApp.cpp:144 KainoteApp.cpp:186
+#: KainoteFrame.cpp:1213 KainoteFrame.cpp:1229 KainoteFrame.cpp:1343
+#: KainoteFrame.cpp:2412 OptionsDialog.cpp:116 OptionsDialog.cpp:125
+#: OptionsDialog.cpp:498 SpellCheckerDialog.cpp:145 SubsGrid.cpp:1099
+#: SubsGridBase.cpp:518 SubsGridBase.cpp:547 VideoBox.cpp:301
+#: VisualClips.cpp:1004
 msgid "Uwaga"
 msgstr "Warning"
 
@@ -620,25 +621,25 @@ msgid "Ustaw mimo to"
 msgstr "Set still"
 
 #: AutomationProgress.cpp:448 FindReplaceDialog.cpp:220 FontCollector.cpp:191
-#: LogHandler.cpp:50 Notebook.cpp:590 SelectLines.cpp:141 SelectLines.cpp:236
-#: SelectLines.cpp:278 SpellCheckerDialog.cpp:63 stylestore.cpp:171
+#: LogHandler.cpp:50 Notebook.cpp:592 SelectLines.cpp:141 SelectLines.cpp:236
+#: SelectLines.cpp:278 SpellCheckerDialog.cpp:63 StyleStore.cpp:171
 msgid "Zamknij"
 msgstr "Close"
 
-#: AutomationToFile.cpp:610 AutomationToFile.cpp:612
+#: AutomationToFile.cpp:637 AutomationToFile.cpp:639
 msgid "stylów"
 msgstr "styles"
 
-#: AutomationToFile.cpp:610 AutomationToFile.cpp:612
+#: AutomationToFile.cpp:637 AutomationToFile.cpp:639
 msgid "dialogów"
 msgstr "dialogues"
 
-#: AutomationToFile.cpp:613
+#: AutomationToFile.cpp:640
 #, c-format
 msgid "Nie można dodać linii klasy: %s w pole klasy: %s"
 msgstr "Cannot add line of class: %s in field of class: %s"
 
-#: AutomationToFile.cpp:1069
+#: AutomationToFile.cpp:1148
 msgid "Brakujący wskaźnik napisów"
 msgstr "Missing subtitles pointer"
 
@@ -667,7 +668,7 @@ msgid "Kolor HSV"
 msgstr "HSV color"
 
 #: ColorPicker.cpp:531 ColorPicker.cpp:1364 EditBox.cpp:190
-#: HotkeysNaming.cpp:90 StyleChange.cpp:700 TextEditorTagList.cpp:343
+#: HotkeysNaming.cpp:70 StyleChange.cpp:698 TextEditorTagList.cpp:343
 msgid "Kolor podstawowy"
 msgstr "Primary color"
 
@@ -676,12 +677,12 @@ msgid "Kolor zastępczy"
 msgstr "Secondary color"
 
 #: ColorPicker.cpp:531 ColorPicker.cpp:1364 EditBox.cpp:198
-#: HotkeysNaming.cpp:89 StyleChange.cpp:702 TextEditorTagList.cpp:345
+#: HotkeysNaming.cpp:69 StyleChange.cpp:700 TextEditorTagList.cpp:345
 msgid "Kolor obwódki"
 msgstr "Border color"
 
 #: ColorPicker.cpp:531 ColorPicker.cpp:1364 EditBox.cpp:202
-#: HotkeysNaming.cpp:92 StyleChange.cpp:703 TextEditorTagList.cpp:346
+#: HotkeysNaming.cpp:72 StyleChange.cpp:701 TextEditorTagList.cpp:346
 msgid "Kolor cienia"
 msgstr "Shadow color"
 
@@ -741,6 +742,16 @@ msgstr ""
 "Move window\n"
 "in place of color pick"
 
+#: Config.cpp:606
+#, c-format
+msgid ""
+"W motywie \"%s\" brakowało część kolorów, zostały doczytane z domyślnego."
+msgstr "In theme \"%s\" some colors was missing, and was loaded from default."
+
+#: Config.cpp:616
+msgid "Nie można zaczytać motywu, zostanie przywrócony domyśny"
+msgstr "Cannot load theme, reset to default"
+
 #: Demux.cpp:44 ProviderFFMS2.cpp:174 ProviderFFMS2.cpp:309
 #, c-format
 msgid "Wystąpił błąd indeksowania: %s"
@@ -762,15 +773,15 @@ msgstr "Loading subtitles from Matroska."
 msgid "Sugestie poprawy"
 msgstr "Fix suggestions"
 
-#: DialogueTextEditor.cpp:2262 KaiListCtrl.cpp:113 KaiTextCtrl.cpp:1461
+#: DialogueTextEditor.cpp:2262 KaiListCtrl.cpp:113 KaiTextCtrl.cpp:1463
 msgid "&Kopiuj"
 msgstr "Copy"
 
-#: DialogueTextEditor.cpp:2263 KaiTextCtrl.cpp:1462
+#: DialogueTextEditor.cpp:2263 KaiTextCtrl.cpp:1464
 msgid "Wy&tnij"
 msgstr "Cut"
 
-#: DialogueTextEditor.cpp:2264 KaiListCtrl.cpp:114 KaiTextCtrl.cpp:1463
+#: DialogueTextEditor.cpp:2264 KaiListCtrl.cpp:114 KaiTextCtrl.cpp:1465
 msgid "&Wklej"
 msgstr "Paste"
 
@@ -782,7 +793,7 @@ msgstr "Search word translation on ling.pl"
 msgid "Szukaj tłumaczenia słowa na pl.ba.bla"
 msgstr "Search word translation on pl.ba.bla"
 
-#: DialogueTextEditor.cpp:2269 KaiTextCtrl.cpp:1468
+#: DialogueTextEditor.cpp:2269 KaiTextCtrl.cpp:1470
 msgid "Szukaj zaznaczonej frazy w Google"
 msgstr "Seek selected phrase in Google"
 
@@ -803,7 +814,7 @@ msgstr "Installed languages"
 msgid "&Dodaj słowo \"%s\" do słownika"
 msgstr "Add word \"%s\" to dictionary"
 
-#: DialogueTextEditor.cpp:2293 KaiTextCtrl.cpp:1470
+#: DialogueTextEditor.cpp:2293 KaiTextCtrl.cpp:1472
 msgid "&Usuń"
 msgstr "Delete"
 
@@ -819,6 +830,119 @@ msgstr "Automatically change quotes"
 #, c-format
 msgid "Błąd, słowo \"%s\" nie zostało dodane."
 msgstr "Error. Word \"%s\" was not added."
+
+#: DshowPlayer.cpp:67
+msgid "Nie można zainicjalizować COM"
+msgstr "Cannot initialize COM"
+
+#: DshowPlayer.cpp:82
+msgid "Błąd inicjalizacji Direct Show"
+msgstr "Failed to initialize Direct Show"
+
+#: DshowPlayer.cpp:92
+msgid "Filtr źródła nie został dodany"
+msgstr "Source filter not added"
+
+#: DshowPlayer.cpp:102
+msgid "Nie można dodać renderera wideo"
+msgstr "Cannot add video renderer"
+
+#: DshowPlayer.cpp:118
+msgid "Nie można utworzyć instancji renderera dźwięku"
+msgstr "Cannot create audio renderer instance"
+
+#: DshowPlayer.cpp:120
+msgid "Nie można dodać renderera Direct Sound"
+msgstr "Cannot add Direct Sound renderer"
+
+#: DshowPlayer.cpp:133 DshowPlayer.cpp:154 DshowPlayer.cpp:174
+#: DshowPlayer.cpp:256
+msgid "Nie można wyliczyć pinów źródła"
+msgstr "Cannot enumerate source pins"
+
+#: DshowPlayer.cpp:175
+msgid "Nie można wyliczyć pinów renderera"
+msgstr "Cannot enumerate renderer pins"
+
+#: DshowPlayer.cpp:176
+msgid "Nie można wyliczyć pinów dsound"
+msgstr "Cannot enumerate Direct Sound pins"
+
+#: DshowPlayer.cpp:185
+msgid "Nie można pobrać pinu renderera"
+msgstr "Cannot get renderer pin"
+
+#: DshowPlayer.cpp:186
+msgid "Nie można pobrać pinu dsound"
+msgstr "Cannot get dsound pin"
+
+#: DshowPlayer.cpp:199 DshowPlayer.cpp:224
+msgid "Brak IMediaTypes"
+msgstr "No IMediaTypes"
+
+#: DshowPlayer.cpp:200 DshowPlayer.cpp:225
+msgid "Brak informacji o rodzaju ścieżki"
+msgstr "No track type info"
+
+#: DshowPlayer.cpp:204
+msgid "Nie można połączyć pinu źródła z rendererem wideo"
+msgstr "Cannot connect source pin to video renderer"
+
+#: DshowPlayer.cpp:208
+msgid "Nie można połączyć pinu źródła z rendererem audio"
+msgstr "Cannot connect source pin to audio renderer"
+
+#: DshowPlayer.cpp:212
+msgid "Nie można połączyć pinu źródła z rendererem audio1"
+msgstr "Cannot connect source pin to audio1 renderer"
+
+#: DshowPlayer.cpp:214
+msgid "Nie można znaleźć połączonego pinu źródła"
+msgstr "Cannot find connected source pin"
+
+#: DshowPlayer.cpp:216 DshowPlayer.cpp:260
+msgid "Nie można pobrać informacji o pinie splittera"
+msgstr "Cannot get splitter pin info"
+
+#: DshowPlayer.cpp:219
+msgid "Nie można wyliczyć pinów splittera"
+msgstr "Cannot enumerate splitter pins"
+
+#: DshowPlayer.cpp:227
+msgid "Nie można połączyć pinu źródła z rendererem wideo2"
+msgstr "Cannot connect source pin to video2 renderer"
+
+#: DshowPlayer.cpp:257
+msgid "Nie można pobrać pinu źródła"
+msgstr "Cannot get source pin"
+
+#: DshowPlayer.cpp:404
+msgid "Nie można stworzyć interfejsu filtrów"
+msgstr "Cannot create filters interface"
+
+#: DshowPlayer.cpp:408
+msgid "Nie można stworzyć kontrolera"
+msgstr "Cannot create controller"
+
+#: DshowPlayer.cpp:409
+msgid "Nie można stworzyć interfejsu szukania"
+msgstr "Cannot create search interface"
+
+#: DshowPlayer.cpp:410
+msgid "Nie można stworzyć interfejsu audio"
+msgstr "Cannot create audio interface"
+
+#: DshowPlayer.cpp:538 DshowPlayer.cpp:562
+msgid "Nie można wyliczyć filtrów"
+msgstr "Cannot enumerate filters"
+
+#: DshowPlayer.cpp:542
+msgid "Nie można pobrać nazwy filtra"
+msgstr "Cannot get filter name"
+
+#: DshowPlayer.cpp:565
+msgid "Nie można pobrać konfiguracji filtra"
+msgstr "Cannot get filter configuration"
 
 #: DummyVideo.cpp:22
 msgid "Opcje dummy wideo"
@@ -881,29 +1005,29 @@ msgstr "Tag of button"
 msgid "Zapisz tag"
 msgstr "Save tag"
 
-#: EditBox.cpp:175 HotkeysNaming.cpp:93
+#: EditBox.cpp:175 HotkeysNaming.cpp:73
 msgid "Wybór czcionki"
 msgstr "Font selection"
 
-#: EditBox.cpp:178 FontDialog.cpp:397 StyleChange.cpp:121 StyleChange.cpp:696
+#: EditBox.cpp:178 FontDialog.cpp:397 StyleChange.cpp:119 StyleChange.cpp:694
 msgid "Pogrubienie"
 msgstr "Bold"
 
-#: EditBox.cpp:181 StyleChange.cpp:697
+#: EditBox.cpp:181 StyleChange.cpp:695
 msgid "Pochylenie"
 msgstr "Italic"
 
-#: EditBox.cpp:184 FontDialog.cpp:401 HotkeysNaming.cpp:95 StyleChange.cpp:123
-#: StyleChange.cpp:698
+#: EditBox.cpp:184 FontDialog.cpp:401 HotkeysNaming.cpp:75 StyleChange.cpp:121
+#: StyleChange.cpp:696
 msgid "Podkreślenie"
 msgstr "Underline"
 
-#: EditBox.cpp:187 FontDialog.cpp:403 HotkeysNaming.cpp:94 StyleChange.cpp:124
-#: StyleChange.cpp:699
+#: EditBox.cpp:187 FontDialog.cpp:403 HotkeysNaming.cpp:74 StyleChange.cpp:122
+#: StyleChange.cpp:697
 msgid "Przekreślenie"
 msgstr "Strikethrough"
 
-#: EditBox.cpp:194 HotkeysNaming.cpp:91 StyleChange.cpp:701
+#: EditBox.cpp:194 HotkeysNaming.cpp:71 StyleChange.cpp:699
 msgid "Kolor zastępczy do karaoke"
 msgstr "Secondary color for karaoke"
 
@@ -931,15 +1055,15 @@ msgstr "Time"
 msgid "Klatki"
 msgstr "Frames"
 
-#: EditBox.cpp:251 HotkeysNaming.cpp:99
+#: EditBox.cpp:251 HotkeysNaming.cpp:83
 msgid "Wklej wszystko"
 msgstr "Paste all"
 
-#: EditBox.cpp:253 HotkeysNaming.cpp:100
+#: EditBox.cpp:253 HotkeysNaming.cpp:84
 msgid "Wklej zaznaczone"
 msgstr "Paste the selected"
 
-#: EditBox.cpp:255 HotkeysNaming.cpp:98
+#: EditBox.cpp:255 HotkeysNaming.cpp:80
 msgid "Ukryj oryginał"
 msgstr "Hide original"
 
@@ -955,15 +1079,15 @@ msgstr "Moving tags"
 msgid "Komentarz"
 msgstr "Comment"
 
-#: EditBox.cpp:293 FindReplaceDialog.cpp:135 KainoteFrame.cpp:214
-#: SelectLines.cpp:75 SubsGrid.cpp:452 SubsGrid.cpp:602 SubsGridWindow.cpp:256
-#: SubsGridWindow.cpp:644 SubsGridWindow.cpp:1098 SubsGridWindow.cpp:1264
+#: EditBox.cpp:293 FindReplaceDialog.cpp:135 KainoteFrame.cpp:216
+#: SelectLines.cpp:75 SubsGrid.cpp:444 SubsGrid.cpp:595 SubsGridWindow.cpp:259
+#: SubsGridWindow.cpp:654 SubsGridWindow.cpp:1109 SubsGridWindow.cpp:1275
 msgid "Aktor"
 msgstr "Actor"
 
-#: EditBox.cpp:299 FindReplaceDialog.cpp:138 KainoteFrame.cpp:215
-#: SelectLines.cpp:76 SubsGrid.cpp:457 SubsGrid.cpp:607 SubsGridWindow.cpp:260
-#: SubsGridWindow.cpp:648 SubsGridWindow.cpp:1111 SubsGridWindow.cpp:1277
+#: EditBox.cpp:299 FindReplaceDialog.cpp:138 KainoteFrame.cpp:217
+#: SelectLines.cpp:76 SubsGrid.cpp:449 SubsGrid.cpp:600 SubsGridWindow.cpp:263
+#: SubsGridWindow.cpp:658 SubsGridWindow.cpp:1122 SubsGridWindow.cpp:1288
 msgid "Efekt"
 msgstr "Effect"
 
@@ -1069,21 +1193,107 @@ msgstr ""
 "Characters per second.\n"
 "Should not exceed 15 characters per second"
 
-#: EditBox.cpp:1708 EditBox.cpp:2007
+#: EditBox.cpp:1709 EditBox.cpp:2008
 msgid "Zmień ilość przycisków"
 msgstr "Change amount of buttons"
 
-#: EditBox.cpp:1944
+#: EditBox.cpp:1945
 msgid "Nie znaleziono niepewnych"
 msgstr "Not confirmed not found"
 
-#: EditBox.cpp:1966
+#: EditBox.cpp:1967
 msgid "Nie znaleziono nieprzetłumaczonych"
 msgstr "Untranslated not found"
 
-#: EditBox.cpp:2009
+#: EditBox.cpp:2010
 msgid "Zarządzaj przyciskami tagów"
 msgstr "Manage tag buttons"
+
+#: FindReplace.cpp:201 FindReplace.cpp:1583 MisspellReplacer.cpp:608
+#, c-format
+msgid ""
+"Linia %i nie może być zamieniona,\n"
+"bo została zedytowana."
+msgstr ""
+"Line %i cannot be replaced,\n"
+"cause it was edited."
+
+#: FindReplace.cpp:399
+msgid "Wyszukiwanie zakończone, rozpocząć od początku?"
+msgstr "Reached end. Search from the beginning?"
+
+#: FindReplace.cpp:399 FindReplace.cpp:406 FindReplace.cpp:1326
+#: FindReplace.cpp:1330 FontCollector.cpp:510 KainoteFrame.cpp:1280
+#: KainoteFrame.cpp:2030 Notebook.cpp:1173 StyleStore.cpp:278
+#: StyleStore.cpp:310 StyleStore.cpp:349 StyleStore.cpp:497 StyleStore.cpp:642
+#: SubsGrid.cpp:1060 SubsGrid.cpp:1395 SubsGridBase.cpp:537
+#: SubsGridBase.cpp:1399 VideoBox.cpp:809 VideoBox.cpp:821
+#: VisualAllTagsEdition.cpp:151 VisualAllTagsEdition.cpp:215
+#: VisualDrawingShapes.cpp:128 VisualDrawingShapes.cpp:192
+msgid "Potwierdzenie"
+msgstr "Confirmation"
+
+#: FindReplace.cpp:406
+msgid "Nie znaleziono podanej frazy \""
+msgstr "Couldn't find expression \""
+
+#: FindReplace.cpp:816 FindReplace.cpp:1131 FindReplace.cpp:1172
+#, c-format
+msgid "Zmieniono %i razy."
+msgstr "Replaced %i times."
+
+#: FindReplace.cpp:816 FindReplace.cpp:1131 FindReplace.cpp:1172
+msgid "Szukaj Zamień"
+msgstr "Search Replace"
+
+#: FindReplace.cpp:1179
+msgid ""
+"Czy na pewno dokonać zmian we wszystkich napisach?\n"
+"W razie pomyłki kopie zapasowe są w folderze 'ReplaceBackup'"
+msgstr ""
+"Do you want to replace in all subtitle files?\n"
+"After bad replacing backup files are in folder 'ReplaceBackup'"
+
+#: FindReplace.cpp:1179 FontCatalogList.cpp:84 KainoteFrame.cpp:851
+#: ShiftTimes.cpp:85 ShiftTimes.cpp:949 ShiftTimes.cpp:954
+msgid "Informacja"
+msgstr "Info"
+
+#: FindReplace.cpp:1297
+msgid "Ścieżka szukania jest nieprawidłowa"
+msgstr "Seeking path is invalid"
+
+#: FindReplace.cpp:1326
+msgid ""
+"Wszystkich wybranych stylów nie ma w przeszukiwanych napisach,\n"
+"przez co nic nie zostanie znalezione.\n"
+"Co zrobić?"
+msgstr ""
+"All of choosen styles not exist, and nothing will not be found.\n"
+"What to do?"
+
+#: FindReplace.cpp:1327 FindReplace.cpp:1332
+msgid "Wyczyść style"
+msgstr "Remove styles"
+
+#: FindReplace.cpp:1330
+#, c-format
+msgid ""
+"Stylów o nazwach \"%s\" nie ma w przeszukiwanych napisach,\n"
+"co może znacząco zmniejszyć ilość wyników szukania.\n"
+"Co zrobić?"
+msgstr ""
+"Styles named \"%s\" not exist in current subtitles,\n"
+"and it can reduce seeking results.\n"
+"What to do?"
+
+#: FindReplace.cpp:1331
+msgid "Usuń nieistniejące style"
+msgstr "Remove not existed styles"
+
+#: FindReplace.cpp:1333 SpellCheckerDialog.cpp:57
+msgid "Ignoruj"
+msgstr "Ignore"
 
 #: FindReplaceDialog.cpp:44 FindReplaceDialog.cpp:47 SelectLines.cpp:54
 msgid "Szukany tekst:"
@@ -1115,7 +1325,7 @@ msgstr "Subtitles seeking folder:"
 msgid "Wybierz folder zapisu"
 msgstr "Choose save folder"
 
-#: FindReplaceDialog.cpp:88 stylestore.cpp:67
+#: FindReplaceDialog.cpp:88 StyleStore.cpp:67
 msgid "Katalog:"
 msgstr "Catalog:"
 
@@ -1151,20 +1361,20 @@ msgstr "Skip text"
 msgid "W polu"
 msgstr "In field"
 
-#: FindReplaceDialog.cpp:124 SelectLines.cpp:73 SubsGrid.cpp:463
-#: SubsGrid.cpp:482 SubsGrid.cpp:489 SubsGrid.cpp:608 SubsGrid.cpp:624
-#: SubsGrid.cpp:633 SubsGridWindow.cpp:264 SubsGridWindow.cpp:654
+#: FindReplaceDialog.cpp:124 SelectLines.cpp:73 SubsGrid.cpp:455
+#: SubsGrid.cpp:474 SubsGrid.cpp:481 SubsGrid.cpp:601 SubsGrid.cpp:617
+#: SubsGrid.cpp:626 SubsGridWindow.cpp:267 SubsGridWindow.cpp:664
 msgid "Tekst"
 msgstr "Text"
 
-#: FindReplaceDialog.cpp:129 SelectLines.cpp:74 SubsGrid.cpp:453
-#: SubsGrid.cpp:603 SubsGridWindow.cpp:255 SubsGridWindow.cpp:643
-#: SubsGridWindow.cpp:1092 SubsGridWindow.cpp:1258
+#: FindReplaceDialog.cpp:129 SelectLines.cpp:74 SubsGrid.cpp:445
+#: SubsGrid.cpp:596 SubsGridWindow.cpp:258 SubsGridWindow.cpp:653
+#: SubsGridWindow.cpp:1103 SubsGridWindow.cpp:1269
 msgid "Styl"
 msgstr "Style"
 
 #: FindReplaceDialog.cpp:160 FindReplaceDialog.cpp:412
-#: FindReplaceDialog.cpp:426 Hotkeys.cpp:146 HotkeysNaming.cpp:221
+#: FindReplaceDialog.cpp:426 Hotkeys.cpp:146 HotkeysNaming.cpp:232
 #: SelectLines.cpp:51
 msgid "Znajdź"
 msgstr "Find"
@@ -1189,7 +1399,7 @@ msgstr ""
 msgid "Zamień następne"
 msgstr "Swap next"
 
-#: FindReplaceDialog.cpp:185 SpellCheckerDialog.cpp:56 SubsFile.cpp:163
+#: FindReplaceDialog.cpp:185 SpellCheckerDialog.cpp:56 SubsFile.cpp:164
 msgid "Zamień wszystko"
 msgstr "Replace all"
 
@@ -1255,7 +1465,7 @@ msgid "Odhacz wszystko"
 msgstr "Uncheck all"
 
 #: FindReplaceResultsDialog.cpp:49 MispellReplacerDialog.cpp:215
-#: SpellCheckerDialog.cpp:55 SubsFile.cpp:162
+#: SpellCheckerDialog.cpp:55 SubsFile.cpp:163
 msgid "Zamień"
 msgstr "Replace"
 
@@ -1277,11 +1487,6 @@ msgstr "Choose new catalog name"
 msgid "Proszę wprowadzić nazwę nowego katalogu"
 msgstr "Enter a name for the new catalog"
 
-#: FontCatalogList.cpp:84 KainoteFrame.cpp:844 ShiftTimes.cpp:85
-#: ShiftTimes.cpp:949 ShiftTimes.cpp:954 findreplace.cpp:1179
-msgid "Informacja"
-msgstr "Info"
-
 #: FontCatalogList.cpp:94
 msgid "Zarządzanie katalogami czcionek"
 msgstr "Manage font catalogs"
@@ -1299,17 +1504,17 @@ msgid "Przykład"
 msgstr "Sample"
 
 #: FontCatalogList.cpp:107 FontCatalogList.cpp:850 FontDialog.cpp:424
-#: StyleChange.cpp:84 VideoToolbar.cpp:747 VisualAllTagsEdition.cpp:86
+#: StyleChange.cpp:82 VideoToolbar.cpp:747 VisualAllTagsEdition.cpp:86
 msgid "Dodaj"
 msgstr "Add"
 
 #: FontCatalogList.cpp:109 FontCatalogList.cpp:745 SelectLines.cpp:127
-#: SubsGrid.cpp:230 SubsGrid.cpp:263 stylestore.cpp:72 stylestore.cpp:90
-#: stylestore.cpp:143
+#: StyleStore.cpp:72 StyleStore.cpp:90 StyleStore.cpp:143 SubsGrid.cpp:222
+#: SubsGrid.cpp:255
 msgid "Usuń"
 msgstr "Delete"
 
-#: FontCatalogList.cpp:110 stylestore.cpp:89 stylestore.cpp:142
+#: FontCatalogList.cpp:110 StyleStore.cpp:89 StyleStore.cpp:142
 msgid "Wczytaj"
 msgstr "Load"
 
@@ -1321,8 +1526,8 @@ msgstr "Save filter"
 msgid "Czy na pewno chcesz usunąć ten katalog?"
 msgstr "Are you sure you want to delete this catalog?"
 
-#: FontCatalogList.cpp:143 FontCatalogList.cpp:743 Notebook.cpp:942
-#: StyleChange.cpp:463 kainoteApp.cpp:249 kainoteApp.cpp:255 stylestore.cpp:556
+#: FontCatalogList.cpp:143 FontCatalogList.cpp:743 KainoteApp.cpp:307
+#: KainoteApp.cpp:313 Notebook.cpp:944 StyleChange.cpp:461 StyleStore.cpp:556
 msgid "Pytanie"
 msgstr "Prompt"
 
@@ -1340,12 +1545,12 @@ msgstr "Catalogs:"
 msgid "Szukaj:"
 msgstr "Find:"
 
-#: FontCatalogList.cpp:201 SubsGridBase.cpp:1724
+#: FontCatalogList.cpp:201 SubsGridBase.cpp:1723
 msgid "Autozapis"
 msgstr "Autosave"
 
-#: FontCatalogList.cpp:314 KainoteFrame.cpp:962 KainoteFrame.cpp:978
-#: VideoBox.cpp:988
+#: FontCatalogList.cpp:314 KainoteFrame.cpp:969 KainoteFrame.cpp:985
+#: VideoBox.cpp:996
 msgid "Wybierz plik wideo"
 msgstr "Choose video file"
 
@@ -1406,8 +1611,8 @@ msgstr " tabs: "
 msgid "W linijkach: "
 msgstr "In lines: "
 
-#: FontCollector.cpp:132 HotkeysNaming.cpp:132 KainoteFrame.cpp:319
-#: KainoteFrame.cpp:320 SubsGrid.cpp:232
+#: FontCollector.cpp:132 HotkeysNaming.cpp:170 KainoteFrame.cpp:322
+#: KainoteFrame.cpp:323 SubsGrid.cpp:224
 msgid "Kolekcjoner czcionek"
 msgstr "Fonts collector"
 
@@ -1491,17 +1696,6 @@ msgstr "Save patch is not valid."
 #: FontCollector.cpp:510
 msgid "Plik zip już istnieje, usunąć go?"
 msgstr "The zip file already exists, delete it?"
-
-#: FontCollector.cpp:510 KainoteFrame.cpp:1273 KainoteFrame.cpp:2030
-#: Notebook.cpp:1168 SubsGrid.cpp:1067 SubsGrid.cpp:1402 SubsGridBase.cpp:538
-#: SubsGridBase.cpp:1400 VideoBox.cpp:801 VideoBox.cpp:813
-#: VisualAllTagsEdition.cpp:150 VisualAllTagsEdition.cpp:214
-#: VisualDrawingShapes.cpp:128 VisualDrawingShapes.cpp:192 findreplace.cpp:399
-#: findreplace.cpp:406 findreplace.cpp:1326 findreplace.cpp:1330
-#: stylestore.cpp:278 stylestore.cpp:310 stylestore.cpp:349 stylestore.cpp:497
-#: stylestore.cpp:642
-msgid "Potwierdzenie"
-msgstr "Confirmation"
 
 #: FontCollector.cpp:583 FontCollector.cpp:640
 msgid "Nie znaleziono czcionki \""
@@ -1754,7 +1948,7 @@ msgstr ""
 msgid "Wybierz czcionkę"
 msgstr "Select a font"
 
-#: FontDialog.cpp:388 StyleChange.cpp:694
+#: FontDialog.cpp:388 StyleChange.cpp:692
 msgid "Czcionka"
 msgstr "Font"
 
@@ -1762,23 +1956,23 @@ msgstr "Font"
 msgid "Podgląd"
 msgstr "Preview"
 
-#: FontDialog.cpp:399 StyleChange.cpp:122
+#: FontDialog.cpp:399 StyleChange.cpp:120
 msgid "Kursywa"
 msgstr "Italic"
 
-#: FontDialog.cpp:421 FontDialog.cpp:466 StyleChange.cpp:81 StyleChange.cpp:102
+#: FontDialog.cpp:421 FontDialog.cpp:466 StyleChange.cpp:79 StyleChange.cpp:100
 msgid "Wszystkie czcionki"
 msgstr "All fonts"
 
-#: FontDialog.cpp:422 FontDialog.cpp:467 StyleChange.cpp:82 StyleChange.cpp:103
+#: FontDialog.cpp:422 FontDialog.cpp:467 StyleChange.cpp:80 StyleChange.cpp:101
 msgid "Bez katalogu"
 msgstr "Without catalog"
 
-#: FontDialog.cpp:425 StyleChange.cpp:85
+#: FontDialog.cpp:425 StyleChange.cpp:83
 msgid "Dodaje czcionki do wcześniej utworzonego katalogu"
 msgstr "Adding fonts to catalog"
 
-#: FontDialog.cpp:426 StyleChange.cpp:86
+#: FontDialog.cpp:426 StyleChange.cpp:84
 msgid "Zarządzaj"
 msgstr "Manage"
 
@@ -1786,11 +1980,11 @@ msgstr "Manage"
 msgid "Umorzliwia zarządzanie katalogami stylów"
 msgstr "Manages font catalogs"
 
-#: FontDialog.cpp:429 HotkeysNaming.cpp:151 StyleChange.cpp:88 SubsGrid.cpp:183
+#: FontDialog.cpp:429 HotkeysNaming.cpp:120 StyleChange.cpp:86 SubsGrid.cpp:175
 msgid "Filtruj"
 msgstr "Filter"
 
-#: FontDialog.cpp:430 StyleChange.cpp:89
+#: FontDialog.cpp:430 StyleChange.cpp:87
 msgid "Filtruje czcionki, by zawierały wpisane znaki"
 msgstr "Filter fonts for written characters"
 
@@ -1802,7 +1996,7 @@ msgstr "Filtering and font catalogs"
 msgid "Nie można stworzyć uchwytu notyfikacji zmian folderu czcionek."
 msgstr "Cannot create notification handler for fonts folder."
 
-#: FontEnumerator.cpp:231 FontEnumerator.cpp:395
+#: FontEnumerator.cpp:231 FontEnumerator.cpp:409
 msgid "Ładowanie czcionek zewnętrznych"
 msgstr "Loading external fonts"
 
@@ -1811,15 +2005,15 @@ msgid ""
 "Nie można stworzyć następnego uchwytu notyfikacji zmian folderu czcionek."
 msgstr "Cannot create next notification handler for fonts folder."
 
-#: FontEnumerator.cpp:330
+#: FontEnumerator.cpp:340
 msgid "Usuwanie czcionek z zewnętrznego folderu"
 msgstr "Removing fonts from external folder"
 
-#: FontEnumerator.cpp:337
+#: FontEnumerator.cpp:348
 msgid "Wczytywanie czcionek z zewnętrznego folderu"
 msgstr "Loading fonts from external folder"
 
-#: FontEnumerator.cpp:358
+#: FontEnumerator.cpp:370
 msgid "Nie można wczytać zewnętrznego katalogu czcionek"
 msgstr "Cannot load external font folder"
 
@@ -1828,331 +2022,331 @@ msgstr "Cannot load external font folder"
 msgid "Wyjście"
 msgstr "Exit"
 
-#: Hotkeys.cpp:135 HotkeysNaming.cpp:257 Notebook.cpp:564
+#: Hotkeys.cpp:135 HotkeysNaming.cpp:206 Notebook.cpp:566
 msgid "Otwórz nową zakładkę"
 msgstr "Open new tab"
 
-#: Hotkeys.cpp:136 HotkeysNaming.cpp:258
+#: Hotkeys.cpp:136 HotkeysNaming.cpp:207
 msgid "Zamknij bieżącą zakładkę"
 msgstr "Close current tab"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: Hotkeys.cpp:137 HotkeysNaming.cpp:77
+#: Hotkeys.cpp:137 HotkeysNaming.cpp:166
 msgid "Okno zmiany czasów"
 msgstr "Shift times"
 
-#: Hotkeys.cpp:138 HotkeysNaming.cpp:81 KainoteFrame.cpp:304
+#: Hotkeys.cpp:138 HotkeysNaming.cpp:157 KainoteFrame.cpp:307
 msgid "Konwertuj do ASS"
 msgstr "Convert to ASS"
 
-#: Hotkeys.cpp:139 HotkeysNaming.cpp:82 KainoteFrame.cpp:306
+#: Hotkeys.cpp:139 HotkeysNaming.cpp:158 KainoteFrame.cpp:309
 msgid "Konwertuj do SRT"
 msgstr "Convert to SRT"
 
-#: Hotkeys.cpp:140 HotkeysNaming.cpp:83 KainoteFrame.cpp:308
+#: Hotkeys.cpp:140 HotkeysNaming.cpp:159 KainoteFrame.cpp:311
 msgid "Konwertuj do MDVD"
 msgstr "Convert to MDVD"
 
-#: Hotkeys.cpp:141 HotkeysNaming.cpp:84 KainoteFrame.cpp:310
+#: Hotkeys.cpp:141 HotkeysNaming.cpp:160 KainoteFrame.cpp:313
 msgid "Konwertuj do MPL2"
 msgstr "Convert to MPL2"
 
-#: Hotkeys.cpp:142 HotkeysNaming.cpp:85 KainoteFrame.cpp:312
+#: Hotkeys.cpp:142 HotkeysNaming.cpp:161 KainoteFrame.cpp:315
 msgid "Konwertuj do TMP"
 msgstr "Convert to TMP"
 
-#: Hotkeys.cpp:143 HotkeysNaming.cpp:239 stylestore.cpp:41
+#: Hotkeys.cpp:143 HotkeysNaming.cpp:245 StyleStore.cpp:41
 msgid "Menedżer stylów"
 msgstr "Style manager"
 
-#: Hotkeys.cpp:144 HotkeysNaming.cpp:121 KainoteFrame.cpp:297
+#: Hotkeys.cpp:144 HotkeysNaming.cpp:168 KainoteFrame.cpp:300
 msgid "Włącz / Wyłącz edytor"
 msgstr "Enable / Disable editor"
 
-#: Hotkeys.cpp:145 HotkeysNaming.cpp:197 KainoteFrame.cpp:229 VideoBox.cpp:874
+#: Hotkeys.cpp:145 HotkeysNaming.cpp:217 KainoteFrame.cpp:231 VideoBox.cpp:882
 msgid "Otwórz wideo"
 msgstr "Open video"
 
-#: Hotkeys.cpp:147 HotkeysNaming.cpp:131
+#: Hotkeys.cpp:147 HotkeysNaming.cpp:169
 msgid "Znajdź i zmień"
 msgstr "Find and replace"
 
-#: Hotkeys.cpp:148 HotkeysNaming.cpp:246 KainoteFrame.cpp:191
+#: Hotkeys.cpp:148 HotkeysNaming.cpp:196 KainoteFrame.cpp:193
 msgid "Cofnij"
 msgstr "Undo"
 
-#: Hotkeys.cpp:149 HotkeysNaming.cpp:212 KainoteFrame.cpp:197
+#: Hotkeys.cpp:149 HotkeysNaming.cpp:223 KainoteFrame.cpp:199
 msgid "Ponów"
 msgstr "Redo"
 
-#: Hotkeys.cpp:150 HotkeysNaming.cpp:172 KainoteFrame.cpp:199 SubsFile.cpp:24
+#: Hotkeys.cpp:150 HotkeysNaming.cpp:174 KainoteFrame.cpp:201 SubsFile.cpp:24
 #: SubsFile.cpp:54
 msgid "Historia"
 msgstr "History"
 
-#: Hotkeys.cpp:151 HotkeysNaming.cpp:196 VideoBox.cpp:876
+#: Hotkeys.cpp:151 HotkeysNaming.cpp:216 VideoBox.cpp:884
 msgid "Otwórz napisy"
 msgstr "Open subtitles"
 
-#: Hotkeys.cpp:152 HotkeysNaming.cpp:217 Notebook.cpp:853 ScriptInfo.cpp:159
+#: Hotkeys.cpp:152 HotkeysNaming.cpp:228 Notebook.cpp:855 ScriptInfo.cpp:159
 msgid "Zapisz"
 msgstr "Save"
 
-#: Hotkeys.cpp:153 HotkeysNaming.cpp:218
+#: Hotkeys.cpp:153 HotkeysNaming.cpp:229
 msgid "Zapisz jako..."
 msgstr "Save as..."
 
-#: Hotkeys.cpp:154 HotkeysNaming.cpp:215 SubsGrid.cpp:229
+#: Hotkeys.cpp:154 HotkeysNaming.cpp:226 SubsGrid.cpp:221
 msgid "Usuń tekst"
 msgstr "Delete text"
 
-#: Hotkeys.cpp:155 HotkeysNaming.cpp:213
+#: Hotkeys.cpp:155 HotkeysNaming.cpp:224
 msgid "Usuń linijkę"
 msgstr "Delete line"
 
-#: Hotkeys.cpp:156 HotkeysNaming.cpp:228 KainoteFrame.cpp:241
+#: Hotkeys.cpp:156 HotkeysNaming.cpp:238 KainoteFrame.cpp:243
 msgid "Wstaw czas początkowy z wideo"
 msgstr "Insert start time from video"
 
-#: Hotkeys.cpp:157 HotkeysNaming.cpp:227 KainoteFrame.cpp:243
+#: Hotkeys.cpp:157 HotkeysNaming.cpp:237 KainoteFrame.cpp:245
 msgid "Wstaw czas końcowy z wideo"
 msgstr "Insert end time from video"
 
-#: Hotkeys.cpp:158 Hotkeys.cpp:176 HotkeysNaming.cpp:201 HotkeysNaming.cpp:202
+#: Hotkeys.cpp:158 Hotkeys.cpp:176 HotkeysNaming.cpp:218 HotkeysNaming.cpp:254
 #: VideoBox.cpp:150 VideoFullscreen.cpp:56
 msgid "Odtwórz / Pauza"
 msgstr "Play / Pause"
 
-#: Hotkeys.cpp:159 HotkeysNaming.cpp:206 KainoteFrame.cpp:245
+#: Hotkeys.cpp:159 HotkeysNaming.cpp:220 KainoteFrame.cpp:247
 msgid "Klatka w tył"
 msgstr "Previous frame"
 
-#: Hotkeys.cpp:160 HotkeysNaming.cpp:191 KainoteFrame.cpp:247
+#: Hotkeys.cpp:160 HotkeysNaming.cpp:212 KainoteFrame.cpp:249
 msgid "Klatka w przód"
 msgstr "Next frame"
 
-#: Hotkeys.cpp:161 Hotkeys.cpp:201 HotkeysNaming.cpp:53 HotkeysNaming.cpp:207
+#: Hotkeys.cpp:161 Hotkeys.cpp:201 HotkeysNaming.cpp:48 HotkeysNaming.cpp:221
 msgid "Poprzednia linijka"
 msgstr "Previous line"
 
-#: Hotkeys.cpp:162 Hotkeys.cpp:203 HotkeysNaming.cpp:55 HotkeysNaming.cpp:192
+#: Hotkeys.cpp:162 Hotkeys.cpp:203 HotkeysNaming.cpp:50 HotkeysNaming.cpp:213
 msgid "Następna linijka"
 msgstr "Next line"
 
-#: Hotkeys.cpp:163 HotkeysNaming.cpp:262 KainoteFrame.cpp:204
+#: Hotkeys.cpp:163 HotkeysNaming.cpp:210 KainoteFrame.cpp:206
 msgid "Znajdź następny"
 msgstr "Find next"
 
-#: Hotkeys.cpp:164 HotkeysNaming.cpp:182
+#: Hotkeys.cpp:164 HotkeysNaming.cpp:175
 msgid "Scal z poprzednią linijką"
 msgstr "Merge with previous line"
 
-#: Hotkeys.cpp:165 HotkeysNaming.cpp:183
+#: Hotkeys.cpp:165 HotkeysNaming.cpp:176
 msgid "Scal z następną linijką"
 msgstr "Merge with next line"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: Hotkeys.cpp:166 HotkeysNaming.cpp:234
+#: Hotkeys.cpp:166 HotkeysNaming.cpp:243
 msgid "Przyklej start do klatki kluczowej"
 msgstr "Change start time to nearest keyframe"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: Hotkeys.cpp:167 HotkeysNaming.cpp:233
+#: Hotkeys.cpp:167 HotkeysNaming.cpp:242
 msgid "Przyklej koniec do klatki kluczowej"
 msgstr "Change end time to nearest keyframe"
 
-#: Hotkeys.cpp:168 HotkeysNaming.cpp:193
+#: Hotkeys.cpp:168 HotkeysNaming.cpp:214
 msgid "Następna karta"
 msgstr "Next tab"
 
-#: Hotkeys.cpp:169 HotkeysNaming.cpp:208
+#: Hotkeys.cpp:169 HotkeysNaming.cpp:222
 msgid "Poprzednia karta"
 msgstr "Previous tab"
 
-#: Hotkeys.cpp:170 HotkeysNaming.cpp:222
+#: Hotkeys.cpp:170 HotkeysNaming.cpp:233
 msgid "Zaznacz linię z czasem wideo"
 msgstr "Select line at current video position"
 
-#: Hotkeys.cpp:171 HotkeysNaming.cpp:167
+#: Hotkeys.cpp:171 HotkeysNaming.cpp:171
 msgid "Pomoc (niekompletna, ale jednak)"
 msgstr "Help (not available in English)"
 
-#: Hotkeys.cpp:172 HotkeysNaming.cpp:88
+#: Hotkeys.cpp:172 HotkeysNaming.cpp:112
 msgid "Duplikuj linie"
 msgstr "Duplicate lines"
 
-#: Hotkeys.cpp:173 HotkeysNaming.cpp:86 SubsGrid.cpp:213
+#: Hotkeys.cpp:173 HotkeysNaming.cpp:111 SubsGrid.cpp:205
 msgid "Kopiuj kolumny"
 msgstr "Copy columns"
 
-#: Hotkeys.cpp:174 HotkeysNaming.cpp:198 SubsGrid.cpp:214
+#: Hotkeys.cpp:174 HotkeysNaming.cpp:147 SubsGrid.cpp:206
 msgid "Wklej kolumny"
 msgstr "Paste columns"
 
-#: Hotkeys.cpp:175 HotkeysNaming.cpp:232 SubsGrid.cpp:221
+#: Hotkeys.cpp:175 HotkeysNaming.cpp:153 SubsGrid.cpp:213
 msgid "Pokaż podgląd napisów"
 msgstr "Show subtitles preview"
 
-#: Hotkeys.cpp:177 HotkeysNaming.cpp:203
+#: Hotkeys.cpp:177 HotkeysNaming.cpp:256
 msgid "5 sekund do przodu"
 msgstr "5 seconds forward"
 
-#: Hotkeys.cpp:178 HotkeysNaming.cpp:187
+#: Hotkeys.cpp:178 HotkeysNaming.cpp:249
 msgid "5 sekund do tyłu"
 msgstr "5 seconds backward"
 
-#: Hotkeys.cpp:179 HotkeysNaming.cpp:204
+#: Hotkeys.cpp:179 HotkeysNaming.cpp:257
 msgid "Minuta do przodu"
 msgstr "1 minute forward"
 
-#: Hotkeys.cpp:180 HotkeysNaming.cpp:188
+#: Hotkeys.cpp:180 HotkeysNaming.cpp:250
 msgid "Minuta do tyłu"
 msgstr "1 minute backward"
 
-#: Hotkeys.cpp:181 HotkeysNaming.cpp:194 VideoBox.cpp:156
+#: Hotkeys.cpp:181 HotkeysNaming.cpp:253 VideoBox.cpp:156
 #: VideoFullscreen.cpp:62
 msgid "Następny plik"
 msgstr "Next file"
 
-#: Hotkeys.cpp:182 HotkeysNaming.cpp:209 VideoBox.cpp:148
+#: Hotkeys.cpp:182 HotkeysNaming.cpp:259 VideoBox.cpp:148
 msgid "Poprzedni plik"
 msgstr "Previous file"
 
-#: Hotkeys.cpp:183 HotkeysNaming.cpp:255
+#: Hotkeys.cpp:183 HotkeysNaming.cpp:262
 msgid "Dźwięk głośniej"
 msgstr "Volume up"
 
-#: Hotkeys.cpp:184 HotkeysNaming.cpp:256
+#: Hotkeys.cpp:184 HotkeysNaming.cpp:263
 msgid "Dźwięk ciszej"
 msgstr "Volume down"
 
-#: Hotkeys.cpp:185 HotkeysNaming.cpp:190
+#: Hotkeys.cpp:185 HotkeysNaming.cpp:252
 msgid "Następny rozdział"
 msgstr "Next chapter"
 
-#: Hotkeys.cpp:186 HotkeysNaming.cpp:205
+#: Hotkeys.cpp:186 HotkeysNaming.cpp:258
 msgid "Poprzedni rozdział"
 msgstr "Previous chapter"
 
-#: Hotkeys.cpp:187 HotkeysNaming.cpp:210
+#: Hotkeys.cpp:187 HotkeysNaming.cpp:81
 msgid "Wstaw pogrubienie"
 msgstr "Add bold"
 
-#: Hotkeys.cpp:188 HotkeysNaming.cpp:211
+#: Hotkeys.cpp:188 HotkeysNaming.cpp:82
 msgid "Wstaw kursywę"
 msgstr "Add italic"
 
-#: Hotkeys.cpp:189 HotkeysNaming.cpp:236
+#: Hotkeys.cpp:189 HotkeysNaming.cpp:87
 msgid "Wstaw znak podziału"
 msgstr "Add line wrap"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: Hotkeys.cpp:190 HotkeysNaming.cpp:237
+#: Hotkeys.cpp:190 HotkeysNaming.cpp:88
 msgid "Wstaw różnicę początkową"
 msgstr "Insert difference from the start"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: Hotkeys.cpp:191 HotkeysNaming.cpp:122
+#: Hotkeys.cpp:191 HotkeysNaming.cpp:85
 msgid "Wstaw różnicę końcową"
 msgstr "Insert difference to the end"
 
-#: Hotkeys.cpp:192 HotkeysNaming.cpp:129
+#: Hotkeys.cpp:192 HotkeysNaming.cpp:78
 msgid "Następne niepewne"
 msgstr "Next not confirmed line"
 
-#: Hotkeys.cpp:193 HotkeysNaming.cpp:130
+#: Hotkeys.cpp:193 HotkeysNaming.cpp:79
 msgid "Następne nieprzetłumaczone"
 msgstr "Next non translated"
 
-#: Hotkeys.cpp:194 HotkeysNaming.cpp:226
+#: Hotkeys.cpp:194 HotkeysNaming.cpp:86
 msgid "Ustaw jako niepewne i przejdź dalej"
 msgstr "Set as not confirmed and go to the next line"
 
-#: Hotkeys.cpp:196 HotkeysNaming.cpp:97
+#: Hotkeys.cpp:196 HotkeysNaming.cpp:77
 msgid "Zatwierdź zmiany idź do następnej linii"
 msgstr "Apply the changes and go to the next line"
 
-#: Hotkeys.cpp:199 HotkeysNaming.cpp:50
+#: Hotkeys.cpp:199 HotkeysNaming.cpp:46
 msgid "Zatwierdź"
 msgstr "Commit"
 
-#: Hotkeys.cpp:200 HotkeysNaming.cpp:51
+#: Hotkeys.cpp:200 HotkeysNaming.cpp:47
 msgid "Zatwierdź zastępcze"
 msgstr "Commit alt"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: Hotkeys.cpp:202 HotkeysNaming.cpp:54
+#: Hotkeys.cpp:202 HotkeysNaming.cpp:49
 msgid "Poprzednia linijka zastępcze"
 msgstr "Previous line alt"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: Hotkeys.cpp:204 HotkeysNaming.cpp:56
+#: Hotkeys.cpp:204 HotkeysNaming.cpp:51
 msgid "Następna linijka zastępcze"
 msgstr "Next line alt"
 
-#: Hotkeys.cpp:205 HotkeysNaming.cpp:57
+#: Hotkeys.cpp:205 HotkeysNaming.cpp:52
 msgid "Odtwarzaj"
 msgstr "Play"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: Hotkeys.cpp:206 HotkeysNaming.cpp:58
+#: Hotkeys.cpp:206 HotkeysNaming.cpp:53
 msgid "Odtwarzaj zastępcze"
 msgstr "Play alt"
 
-#: Hotkeys.cpp:207 HotkeysNaming.cpp:59
+#: Hotkeys.cpp:207 HotkeysNaming.cpp:54
 msgid "Odtwarzaj linię"
 msgstr "Play line"
 
-#: Hotkeys.cpp:208 HotkeysNaming.cpp:60
+#: Hotkeys.cpp:208 HotkeysNaming.cpp:55
 msgid "Odtwarzaj linię zastępcze"
 msgstr "Play line alt"
 
-#: Hotkeys.cpp:209 HotkeysNaming.cpp:61 HotkeysNaming.cpp:238 VideoBox.cpp:154
-#: VideoBox.cpp:841 VideoFullscreen.cpp:60
+#: Hotkeys.cpp:209 HotkeysNaming.cpp:56 HotkeysNaming.cpp:265 VideoBox.cpp:154
+#: VideoBox.cpp:849 VideoFullscreen.cpp:60
 msgid "Zatrzymaj"
 msgstr "Stop"
 
-#: Hotkeys.cpp:211 HotkeysNaming.cpp:63
+#: Hotkeys.cpp:211 HotkeysNaming.cpp:58
 msgid "Przewiń w lewo"
 msgstr "Scroll left"
 
-#: Hotkeys.cpp:212 HotkeysNaming.cpp:64
+#: Hotkeys.cpp:212 HotkeysNaming.cpp:59
 msgid "Przewiń w prawo"
 msgstr "Scroll right"
 
-#: Hotkeys.cpp:213 HotkeysNaming.cpp:65
+#: Hotkeys.cpp:213 HotkeysNaming.cpp:60
 msgid "Odtwarzaj przed znacznikem"
 msgstr "Play before the marker"
 
-#: Hotkeys.cpp:214 HotkeysNaming.cpp:66
+#: Hotkeys.cpp:214 HotkeysNaming.cpp:61
 msgid "Odtwarzaj po znaczniku"
 msgstr "Play after the marker"
 
-#: Hotkeys.cpp:215 HotkeysNaming.cpp:67
+#: Hotkeys.cpp:215 HotkeysNaming.cpp:62
 msgid "Odtwarzaj pierwsze 500ms"
 msgstr "Play first 500ms"
 
-#: Hotkeys.cpp:216 HotkeysNaming.cpp:68
+#: Hotkeys.cpp:216 HotkeysNaming.cpp:63
 msgid "Odtwarzaj końcowe 500ms"
 msgstr "Play last 500ms"
 
-#: Hotkeys.cpp:217 HotkeysNaming.cpp:69
+#: Hotkeys.cpp:217 HotkeysNaming.cpp:64
 msgid "Odtwarzaj 500ms przed"
 msgstr "Play 500ms before"
 
-#: Hotkeys.cpp:218 HotkeysNaming.cpp:70
+#: Hotkeys.cpp:218 HotkeysNaming.cpp:65
 msgid "Odtwarzaj 500ms po"
 msgstr "Play 500ms after"
 
-#: Hotkeys.cpp:219 HotkeysNaming.cpp:71
+#: Hotkeys.cpp:219 HotkeysNaming.cpp:66
 msgid "Odtwarzaj do końca"
 msgstr "Play to the end"
 
-#: Hotkeys.cpp:220 HotkeysNaming.cpp:72
+#: Hotkeys.cpp:220 HotkeysNaming.cpp:67
 msgid "Dodaj wstęp"
 msgstr "Add lead-in"
 
-#: Hotkeys.cpp:221 HotkeysNaming.cpp:73
+#: Hotkeys.cpp:221 HotkeysNaming.cpp:68
 msgid "Dodaj zakończenie"
 msgstr "Add lead-out"
 
@@ -2213,486 +2407,494 @@ msgstr "You can not use shortcuts for copying, cutting and pasting."
 msgid "Nie można używać skrótu zamykania programu."
 msgstr "You can not use shortcut for program close."
 
-#: HotkeysNaming.cpp:46
-msgid "O programie"
-msgstr "About"
-
-#: HotkeysNaming.cpp:47
-msgid "Wątek programu na forum AnimeSub.info"
-msgstr "Forum thread on animesub.info (Polish)"
-
-#: HotkeysNaming.cpp:48 VideoBox.cpp:879
-msgid "Zmień proporcje wideo"
-msgstr "Change aspect ratio"
-
-#: HotkeysNaming.cpp:49 KainoteFrame.cpp:299
-msgid "Właściwości pliku ASS"
-msgstr "ASS file properties"
-
-#: HotkeysNaming.cpp:52 KainoteFrame.cpp:280
-msgid "Otwórz audio z wideo"
-msgstr "Open audio from video"
-
-#: HotkeysNaming.cpp:74 KainoteFrame.cpp:330 KainoteFrame.cpp:331
-msgid "Wczytaj skrypt"
-msgstr "Load script"
-
-#: HotkeysNaming.cpp:75 KainoteFrame.cpp:336 KainoteFrame.cpp:337
-msgid "Otwórz okno mapowania skrótów"
-msgstr "Open shortcut mapping window"
-
-#: HotkeysNaming.cpp:76 KainoteFrame.cpp:332 KainoteFrame.cpp:333
-msgid "Odśwież skrypty autoload"
-msgstr "Refresh autoload scripts"
-
-#: HotkeysNaming.cpp:78 KainoteFrame.cpp:284
-msgid "Zamknij audio"
-msgstr "Close audio"
-
-#: HotkeysNaming.cpp:79 SubsGrid.cpp:208
-msgid "Ustaw czasy jako ciągłe (następna linijka)"
-msgstr "Set times as a continuous (next line)"
-
-#: HotkeysNaming.cpp:80 SubsGrid.cpp:207
-msgid "Ustaw czasy jako ciągłe (poprzednia linijka)"
-msgstr "Set times as a continuous (previous line)"
-
-#: HotkeysNaming.cpp:87 VideoBox.cpp:886
-msgid "Usuń plik wideo"
-msgstr "Remove video"
-
-#: HotkeysNaming.cpp:101
+#: HotkeysNaming.cpp:89
 msgid "Pierwszy przycisk tagów"
 msgstr "First tag button"
 
-#: HotkeysNaming.cpp:102
+#: HotkeysNaming.cpp:90
 msgid "Drugi przycisk tagów"
 msgstr "Second tag button"
 
-#: HotkeysNaming.cpp:103
+#: HotkeysNaming.cpp:91
 msgid "Trzeci przycisk tagów"
 msgstr "Third tag button"
 
-#: HotkeysNaming.cpp:104
+#: HotkeysNaming.cpp:92
 msgid "Czwarty przycisk tagów"
 msgstr "4th tag button"
 
-#: HotkeysNaming.cpp:105
+#: HotkeysNaming.cpp:93
 msgid "Piąty przycisk tagów"
 msgstr "5th tag button"
 
-#: HotkeysNaming.cpp:106
+#: HotkeysNaming.cpp:94
 msgid "Szósty przycisk tagów"
 msgstr "6th tag button"
 
-#: HotkeysNaming.cpp:107
+#: HotkeysNaming.cpp:95
 msgid "Siódmy przycisk tagów"
 msgstr "7th tag button"
 
-#: HotkeysNaming.cpp:108
+#: HotkeysNaming.cpp:96
 msgid "Ósmy przycisk tagów"
 msgstr "8th tag button"
 
-#: HotkeysNaming.cpp:109
+#: HotkeysNaming.cpp:97
 msgid "Dziewiąty przycisk tagów"
 msgstr "9th tag button"
 
-#: HotkeysNaming.cpp:110
+#: HotkeysNaming.cpp:98
 msgid "Dziesiąty przycisk tagów"
 msgstr "10th tag button"
 
-#: HotkeysNaming.cpp:111
+#: HotkeysNaming.cpp:99
 msgid "Jedenasty przycisk tagów"
 msgstr "11th tag button"
 
-#: HotkeysNaming.cpp:112
+#: HotkeysNaming.cpp:100
 msgid "Dwunasty przycisk tagów"
 msgstr "12th tag button"
 
-#: HotkeysNaming.cpp:113
+#: HotkeysNaming.cpp:101
 msgid "Trzynasty przycisk tagów"
 msgstr "13th tag button"
 
-#: HotkeysNaming.cpp:114
+#: HotkeysNaming.cpp:102
 msgid "Czternasty przycisk tagów"
 msgstr "14th tag button"
 
-#: HotkeysNaming.cpp:115
+#: HotkeysNaming.cpp:103
 msgid "Piętnast przycisk tagów"
 msgstr "15th tag button"
 
-#: HotkeysNaming.cpp:116
+#: HotkeysNaming.cpp:104
 msgid "Szesnasty przycisk tagów"
 msgstr "16th tag button"
 
-#: HotkeysNaming.cpp:117
+#: HotkeysNaming.cpp:105
 msgid "Siedemnasty przycisk tagów"
 msgstr "17th tag button"
 
-#: HotkeysNaming.cpp:118
+#: HotkeysNaming.cpp:106
 msgid "Osiemnasty przycisk tagów"
 msgstr "18th tag button"
 
-#: HotkeysNaming.cpp:119
+#: HotkeysNaming.cpp:107
 msgid "Dziewiętnasty przycisk tagów"
 msgstr "19th tag button"
 
-#: HotkeysNaming.cpp:120
+#: HotkeysNaming.cpp:108
 msgid "Dwudziesty przycisk tagów"
 msgstr "20th tag button"
 
-#: HotkeysNaming.cpp:123 SubsGrid.cpp:180
+#: HotkeysNaming.cpp:109 SubsGrid.cpp:200
+msgid "Ustaw czasy jako ciągłe (następna linijka)"
+msgstr "Set times as a continuous (next line)"
+
+#: HotkeysNaming.cpp:110 SubsGrid.cpp:199
+msgid "Ustaw czasy jako ciągłe (poprzednia linijka)"
+msgstr "Set times as a continuous (previous line)"
+
+#: HotkeysNaming.cpp:113 SubsGrid.cpp:172
 msgid "Ukryj komentarze"
 msgstr "Hide comments"
 
-#: HotkeysNaming.cpp:124 SubsGrid.cpp:181
+#: HotkeysNaming.cpp:114 SubsGrid.cpp:173
 msgid "Pokaż niepewne"
 msgstr "Show not confirmed"
 
-#: HotkeysNaming.cpp:125 SubsGrid.cpp:184
+#: HotkeysNaming.cpp:115 SubsGrid.cpp:176
 msgid "Wyłącz filtrowanie"
 msgstr "Turn of filtering"
 
-#: HotkeysNaming.cpp:126 SubsGrid.cpp:179
+#: HotkeysNaming.cpp:116 SubsGrid.cpp:171
 msgid "Ukryj zaznaczone linie"
 msgstr "Hide selection"
 
-#: HotkeysNaming.cpp:127 SubsGrid.cpp:177
+#: HotkeysNaming.cpp:117 SubsGrid.cpp:169
 msgid "Ukryj linie ze stylami"
 msgstr "Hide lines with styles"
 
-#: HotkeysNaming.cpp:128 SubsGrid.cpp:182
+#: HotkeysNaming.cpp:118 SubsGrid.cpp:174
 msgid "Pokaż nieprzetłumaczone"
 msgstr "Show not translated"
 
-#: HotkeysNaming.cpp:133 SubsGrid.cpp:223
+#: HotkeysNaming.cpp:119 SubsGrid.cpp:215
 msgid "Ustaw FPS z wideo"
 msgstr "Set FPS from video"
 
-#: HotkeysNaming.cpp:134 VideoBox.cpp:883
-msgid "Kopiuj klatkę do schowka"
-msgstr "Copy frame to clipboard"
-
-#: HotkeysNaming.cpp:135 VideoBox.cpp:882
-msgid "Zapisz klatkę jako PNG"
-msgstr "Save frame as PNG"
-
-#: HotkeysNaming.cpp:136
-msgid "Sortuj wszystko według czasu początkowego"
-msgstr "Sort all lines by start time"
-
-#: HotkeysNaming.cpp:137
-msgid "Sortuj wszystko według czasu końcowego"
-msgstr "Sort all lines by end time"
-
-#: HotkeysNaming.cpp:138
-msgid "Sortuj wszystko według stylów"
-msgstr "Sort all lines by styles"
-
-#: HotkeysNaming.cpp:139
-msgid "Sortuj wszystko według aktora"
-msgstr "Sort all lines by actor"
-
-#: HotkeysNaming.cpp:140
-msgid "Sortuj wszystko według efektu"
-msgstr "Sort all lines by effect"
-
-#: HotkeysNaming.cpp:141
-msgid "Sortuj wszystko według warstwy"
-msgstr "Sort all lines by layer"
-
-#: HotkeysNaming.cpp:142
-msgid "Sortuj zaznaczenie według czasu początkowego"
-msgstr "Sort selected lines by start time"
-
-#: HotkeysNaming.cpp:143
-msgid "Sortuj zaznaczenie według czasu końcowego"
-msgstr "Sort selected lines by end time"
-
-#: HotkeysNaming.cpp:144
-msgid "Sortuj zaznaczenie według stylów"
-msgstr "Sort selected lines by styles"
-
-#: HotkeysNaming.cpp:145
-msgid "Sortuj zaznaczenie według aktora"
-msgstr "Sort selected lines by actor"
-
-#: HotkeysNaming.cpp:146
-msgid "Sortuj zaznaczenie według efektu"
-msgstr "Sort selected lines by effect"
-
-#: HotkeysNaming.cpp:147
-msgid "Sortuj zaznaczenie według warstwy"
-msgstr "Sort selected lines by layer"
-
-#: HotkeysNaming.cpp:148
-msgid "Przesuń czasy / uruchom post processor"
-msgstr "Shift times / run time post processor"
-
-#: HotkeysNaming.cpp:149 KainoteFrame.cpp:258
-msgid "Przejdź do poprzedniej klatki kluczowej"
-msgstr "Go to previous keyframe"
-
-#: HotkeysNaming.cpp:150 KainoteFrame.cpp:260
-msgid "Przejdź do następnej klatki kluczowej"
-msgstr "Go to next keyframe"
-
-#: HotkeysNaming.cpp:152 SubsGrid.cpp:174
+#: HotkeysNaming.cpp:121 SubsGrid.cpp:166
 msgid "Filtruj po wczytaniu napisów"
 msgstr "Filter after loading subtitles"
 
-#: HotkeysNaming.cpp:153 SubsGrid.cpp:176
+#: HotkeysNaming.cpp:122 SubsGrid.cpp:168
 msgid "Nie resetuj wcześniejszego filtrowania"
 msgstr "Don't reset previous filtering"
 
-#: HotkeysNaming.cpp:154 SubsGrid.cpp:218
+#: HotkeysNaming.cpp:123 SubsGrid.cpp:210
 msgid "Ignoruj filtrowanie przy akcjach"
 msgstr "Ignore filtering in some actions"
 
-#: HotkeysNaming.cpp:155 SubsGrid.cpp:175
+#: HotkeysNaming.cpp:124 SubsGrid.cpp:167
 msgid "Filtrowanie odwrócone"
 msgstr "Reverse filtering"
 
-#: HotkeysNaming.cpp:156 SubsGrid.cpp:152
+#: HotkeysNaming.cpp:125 SubsGrid.cpp:144
 msgid "Ukryj aktora"
 msgstr "Hide actor"
 
-#: HotkeysNaming.cpp:157 SubsGrid.cpp:158
+#: HotkeysNaming.cpp:126 SubsGrid.cpp:150
 msgid "Ukryj znaki na sekundę"
 msgstr "Hide characters per second"
 
-#: HotkeysNaming.cpp:158 SubsGrid.cpp:151
+#: HotkeysNaming.cpp:127 SubsGrid.cpp:143
 msgid "Ukryj czas końcowy"
 msgstr "Hide end time"
 
-#: HotkeysNaming.cpp:159 SubsGrid.cpp:157
+#: HotkeysNaming.cpp:128 SubsGrid.cpp:149
 msgid "Ukryj efekt"
 msgstr "Hide effect"
 
-#: HotkeysNaming.cpp:160 SubsGrid.cpp:149
+#: HotkeysNaming.cpp:129 SubsGrid.cpp:141
 msgid "Ukryj warstwę"
 msgstr "Hide layer"
 
-#: HotkeysNaming.cpp:161 SubsGrid.cpp:154
+#: HotkeysNaming.cpp:130 SubsGrid.cpp:146
 msgid "Ukryj lewy margines"
 msgstr "Hide left margin"
 
-#: HotkeysNaming.cpp:162 SubsGrid.cpp:155
+#: HotkeysNaming.cpp:131 SubsGrid.cpp:147
 msgid "Ukryj prawy margines"
 msgstr "Hide right margin"
 
-#: HotkeysNaming.cpp:163 SubsGrid.cpp:156
+#: HotkeysNaming.cpp:132 SubsGrid.cpp:148
 msgid "Ukryj pionowy margines"
 msgstr "Hide vertical margin"
 
-#: HotkeysNaming.cpp:164 SubsGrid.cpp:150
+#: HotkeysNaming.cpp:133 SubsGrid.cpp:142
 msgid "Ukryj czas początkowy"
 msgstr "Hide start time"
 
-#: HotkeysNaming.cpp:165 SubsGrid.cpp:153
+#: HotkeysNaming.cpp:134 SubsGrid.cpp:145
 msgid "Ukryj styl"
 msgstr "Hide style"
 
-#: HotkeysNaming.cpp:166 SubsGrid.cpp:220
+#: HotkeysNaming.cpp:135 SubsGrid.cpp:212
 msgid "Stwórz drzewko"
 msgstr "Make tree"
 
-#: HotkeysNaming.cpp:168 KainoteFrame.cpp:1070 OptionsDialog.cpp:626
-msgid "Lista osób pomocnych przy tworzeniu programu"
-msgstr "Credits"
+#: HotkeysNaming.cpp:136 SubsGrid.cpp:201
+msgid "Zaznacz wszystkie linie widoczne na wideo"
+msgstr "Select all lines visible on video"
 
-#: HotkeysNaming.cpp:169 VideoBox.cpp:878
-msgid "Ukryj / pokaż pasek postępu"
-msgstr "Show / hide progress bar"
-
-#: HotkeysNaming.cpp:170 SubsGrid.cpp:216
+#: HotkeysNaming.cpp:137 SubsGrid.cpp:208
 msgid "Ukryj zaznaczone linijki"
 msgstr "Hide selected lines"
 
-#: HotkeysNaming.cpp:171 KainoteFrame.cpp:325
-msgid "Ukryj tagi w nawiasach"
-msgstr "Hide tags"
-
-#: HotkeysNaming.cpp:173
+#: HotkeysNaming.cpp:138
 msgid "Wstaw po"
 msgstr "Insert after"
 
-#: HotkeysNaming.cpp:174
+#: HotkeysNaming.cpp:139
 msgid "Wstaw po z czasem wideo"
 msgstr "Insert after with video time"
 
-#: HotkeysNaming.cpp:175 SubsGrid.cpp:194
+#: HotkeysNaming.cpp:140 SubsGrid.cpp:186
 msgid "Wstaw po z czasem klatki wideo"
 msgstr "Insert after with video frame time"
 
-#: HotkeysNaming.cpp:176
+#: HotkeysNaming.cpp:141
 msgid "Wstaw przed"
 msgstr "Insert before"
 
-#: HotkeysNaming.cpp:177
+#: HotkeysNaming.cpp:142
 msgid "Wstaw przed z czasem wideo"
 msgstr "Insert before with video time"
 
-#: HotkeysNaming.cpp:178 SubsGrid.cpp:193
+#: HotkeysNaming.cpp:143 SubsGrid.cpp:185
 msgid "Wstaw przed z czasem klatki wideo"
 msgstr "Insert before with video frame time"
 
-#: HotkeysNaming.cpp:179
+#: HotkeysNaming.cpp:144
 msgid "Złącz linijki"
 msgstr "Join lines"
 
-#: HotkeysNaming.cpp:180 SubsGrid.cpp:204
+#: HotkeysNaming.cpp:145 SubsGrid.cpp:196
 msgid "Złącz linijki zostaw pierwszą"
 msgstr "Join lines and keep first"
 
-#: HotkeysNaming.cpp:181 SubsGrid.cpp:205
+#: HotkeysNaming.cpp:146 SubsGrid.cpp:197
 msgid "Złącz linijki zostaw ostatnią"
 msgstr "Join lines and keep last"
 
-#: HotkeysNaming.cpp:184 KainoteFrame.cpp:234 KainoteFrame.cpp:235
-msgid "Otwórz klatki kluczowe"
-msgstr "Open keyframes"
-
-#: HotkeysNaming.cpp:185 KainoteFrame.cpp:178
-msgid "Otwórz autozapis"
-msgstr "Open auto save"
-
-#: HotkeysNaming.cpp:186 KainoteFrame.cpp:334 KainoteFrame.cpp:335
-msgid "Uruchom ostatnio zaczytany skrypt"
-msgstr "Run recent script"
-
-#: HotkeysNaming.cpp:189 SubsGrid.cpp:222
-msgid "Ustaw nowy FPS"
-msgstr "Set new FPS"
-
-#: HotkeysNaming.cpp:195 KainoteFrame.cpp:274
-msgid "Otwórz audio"
-msgstr "Open audio"
-
-#: HotkeysNaming.cpp:199 SubsGrid.cpp:224
+#: HotkeysNaming.cpp:148 SubsGrid.cpp:216
 msgid "Wklej tekst tłumaczenia"
 msgstr "Paste text translations"
 
-#: HotkeysNaming.cpp:200
-msgid "Odtwórz aktywną linijkę"
-msgstr "Play active line"
-
-#: HotkeysNaming.cpp:214 KainoteFrame.cpp:173
-msgid "Usuń napisy z edytora"
-msgstr "Remove subtitles from the editor"
-
-#: HotkeysNaming.cpp:216 KainoteFrame.cpp:165
-msgid "Zapisz wszystkie napisy"
-msgstr "Save all subtitles"
-
-#: HotkeysNaming.cpp:219 KainoteFrame.cpp:169
-msgid "Zapisz tłumaczenie"
-msgstr "Save translation"
-
-#: HotkeysNaming.cpp:220 KainoteFrame.cpp:174 KainoteFrame.cpp:175
-msgid "Zapisuj napisy z nazwą wideo"
-msgstr "Save the subtitles with name of the video"
-
-#: HotkeysNaming.cpp:223
-msgid "Zaznacz linijki"
-msgstr "Select lines"
-
-#: HotkeysNaming.cpp:224 KainoteFrame.cpp:262
-msgid "Ustaw audio z czasem wideo"
-msgstr "Set audio with video time"
-
-#: HotkeysNaming.cpp:225 KainoteFrame.cpp:264
-msgid "Ustaw znacznik audio z czasem wideo"
-msgstr "Set audio marker with video time"
-
-#: HotkeysNaming.cpp:229
-msgid "Ustawienia"
-msgstr "Settings"
-
-#: HotkeysNaming.cpp:230 KainoteFrame.cpp:250
-msgid "Przejdź do czasu początkowego linii"
-msgstr "Go to start time"
-
-#: HotkeysNaming.cpp:231 KainoteFrame.cpp:253
-msgid "Przejdź do czasu końcowego linii"
-msgstr "Go to end time of line"
-
-#: HotkeysNaming.cpp:235 KainoteFrame.cpp:323 KainoteFrame.cpp:324
-msgid "Sprawdź poprawność pisowni"
-msgstr "Spell checker"
-
-#: HotkeysNaming.cpp:240 VideoBox.cpp:881
-msgid "Kopiuj klatkę z napisami do schowka"
-msgstr "Copy frame with subtitles to clipboard"
-
-#: HotkeysNaming.cpp:241 VideoBox.cpp:880
-msgid "Zapisz klatkę z napisami jako PNG"
-msgstr "Save frame with subtitles as PNG"
-
-#: HotkeysNaming.cpp:242 KainoteFrame.cpp:321 KainoteFrame.cpp:322
-msgid "Zmień rozdzielczość napisów"
-msgstr "Resample subtitles"
-
-#: HotkeysNaming.cpp:243
+#: HotkeysNaming.cpp:149
 msgid "Wczytaj napisy z pliku MKV"
 msgstr "Load subtitles of MKV file"
 
-#: HotkeysNaming.cpp:244
+#: HotkeysNaming.cpp:150
 msgid "Zamień linie"
 msgstr "Swap lines"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: HotkeysNaming.cpp:245 SubsGrid.cpp:226
+#: HotkeysNaming.cpp:151 SubsGrid.cpp:218
 msgid "Okno przesuwania dialogów"
 msgstr "Match translation to existing subs"
 
-#: HotkeysNaming.cpp:247 KainoteFrame.cpp:194
+#: HotkeysNaming.cpp:152 SubsGrid.cpp:214
+msgid "Ustaw nowy FPS"
+msgstr "Set new FPS"
+
+#: HotkeysNaming.cpp:154 KainoteFrame.cpp:302
+msgid "Właściwości pliku ASS"
+msgstr "ASS file properties"
+
+#: HotkeysNaming.cpp:155
+msgid "O programie"
+msgstr "About"
+
+#: HotkeysNaming.cpp:156
+msgid "Wątek programu na forum AnimeSub.info"
+msgstr "Forum thread on animesub.info (Polish)"
+
+#: HotkeysNaming.cpp:162 KainoteFrame.cpp:283
+msgid "Otwórz audio z wideo"
+msgstr "Open audio from video"
+
+#: HotkeysNaming.cpp:163 KainoteFrame.cpp:333 KainoteFrame.cpp:334
+msgid "Wczytaj skrypt"
+msgstr "Load script"
+
+#: HotkeysNaming.cpp:164 KainoteFrame.cpp:339 KainoteFrame.cpp:340
+msgid "Otwórz okno mapowania skrótów"
+msgstr "Open shortcut mapping window"
+
+#: HotkeysNaming.cpp:165 KainoteFrame.cpp:335 KainoteFrame.cpp:336
+msgid "Odśwież skrypty autoload"
+msgstr "Refresh autoload scripts"
+
+#: HotkeysNaming.cpp:167 KainoteFrame.cpp:287
+msgid "Zamknij audio"
+msgstr "Close audio"
+
+#: HotkeysNaming.cpp:172 KainoteFrame.cpp:1077 OptionsDialog.cpp:637
+msgid "Lista osób pomocnych przy tworzeniu programu"
+msgstr "Credits"
+
+#: HotkeysNaming.cpp:173 KainoteFrame.cpp:328
+msgid "Ukryj tagi w nawiasach"
+msgstr "Hide tags"
+
+#: HotkeysNaming.cpp:177 KainoteFrame.cpp:236 KainoteFrame.cpp:237
+msgid "Otwórz klatki kluczowe"
+msgstr "Open keyframes"
+
+#: HotkeysNaming.cpp:178 KainoteFrame.cpp:180
+msgid "Otwórz autozapis"
+msgstr "Open auto save"
+
+#: HotkeysNaming.cpp:179 KainoteFrame.cpp:337 KainoteFrame.cpp:338
+msgid "Uruchom ostatnio zaczytany skrypt"
+msgstr "Run recent script"
+
+#: HotkeysNaming.cpp:180
+msgid "Sortuj wszystko według czasu początkowego"
+msgstr "Sort all lines by start time"
+
+#: HotkeysNaming.cpp:181
+msgid "Sortuj wszystko według czasu końcowego"
+msgstr "Sort all lines by end time"
+
+#: HotkeysNaming.cpp:182
+msgid "Sortuj wszystko według stylów"
+msgstr "Sort all lines by styles"
+
+#: HotkeysNaming.cpp:183
+msgid "Sortuj wszystko według aktora"
+msgstr "Sort all lines by actor"
+
+#: HotkeysNaming.cpp:184
+msgid "Sortuj wszystko według efektu"
+msgstr "Sort all lines by effect"
+
+#: HotkeysNaming.cpp:185
+msgid "Sortuj wszystko według warstwy"
+msgstr "Sort all lines by layer"
+
+#: HotkeysNaming.cpp:186
+msgid "Sortuj zaznaczenie według czasu początkowego"
+msgstr "Sort selected lines by start time"
+
+#: HotkeysNaming.cpp:187
+msgid "Sortuj zaznaczenie według czasu końcowego"
+msgstr "Sort selected lines by end time"
+
+#: HotkeysNaming.cpp:188
+msgid "Sortuj zaznaczenie według stylów"
+msgstr "Sort selected lines by styles"
+
+#: HotkeysNaming.cpp:189
+msgid "Sortuj zaznaczenie według aktora"
+msgstr "Sort selected lines by actor"
+
+#: HotkeysNaming.cpp:190
+msgid "Sortuj zaznaczenie według efektu"
+msgstr "Sort selected lines by effect"
+
+#: HotkeysNaming.cpp:191
+msgid "Sortuj zaznaczenie według warstwy"
+msgstr "Sort selected lines by layer"
+
+#: HotkeysNaming.cpp:192
+msgid "Przesuń czasy / uruchom post processor"
+msgstr "Shift times / run time post processor"
+
+#: HotkeysNaming.cpp:193 KainoteFrame.cpp:260
+msgid "Przejdź do poprzedniej klatki kluczowej"
+msgstr "Go to previous keyframe"
+
+#: HotkeysNaming.cpp:194 KainoteFrame.cpp:262
+msgid "Przejdź do następnej klatki kluczowej"
+msgstr "Go to next keyframe"
+
+#: HotkeysNaming.cpp:195 KainoteFrame.cpp:324 KainoteFrame.cpp:325
+msgid "Zmień rozdzielczość napisów"
+msgstr "Resample subtitles"
+
+#: HotkeysNaming.cpp:197 KainoteFrame.cpp:196
 msgid "Cofnij do ostatniego zapisu"
 msgstr "Undo to last save"
 
-#: HotkeysNaming.cpp:248 KainoteFrame.cpp:267
+#: HotkeysNaming.cpp:198 KainoteFrame.cpp:270
 msgid "Otwieraj wideo przez FFMS2"
 msgstr "Open video with FFMS2"
 
-#: HotkeysNaming.cpp:249 KainoteFrame.cpp:265
+#: HotkeysNaming.cpp:199 KainoteFrame.cpp:267
 msgid "Powiększ wideo"
 msgstr "Zoom video"
 
-#: HotkeysNaming.cpp:250
+#: HotkeysNaming.cpp:200 KainoteFrame.cpp:268
+msgid "Wyłącz powiększenie wideo"
+msgstr "Turn off video zoom"
+
+#: HotkeysNaming.cpp:201
 msgid "Widok wszystko"
 msgstr "View all"
 
-#: HotkeysNaming.cpp:251
+#: HotkeysNaming.cpp:202
 msgid "Widok audio i napisy"
 msgstr "View audio and subtitles"
 
-#: HotkeysNaming.cpp:252
+#: HotkeysNaming.cpp:203
 msgid "Widok tylko napisy"
 msgstr "View only subtitles"
 
-#: HotkeysNaming.cpp:253
+#: HotkeysNaming.cpp:204
 msgid "Widok wideo i napisy"
 msgstr "View video and subtitles"
 
-#: HotkeysNaming.cpp:254
+#: HotkeysNaming.cpp:205
 msgid "Widok tylko wideo"
 msgstr "View only video"
 
-#: HotkeysNaming.cpp:259
+#: HotkeysNaming.cpp:208
 msgid "Oczyść style pliku ASS"
 msgstr "Clean styles of ASS file"
 
-#: HotkeysNaming.cpp:260 KainoteFrame.cpp:223
+#: HotkeysNaming.cpp:209 KainoteFrame.cpp:225
 msgid "Popraw drobne błędy (eksperymentalne)"
 msgstr "Multireplacer (experimental)"
+
+#: HotkeysNaming.cpp:211 KainoteFrame.cpp:145
+msgid "Wczytaj ostatnią sesję"
+msgstr "Load last session"
+
+#: HotkeysNaming.cpp:215 KainoteFrame.cpp:277
+msgid "Otwórz audio"
+msgstr "Open audio"
+
+#: HotkeysNaming.cpp:219
+msgid "Odtwórz aktywną linijkę"
+msgstr "Play active line"
+
+#: HotkeysNaming.cpp:225 KainoteFrame.cpp:175
+msgid "Usuń napisy z edytora"
+msgstr "Remove subtitles from the editor"
+
+#: HotkeysNaming.cpp:227 KainoteFrame.cpp:167
+msgid "Zapisz wszystkie napisy"
+msgstr "Save all subtitles"
+
+#: HotkeysNaming.cpp:230 KainoteFrame.cpp:171
+msgid "Zapisz tłumaczenie"
+msgstr "Save translation"
+
+#: HotkeysNaming.cpp:231 KainoteFrame.cpp:176 KainoteFrame.cpp:177
+msgid "Zapisuj napisy z nazwą wideo"
+msgstr "Save the subtitles with name of the video"
+
+#: HotkeysNaming.cpp:234
+msgid "Zaznacz linijki"
+msgstr "Select lines"
+
+#: HotkeysNaming.cpp:235 KainoteFrame.cpp:264
+msgid "Ustaw audio z czasem wideo"
+msgstr "Set audio with video time"
+
+#: HotkeysNaming.cpp:236 KainoteFrame.cpp:266
+msgid "Ustaw znacznik audio z czasem wideo"
+msgstr "Set audio marker with video time"
+
+#: HotkeysNaming.cpp:239
+msgid "Ustawienia"
+msgstr "Settings"
+
+#: HotkeysNaming.cpp:240 KainoteFrame.cpp:252
+msgid "Przejdź do czasu początkowego linii"
+msgstr "Go to start time"
+
+#: HotkeysNaming.cpp:241 KainoteFrame.cpp:255
+msgid "Przejdź do czasu końcowego linii"
+msgstr "Go to end time of line"
+
+#: HotkeysNaming.cpp:244 KainoteFrame.cpp:326 KainoteFrame.cpp:327
+msgid "Sprawdź poprawność pisowni"
+msgstr "Spell checker"
+
+#: HotkeysNaming.cpp:246 VideoBox.cpp:891
+msgid "Kopiuj klatkę do schowka"
+msgstr "Copy frame to clipboard"
+
+#: HotkeysNaming.cpp:247 VideoBox.cpp:894
+msgid "Usuń plik wideo"
+msgstr "Remove video"
+
+#: HotkeysNaming.cpp:248 VideoBox.cpp:890
+msgid "Zapisz klatkę jako PNG"
+msgstr "Save frame as PNG"
+
+#: HotkeysNaming.cpp:251 VideoBox.cpp:886
+msgid "Ukryj / pokaż pasek postępu"
+msgstr "Show / hide progress bar"
+
+#: HotkeysNaming.cpp:255 VideoBox.cpp:887
+msgid "Zmień proporcje wideo"
+msgstr "Change aspect ratio"
+
+#: HotkeysNaming.cpp:260 VideoBox.cpp:889
+msgid "Kopiuj klatkę z napisami do schowka"
+msgstr "Copy frame with subtitles to clipboard"
 
 #: HotkeysNaming.cpp:261
 msgid "Pełny ekran"
 msgstr "Full screen"
 
-#: HotkeysNaming.cpp:263 KainoteFrame.cpp:143
-msgid "Wczytaj ostatnią sesję"
-msgstr "Load last session"
+#: HotkeysNaming.cpp:264 VideoBox.cpp:888
+msgid "Zapisz klatkę z napisami jako PNG"
+msgstr "Save frame with subtitles as PNG"
 
 #: KaiMessageBox.cpp:36
 msgid "Zastosuj dla wszystkich"
@@ -2702,7 +2904,7 @@ msgstr "Apply to All"
 msgid "Tak dla wszystkich"
 msgstr "Yes to all"
 
-#: KaiMessageBox.cpp:60 MappedButton.cpp:41 Notebook.cpp:1173
+#: KaiMessageBox.cpp:60 MappedButton.cpp:41 Notebook.cpp:1178
 msgid "Tak"
 msgstr "Yes"
 
@@ -2714,534 +2916,562 @@ msgstr "No"
 msgid "Pomoc"
 msgstr "Help"
 
-#: KainoteFrame.cpp:96
+#: KainoteApp.cpp:103 KainoteApp.cpp:112
+msgid "Zabrakło pamięci RAM, usunięto część historii"
+msgstr "Not enough RAM. History partially deleted"
+
+#: KainoteApp.cpp:144
+msgid ""
+"Nie udało się wczytać opcji.\n"
+"Działanie programu zostanie zakończone."
+msgstr "Cannot read settings. Program will be terminated."
+
+#: KainoteApp.cpp:186
+msgid ""
+"Nie udało się wczytać skrótów.\n"
+"Działanie programu zostanie zakończone."
+msgstr "Cannot read hotkeys. Program will be terminated."
+
+#: KainoteApp.cpp:307
+msgid "Wczytać poprzednią sesję?"
+msgstr "Load last session?"
+
+#: KainoteApp.cpp:313
+msgid ""
+"Program się skraszował albo został zamknięty w niewłaściwy sposób,\n"
+"wczytać poprzednią sesję wraz z najnowszymi napisami z autozapisu?"
+msgstr ""
+"Program crashed or was closed improperly,\n"
+"load last session with subtitles from auto save?"
+
+#: KainoteFrame.cpp:98
 msgid "Bez nazwy - "
 msgstr "Untitled - "
 
-#: KainoteFrame.cpp:135
+#: KainoteFrame.cpp:137
 msgid "Skala obrazu wideo"
 msgstr "Video scale"
 
-#: KainoteFrame.cpp:135
+#: KainoteFrame.cpp:137
 msgid "Powiększenie wideo"
 msgstr "Video zoom"
 
-#: KainoteFrame.cpp:135
+#: KainoteFrame.cpp:137
 msgid "Czas trwania wideo"
 msgstr "Video duration"
 
-#: KainoteFrame.cpp:136
+#: KainoteFrame.cpp:138
 msgid "Klatki na Sekundę"
 msgstr "Frames per second"
 
-#: KainoteFrame.cpp:136
+#: KainoteFrame.cpp:138
 msgid "Rozdzielczość wideo"
 msgstr "Video resolution"
 
-#: KainoteFrame.cpp:136
+#: KainoteFrame.cpp:138
 msgid "Proporcje wideo"
 msgstr "Video aspect ratio"
 
-#: KainoteFrame.cpp:136 SubsResampleDialog.cpp:31
+#: KainoteFrame.cpp:138 SubsResampleDialog.cpp:31
 msgid "Rozdzielczość napisów"
 msgstr "Subtitles resolution"
 
-#: KainoteFrame.cpp:136
+#: KainoteFrame.cpp:138
 msgid "Nazwa pliku wideo"
 msgstr "Video file name"
 
-#: KainoteFrame.cpp:144
+#: KainoteFrame.cpp:146
 msgid "Wczytuje poprzednio zaczytane pliki"
 msgstr "Open files loaded last time"
 
-#: KainoteFrame.cpp:145
+#: KainoteFrame.cpp:147
 msgid "Wczytaj sesję z pliku"
 msgstr "Load session from file"
 
-#: KainoteFrame.cpp:146
+#: KainoteFrame.cpp:148
 msgid "Wczytuje sesję z wcześniej zapisanego pliku sesji"
 msgstr "Loads session from saved session file"
 
-#: KainoteFrame.cpp:148
+#: KainoteFrame.cpp:150
 msgid "Zapisz sesję do pliku"
 msgstr "Save session to file"
 
-#: KainoteFrame.cpp:148
+#: KainoteFrame.cpp:150
 msgid "Zapisuje sesję do pliku"
 msgstr "Saves session to file"
 
-#: KainoteFrame.cpp:151
+#: KainoteFrame.cpp:153
 msgid "Pytaj o wczytanie ostatniej sesji przy starcie programu"
 msgstr "Ask for load last session after program start"
 
-#: KainoteFrame.cpp:152
+#: KainoteFrame.cpp:154
 msgid "Pyta, czy wczytać ostatnio zaczytane pliki przy starcie programu"
 msgstr "Asks whether to load recently read files at program startup"
 
-#: KainoteFrame.cpp:155
+#: KainoteFrame.cpp:157
 msgid "Wczytaj ostatnią sesję przy starcie programu"
 msgstr "Load last session after program start"
 
-#: KainoteFrame.cpp:156
+#: KainoteFrame.cpp:158
 msgid "Wczytuje poprzednio zaczytane pliki przy starcie programu"
 msgstr "Loading last session after program start"
 
-#: KainoteFrame.cpp:160
+#: KainoteFrame.cpp:162
 msgid "&Otwórz napisy"
 msgstr "&Open subtitles"
 
-#: KainoteFrame.cpp:161
+#: KainoteFrame.cpp:163
 msgid "Otwórz plik napisów"
 msgstr "Open subtitle file"
 
-#: KainoteFrame.cpp:162
+#: KainoteFrame.cpp:164
 msgid "&Zapisz"
 msgstr "&Save"
 
-#: KainoteFrame.cpp:163
+#: KainoteFrame.cpp:165
 msgid "Zapisz aktualny plik"
 msgstr "Save current file"
 
-#: KainoteFrame.cpp:164
+#: KainoteFrame.cpp:166
 msgid "Zapisz &wszystko"
 msgstr "Save all"
 
-#: KainoteFrame.cpp:166
+#: KainoteFrame.cpp:168
 msgid "Zapisz &jako..."
 msgstr "Save &as..."
 
-#: KainoteFrame.cpp:167
+#: KainoteFrame.cpp:169
 msgid "Zapisz jako"
 msgstr "Save as"
 
-#: KainoteFrame.cpp:168
+#: KainoteFrame.cpp:170
 msgid "Zapisz &tłumaczenie"
 msgstr "Save translation"
 
-#: KainoteFrame.cpp:170
+#: KainoteFrame.cpp:172
 msgid "Ostatnio otwa&rte napisy"
 msgstr "Recently opened subtitles"
 
-#: KainoteFrame.cpp:171 VideoBox.cpp:872
+#: KainoteFrame.cpp:173 VideoBox.cpp:880
 msgid "Ostatnio otwarte napisy"
 msgstr "Recently opened subtitles"
 
-#: KainoteFrame.cpp:172
+#: KainoteFrame.cpp:174
 msgid "Usuń napisy z e&dytora"
 msgstr "Remove subtitles from the editor"
 
-#: KainoteFrame.cpp:178
+#: KainoteFrame.cpp:180
 msgid "Otwiera autozapis wybrany z listy"
 msgstr "Opens auto save from list"
 
-#: KainoteFrame.cpp:180
+#: KainoteFrame.cpp:182
 msgid "Otwiera okno usuwania plików tymczasowych"
 msgstr "Opens temporary files removing window"
 
-#: KainoteFrame.cpp:181
+#: KainoteFrame.cpp:183
 msgid "Pokaż / Ukryj okno logów"
 msgstr "Show / Hide log window"
 
-#: KainoteFrame.cpp:182
+#: KainoteFrame.cpp:184
 msgid "Ostatnia sesja"
 msgstr "Last session"
 
-#: KainoteFrame.cpp:182
+#: KainoteFrame.cpp:184
 msgid "Opcje ostatniej sesji"
 msgstr "Last session options"
 
-#: KainoteFrame.cpp:184
+#: KainoteFrame.cpp:186
 msgid "&Ustawienia"
 msgstr "&Settings"
 
-#: KainoteFrame.cpp:185
+#: KainoteFrame.cpp:187
 msgid "Ustawienia programu"
 msgstr "Program settings"
 
 # Nie zapomnij o wstawianiu \t bo to jest konieczne, by u skróty wyświetlały się po prawej stronie, poza tym & to litera podkreślona gdy wciśniesz alt więc jeśli znasz się na tyle to możesz własne pododawać, ale tam gdzie nie ma & lepiej tego nie rób, bo tam zapewne jest opis, który wyświetla się na statusie.
-#: KainoteFrame.cpp:186
+#: KainoteFrame.cpp:188
 msgid "Wyjści&e\tAlt-F4"
 msgstr "&Exit\tAlt-F4"
 
-#: KainoteFrame.cpp:187
+#: KainoteFrame.cpp:189
 msgid "Zakończ działanie programu"
 msgstr "Exit the program"
 
-#: KainoteFrame.cpp:188
+#: KainoteFrame.cpp:190
 msgid "&Plik"
 msgstr "&File"
 
-#: KainoteFrame.cpp:191 KainoteFrame.cpp:2234
+#: KainoteFrame.cpp:193 KainoteFrame.cpp:2239
 msgid "&Cofnij"
 msgstr "&Undo"
 
-#: KainoteFrame.cpp:196 KainoteFrame.cpp:2250
+#: KainoteFrame.cpp:198 KainoteFrame.cpp:2255
 msgid "&Ponów"
 msgstr "&Redo"
 
-#: KainoteFrame.cpp:198
+#: KainoteFrame.cpp:200
 msgid "&Historia"
 msgstr "&History"
 
-#: KainoteFrame.cpp:200
+#: KainoteFrame.cpp:202
 msgid "Znajdź i za&mień"
 msgstr "Find and re&place"
 
-#: KainoteFrame.cpp:201
+#: KainoteFrame.cpp:203
 msgid "Szuka i podmienia dane frazy tekstu"
 msgstr "Searches for expressions and replaces them"
 
-#: KainoteFrame.cpp:202
+#: KainoteFrame.cpp:204
 msgid "Z&najdź"
 msgstr "&Find"
 
-#: KainoteFrame.cpp:203
+#: KainoteFrame.cpp:205
 msgid "Szuka dane frazy tekstu"
 msgstr "Searches for expressions"
 
-#: KainoteFrame.cpp:205
+#: KainoteFrame.cpp:207
 msgid "Znajduje kolejne wystąpięnie frazy w tekście"
 msgstr "Finds next phrase placement in text"
 
-#: KainoteFrame.cpp:209 ShiftTimes.cpp:345 SubsGrid.cpp:450 SubsGrid.cpp:481
-#: SubsGrid.cpp:487 SubsGrid.cpp:488 SubsGrid.cpp:600 SubsGrid.cpp:623
-#: SubsGrid.cpp:631 SubsGrid.cpp:632
+#: KainoteFrame.cpp:211 ShiftTimes.cpp:345 SubsGrid.cpp:442 SubsGrid.cpp:473
+#: SubsGrid.cpp:479 SubsGrid.cpp:480 SubsGrid.cpp:593 SubsGrid.cpp:616
+#: SubsGrid.cpp:624 SubsGrid.cpp:625
 msgid "Czas początkowy"
 msgstr "The starting time"
 
-#: KainoteFrame.cpp:210
+#: KainoteFrame.cpp:212
 msgid "Sortuj według czasu początkowego"
 msgstr "Sort by start time"
 
-#: KainoteFrame.cpp:211 ShiftTimes.cpp:346 SubsGrid.cpp:451 SubsGrid.cpp:601
+#: KainoteFrame.cpp:213 ShiftTimes.cpp:346 SubsGrid.cpp:443 SubsGrid.cpp:594
 msgid "Czas końcowy"
 msgstr "End time"
 
-#: KainoteFrame.cpp:212
+#: KainoteFrame.cpp:214
 msgid "Sortuj według czasu końcowego"
 msgstr "Sort by end time"
 
-#: KainoteFrame.cpp:213
+#: KainoteFrame.cpp:215
 msgid "Style"
 msgstr "Styles"
 
-#: KainoteFrame.cpp:213
+#: KainoteFrame.cpp:215
 msgid "Sortuj według stylów"
 msgstr "Sort by styles"
 
-#: KainoteFrame.cpp:214
+#: KainoteFrame.cpp:216
 msgid "Sortuj według aktora"
 msgstr "Sort by actor"
 
-#: KainoteFrame.cpp:215
+#: KainoteFrame.cpp:217
 msgid "Sortuj według efektu"
 msgstr "Sort by effect"
 
-#: KainoteFrame.cpp:216 SubsGrid.cpp:449 SubsGrid.cpp:599
+#: KainoteFrame.cpp:218 SubsGrid.cpp:441 SubsGrid.cpp:592
 msgid "Warstwa"
 msgstr "Layer"
 
-#: KainoteFrame.cpp:216
+#: KainoteFrame.cpp:218
 msgid "Sortuj według warstwy"
 msgstr "Sort by layer"
 
-#: KainoteFrame.cpp:219
+#: KainoteFrame.cpp:221
 msgid "Sort&uj wszystkie linie"
 msgstr "So&rt all lines"
 
-#: KainoteFrame.cpp:220
+#: KainoteFrame.cpp:222
 msgid "Sortuje wszystkie linie napisów ASS"
 msgstr "Sorts all lines in ASS file"
 
-#: KainoteFrame.cpp:221
+#: KainoteFrame.cpp:223
 msgid "Sortu&j zaznaczone linie"
 msgstr "So&rt selected lines"
 
-#: KainoteFrame.cpp:222
+#: KainoteFrame.cpp:224
 msgid "Sortuje zaznaczone linie napisów ASS"
 msgstr "Sorts selected lines in ASS file"
 
-#: KainoteFrame.cpp:224
+#: KainoteFrame.cpp:226
 msgid "Włącza okno poprawiania błędów"
 msgstr "Turns on multireplacer"
 
-#: KainoteFrame.cpp:225
+#: KainoteFrame.cpp:227
 msgid "Zaznacz &linijki"
 msgstr "Select &lines"
 
-#: KainoteFrame.cpp:225
+#: KainoteFrame.cpp:227
 msgid "Zaznacza linijki wg danej frazy tekstu"
 msgstr "Selects lines by expressions"
 
-#: KainoteFrame.cpp:226
+#: KainoteFrame.cpp:228
 msgid "&Edycja"
 msgstr "&Edit"
 
-#: KainoteFrame.cpp:230
+#: KainoteFrame.cpp:232
 msgid "Otwiera wybrane wideo"
 msgstr "Opens video file"
 
-#: KainoteFrame.cpp:232 VideoBox.cpp:873
+#: KainoteFrame.cpp:234 VideoBox.cpp:881
 msgid "Ostatnio otwarte wideo"
 msgstr "Recently opened videos"
 
-#: KainoteFrame.cpp:233
+#: KainoteFrame.cpp:235
 msgid "Ostatnio otwarte video"
 msgstr "Recently opened videos"
 
-#: KainoteFrame.cpp:238
+#: KainoteFrame.cpp:240
 msgid "Ostatnio otwarte klatki kluczowe"
 msgstr "Recently opened keyframes"
 
-#: KainoteFrame.cpp:240
+#: KainoteFrame.cpp:242
 msgid "Otwórz dummy wideo"
 msgstr "Open dummy video"
 
-#: KainoteFrame.cpp:242
+#: KainoteFrame.cpp:244
 msgid "Wstawia czas początkowy z wideo"
 msgstr "Insert start time from video"
 
-#: KainoteFrame.cpp:244
+#: KainoteFrame.cpp:246
 msgid "Wstawia czas końcowy z wideo"
 msgstr "Insert end time from video"
 
-#: KainoteFrame.cpp:246
+#: KainoteFrame.cpp:248
 msgid "Przechodzi o jedną klatkę w tył"
 msgstr "Go to previous frame"
 
-#: KainoteFrame.cpp:248
+#: KainoteFrame.cpp:250
 msgid "Przechodzi o jedną klatkę w przód"
 msgstr "Go to next frame"
 
-#: KainoteFrame.cpp:250
+#: KainoteFrame.cpp:252
 msgid "Przechodzi wideo do czasu początkowego linii"
 msgstr "Moves video to start time"
 
-#: KainoteFrame.cpp:253
+#: KainoteFrame.cpp:255
 msgid "Przechodzi wideo do czasu końcowego linii"
 msgstr "Moves video to end time"
 
-#: KainoteFrame.cpp:255
+#: KainoteFrame.cpp:257
 msgid "Odtwarzaj / Pauza"
 msgstr "Play / Pause"
 
-#: KainoteFrame.cpp:256
+#: KainoteFrame.cpp:258
 msgid "Odtwarza lub pauzuje wideo"
 msgstr "Plays / Pauses video"
 
-#: KainoteFrame.cpp:268
+#: KainoteFrame.cpp:271
 msgid "Otwiera wideo przez FFMS2, co daje dokładność klatkową"
 msgstr "Opens video with FFMS2 for frame precision"
 
-#: KainoteFrame.cpp:271
+#: KainoteFrame.cpp:274
 msgid "&Wideo"
 msgstr "&Video"
 
-#: KainoteFrame.cpp:275
+#: KainoteFrame.cpp:278
 msgid "Otwiera wybrane audio"
 msgstr "Opens audio file"
 
-#: KainoteFrame.cpp:278 KainoteFrame.cpp:279
+#: KainoteFrame.cpp:281 KainoteFrame.cpp:282
 msgid "Ostatnio otwarte audio"
 msgstr "Recently opened audio"
 
-#: KainoteFrame.cpp:281
+#: KainoteFrame.cpp:284
 msgid "Otwiera audio z wideo"
 msgstr "Opens audio from video"
 
-#: KainoteFrame.cpp:282
+#: KainoteFrame.cpp:285
 msgid "Otwórz puste audio na 2:30 godziny"
 msgstr "Open blank 2h30m audio"
 
-#: KainoteFrame.cpp:283
+#: KainoteFrame.cpp:286
 msgid "Otwiera puste audio na 2:30 godziny"
 msgstr "Opens blank audio 2 hour and 30 minutes long"
 
-#: KainoteFrame.cpp:285
+#: KainoteFrame.cpp:288
 msgid "Zamyka audio"
 msgstr "Closes audio"
 
-#: KainoteFrame.cpp:286
+#: KainoteFrame.cpp:289
 msgid "A&udio"
 msgstr "A&udio"
 
-#: KainoteFrame.cpp:289 OptionsDialog.cpp:618
+#: KainoteFrame.cpp:292 OptionsDialog.cpp:629
 msgid "Wszystko"
 msgstr "All"
 
-#: KainoteFrame.cpp:289
+#: KainoteFrame.cpp:292
 msgid "Wszystkie okna są widoczne"
 msgstr "Shows all windows"
 
-#: KainoteFrame.cpp:290
+#: KainoteFrame.cpp:293
 msgid "Wideo i napisy"
 msgstr "Video and subs"
 
-#: KainoteFrame.cpp:290
+#: KainoteFrame.cpp:293
 msgid "Widoczne tylko okno wideo i napisów"
 msgstr "Shows only video window and subs window"
 
-#: KainoteFrame.cpp:291
+#: KainoteFrame.cpp:294
 msgid "Audio i napisy"
 msgstr "Audio and subs"
 
-#: KainoteFrame.cpp:291
+#: KainoteFrame.cpp:294
 msgid "Widoczne tylko okno audio i napisów"
 msgstr "Shows only audio window and subs window"
 
-#: KainoteFrame.cpp:292
+#: KainoteFrame.cpp:295
 msgid "Tylko wideo"
 msgstr "Only video"
 
-#: KainoteFrame.cpp:292
+#: KainoteFrame.cpp:295
 msgid "Widoczne tylko okno wideo"
 msgstr "Shows only video window"
 
-#: KainoteFrame.cpp:293
+#: KainoteFrame.cpp:296
 msgid "Tylko napisy"
 msgstr "Only subtitles"
 
-#: KainoteFrame.cpp:293
+#: KainoteFrame.cpp:296
 msgid "Widoczne tylko okno napisów"
 msgstr "Shows only subtitles window"
 
-#: KainoteFrame.cpp:294
+#: KainoteFrame.cpp:297
 msgid "Wido&k"
 msgstr "View"
 
-#: KainoteFrame.cpp:298
+#: KainoteFrame.cpp:301
 msgid "Włączanie bądź wyłączanie edytora"
 msgstr "Enables / disables editor"
 
-#: KainoteFrame.cpp:300 ScriptInfo.cpp:24
+#: KainoteFrame.cpp:303 ScriptInfo.cpp:24
 msgid "Właściwości napisów ASS"
 msgstr "ASS subtitles properties"
 
-#: KainoteFrame.cpp:301
+#: KainoteFrame.cpp:304
 msgid "&Menedżer stylów"
 msgstr "Style &manager"
 
-#: KainoteFrame.cpp:302
+#: KainoteFrame.cpp:305
 msgid "Służy do zarządzania stylami ASS"
 msgstr "Is used to manage ASS styles"
 
-#: KainoteFrame.cpp:305
+#: KainoteFrame.cpp:308
 msgid "Konwertuje do formatu ASS"
 msgstr "Converts to ASS format"
 
-#: KainoteFrame.cpp:307
+#: KainoteFrame.cpp:310
 msgid "Konwertuje do formatu SRT"
 msgstr "Converts to SRT format"
 
-#: KainoteFrame.cpp:309
+#: KainoteFrame.cpp:312
 msgid "Konwertuje do formatu microDVD"
 msgstr "Converts to microDVD format"
 
-#: KainoteFrame.cpp:311
+#: KainoteFrame.cpp:314
 msgid "Konwertuje do formatu MPL2"
 msgstr "Converts to MPL2 format"
 
-#: KainoteFrame.cpp:313
+#: KainoteFrame.cpp:316
 msgid "Konwertuje do formatu TMPlayer (niezalecane)"
 msgstr "Converts to TMPlayer format (not recommended)"
 
-#: KainoteFrame.cpp:315 OptionsDialog.cpp:983
+#: KainoteFrame.cpp:318 OptionsDialog.cpp:994
 msgid "Konwersja"
 msgstr "Conversion"
 
-#: KainoteFrame.cpp:315
+#: KainoteFrame.cpp:318
 msgid "Konwersja z jednego formatu napisów na inny"
 msgstr "Converts from one format to another"
 
-#: KainoteFrame.cpp:317
+#: KainoteFrame.cpp:320
 msgid "Okno zmiany &czasów\tCtrl-I"
 msgstr "Shift &times...\tCtrl-I"
 
-#: KainoteFrame.cpp:318
+#: KainoteFrame.cpp:321
 msgid "Przesuwanie czasów napisów"
 msgstr "Shifts subtitles times"
 
-#: KainoteFrame.cpp:326
+#: KainoteFrame.cpp:329
 msgid "Ukrywa tagi w nawiasach ASS i MDVD"
 msgstr "Hides tags in ASS and MDVD"
 
-#: KainoteFrame.cpp:327
+#: KainoteFrame.cpp:330
 msgid "&Napisy"
 msgstr "Su&btitles"
 
-#: KainoteFrame.cpp:338
+#: KainoteFrame.cpp:341
 msgid "Au&tomatyzacja"
 msgstr "Au&tomation"
 
 # Zły: nawias zostawiam, nie wiem czy jest już wersja angielska
 # A widziałeś aby ktoś ją robił?
-#: KainoteFrame.cpp:341
+#: KainoteFrame.cpp:344
 msgid "&Pomoc (niekompletna, ale jednak)"
 msgstr "&Help (English version is not yet available)"
 
-#: KainoteFrame.cpp:342
+#: KainoteFrame.cpp:345
 msgid "Otwiera pomoc w domyślnej przeglądarce"
 msgstr "Opens help in default browser"
 
-#: KainoteFrame.cpp:343
+#: KainoteFrame.cpp:346
 msgid "&Wątek programu na forum AnimeSub.info"
 msgstr "&Forum thread on animesub.info (Polish)"
 
-#: KainoteFrame.cpp:344
+#: KainoteFrame.cpp:347
 msgid "Otwiera wątek programu na forum AnimeSub.info"
 msgstr "Opens forum thread on animesub.info (Polish)"
 
-#: KainoteFrame.cpp:345
+#: KainoteFrame.cpp:348
 msgid "&O programie"
 msgstr "&About"
 
-#: KainoteFrame.cpp:346
+#: KainoteFrame.cpp:349
 msgid "Wyświetla informacje o programie"
 msgstr "Shows program info"
 
-#: KainoteFrame.cpp:348
+#: KainoteFrame.cpp:351
 msgid "&Lista osób pomocnych przy tworzeniu programu"
 msgstr "&Credits"
 
-#: KainoteFrame.cpp:349
+#: KainoteFrame.cpp:352
 msgid "Wyświetla listę osób pomocnych przy tworzeniu programu"
 msgstr "Shows credits"
 
-#: KainoteFrame.cpp:350
+#: KainoteFrame.cpp:353
 msgid "Pomo&c"
 msgstr "&Help"
 
-#: KainoteFrame.cpp:538 KainoteFrame.cpp:553 ProgressDialog.cpp:102
+#: KainoteFrame.cpp:542 KainoteFrame.cpp:557 ProgressDialog.cpp:102
 #, c-format
 msgid "Upłynęło %s sekund"
 msgstr "Time elapsed: %s"
 
-#: KainoteFrame.cpp:646 TabPanel.cpp:80
+#: KainoteFrame.cpp:653 TabPanel.cpp:82
 msgid "Bez tytułu"
 msgstr "Untitled"
 
-#: KainoteFrame.cpp:825
+#: KainoteFrame.cpp:832
 msgid "Wybierz sktypt"
 msgstr "Choose script"
 
-#: KainoteFrame.cpp:827
+#: KainoteFrame.cpp:834
 msgid "Pliki skryptów (*.lua),(*.moon)|*.lua;*.moon;"
 msgstr "Script files (*.lua),(*.moon)|*.lua;*.moon;"
 
-#: KainoteFrame.cpp:844
+#: KainoteFrame.cpp:851
 msgid "Ten plik napisów nie ma dodanych żadnych skryptów"
 msgstr "This subtitles don't have any scripts added"
 
-#: KainoteFrame.cpp:853 KainoteFrame.cpp:2533
+#: KainoteFrame.cpp:860 KainoteFrame.cpp:2541
 #, c-format
 msgid "Warunki skryptu Lua '%s' nie zostały spełnione"
 msgstr "Validation Lua script '%s' failed"
 
-#: KainoteFrame.cpp:932 SubsGrid.cpp:873 VideoBox.cpp:1003
+#: KainoteFrame.cpp:939 SubsGrid.cpp:866 VideoBox.cpp:1011
 msgid "Wybierz plik napisów"
 msgstr "Choose subtitles file"
 
-#: KainoteFrame.cpp:935
+#: KainoteFrame.cpp:942
 msgid ""
 "Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
 "*.ass;*.ssa;*.srt;*.sub;*.txt|Pliki wideo z wbudowanymi napisami (*.mkv),"
@@ -3251,7 +3481,7 @@ msgstr ""
 "*.ass;*.ssa;*.srt;*.sub;*.txt|Video with subtitles (*.mkv),(*.ogm)|"
 "*.mkv;*.ogm"
 
-#: KainoteFrame.cpp:965
+#: KainoteFrame.cpp:972
 msgid ""
 "Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
 "(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
@@ -3263,7 +3493,7 @@ msgstr ""
 "*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All "
 "files (*.*)|*.*"
 
-#: KainoteFrame.cpp:981
+#: KainoteFrame.cpp:988
 msgid ""
 "Pliki klatek kluczowych (*.txt),(*.pass),(*.stats),(*.log)|"
 "*.txt;*.pass;*.stats;*.log|Wszystkie pliki (*.*)|*.*"
@@ -3271,7 +3501,7 @@ msgstr ""
 "Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|"
 "All files (*.*)|*.*"
 
-#: KainoteFrame.cpp:1033
+#: KainoteFrame.cpp:1040
 #, c-format
 msgid ""
 "Edytor napisów by Marcin Drob aka Bakura lub Bjakja (bjakja7@gmail.com),\n"
@@ -3280,7 +3510,7 @@ msgstr ""
 "Subtitles editor by Marcin Drob aka Bakura or Bjakja (bjakja7@gmail.com),\n"
 "version %s from day %s"
 
-#: KainoteFrame.cpp:1035
+#: KainoteFrame.cpp:1042
 msgid ""
 "Ten program powstał w celu zastąpienia dwóch programów: Bestplayera i "
 "Aegisuba.\n"
@@ -3289,7 +3519,7 @@ msgstr ""
 "I wrote this program to replace two programs: Bestplayer and Aegisub.\n"
 "\n"
 
-#: KainoteFrame.cpp:1036
+#: KainoteFrame.cpp:1043
 msgid ""
 "Jeśli zauważyłeś(aś) jakieś błędy bądź masz jakieś propozycje zmian lub "
 "nowych funkcji,\n"
@@ -3303,11 +3533,11 @@ msgstr ""
 "by email.\n"
 "\n"
 
-#: KainoteFrame.cpp:1037
+#: KainoteFrame.cpp:1044
 msgid "Kainote zawiera w sobie części następujących projektów:\n"
 msgstr "Kainote includes parts of the following projects:\n"
 
-#: KainoteFrame.cpp:1039
+#: KainoteFrame.cpp:1046
 msgid ""
 "Color picker, wymuxowywanie napisów z mkv, audiobox, odwarzacz audio, "
 "automatyzacja\n"
@@ -3316,31 +3546,31 @@ msgstr ""
 "Color picker, mkv subtitling, audiobox, audio player, automation\n"
 "and several other functions taken from Aegisub -\n"
 
-#: KainoteFrame.cpp:1050
+#: KainoteFrame.cpp:1057
 msgid "O Kainote"
 msgstr "About Kainote"
 
-#: KainoteFrame.cpp:1055
+#: KainoteFrame.cpp:1062
 msgid "Pomoc graficzna: (przyciski, obrazki do pomocy itd.)\n"
 msgstr "Graphical help: (buttons, help pictures etc.)\n"
 
-#: KainoteFrame.cpp:1056
+#: KainoteFrame.cpp:1063
 msgid "- Xandros (przyciski do wideo).\n"
 msgstr "- Xandros (new video buttons).\n"
 
-#: KainoteFrame.cpp:1057
+#: KainoteFrame.cpp:1064
 msgid "- Devilkan (ikony do menu i paska narzędzi, obrazki do pomocy).\n"
 msgstr "- Devilkan (menu and toolbar buttons)\n"
 
-#: KainoteFrame.cpp:1058
+#: KainoteFrame.cpp:1065
 msgid "- Zły Los (ikony do skojarzonych plików i do menu).\n"
 msgstr "- Zły Los (icons for file associations and menu).\n"
 
-#: KainoteFrame.cpp:1059
+#: KainoteFrame.cpp:1066
 msgid "Testerzy: (mniej i bardziej wprawieni użytkownicy programu)\n"
 msgstr "Testers:\n"
 
-#: KainoteFrame.cpp:1060
+#: KainoteFrame.cpp:1067
 msgid ""
 "- Sacredus (chyba pierwszy tłumacz używający trybu tłumacza,\n"
 " nieoceniona pomoc przy testowaniu wydajności na słabym komputerze).\n"
@@ -3348,7 +3578,7 @@ msgstr ""
 "- Sacredus (first translator using translator mode,\n"
 "great help testing Kainote on a slow computer)\n"
 
-#: KainoteFrame.cpp:1061
+#: KainoteFrame.cpp:1068
 msgid ""
 "- Devilkan (crashhunter, ze względu na swój system i przyzwyczajenia "
 "wytropił już wiele crashy,\n"
@@ -3356,14 +3586,14 @@ msgstr ""
 "- Devilkan (crashhunter, because of his system and habits he made Kainote "
 "crash a lot\n"
 
-#: KainoteFrame.cpp:1062
+#: KainoteFrame.cpp:1069
 msgid ""
 "pomógł w poprawie działania narzędzi do typesettingu, wymyślił wiele innych "
 "usprawnień).\n"
 msgstr ""
 "helped with typesetting tools and came up with many more improvements).\n"
 
-#: KainoteFrame.cpp:1063
+#: KainoteFrame.cpp:1070
 msgid ""
 "- MatiasMovie (wyłapał parę crashy i zaproponował różne usprawnienia, pomaga "
 "w debugowaniu crashy).\n"
@@ -3371,40 +3601,40 @@ msgstr ""
 "- MatiasMovie (found some crashes and suggessted some improvements, helps "
 "with crash debugging).\n"
 
-#: KainoteFrame.cpp:1064
+#: KainoteFrame.cpp:1071
 msgid "- mas1904 (wyłapał trochę błędów, pomaga w debugowaniu crashy).\n"
 msgstr "- mas1904 (found some errors and helping with crash debuging).\n"
 
-#: KainoteFrame.cpp:1065
+#: KainoteFrame.cpp:1072
 msgid "- Senami (stworzył nowe motywy, a także wyłapał parę błędów).\n"
 msgstr "- Senami (made new themes and found some bugs).\n"
 
-#: KainoteFrame.cpp:1066
+#: KainoteFrame.cpp:1073
 msgid "- altinat (tajskie tłumaczenie).\n"
 msgstr "- altinat (Thai translation).\n"
 
-#: KainoteFrame.cpp:1067
+#: KainoteFrame.cpp:1074
 msgid "- labrie75 (koreańskie tłumaczenie).\n"
 msgstr "- labrie75 (Korean translation).\n"
 
-#: KainoteFrame.cpp:1068
+#: KainoteFrame.cpp:1075
 msgid "- Niskala5570 (malajskie tłumaczenie).\n"
 msgstr "- Niskala5570 (Malay translation).\n"
 
-#: KainoteFrame.cpp:1069
+#: KainoteFrame.cpp:1076
 msgid ""
 "Podziękowania także dla osób, które używają programu i zgłaszali błędy.\n"
 msgstr "Thanks to other Kainote users who reported bugs:\n"
 
-#: KainoteFrame.cpp:1189
+#: KainoteFrame.cpp:1196
 msgid "Plik napisów "
 msgstr "Subtitles file "
 
-#: KainoteFrame.cpp:1199
+#: KainoteFrame.cpp:1206
 msgid "Zapisz plik napisów"
 msgstr "Save subtitles file"
 
-#: KainoteFrame.cpp:1206 KainoteFrame.cpp:1222 KainoteFrame.cpp:2404
+#: KainoteFrame.cpp:1213 KainoteFrame.cpp:1229 KainoteFrame.cpp:2412
 msgid ""
 "Wybrany plik jest tylko do odczytu,\n"
 "proszę zapisać pod inną nazwą lub zmienić atrybuty pliku."
@@ -3412,18 +3642,18 @@ msgstr ""
 "Chosen file is read only,\n"
 "please save with different name or change file attribute."
 
-#: KainoteFrame.cpp:1272
+#: KainoteFrame.cpp:1279
 #, c-format
 msgid "Wczytać napisy o nazwie \"%s\"?"
 msgstr "Do you want to load subtitles named %s?"
 
-#: KainoteFrame.cpp:1336 Visuals.cpp:275
+#: KainoteFrame.cpp:1343 Visuals.cpp:275
 msgid "Nie można otworzyć napisów"
 msgstr "Cannot open subtitle file"
 
-#: KainoteFrame.cpp:1481 OptionsDialog.cpp:703 ProviderFFMS2.cpp:826
-#: ProviderFFMS2.cpp:837 ScriptInfo.cpp:118 stylestore.cpp:760
-#: stylestore.cpp:761
+#: KainoteFrame.cpp:1488 OptionsDialog.cpp:714 ProviderFFMS2.cpp:826
+#: ProviderFFMS2.cpp:837 ScriptInfo.cpp:118 StyleStore.cpp:760
+#: StyleStore.cpp:761
 msgid "Brak"
 msgstr "None"
 
@@ -3448,7 +3678,7 @@ msgstr "loading new subtitles"
 msgid "usunięciem napisów"
 msgstr "removing subtitles"
 
-#: KainoteFrame.cpp:2067 OptionsDialog.cpp:639
+#: KainoteFrame.cpp:2067 OptionsDialog.cpp:650
 msgid "Nie można wczytać skrótów klawiszowych audio"
 msgstr "Cannot load audio hotkeys"
 
@@ -3468,27 +3698,27 @@ msgstr "Audio and video files"
 msgid "Wszystkie pliki"
 msgstr "All files"
 
-#: KainoteFrame.cpp:2231
+#: KainoteFrame.cpp:2236
 msgid "&Cofnij do "
 msgstr "Undo to "
 
-#: KainoteFrame.cpp:2247
+#: KainoteFrame.cpp:2252
 msgid "&Ponów do "
 msgstr "Redo to "
 
-#: KainoteFrame.cpp:2387
+#: KainoteFrame.cpp:2395
 msgid "Wybierz plik sesji"
 msgstr "Choose session file"
 
-#: KainoteFrame.cpp:2389 KainoteFrame.cpp:2398
+#: KainoteFrame.cpp:2397 KainoteFrame.cpp:2406
 msgid "Plik sesji (*.kls),|*.kls"
 msgstr "Session file (*.kls),|*.kls"
 
-#: KainoteFrame.cpp:2397
+#: KainoteFrame.cpp:2405
 msgid "Zapisz plik sesji"
 msgstr "Save session file"
 
-#: KainoteFrame.cpp:2507
+#: KainoteFrame.cpp:2515
 #, c-format
 msgid "Skrót o nazwie '%s' nie należy do skrypru."
 msgstr "Hotkey \"%s\" it's not script hotkey."
@@ -3497,8 +3727,8 @@ msgstr "Hotkey \"%s\" it's not script hotkey."
 msgid "Okno Logów"
 msgstr "Log window"
 
-#: MappedButton.cpp:40 OptionsDialog.cpp:998 StyleChange.cpp:271
-#: VisualAllTagsEdition.cpp:124 VisualDrawingShapes.cpp:101
+#: MappedButton.cpp:40 OptionsDialog.cpp:1009 StyleChange.cpp:269
+#: VisualAllTagsEdition.cpp:125 VisualDrawingShapes.cpp:101
 msgid "Zastosuj"
 msgstr "Apply"
 
@@ -3630,15 +3860,6 @@ msgstr ""
 "Cannot change rules\n"
 "when find results window is open"
 
-#: MisspellReplacer.cpp:608 findreplace.cpp:201 findreplace.cpp:1583
-#, c-format
-msgid ""
-"Linia %i nie może być zamieniona,\n"
-"bo została zedytowana."
-msgstr ""
-"Line %i cannot be replaced,\n"
-"cause it was edited."
-
 #: MisspellReplacer.cpp:629
 #, c-format
 msgid ""
@@ -3706,103 +3927,103 @@ msgstr "Enter a name for the new folder"
 msgid "Utwórz"
 msgstr "Create"
 
-#: Notebook.cpp:854
+#: Notebook.cpp:856
 msgid "Zapisz wszystko"
 msgstr "Save all"
 
-#: Notebook.cpp:855
+#: Notebook.cpp:857
 msgid "Zamknij wszystkie zakładki"
 msgstr "Close all tabs"
 
-#: Notebook.cpp:861
+#: Notebook.cpp:863
 msgid "Otwórz folder zawierający napisy"
 msgstr "Open subtitles containing folder"
 
-#: Notebook.cpp:864
+#: Notebook.cpp:866
 msgid "Otwórz folder zawierający wideo"
 msgstr "Open video containing folder"
 
-#: Notebook.cpp:867
+#: Notebook.cpp:869
 msgid "Otwórz folder zawierający audio"
 msgstr "Open audio containing folder"
 
-#: Notebook.cpp:870
+#: Notebook.cpp:872
 msgid "Otwórz folder zawierający klatki kluczowe"
 msgstr "Open keyframes containing folder"
 
-#: Notebook.cpp:874
+#: Notebook.cpp:876
 msgid "Wyświetl jedną zakładkę"
 msgstr "Show one tab"
 
-#: Notebook.cpp:874
+#: Notebook.cpp:876
 msgid "Wyświetl dwie zakładki"
 msgstr "Show two tabs"
 
-#: Notebook.cpp:894
+#: Notebook.cpp:896
 msgid "Porównaj według czasów"
 msgstr "Compare by times"
 
-#: Notebook.cpp:895
+#: Notebook.cpp:897
 msgid "Porównaj według widocznych linijek"
 msgstr "Compare by visible lines"
 
-#: Notebook.cpp:896
+#: Notebook.cpp:898
 msgid "Porównaj według zaznaczeń"
 msgstr "Compare by selections"
 
-#: Notebook.cpp:897
+#: Notebook.cpp:899
 msgid "Porównaj według stylów"
 msgstr "Compare by styles"
 
-#: Notebook.cpp:898
+#: Notebook.cpp:900
 msgid "Porównaj według wybranych stylów"
 msgstr "Compare by chosen styles"
 
-#: Notebook.cpp:899
+#: Notebook.cpp:901
 msgid "Porównaj"
 msgstr "Compare"
 
-#: Notebook.cpp:900
+#: Notebook.cpp:902
 msgid "Wyłącz porównanie"
 msgstr "Turn off comparison"
 
-#: Notebook.cpp:901
+#: Notebook.cpp:903
 msgid "Porównanie napisów"
 msgstr "Subtitles comparison"
 
-#: Notebook.cpp:942
+#: Notebook.cpp:944
 msgid "Zostaną zamknięte wszystkie zakładki, kontynuować?"
 msgstr "All tabs will be closed, continue?"
 
-#: Notebook.cpp:1151
+#: Notebook.cpp:1156
 msgid "Wideo: "
 msgstr "Video: "
 
-#: Notebook.cpp:1153
+#: Notebook.cpp:1158
 msgid "Audio: "
 msgstr "Audio: "
 
-#: Notebook.cpp:1155
+#: Notebook.cpp:1160
 msgid "Klatki kluczowe: "
 msgstr "Keyframes: "
 
-#: Notebook.cpp:1157
+#: Notebook.cpp:1162
 msgid "Skojarzone pliki:\n"
 msgstr "Associated files:\n"
 
-#: Notebook.cpp:1162
+#: Notebook.cpp:1167
 msgid "Wideo z folderu:\n"
 msgstr "Video from directory:\n"
 
-#: Notebook.cpp:1170
+#: Notebook.cpp:1175
 msgid "Wczytaj skojarzone"
 msgstr "Load associated"
 
-#: Notebook.cpp:1171
+#: Notebook.cpp:1176
 msgid "Wczytaj z folderu"
 msgstr "Load from directory"
 
-#: Notebook.cpp:1331
+#: Notebook.cpp:1336
 msgid "Nieprawidłowy plik sesji"
 msgstr "Session file is corrupt"
 
@@ -4080,115 +4301,119 @@ msgstr "FFMS2 video seeking (require reload)"
 msgid "Filtr wyświetlania napisów"
 msgstr "Subtitles filter"
 
-#: OptionsDialog.cpp:584
+#: OptionsDialog.cpp:566
+msgid "Początkowy zoom wideo w procentach"
+msgstr "Start video zoom in percent."
+
+#: OptionsDialog.cpp:585
 msgid "Liniowe"
 msgstr "Linear"
 
-#: OptionsDialog.cpp:584 ScriptInfo.cpp:143
+#: OptionsDialog.cpp:585 ScriptInfo.cpp:143
 msgid "Normalne"
 msgstr "Normal"
 
-#: OptionsDialog.cpp:585
+#: OptionsDialog.cpp:586
 msgid "Niebezpieczne (szybkie w każdym przypadku)"
 msgstr "Unsafe (always fast)"
 
-#: OptionsDialog.cpp:585
+#: OptionsDialog.cpp:586
 msgid "Agresywne (szybkie przy cofaniu)"
 msgstr "Aggressive (fast in rewind)"
 
-#: OptionsDialog.cpp:617
+#: OptionsDialog.cpp:628
 msgid "Wybierz rodzaj filtrowania"
 msgstr "Choose filtering"
 
-#: OptionsDialog.cpp:618
+#: OptionsDialog.cpp:629
 msgid "Ustawione skróty"
 msgstr "Set shortcuts"
 
-#: OptionsDialog.cpp:618
+#: OptionsDialog.cpp:629
 msgid "Skróty Globalne"
 msgstr "Global shortcuts"
 
-#: OptionsDialog.cpp:619
+#: OptionsDialog.cpp:630
 msgid "Skróty napisów"
 msgstr "Subtitles shortcuts"
 
-#: OptionsDialog.cpp:619
+#: OptionsDialog.cpp:630
 msgid "Skróty edytora"
 msgstr "Editor shortcuts"
 
-#: OptionsDialog.cpp:619
+#: OptionsDialog.cpp:630
 msgid "Skróty wideo"
 msgstr "Video shortcuts"
 
-#: OptionsDialog.cpp:619
+#: OptionsDialog.cpp:630
 msgid "Skróty audio"
 msgstr "Audio Shortcuts"
 
-#: OptionsDialog.cpp:622
+#: OptionsDialog.cpp:633
 msgid "Rodzaj filtrowania:"
 msgstr "Filtering mode:"
 
-#: OptionsDialog.cpp:633
+#: OptionsDialog.cpp:644
 msgid "Funkcja"
 msgstr "Function"
 
-#: OptionsDialog.cpp:648
+#: OptionsDialog.cpp:659
 msgid "Przywróć skrót domyślny"
 msgstr "Restore default hotkey"
 
-#: OptionsDialog.cpp:671
+#: OptionsDialog.cpp:682
 msgid "Wyświetlaj czas przy kursorze"
 msgstr "Show time next to cursor"
 
-#: OptionsDialog.cpp:671
+#: OptionsDialog.cpp:682
 msgid "Wyświetlaj znaczniki sekund"
 msgstr "Show seconds markers"
 
-#: OptionsDialog.cpp:671
+#: OptionsDialog.cpp:682
 msgid "Wyświetlaj tło zaznaczenia"
 msgstr "Show background selection"
 
-#: OptionsDialog.cpp:672
+#: OptionsDialog.cpp:683
 msgid "Wyświetlaj pozycję wideo"
 msgstr "Show video position"
 
-#: OptionsDialog.cpp:672
+#: OptionsDialog.cpp:683
 msgid "Wyświetlaj klatki kluczowe"
 msgstr "Show keyframes"
 
-#: OptionsDialog.cpp:672
+#: OptionsDialog.cpp:683
 msgid "Przewijaj wykres audio przy odtwarzaniu"
 msgstr "Follow audio during playback"
 
-#: OptionsDialog.cpp:673
+#: OptionsDialog.cpp:684
 msgid "Aktywuj okno audio po najechaniu"
 msgstr "Activate the audio when hover"
 
-#: OptionsDialog.cpp:673
+#: OptionsDialog.cpp:684
 msgid "Przyklejaj do klatek kluczowych"
 msgstr "Snap to keyframe"
 
-#: OptionsDialog.cpp:673
+#: OptionsDialog.cpp:684
 msgid "Przyklejaj do pozostałych linii"
 msgstr "Snap to other lines"
 
-#: OptionsDialog.cpp:674
+#: OptionsDialog.cpp:685
 msgid "Nie odtwarzaj audio po zmianie linijki"
 msgstr "Don't play audio after change line"
 
-#: OptionsDialog.cpp:674
+#: OptionsDialog.cpp:685
 msgid "Scalaj wszystkie \"n\" z poprzednią sylabą"
 msgstr "Merge all the \"n\" with the previous syllable"
 
-#: OptionsDialog.cpp:675
+#: OptionsDialog.cpp:686
 msgid "Przenoś linie sylab po kliknięciu"
 msgstr "Move syllable line after click"
 
-#: OptionsDialog.cpp:675
+#: OptionsDialog.cpp:686
 msgid "Wczytuj audio do pamięci RAM"
 msgstr "Load audio into RAM"
 
-#: OptionsDialog.cpp:702
+#: OptionsDialog.cpp:713
 msgid ""
 "Przedział od 0 do 10000, gdzie 0 wyłącza\n"
 "całkowicie usuwanie plików audio cache."
@@ -4196,606 +4421,606 @@ msgstr ""
 "Range from 0 to 10000, where 0 turns off\n"
 "removing audio cache files."
 
-#: OptionsDialog.cpp:703
+#: OptionsDialog.cpp:714
 msgid "Przed i po aktywnej"
 msgstr "Before and after the active"
 
-#: OptionsDialog.cpp:703
+#: OptionsDialog.cpp:714
 msgid "Wszystkie widoczne"
 msgstr "All visible"
 
-#: OptionsDialog.cpp:713
+#: OptionsDialog.cpp:724
 msgid "Opóźnienie audio w ms"
 msgstr "Audio delay in milliseconds"
 
-#: OptionsDialog.cpp:714
+#: OptionsDialog.cpp:725
 msgid "Czas odtwarzania audio przed i po znaczniku w ms"
 msgstr "Audio to play before and after the marker in milliseconds"
 
-#: OptionsDialog.cpp:715 ShiftTimes.cpp:383
+#: OptionsDialog.cpp:726 ShiftTimes.cpp:383
 msgid "Wstęp"
 msgstr "Lead-in"
 
-#: OptionsDialog.cpp:715 ShiftTimes.cpp:386
+#: OptionsDialog.cpp:726 ShiftTimes.cpp:386
 msgid "Zakończenie"
 msgstr "Lead-out"
 
-#: OptionsDialog.cpp:717
+#: OptionsDialog.cpp:728
 msgid "Grubość linii znaczników"
 msgstr "Line boundaries thickness"
 
-#: OptionsDialog.cpp:718
+#: OptionsDialog.cpp:729
 msgid "Limit plików audio cache"
 msgstr "Audio cache files limit"
 
-#: OptionsDialog.cpp:719
+#: OptionsDialog.cpp:730
 msgid "Sposób wyświetlania nieaktywnych linijek"
 msgstr "The way to display inactive lines"
 
-#: OptionsDialog.cpp:743
+#: OptionsDialog.cpp:754
 msgid "Okno tło"
 msgstr "Window background"
 
-#: OptionsDialog.cpp:743
+#: OptionsDialog.cpp:754
 msgid "Okno nieaktywne tło"
 msgstr "Inactive window background"
 
-#: OptionsDialog.cpp:743
+#: OptionsDialog.cpp:754
 msgid "Okno tekst"
 msgstr "Window text"
 
-#: OptionsDialog.cpp:743
+#: OptionsDialog.cpp:754
 msgid "Okno nieaktywny tekst"
 msgstr "Inactive window text"
 
-#: OptionsDialog.cpp:744
+#: OptionsDialog.cpp:755
 msgid "Okno obramowanie"
 msgstr "Window border"
 
-#: OptionsDialog.cpp:744
+#: OptionsDialog.cpp:755
 msgid "Okno obramowanie nieaktywne"
 msgstr "Inactive window border"
 
-#: OptionsDialog.cpp:744
+#: OptionsDialog.cpp:755
 msgid "Okno tło obramowania"
 msgstr "Window border background"
 
-#: OptionsDialog.cpp:745
+#: OptionsDialog.cpp:756
 msgid "Okno tło obramowania nieaktywne"
 msgstr "Inactive window border background"
 
-#: OptionsDialog.cpp:745
+#: OptionsDialog.cpp:756
 msgid "Okno tekst nagłówka"
 msgstr "Window header text"
 
-#: OptionsDialog.cpp:745
+#: OptionsDialog.cpp:756
 msgid "Okno tekst nagłówka nieaktywny"
 msgstr "Inactive window header text"
 
-#: OptionsDialog.cpp:746
+#: OptionsDialog.cpp:757
 msgid "Okno najechany element nagłówka"
 msgstr "Window invaded element header"
 
-#: OptionsDialog.cpp:746
+#: OptionsDialog.cpp:757
 msgid "Okno wciśnięty element nagłówka"
 msgstr "Window pressed element header"
 
-#: OptionsDialog.cpp:747
+#: OptionsDialog.cpp:758
 msgid "Okno najechane zamykanie"
 msgstr "Window closing upon hover"
 
-#: OptionsDialog.cpp:747
+#: OptionsDialog.cpp:758
 msgid "Okno wciśnięte zamykanie"
 msgstr "Window pressed closing"
 
-#: OptionsDialog.cpp:747
+#: OptionsDialog.cpp:758
 msgid "Okno elementy ostrzegające"
 msgstr "Window elements warning"
 
-#: OptionsDialog.cpp:749
+#: OptionsDialog.cpp:760
 msgid "Napisy tekst"
 msgstr "Subtitles text"
 
-#: OptionsDialog.cpp:749
+#: OptionsDialog.cpp:760
 msgid "Napisy tło"
 msgstr "Subtitles background"
 
-#: OptionsDialog.cpp:749
+#: OptionsDialog.cpp:760
 msgid "Napisy tło dialogów"
 msgstr "Subtitles dialogue background"
 
-#: OptionsDialog.cpp:749
+#: OptionsDialog.cpp:760
 msgid "Napisy tło komentarzy"
 msgstr "Subtitles comment background"
 
-#: OptionsDialog.cpp:750
+#: OptionsDialog.cpp:761
 msgid "Napisy zaznaczenia (przezroczystość)"
 msgstr "Subtitles selections (transparency)"
 
-#: OptionsDialog.cpp:750
+#: OptionsDialog.cpp:761
 msgid "Napisy linijki widoczne na wideo"
 msgstr "Subtitles lines visible on video"
 
-#: OptionsDialog.cpp:751
+#: OptionsDialog.cpp:762
 msgid "Napisy kolidujące linie"
 msgstr "Subtitles colliding lines"
 
-#: OptionsDialog.cpp:751
+#: OptionsDialog.cpp:762
 msgid "Napisy obramowanie linijki"
 msgstr "Subtitles line boarder"
 
-#: OptionsDialog.cpp:751
+#: OptionsDialog.cpp:762
 msgid "Napisy obramowanie aktywnej linijki"
 msgstr "Subtitles active line border"
 
-#: OptionsDialog.cpp:752
+#: OptionsDialog.cpp:763
 msgid "Napisy nagłówek"
 msgstr "Subtitles header background"
 
-#: OptionsDialog.cpp:752
+#: OptionsDialog.cpp:763
 msgid "Napisy tekst nagłówka"
 msgstr "Subtitles header text"
 
-#: OptionsDialog.cpp:753
+#: OptionsDialog.cpp:764
 msgid "Napisy etykieta"
 msgstr "Subtitles line label"
 
-#: OptionsDialog.cpp:753
+#: OptionsDialog.cpp:764
 msgid "Napisy etykieta zmodyfikowanej linii"
 msgstr "Subtitles tag the modified line"
 
-#: OptionsDialog.cpp:753
+#: OptionsDialog.cpp:764
 msgid "Napisy etykieta zapisanej linii"
 msgstr "Subtitles tag the saved line"
 
-#: OptionsDialog.cpp:754
+#: OptionsDialog.cpp:765
 msgid "Napisy etykieta niepewnej linii"
 msgstr "Subtitles tag the not confirmed line"
 
-#: OptionsDialog.cpp:754
+#: OptionsDialog.cpp:765
 msgid "Napisy tło błędów pisowni"
 msgstr "Subtitles spelling error background"
 
-#: OptionsDialog.cpp:754
+#: OptionsDialog.cpp:765
 msgid "Napisy obramowanie porównania"
 msgstr "Subtitles comparison border"
 
-#: OptionsDialog.cpp:755
+#: OptionsDialog.cpp:766
 msgid "Napisy tło porównania brak zgodności"
 msgstr "Subtitles comparison background no match"
 
-#: OptionsDialog.cpp:755
+#: OptionsDialog.cpp:766
 msgid "Napisy tło porównania zgodność"
 msgstr "Subtitles comparison background match"
 
-#: OptionsDialog.cpp:756
+#: OptionsDialog.cpp:767
 msgid "Napisy tło komentarza por. brak zgodności"
 msgstr "Subtitles comp. comment background no match"
 
-#: OptionsDialog.cpp:756
+#: OptionsDialog.cpp:767
 msgid "Napisy tło komentarza por. zgodność"
 msgstr "Subtitles comp. comment background match"
 
-#: OptionsDialog.cpp:758
+#: OptionsDialog.cpp:769
 msgid "Edytor tekst"
 msgstr "Editor text"
 
-#: OptionsDialog.cpp:758
+#: OptionsDialog.cpp:769
 msgid "Edytor nazwy tagów"
 msgstr "Editor tag names"
 
-#: OptionsDialog.cpp:758
+#: OptionsDialog.cpp:769
 msgid "Edytor wartości tagów"
 msgstr "Editor tag values"
 
-#: OptionsDialog.cpp:759
+#: OptionsDialog.cpp:770
 msgid "Edytor nawiasy klamrowe"
 msgstr "Editor curly braces"
 
 # Zły: jednak nie wiem co z tym zrobić...
-#: OptionsDialog.cpp:759
+#: OptionsDialog.cpp:770
 msgid "Edytor operatory tagów"
 msgstr "Editor tags operators"
 
-#: OptionsDialog.cpp:759
+#: OptionsDialog.cpp:770
 msgid "Edytor dzielenie linii i rysunki ASS"
 msgstr "Editor line splitting and ASS drawings"
 
-#: OptionsDialog.cpp:759
+#: OptionsDialog.cpp:770
 msgid "Edytor zmienne template"
 msgstr "Editor template variables"
 
-#: OptionsDialog.cpp:760
+#: OptionsDialog.cpp:771
 msgid "Edytor znaczniki kodu template"
 msgstr "Editor template code marks"
 
-#: OptionsDialog.cpp:760
+#: OptionsDialog.cpp:771
 msgid "Edytor funkcje template"
 msgstr "Editor template functions"
 
-#: OptionsDialog.cpp:760
+#: OptionsDialog.cpp:771
 msgid "Edytor słowa kluczowe template"
 msgstr "Editor template keywords"
 
-#: OptionsDialog.cpp:761
+#: OptionsDialog.cpp:772
 msgid "Edytor ciągi znaków template"
 msgstr "Editor template strings"
 
-#: OptionsDialog.cpp:761
+#: OptionsDialog.cpp:772
 msgid "Edytor zaznaczenie znalezionej frazy"
 msgstr "Editor found words selection"
 
-#: OptionsDialog.cpp:761
+#: OptionsDialog.cpp:772
 msgid "Edytor tło nawiasów"
 msgstr "Editor brackets background"
 
-#: OptionsDialog.cpp:762
+#: OptionsDialog.cpp:773
 msgid "Edytor tło"
 msgstr "Editor background"
 
-#: OptionsDialog.cpp:762
+#: OptionsDialog.cpp:773
 msgid "Edytor zaznaczenie"
 msgstr "Editor selection"
 
-#: OptionsDialog.cpp:762
+#: OptionsDialog.cpp:773
 msgid "Edytor zaznaczenie w nieaktywnym oknie"
 msgstr "Editor inactive window selection"
 
-#: OptionsDialog.cpp:763
+#: OptionsDialog.cpp:774
 msgid "Edytor obramowanie"
 msgstr "Editor border"
 
-#: OptionsDialog.cpp:763
+#: OptionsDialog.cpp:774
 msgid "Edytor obramowanie aktywnego okna"
 msgstr "Editor border on focus"
 
-#: OptionsDialog.cpp:763
+#: OptionsDialog.cpp:774
 msgid "Edytor błędy pisowni"
 msgstr "Editor spelling error background"
 
-#: OptionsDialog.cpp:765
+#: OptionsDialog.cpp:776
 msgid "Audio tło"
 msgstr "Audio background"
 
-#: OptionsDialog.cpp:765
+#: OptionsDialog.cpp:776
 msgid "Audio znacznik start"
 msgstr "Audio start marker"
 
-#: OptionsDialog.cpp:765
+#: OptionsDialog.cpp:776
 msgid "Audio znacznik koniec"
 msgstr "Audio end marker"
 
-#: OptionsDialog.cpp:765
+#: OptionsDialog.cpp:776
 msgid "Audio znacznik przesuwania czasów"
 msgstr "Audio time shift marker"
 
-#: OptionsDialog.cpp:766
+#: OptionsDialog.cpp:777
 msgid "Audio znaczniki nieaktywnej linijki"
 msgstr "Audio inactive line marker"
 
-#: OptionsDialog.cpp:766
+#: OptionsDialog.cpp:777
 msgid "Audio kursor"
 msgstr "Audio cursor"
 
-#: OptionsDialog.cpp:766
+#: OptionsDialog.cpp:777
 msgid "Audio znaczniki sekund"
 msgstr "Audio seconds boundaries"
 
-#: OptionsDialog.cpp:766
+#: OptionsDialog.cpp:777
 msgid "Audio klatki kluczowe"
 msgstr "Audio keyframes"
 
-#: OptionsDialog.cpp:767
+#: OptionsDialog.cpp:778
 msgid "Audio znaczniki sylab"
 msgstr "Audio syllable marker"
 
-#: OptionsDialog.cpp:767
+#: OptionsDialog.cpp:778
 msgid "Audio tekst sylab"
 msgstr "Audio syllable text"
 
-#: OptionsDialog.cpp:767
+#: OptionsDialog.cpp:778
 msgid "Audio zaznaczenie"
 msgstr "Audio selection"
 
-#: OptionsDialog.cpp:768
+#: OptionsDialog.cpp:779
 msgid "Audio zaznaczenie po modyfikacji"
 msgstr "Audio the selection after modification"
 
-#: OptionsDialog.cpp:768
+#: OptionsDialog.cpp:779
 msgid "Audio tło nieaktywnych linijek"
 msgstr "Audio inactive line background"
 
-#: OptionsDialog.cpp:768
+#: OptionsDialog.cpp:779
 msgid "Audio wykres falowy"
 msgstr "Audio waveform"
 
-#: OptionsDialog.cpp:769
+#: OptionsDialog.cpp:780
 msgid "Audio nieaktywny wykres falowy"
 msgstr "Audio Inactive waveform"
 
-#: OptionsDialog.cpp:769
+#: OptionsDialog.cpp:780
 msgid "Audio zmodyfikowany wykres falowy"
 msgstr "Audio modified waveform"
 
-#: OptionsDialog.cpp:769
+#: OptionsDialog.cpp:780
 msgid "Audio zaznaczony wykres falowy"
 msgstr "Audio selected waveform"
 
-#: OptionsDialog.cpp:770
+#: OptionsDialog.cpp:781
 msgid "Audio tło spektrum"
 msgstr "Audio spectrum background"
 
-#: OptionsDialog.cpp:770
+#: OptionsDialog.cpp:781
 msgid "Audio echo spektrum"
 msgstr "Audio spectrum echo"
 
-#: OptionsDialog.cpp:770
+#: OptionsDialog.cpp:781
 msgid "Audio spektrum"
 msgstr "Audio spectrum"
 
-#: OptionsDialog.cpp:772
+#: OptionsDialog.cpp:783
 msgid "Pole tekstowe tło"
 msgstr "Text field background"
 
-#: OptionsDialog.cpp:772
+#: OptionsDialog.cpp:783
 msgid "Pole tekstowe obramowanie"
 msgstr "Text field border"
 
-#: OptionsDialog.cpp:773
+#: OptionsDialog.cpp:784
 msgid "Pole tekstowe obramowanie aktywnego okna"
 msgstr "Text field border on focus"
 
-#: OptionsDialog.cpp:773
+#: OptionsDialog.cpp:784
 msgid "Pole tekstowe zaznaczenie"
 msgstr "Text field selection"
 
-#: OptionsDialog.cpp:774 OptionsDialog.cpp:844
+#: OptionsDialog.cpp:785 OptionsDialog.cpp:855
 msgid "Pole tekstowe zaznaczenie w nieaktywnym oknie"
 msgstr "Text field inactive window selection"
 
-#: OptionsDialog.cpp:775
+#: OptionsDialog.cpp:786
 msgid "Przycisk i lista tło"
 msgstr "Button and list background"
 
-#: OptionsDialog.cpp:775
+#: OptionsDialog.cpp:786
 msgid "Przycisk i lista tło po najechaniu"
 msgstr "Button and list background upon hover"
 
-#: OptionsDialog.cpp:776
+#: OptionsDialog.cpp:787
 msgid "Przycisk i lista tło po wciśnięciu"
 msgstr "Button and list pushed background"
 
-#: OptionsDialog.cpp:776
+#: OptionsDialog.cpp:787
 msgid "Przycisk i lista tło aktywnego"
 msgstr "Button and list background on focus"
 
-#: OptionsDialog.cpp:777
+#: OptionsDialog.cpp:788
 msgid "Przycisk i lista obramowanie"
 msgstr "Button and list border"
 
-#: OptionsDialog.cpp:777
+#: OptionsDialog.cpp:788
 msgid "Przycisk i lista obramowanie po najechaniu"
 msgstr "Button and list border upon hover"
 
-#: OptionsDialog.cpp:778
+#: OptionsDialog.cpp:789
 msgid "Przycisk i lista obramowanie po wciśnięciu"
 msgstr "Button and list border of pushed"
 
-#: OptionsDialog.cpp:778
+#: OptionsDialog.cpp:789
 msgid "Przycisk i lista obramowanie aktywnego"
 msgstr "Button and list border on focus"
 
-#: OptionsDialog.cpp:779
+#: OptionsDialog.cpp:790
 msgid "Przycisk i lista obramowanie nieaktywne"
 msgstr "Button and list inactive border"
 
 # Zły: eee... co to w ogóle jest?
-#: OptionsDialog.cpp:779
+#: OptionsDialog.cpp:790
 msgid "Przełącznik tło włączonego"
 msgstr "Togglebutton toggled background"
 
 # Zły: eee... co to w ogóle jest?
-#: OptionsDialog.cpp:780
+#: OptionsDialog.cpp:791
 msgid "Przełącznik obramowanie włączonego"
 msgstr "Togglebutton toggled border"
 
-#: OptionsDialog.cpp:780
+#: OptionsDialog.cpp:791
 msgid "Pasek przewijania tło"
 msgstr "Scroll bar background"
 
-#: OptionsDialog.cpp:780
+#: OptionsDialog.cpp:791
 msgid "Pasek przewijania suwak"
 msgstr "Scroll bar slider"
 
-#: OptionsDialog.cpp:781
+#: OptionsDialog.cpp:792
 msgid "Pasek przewijania suwak po najechaniu"
 msgstr "Scroll bar slider upon hover"
 
-#: OptionsDialog.cpp:781
+#: OptionsDialog.cpp:792
 msgid "Pasek przewijania suwak po wciśnięciu"
 msgstr "Scroll bar pushed slider"
 
-#: OptionsDialog.cpp:782
+#: OptionsDialog.cpp:793
 msgid "Ramka z opisem obramowanie"
 msgstr "Staticbox border"
 
-#: OptionsDialog.cpp:782
+#: OptionsDialog.cpp:793
 msgid "Lista statyczna obramowanie"
 msgstr "Static list border"
 
-#: OptionsDialog.cpp:782
+#: OptionsDialog.cpp:793
 msgid "Lista statyczna tło"
 msgstr "Static list background"
 
-#: OptionsDialog.cpp:783
+#: OptionsDialog.cpp:794
 msgid "Lista statyczna zaznaczenie"
 msgstr "Static list selection"
 
-#: OptionsDialog.cpp:783
+#: OptionsDialog.cpp:794
 msgid "Lista statyczna tło nagłówka"
 msgstr "Static list header background"
 
-#: OptionsDialog.cpp:783
+#: OptionsDialog.cpp:794
 msgid "Lista statyczna tekst nagłówka"
 msgstr "Static list header text"
 
-#: OptionsDialog.cpp:784
+#: OptionsDialog.cpp:795
 msgid "Pasek statusu obramowanie"
 msgstr "Status bar border"
 
-#: OptionsDialog.cpp:786
+#: OptionsDialog.cpp:797
 msgid "Pasek menu tło 1"
 msgstr "Menu bar background 1"
 
-#: OptionsDialog.cpp:786
+#: OptionsDialog.cpp:797
 msgid "Pasek menu tło 2"
 msgstr "Menu bar background 2"
 
-#: OptionsDialog.cpp:786
+#: OptionsDialog.cpp:797
 msgid "Pasek menu obramowanie zaznaczenia"
 msgstr "Menu bar selection border"
 
-#: OptionsDialog.cpp:787
+#: OptionsDialog.cpp:798
 msgid "Pasek menu najechane tło zaznaczenia"
 msgstr "Menu bar selection hover bacground"
 
-#: OptionsDialog.cpp:787
+#: OptionsDialog.cpp:798
 msgid "Pasek menu kliknięte tło zaznaczenia"
 msgstr "Menu bar selection clicked bacground"
 
-#: OptionsDialog.cpp:788
+#: OptionsDialog.cpp:799
 msgid "Menu tło"
 msgstr "Menu background"
 
-#: OptionsDialog.cpp:788
+#: OptionsDialog.cpp:799
 msgid "Menu obramowanie zaznaczenia"
 msgstr "Menu selection border"
 
-#: OptionsDialog.cpp:788
+#: OptionsDialog.cpp:799
 msgid "Menu tło zaznaczenia"
 msgstr "Menu selection background"
 
-#: OptionsDialog.cpp:790
+#: OptionsDialog.cpp:801
 msgid "Pasek zakładek tło 1"
 msgstr "Tab bar background 1"
 
-#: OptionsDialog.cpp:790
+#: OptionsDialog.cpp:801
 msgid "Pasek zakładek tło 2"
 msgstr "Tab bar background 2"
 
-#: OptionsDialog.cpp:790
+#: OptionsDialog.cpp:801
 msgid "Zakładki obramowanie aktywnej"
 msgstr "Tab active border"
 
-#: OptionsDialog.cpp:791
+#: OptionsDialog.cpp:802
 msgid "Zakładki obramowanie nieaktywnej"
 msgstr "Tab inactive border"
 
-#: OptionsDialog.cpp:791
+#: OptionsDialog.cpp:802
 msgid "Zakładki tło aktywnej"
 msgstr "Tab active background"
 
-#: OptionsDialog.cpp:791
+#: OptionsDialog.cpp:802
 msgid "Zakładki tło nieaktywnej"
 msgstr "Tab inactive background"
 
-#: OptionsDialog.cpp:792
+#: OptionsDialog.cpp:803
 msgid "Zakładki tło nieaktywnej po najechaniu"
 msgstr "Tab inactive background upon hover"
 
-#: OptionsDialog.cpp:792
+#: OptionsDialog.cpp:803
 msgid "Zakładki tło drugiej widocznej zakładki"
 msgstr "Tab background of second visible tab"
 
-#: OptionsDialog.cpp:793
+#: OptionsDialog.cpp:804
 msgid "Zakładki tekst aktywnej"
 msgstr "Tab active text"
 
-#: OptionsDialog.cpp:793
+#: OptionsDialog.cpp:804
 msgid "Zakładki tekst nieaktywnej"
 msgstr "Tab inactive background"
 
-#: OptionsDialog.cpp:793
+#: OptionsDialog.cpp:804
 msgid "Zakładki zamknięcie po najechaniu"
 msgstr "Tab close upon hover"
 
-#: OptionsDialog.cpp:794
+#: OptionsDialog.cpp:805
 msgid "Pasek zakładek strzałka"
 msgstr "Tab bar arrow"
 
-#: OptionsDialog.cpp:794
+#: OptionsDialog.cpp:805
 msgid "Pasek zakładek strzałka tło"
 msgstr "Tab bar arrow background"
 
-#: OptionsDialog.cpp:795
+#: OptionsDialog.cpp:806
 msgid "Pasek zakładek strzałka tło po najechaniu"
 msgstr "Tab bar arrow background upon hover"
 
-#: OptionsDialog.cpp:797
+#: OptionsDialog.cpp:808
 msgid "Suwak ścieżka tło"
 msgstr "Slider path background"
 
-#: OptionsDialog.cpp:797
+#: OptionsDialog.cpp:808
 msgid "Suwak ścieżka obramowanie"
 msgstr "Slider path border"
 
-#: OptionsDialog.cpp:797
+#: OptionsDialog.cpp:808
 msgid "Suwak obramowanie"
 msgstr "Slider border"
 
-#: OptionsDialog.cpp:798
+#: OptionsDialog.cpp:809
 msgid "Suwak obramowanie po najechaniu"
 msgstr "Slider border upon hover"
 
-#: OptionsDialog.cpp:798
+#: OptionsDialog.cpp:809
 msgid "Suwak obramowanie po wciśnięciu"
 msgstr "Slider border of pushed"
 
-#: OptionsDialog.cpp:798
+#: OptionsDialog.cpp:809
 msgid "Suwak tło"
 msgstr "Slider background"
 
-#: OptionsDialog.cpp:799
+#: OptionsDialog.cpp:810
 msgid "Suwak tło po najechaniu"
 msgstr "Slider background upon hover"
 
-#: OptionsDialog.cpp:799
+#: OptionsDialog.cpp:810
 msgid "Suwak tło po wciśnięciu"
 msgstr "Slider background of pushed"
 
-#: OptionsDialog.cpp:801
+#: OptionsDialog.cpp:812
 msgid "Linia zmiany rozdzielczości kropki"
 msgstr "Resize line dots"
 
-#: OptionsDialog.cpp:801
+#: OptionsDialog.cpp:812
 msgid "Wynik szukania czcionka nazwy pliku"
 msgstr "Finding result file name foreground"
 
-#: OptionsDialog.cpp:801
+#: OptionsDialog.cpp:812
 msgid "Wynik szukania tło nazwy pliku"
 msgstr "Finding result file name background"
 
-#: OptionsDialog.cpp:802
+#: OptionsDialog.cpp:813
 msgid "Wynik szukania czcionka znalezionej frazy"
 msgstr "Finding result found phrase foreground"
 
-#: OptionsDialog.cpp:802
+#: OptionsDialog.cpp:813
 msgid "Wynik szukania tło znalezionej frazy"
 msgstr "Finding result found phrase background"
 
-#: OptionsDialog.cpp:804
+#: OptionsDialog.cpp:815
 msgid "Pierwszy kolor podglądu stylów"
 msgstr "First color of style preview background"
 
-#: OptionsDialog.cpp:804
+#: OptionsDialog.cpp:815
 msgid "Drugi kolor podglądu stylów"
 msgstr "Second color of style preview background"
 
-#: OptionsDialog.cpp:829
+#: OptionsDialog.cpp:840
 msgid "Nazwa motywu:"
 msgstr "Theme name:"
 
-#: OptionsDialog.cpp:831
+#: OptionsDialog.cpp:842
 msgid ""
 "Nazwa kopiowanego motywu.\n"
 "Motywów domyślnych: DarkSentro i LightSentro\n"
@@ -4805,12 +5030,12 @@ msgstr ""
 "Default themes: DarkSentro & LightSentro\n"
 "cannot be edited. It have to be copied."
 
-#: OptionsDialog.cpp:832 SelectLines.cpp:122 stylestore.cpp:87
-#: stylestore.cpp:140
+#: OptionsDialog.cpp:843 SelectLines.cpp:122 StyleStore.cpp:87
+#: StyleStore.cpp:140
 msgid "Kopiuj"
 msgstr "Copy"
 
-#: OptionsDialog.cpp:841
+#: OptionsDialog.cpp:852
 msgid ""
 "UWAGA! Przezroczystość działa tylko na wykresie audio,\n"
 "polu tekstowym i polu napisów."
@@ -4818,130 +5043,130 @@ msgstr ""
 "Warning! Transparency works only on audio spectrun,\n"
 "text file and subtitles grid."
 
-#: OptionsDialog.cpp:851
+#: OptionsDialog.cpp:862
 msgid "Nazwa"
 msgstr "Name"
 
-#: OptionsDialog.cpp:852
+#: OptionsDialog.cpp:863
 msgid "Kolor"
 msgstr "Color"
 
-#: OptionsDialog.cpp:936 OptionsDialog.cpp:1207
+#: OptionsDialog.cpp:947 OptionsDialog.cpp:1218
 msgid "Napisy ASS"
 msgstr "Subtitles ASS"
 
-#: OptionsDialog.cpp:936 OptionsDialog.cpp:1207
+#: OptionsDialog.cpp:947 OptionsDialog.cpp:1218
 msgid "Napisy SSA"
 msgstr "Subtitles SSA"
 
-#: OptionsDialog.cpp:936 OptionsDialog.cpp:1207
+#: OptionsDialog.cpp:947 OptionsDialog.cpp:1218
 msgid "Napisy SRT"
 msgstr "Subtitles SRT"
 
-#: OptionsDialog.cpp:936 OptionsDialog.cpp:1207
+#: OptionsDialog.cpp:947 OptionsDialog.cpp:1218
 msgid "Napisy SUB"
 msgstr "Subtitles SUB"
 
-#: OptionsDialog.cpp:937 OptionsDialog.cpp:1208
+#: OptionsDialog.cpp:948 OptionsDialog.cpp:1219
 msgid "Napisy TXT"
 msgstr "Subtitles TXT"
 
-#: OptionsDialog.cpp:937 OptionsDialog.cpp:1208
+#: OptionsDialog.cpp:948 OptionsDialog.cpp:1219
 msgid "Wideo MKV"
 msgstr "Video MKV"
 
-#: OptionsDialog.cpp:937 OptionsDialog.cpp:1208
+#: OptionsDialog.cpp:948 OptionsDialog.cpp:1219
 msgid "Wideo MP4"
 msgstr "Video MP4"
 
-#: OptionsDialog.cpp:937 OptionsDialog.cpp:1208
+#: OptionsDialog.cpp:948 OptionsDialog.cpp:1219
 msgid "Wideo AVI"
 msgstr "Video AVI"
 
-#: OptionsDialog.cpp:937 OptionsDialog.cpp:1208
+#: OptionsDialog.cpp:948 OptionsDialog.cpp:1219
 msgid "Wideo OGM"
 msgstr "Video OGM"
 
-#: OptionsDialog.cpp:938 OptionsDialog.cpp:1209
+#: OptionsDialog.cpp:949 OptionsDialog.cpp:1220
 msgid "Wideo WMV"
 msgstr "Video WMV"
 
-#: OptionsDialog.cpp:938 OptionsDialog.cpp:1209
+#: OptionsDialog.cpp:949 OptionsDialog.cpp:1220
 msgid "Wideo ASF"
 msgstr "Video ASF"
 
-#: OptionsDialog.cpp:938 OptionsDialog.cpp:1209
+#: OptionsDialog.cpp:949 OptionsDialog.cpp:1220
 msgid "Wideo RMVB"
 msgstr "Video RMVB"
 
-#: OptionsDialog.cpp:938 OptionsDialog.cpp:1209
+#: OptionsDialog.cpp:949 OptionsDialog.cpp:1220
 msgid "Wideo RM"
 msgstr "Video RM"
 
-#: OptionsDialog.cpp:938 OptionsDialog.cpp:1209
+#: OptionsDialog.cpp:949 OptionsDialog.cpp:1220
 msgid "Wideo 3GP"
 msgstr "Video 3GP"
 
-#: OptionsDialog.cpp:939 OptionsDialog.cpp:1210
+#: OptionsDialog.cpp:950 OptionsDialog.cpp:1221
 msgid "Wideo MPG"
 msgstr "Video MPG"
 
-#: OptionsDialog.cpp:939 OptionsDialog.cpp:1210
+#: OptionsDialog.cpp:950 OptionsDialog.cpp:1221
 msgid "Wideo MPEG"
 msgstr "Video MPEG"
 
-#: OptionsDialog.cpp:939 OptionsDialog.cpp:1210
+#: OptionsDialog.cpp:950 OptionsDialog.cpp:1221
 msgid "Wideo TS"
 msgstr "Video TS"
 
-#: OptionsDialog.cpp:939 OptionsDialog.cpp:1210
+#: OptionsDialog.cpp:950 OptionsDialog.cpp:1221
 msgid "Wideo M2TS"
 msgstr "Video M2TS"
 
-#: OptionsDialog.cpp:946
+#: OptionsDialog.cpp:957
 msgid ""
 "UWAGA! Działanie na każdym Windowsie jest inne.\n"
 "Przykładowo na Windows7 WMP zablokował\n"
 "możliwość zmiany skojarzeń wideo."
 msgstr "WARNING! It works different on every Windows."
 
-#: OptionsDialog.cpp:964
+#: OptionsDialog.cpp:975
 msgid "Zaznacz wszystko"
 msgstr "Select all"
 
-#: OptionsDialog.cpp:964
+#: OptionsDialog.cpp:975
 msgid "Zaznacz napisy"
 msgstr "Select subtitles"
 
-#: OptionsDialog.cpp:964
+#: OptionsDialog.cpp:975
 msgid "Zaznacz wideo"
 msgstr "Select video"
 
-#: OptionsDialog.cpp:964
+#: OptionsDialog.cpp:975
 msgid "Odznacz wszystko"
 msgstr "Deselect all"
 
-#: OptionsDialog.cpp:984 OptionsDialog.cpp:987
+#: OptionsDialog.cpp:995 OptionsDialog.cpp:998
 msgid "Zaawansowane"
 msgstr "Advanced"
 
-#: OptionsDialog.cpp:988
+#: OptionsDialog.cpp:999
 msgid "Motywy"
 msgstr "Themes"
 
-#: OptionsDialog.cpp:989
+#: OptionsDialog.cpp:1000
 msgid "Skróty klawiszowe"
 msgstr "Hotkeys"
 
-#: OptionsDialog.cpp:990
+#: OptionsDialog.cpp:1001
 msgid "Skojarzenia"
 msgstr "Associations"
 
-#: OptionsDialog.cpp:991
+#: OptionsDialog.cpp:1002
 msgid "Właściwości napisów"
 msgstr "ASS subtitles properties"
 
-#: OptionsDialog.cpp:1000
+#: OptionsDialog.cpp:1011
 msgid "Ustaw domyślne"
 msgstr "Set default"
 
@@ -4949,27 +5174,27 @@ msgstr "Set default"
 msgid "Informacje o napisach"
 msgstr "Subtitles info"
 
-#: OptionsPanels.cpp:32 ScriptInfo.cpp:49 SubsGrid.cpp:1406
+#: OptionsPanels.cpp:32 ScriptInfo.cpp:49 SubsGrid.cpp:1399
 msgid "Tytuł"
 msgstr "Title"
 
-#: OptionsPanels.cpp:32 ScriptInfo.cpp:51 SubsGrid.cpp:1406
+#: OptionsPanels.cpp:32 ScriptInfo.cpp:51 SubsGrid.cpp:1399
 msgid "Autor"
 msgstr "Author"
 
-#: OptionsPanels.cpp:32 ScriptInfo.cpp:53 SubsGrid.cpp:1406
+#: OptionsPanels.cpp:32 ScriptInfo.cpp:53 SubsGrid.cpp:1399
 msgid "Tłumaczenie"
 msgstr "Translator"
 
-#: OptionsPanels.cpp:32 ScriptInfo.cpp:55 SubsGrid.cpp:1406
+#: OptionsPanels.cpp:32 ScriptInfo.cpp:55 SubsGrid.cpp:1399
 msgid "Korekta"
 msgstr "Editor"
 
-#: OptionsPanels.cpp:32 ScriptInfo.cpp:57 SubsGrid.cpp:1406
+#: OptionsPanels.cpp:32 ScriptInfo.cpp:57 SubsGrid.cpp:1399
 msgid "Timing"
 msgstr "Timer"
 
-#: OptionsPanels.cpp:32 ScriptInfo.cpp:59 SubsGrid.cpp:1406
+#: OptionsPanels.cpp:32 ScriptInfo.cpp:59 SubsGrid.cpp:1399
 #: VisualDrawingShapes.cpp:68
 msgid "Edycja"
 msgstr "Updated by"
@@ -5320,9 +5545,9 @@ msgstr "Shift by video / audio"
 msgid "Początek"
 msgstr "Start"
 
-#: ShiftTimes.cpp:322 SubsGridWindow.cpp:252 SubsGridWindow.cpp:640
-#: SubsGridWindow.cpp:1079 SubsGridWindow.cpp:1086 SubsGridWindow.cpp:1245
-#: SubsGridWindow.cpp:1252
+#: ShiftTimes.cpp:322 SubsGridWindow.cpp:255 SubsGridWindow.cpp:650
+#: SubsGridWindow.cpp:1090 SubsGridWindow.cpp:1097 SubsGridWindow.cpp:1256
+#: SubsGridWindow.cpp:1263
 msgid "Koniec"
 msgstr "End"
 
@@ -5583,10 +5808,6 @@ msgstr "Misspell word:"
 msgid "Zmień na:"
 msgstr "Replace to:"
 
-#: SpellCheckerDialog.cpp:57 findreplace.cpp:1333
-msgid "Ignoruj"
-msgstr "Ignore"
-
 #: SpellCheckerDialog.cpp:58
 msgid "Ignoruj wszystko"
 msgstr "Ignore All"
@@ -5611,282 +5832,455 @@ msgstr "No spelling errors were found"
 msgid "Słowa dodane do słownika"
 msgstr "Words added to dictionary"
 
-#: StyleChange.cpp:47
+#: StyleChange.cpp:45
 msgid "Edycja Stylu"
 msgstr "Style edition"
 
-#: StyleChange.cpp:64
+#: StyleChange.cpp:62
 msgid "Nazwa stylu:"
 msgstr "Style name:"
 
-#: StyleChange.cpp:71
+#: StyleChange.cpp:69
 msgid "Czcionka i rozmiar:"
 msgstr "Font and size:"
 
-#: StyleChange.cpp:87
+#: StyleChange.cpp:85
 msgid "Umorzliwia zarządzanie katalogami czcionek"
 msgstr "Manage font catalogs"
 
-#: StyleChange.cpp:142
+#: StyleChange.cpp:140
 msgid "Kolory i przezroczystość:"
 msgstr "Colors and transparency:"
 
-#: StyleChange.cpp:146
+#: StyleChange.cpp:144
 msgid "Pierwszy"
 msgstr "First"
 
-#: StyleChange.cpp:148
+#: StyleChange.cpp:146
 msgid "Drugi"
 msgstr "Second"
 
-#: StyleChange.cpp:150
+#: StyleChange.cpp:148
 msgid "Obwódka"
 msgstr "Border"
 
-#: StyleChange.cpp:152
+#: StyleChange.cpp:150
 msgid "Cień"
 msgstr "Shadow"
 
-#: StyleChange.cpp:172
+#: StyleChange.cpp:170
 msgid "Obwódka:"
 msgstr "Border:"
 
-#: StyleChange.cpp:172
+#: StyleChange.cpp:170
 msgid "Cień:"
 msgstr "Shadow:"
 
-#: StyleChange.cpp:172
+#: StyleChange.cpp:170
 msgid "Skala X:"
 msgstr "Scale X:"
 
-#: StyleChange.cpp:172
+#: StyleChange.cpp:170
 msgid "Skala Y:"
 msgstr "Scale Y:"
 
-#: StyleChange.cpp:187
+#: StyleChange.cpp:185
 msgid "Kąt:"
 msgstr "Angle:"
 
-#: StyleChange.cpp:187
+#: StyleChange.cpp:185
 msgid "Odstępy:"
 msgstr "Spacing:"
 
-#: StyleChange.cpp:187
+#: StyleChange.cpp:185
 msgid "Typ obwódki:"
 msgstr "Border type:"
 
-#: StyleChange.cpp:192
+#: StyleChange.cpp:190
 msgid "Prost. obw."
 msgstr "Opaque box"
 
-#: StyleChange.cpp:197
+#: StyleChange.cpp:195
 msgid "Margines lewy:"
 msgstr "Left margin:"
 
-#: StyleChange.cpp:197
+#: StyleChange.cpp:195
 msgid "Prawy:"
 msgstr "Right:"
 
-#: StyleChange.cpp:197
+#: StyleChange.cpp:195
 msgid "Pionowy:"
 msgstr "Vertical:"
 
-#: StyleChange.cpp:211
+#: StyleChange.cpp:209
 msgid "Położenie tekstu:"
 msgstr "Alignment:"
 
-#: StyleChange.cpp:241
+#: StyleChange.cpp:239
 msgid "0 - ANSI"
 msgstr "0 - ANSI"
 
-#: StyleChange.cpp:242
+#: StyleChange.cpp:240
 msgid "1 - Domyślny"
 msgstr "1 - Default"
 
-#: StyleChange.cpp:243
+#: StyleChange.cpp:241
 msgid "2 - Symbol"
 msgstr "2 - Symbol"
 
-#: StyleChange.cpp:244
+#: StyleChange.cpp:242
 msgid "77 - Mac"
 msgstr "77 - Mac"
 
-#: StyleChange.cpp:245
+#: StyleChange.cpp:243
 msgid "128 - Japoński"
 msgstr "128 - Japanese"
 
-#: StyleChange.cpp:246
+#: StyleChange.cpp:244
 msgid "129 - Koreański"
 msgstr "129 - Hangul"
 
-#: StyleChange.cpp:247
+#: StyleChange.cpp:245
 msgid "130 - Johab"
 msgstr "130 - Johab"
 
-#: StyleChange.cpp:248
+#: StyleChange.cpp:246
 msgid "134 - Chiński GB2312"
 msgstr "134 - Chinese GB2312"
 
-#: StyleChange.cpp:249
+#: StyleChange.cpp:247
 msgid "135 - Chiński BIG5"
 msgstr "135 - Chinese BIG5"
 
-#: StyleChange.cpp:250
+#: StyleChange.cpp:248
 msgid "161 - Grecki"
 msgstr "161 - Greek"
 
-#: StyleChange.cpp:251
+#: StyleChange.cpp:249
 msgid "162 - Turecki"
 msgstr "162 - Turkish"
 
-#: StyleChange.cpp:252
+#: StyleChange.cpp:250
 msgid "163 - Wietnamski"
 msgstr "163 - Vietnamese"
 
-#: StyleChange.cpp:253
+#: StyleChange.cpp:251
 msgid "177 - Hebrajski"
 msgstr "177 - Hebrew"
 
-#: StyleChange.cpp:254
+#: StyleChange.cpp:252
 msgid "178 - Arabski"
 msgstr "178 - Arabic"
 
-#: StyleChange.cpp:255
+#: StyleChange.cpp:253
 msgid "186 - Języki Bałtyckie"
 msgstr "186 - Baltic"
 
-#: StyleChange.cpp:256
+#: StyleChange.cpp:254
 msgid "204 - Rosyjski"
 msgstr "204 - Russian"
 
-#: StyleChange.cpp:257
+#: StyleChange.cpp:255
 msgid "222 - Tajski"
 msgstr "222 - Thai"
 
 # Aegisub has this as "East European"
-#: StyleChange.cpp:258
+#: StyleChange.cpp:256
 msgid "238 - Europa Środkowa (Polski)"
 msgstr "238 - Central European (Polish)"
 
-#: StyleChange.cpp:259
+#: StyleChange.cpp:257
 msgid "255 - OEM"
 msgstr "255 - OEM"
 
-#: StyleChange.cpp:261
+#: StyleChange.cpp:259
 msgid "Kodowanie tekstu:"
 msgstr "Text encoding:"
 
-#: StyleChange.cpp:265
+#: StyleChange.cpp:263
 msgid "Podgląd stylu:"
 msgstr "Style preview:"
 
-#: StyleChange.cpp:463
+#: StyleChange.cpp:461
 msgid "Zmienić wszystkie zaznaczone style?"
 msgstr "Change all selected styles?"
 
-#: StyleChange.cpp:693
+#: StyleChange.cpp:691
 msgid "Nazwa stylu"
 msgstr "Style name"
 
-#: StyleChange.cpp:695
+#: StyleChange.cpp:693
 msgid "Rozmiar czcionki"
 msgstr "Font size"
 
-#: StyleChange.cpp:704
+#: StyleChange.cpp:702
 msgid "Przezroczystość koloru podstawowego, 0 - brak, 255 - przezroczystość"
 msgstr "First color transparency, 0 - none, 255 - transparent"
 
-#: StyleChange.cpp:705
+#: StyleChange.cpp:703
 msgid "Przezroczystość koloru zastępczego, 0 - brak, 255 - przezroczystość"
 msgstr "Second color transparency, 0 - none, 255 - transparent"
 
-#: StyleChange.cpp:706
+#: StyleChange.cpp:704
 msgid "Przezroczystość koloru obwódki, 0 - brak, 255 - przezroczystość"
 msgstr "Border transparency, 0 - none, 255 - transparent"
 
-#: StyleChange.cpp:707
+#: StyleChange.cpp:705
 msgid "Przezroczystość koloru cienia, 0 - brak, 255 - przezroczystość"
 msgstr "Shadow transparency, 0 - none, 255 - transparent"
 
-#: StyleChange.cpp:708
+#: StyleChange.cpp:706
 msgid "Obwódka w pikselach"
 msgstr "Border size in pixels"
 
-#: StyleChange.cpp:709
+#: StyleChange.cpp:707
 msgid "Cień w pikselach"
 msgstr "Shadow size in pixels"
 
-#: StyleChange.cpp:710
+#: StyleChange.cpp:708
 msgid "Skala X w procentach"
 msgstr "Scale X in %"
 
-#: StyleChange.cpp:711
+#: StyleChange.cpp:709
 msgid "Skala Y w procentach"
 msgstr "Scale Y in %"
 
-#: StyleChange.cpp:712
+#: StyleChange.cpp:710
 msgid "Kąt w stopniach"
 msgstr "Rotation in degrees"
 
-#: StyleChange.cpp:713
+#: StyleChange.cpp:711
 msgid "Odstępy między literami w pikselach (wartości ujemne dozwolone)"
 msgstr "Spacing in pixels (negative values permitted)"
 
-#: StyleChange.cpp:714
+#: StyleChange.cpp:712
 msgid "Prostokątna obwódka"
 msgstr "Rectangular border"
 
-#: StyleChange.cpp:715 SubsGrid.cpp:455 SubsGrid.cpp:605
+#: StyleChange.cpp:713 SubsGrid.cpp:447 SubsGrid.cpp:598
 msgid "Margines prawy"
 msgstr "Right margin"
 
-#: StyleChange.cpp:716 SubsGrid.cpp:454 SubsGrid.cpp:604
+#: StyleChange.cpp:714 SubsGrid.cpp:446 SubsGrid.cpp:597
 msgid "Margines lewy"
 msgstr "Left margin"
 
-#: StyleChange.cpp:717
+#: StyleChange.cpp:715
 msgid "Margines górny i dolny"
 msgstr "Vertical margin"
 
-#: StyleChange.cpp:718
+#: StyleChange.cpp:716
 msgid "Lewy dolny róg"
 msgstr "Bottom left"
 
-#: StyleChange.cpp:719
+#: StyleChange.cpp:717
 msgid "Wyśrodkowane na dole"
 msgstr "Bottom center"
 
-#: StyleChange.cpp:720
+#: StyleChange.cpp:718
 msgid "Prawy dolny róg"
 msgstr "Bottom right"
 
-#: StyleChange.cpp:721
+#: StyleChange.cpp:719
 msgid "Wyśrodkowane po lewej"
 msgstr "Center left"
 
-#: StyleChange.cpp:722
+#: StyleChange.cpp:720
 msgid "Wyśrodkowane"
 msgstr "Center"
 
-#: StyleChange.cpp:723
+#: StyleChange.cpp:721
 msgid "Wyśrodkowane po prawej"
 msgstr "Center right"
 
-#: StyleChange.cpp:724
+#: StyleChange.cpp:722
 msgid "Lewy górny róg"
 msgstr "Top left"
 
-#: StyleChange.cpp:725
+#: StyleChange.cpp:723
 msgid "Wyśrodkowane u góry"
 msgstr "Top center"
 
-#: StyleChange.cpp:726
+#: StyleChange.cpp:724
 msgid "Prawy górny róg"
 msgstr "Top right"
 
-#: StyleChange.cpp:727
+#: StyleChange.cpp:725
 msgid "Kodowanie tekstu"
 msgstr "Text encoding"
+
+#: StyleStore.cpp:71 StyleStore.cpp:86 StyleStore.cpp:139
+msgid "Nowy"
+msgstr "New"
+
+#: StyleStore.cpp:73
+msgid "Usuń wybrany katalog stylów"
+msgstr "Delete chosen styles catalog"
+
+#: StyleStore.cpp:79
+msgid "Style katalogu:"
+msgstr "Styles stored:"
+
+#: StyleStore.cpp:91 StyleStore.cpp:144
+msgid "Sortuj"
+msgstr "Sort"
+
+#: StyleStore.cpp:106 StyleStore.cpp:155
+msgid "Przesuń zaznaczone style na sam początek"
+msgstr "Move selected styles to beginning"
+
+#: StyleStore.cpp:107 StyleStore.cpp:156
+msgid "Przesuń zaznaczone style w górę"
+msgstr "Move selected styles up"
+
+#: StyleStore.cpp:108 StyleStore.cpp:157
+msgid "Przesuń zaznaczone style w dół"
+msgstr "Move selected styles down"
+
+#: StyleStore.cpp:109 StyleStore.cpp:158
+msgid "Przesuń zaznaczone style na sam koniec"
+msgstr "Move selected styles to end"
+
+#: StyleStore.cpp:124
+msgid "Dodaj do magazynu"
+msgstr "Add to storage"
+
+#: StyleStore.cpp:125
+msgid "Dodaj do ASS"
+msgstr "Add to ASS"
+
+#: StyleStore.cpp:126
+msgid "Dodaj do wszystkich otwartych ASS"
+msgstr "Add to all opened ASS files"
+
+#: StyleStore.cpp:131
+msgid "Style pliku ASS:"
+msgstr "Styles in ASS file:"
+
+#: StyleStore.cpp:145
+msgid "Oczyść"
+msgstr "Clear"
+
+#: StyleStore.cpp:172
+msgid "Odepnij okno edycji"
+msgstr "Detach edition window"
+
+#: StyleStore.cpp:277 StyleStore.cpp:309 StyleStore.cpp:348 StyleStore.cpp:641
+#, c-format
+msgid "Styl o nazwie \"%s\" istnieje, podmienić go?"
+msgstr "Style named \"%s\" already exists. Replace?"
+
+#: StyleStore.cpp:435
+#, c-format
+msgid "Styl o nazwie \"%s\" jest już na liście."
+msgstr "Style named \"%s\" already exists."
+
+#: StyleStore.cpp:497
+msgid "Nazwa stylu została zmieniona, czy chcesz zmienić ją także w napisach?"
+msgstr ""
+"Style name modified. Do you want to change all instances to the new name?"
+
+#: StyleStore.cpp:601
+msgid "Wybierz plik ASS"
+msgstr "Choose ASS file"
+
+#: StyleStore.cpp:602
+msgid "Pliki napisów ASS(*.ass)|*.ass"
+msgstr "ASS subtitle files(*.ass)|*.ass"
+
+# tekst dodawany przed kopią stylu
+#: StyleStore.cpp:680 StyleStore.cpp:691
+msgid "Kopia "
+msgstr "Copy of "
+
+#: StyleStore.cpp:702 StyleStore.cpp:720
+msgid "Nowy Styl"
+msgstr "New Style"
+
+#: StyleStore.cpp:763
+#, c-format
+msgid ""
+"Używane style:\n"
+"%s\n"
+"Usunięte style:\n"
+"%s"
+msgstr ""
+"Styles used:\n"
+"%s\n"
+"Styles deleted:\n"
+"%s"
+
+#: StyleStore.cpp:764
+msgid "Status usuniętych stylów"
+msgstr "Status of deleted styles"
+
+#: StyleStore.cpp:770
+msgid "Katalog stylów"
+msgstr "Styles catalog"
+
+#: StyleStore.cpp:771
+msgid "Nowy katalog stylów"
+msgstr "New styles catalog"
+
+#: StyleStore.cpp:772
+msgid "Utwórz nowy styl magazynu"
+msgstr "Create new style in storage"
+
+#: StyleStore.cpp:773
+msgid "Edytuj zaznaczony styl magazynu"
+msgstr "Edit selected storage style"
+
+#: StyleStore.cpp:774
+msgid "Kopiuj styl magazynu"
+msgstr "Copy the style in storage"
+
+#: StyleStore.cpp:775
+msgid "Wczytaj do magazynu styl z pliku ass"
+msgstr "Load style from external ASS file to storage"
+
+#: StyleStore.cpp:776
+msgid "Usuń styl z magazynu"
+msgstr "Delete style from storage"
+
+#: StyleStore.cpp:777
+msgid "Sortuj style w magazynie"
+msgstr "Sort styles in storage"
+
+#: StyleStore.cpp:778
+msgid "Utwórz nowy styl napisów"
+msgstr "Create new ASS style"
+
+#: StyleStore.cpp:779
+msgid "Edytuj zaznaczony styl napisów"
+msgstr "Edit selected ASS style"
+
+#: StyleStore.cpp:780
+msgid "Kopiuj styl napisów"
+msgstr "Copy style of ASS"
+
+#: StyleStore.cpp:781
+msgid "Wczytaj do napisów styl z pliku ass"
+msgstr "Load style from external ASS file"
+
+#: StyleStore.cpp:782
+msgid "Usuń styl z napisów"
+msgstr "Delete style from ASS"
+
+#: StyleStore.cpp:783
+msgid "Sortuj style w napisach"
+msgstr "Sort styles in ASS"
+
+#: StyleStore.cpp:784
+msgid "Dodaj do magazynu styl z napisów"
+msgstr "Copy style from ASS to storage"
+
+#: StyleStore.cpp:785
+msgid "Dodaj do napisów styl z magazynu"
+msgstr "Copy style from storage to ASS"
+
+#: StyleStore.cpp:786
+msgid "Oczyść napisy z nieużywanych stylów"
+msgstr "Delete unused ASS styles"
 
 #: Stylelistbox.cpp:27 Stylelistbox.cpp:45
 msgid "Wybór stylów"
@@ -5920,376 +6314,372 @@ msgstr "elements"
 msgid "elementów"
 msgstr "elements"
 
-#: SubsFile.cpp:114
+#: SubsFile.cpp:115
 msgid "Otwarcie napisów"
 msgstr "Subtitles opening"
 
-#: SubsFile.cpp:115
+#: SubsFile.cpp:116
 msgid "Nowe napisy"
 msgstr "New subtitles"
 
-#: SubsFile.cpp:116
+#: SubsFile.cpp:117
 msgid "Edycja linii"
 msgstr "Line edition"
 
-#: SubsFile.cpp:117
+#: SubsFile.cpp:118
 msgid "Edycja wielu linii"
 msgstr "Multiline edition"
 
-#: SubsFile.cpp:118
+#: SubsFile.cpp:119
 msgid "Poprawa błędu pisowni w polu tekstowym"
 msgstr "Correcting spell errors in text field"
 
-#: SubsFile.cpp:119
+#: SubsFile.cpp:120
 msgid "Powielenie linijek"
 msgstr "Duplicating lines"
 
-#: SubsFile.cpp:120
+#: SubsFile.cpp:121
 msgid "Połączenie linijek"
 msgstr "Joining lines"
 
-#: SubsFile.cpp:121
+#: SubsFile.cpp:122
 msgid "Połączenie linijki z poprzednią"
 msgstr "Joining line with previous"
 
-#: SubsFile.cpp:122
+#: SubsFile.cpp:123
 msgid "Połączenie linijki z następną"
 msgstr "Joining line with next"
 
-#: SubsFile.cpp:123
+#: SubsFile.cpp:124
 msgid "Połączenie linijek pozostawienie pierwszej"
 msgstr "Joining lines and keep first"
 
-#: SubsFile.cpp:124
+#: SubsFile.cpp:125
 msgid "Połączenie linijek pozostawienie ostatniej"
 msgstr "Joining lines and keep last"
 
-#: SubsFile.cpp:125
+#: SubsFile.cpp:126
 msgid "Wklejenie linijek"
 msgstr "Pasting lines"
 
-#: SubsFile.cpp:126
+#: SubsFile.cpp:127
 msgid "Wklejenie kolumn"
 msgstr "Pasting columns"
 
-#: SubsFile.cpp:127
+#: SubsFile.cpp:128
 msgid "Wklejenie tłumaczenia"
 msgstr "Pasting translation"
 
-#: SubsFile.cpp:128
+#: SubsFile.cpp:129
 msgid "Przesunięcie tekstu tłumaczenia"
 msgstr "Moving translation text"
 
-#: SubsFile.cpp:129
+#: SubsFile.cpp:130
 msgid "Ustawienie czasów linii jako ciągłych"
 msgstr "Setting times as continues"
 
-#: SubsFile.cpp:130
+#: SubsFile.cpp:131
 msgid "Ustawienie FPSu obliczonego z wideo"
 msgstr "Setting FPS from video"
 
-#: SubsFile.cpp:131
+#: SubsFile.cpp:132
 msgid "Ustawienie własnego FPSu"
 msgstr "Setting custom FPS"
 
-#: SubsFile.cpp:132
+#: SubsFile.cpp:133
 msgid "Zamiana linijek"
 msgstr "Swapping lines"
 
-#: SubsFile.cpp:133
+#: SubsFile.cpp:134
 msgid "Konwersja napisów"
 msgstr "Subtitles conversion"
 
-#: SubsFile.cpp:134
+#: SubsFile.cpp:135
 msgid "Sortowanie napisów"
 msgstr "Sorting subtitles"
 
-#: SubsFile.cpp:135
+#: SubsFile.cpp:136
 msgid "Usunięcie linijek"
 msgstr "Deleting lines"
 
-#: SubsFile.cpp:136
+#: SubsFile.cpp:137
 msgid "Usunięcie tekstu"
 msgstr "Deleting text"
 
-#: SubsFile.cpp:137
+#: SubsFile.cpp:138
 msgid "Ustawienie czasu początkowego"
 msgstr "Setting start time"
 
-#: SubsFile.cpp:138
+#: SubsFile.cpp:139
 msgid "Ustawienie czasu końcowego"
 msgstr "Setting end time"
 
-#: SubsFile.cpp:139
+#: SubsFile.cpp:140
 msgid "Włączenie trybu tłumacza"
 msgstr "Turn on translator mode"
 
-#: SubsFile.cpp:140
+#: SubsFile.cpp:141
 msgid "Wyłączenie trybu tłumacza"
 msgstr "Turn off translator mode"
 
-#: SubsFile.cpp:141
+#: SubsFile.cpp:142
 msgid "Dodanie nowej linii"
 msgstr "Adding new line"
 
-#: SubsFile.cpp:142
+#: SubsFile.cpp:143
 msgid "Wstawienie linii"
 msgstr "Inserting line"
 
-#: SubsFile.cpp:143
+#: SubsFile.cpp:144
 msgid "Zmiana czasu na wykresie audio"
 msgstr "Changing time on audio spectrum"
 
-#: SubsFile.cpp:144
+#: SubsFile.cpp:145
 msgid "Przyklejenie do klatki kluczowej"
 msgstr "Snapping to keyframe"
 
-#: SubsFile.cpp:145
+#: SubsFile.cpp:146
 msgid "Zmiana nagłówku napisów"
 msgstr "Changing subtitles properties"
 
-#: SubsFile.cpp:146
+#: SubsFile.cpp:147
 msgid "Akcja zaznacz linijki"
 msgstr "Select lines action"
 
-#: SubsFile.cpp:147
+#: SubsFile.cpp:148
 msgid "Przesunięcie czasów"
 msgstr "Shifting times"
 
-#: SubsFile.cpp:148
+#: SubsFile.cpp:149
 msgid "Poprawa błędu pisowni"
 msgstr "Correcting spell errors"
 
-#: SubsFile.cpp:149
+#: SubsFile.cpp:150
 msgid "Edycja stylów"
 msgstr "Style edition"
 
-#: SubsFile.cpp:150
+#: SubsFile.cpp:151
 msgid "Zmiana rozdzielczości napisów"
 msgstr "Changing subtitles resolution"
 
-#: SubsFile.cpp:151
+#: SubsFile.cpp:152
 msgid "Narzędzie pozycjonowania"
 msgstr "Visual tool positioning"
 
-#: SubsFile.cpp:152
+#: SubsFile.cpp:153
 msgid "Narzędzie ruchu"
 msgstr "Visual tool moving"
 
-#: SubsFile.cpp:153
+#: SubsFile.cpp:154
 msgid "Narzędzie skalowania"
 msgstr "Visual tool scaling"
 
-#: SubsFile.cpp:154
+#: SubsFile.cpp:155
 msgid "Narzędzie obrotów w osi Z"
 msgstr "Visual tool axis Z rotation"
 
-#: SubsFile.cpp:155
+#: SubsFile.cpp:156
 msgid "Narzędzie obrotów w osiach X i Y"
 msgstr "Visual tool axis X and Y rotation"
 
-#: SubsFile.cpp:156
+#: SubsFile.cpp:157
 msgid "Narzędzie wycinków prostokątnych"
 msgstr "Visual tool rectangle clipping"
 
-#: SubsFile.cpp:157
+#: SubsFile.cpp:158
 msgid "Narzędzie wycinków wektorowych"
 msgstr "Visual tool vector clipping"
 
-#: SubsFile.cpp:158
+#: SubsFile.cpp:159
 msgid "Narzędzie rysunków wektorowych"
 msgstr "Visual tool vector drawing"
 
-#: SubsFile.cpp:159
+#: SubsFile.cpp:160
 msgid "Narzędzie zmieniacz pozycji"
 msgstr "Visual tool position shifting"
 
-#: SubsFile.cpp:160
+#: SubsFile.cpp:161
 msgid "Narzędzie zmieniacz skali i obrotów"
 msgstr "Visual tool scale and rotation shift"
 
-#: SubsFile.cpp:161
+#: SubsFile.cpp:162
 msgid "Narzędzie hydra"
 msgstr "Visual tool hydra"
 
-#: SubsFile.cpp:164
+#: SubsFile.cpp:165
 msgid "Poprawa drobnych błędów"
 msgstr "Multireplacer"
 
-#: SubsFile.cpp:165
+#: SubsFile.cpp:166
 msgid "Wstawienie drzewka"
 msgstr "Adding tree"
 
-#: SubsFile.cpp:166
+#: SubsFile.cpp:167
 msgid "Ustawienie opisu"
 msgstr "Adding tree description"
 
-#: SubsFile.cpp:167
+#: SubsFile.cpp:168
 msgid "Dodanie linii do drzewka"
 msgstr "Adding line to tree"
 
-#: SubsFile.cpp:168
+#: SubsFile.cpp:169
 msgid "Usunięcie drzewka"
 msgstr "Remove tree"
 
-#: SubsFile.cpp:169
+#: SubsFile.cpp:170
 msgid "Skrypt automatyzacji"
 msgstr "Automation script"
 
-#: SubsFile.cpp:682
+#: SubsFile.cpp:171 SubsGrid.cpp:209
+msgid "Filtrowanie"
+msgstr "Filter"
+
+#: SubsFile.cpp:684
 #, c-format
 msgid ", aktywna linia %i"
 msgstr ", active line %i"
 
-#: SubsGrid.cpp:159
+#: SubsGrid.cpp:151
 msgid "Ukryj łamania linii"
 msgstr "Hide line wraps"
 
-#: SubsGrid.cpp:174
+#: SubsGrid.cpp:166
 msgid "Nie obejmuje zaznaczonych linii"
 msgstr "Don't take into account selected lines"
 
-#: SubsGrid.cpp:188
+#: SubsGrid.cpp:180
 msgid "Wstaw &przed"
 msgstr "Insert before"
 
-#: SubsGrid.cpp:189
+#: SubsGrid.cpp:181
 msgid "Wstaw p&o"
 msgstr "Insert after"
 
-#: SubsGrid.cpp:191
+#: SubsGrid.cpp:183
 msgid "Wstaw przed z &czasem wideo"
 msgstr "Insert before with &video time"
 
-#: SubsGrid.cpp:192
+#: SubsGrid.cpp:184
 msgid "Wstaw po z c&zasem wideo"
 msgstr "Insert &after with video time"
 
-#: SubsGrid.cpp:196
+#: SubsGrid.cpp:188
 msgid "&Duplikuj linie"
 msgstr "&Duplicate lines"
 
-#: SubsGrid.cpp:198
+#: SubsGrid.cpp:190
 msgid "Za&mień"
 msgstr "Swap"
 
-#: SubsGrid.cpp:200
+#: SubsGrid.cpp:192
 msgid "Złącz &linijki"
 msgstr "Join lines"
 
-#: SubsGrid.cpp:209
-msgid "Zaznacz wszystkie linie widoczne na wideo"
-msgstr "Select all lines visible on video"
-
-#: SubsGrid.cpp:210
+#: SubsGrid.cpp:202
 msgid "Kopiuj\tCtrl-C"
 msgstr "Copy\tCtrl-C"
 
-#: SubsGrid.cpp:211
+#: SubsGrid.cpp:203
 msgid "Wytnij\tCtrl-X"
 msgstr "Cut\tCtrl-X"
 
-#: SubsGrid.cpp:212
+#: SubsGrid.cpp:204
 msgid "Wklej\tCtrl-V"
 msgstr "Paste\tCtrl-V"
 
-#: SubsGrid.cpp:215
+#: SubsGrid.cpp:207
 msgid "Ukryj kolumny"
 msgstr "Hide columns"
 
-#: SubsGrid.cpp:217
-msgid "Filtrowanie"
-msgstr "Filter"
-
-#: SubsGrid.cpp:233
+#: SubsGrid.cpp:225
 msgid "Wczytaj napisy z pliku MKV / OGM"
 msgstr "Load subtitles of MKV / OGM file"
 
-#: SubsGrid.cpp:259
+#: SubsGrid.cpp:251
 msgid "Dodaj linie"
 msgstr "Add lines"
 
-#: SubsGrid.cpp:260
+#: SubsGrid.cpp:252
 msgid "Kopiuj drzewko"
 msgstr "Copy tree"
 
-#: SubsGrid.cpp:261
+#: SubsGrid.cpp:253
 msgid "Zmień opis"
 msgstr "Change description"
 
-#: SubsGrid.cpp:262
+#: SubsGrid.cpp:254
 msgid "Zaznacz linie drzewka"
 msgstr "Select tree lines"
 
-#: SubsGrid.cpp:456 SubsGrid.cpp:606
+#: SubsGrid.cpp:448 SubsGrid.cpp:599
 msgid "Margines pionowy"
 msgstr "Vertical margin"
 
-#: SubsGrid.cpp:459
+#: SubsGrid.cpp:451
 msgid "Tekst do oryginału"
 msgstr "Text into original"
 
-#: SubsGrid.cpp:460
+#: SubsGrid.cpp:452
 msgid "Tekst do tłumaczenia"
 msgstr "Text into translation"
 
-#: SubsGrid.cpp:609
+#: SubsGrid.cpp:602
 msgid "Tekst bez tagów"
 msgstr "Text without tags"
 
-#: SubsGrid.cpp:875
+#: SubsGrid.cpp:868
 msgid "Pliki napisów (*.ass),(*.srt),(*.sub),(*.txt)|*.ass;*.srt;*.sub;*.txt"
 msgstr "Subtitle files (*.ass),(*.srt),(*.sub),(*.txt)|*.ass;*.srt;*.sub;*.txt"
 
-#: SubsGrid.cpp:1066
+#: SubsGrid.cpp:1059
 msgid "Zapisać plik przed wczytaniem napisów z MKV?"
 msgstr "Save the file before loading the subtitles of MKV?"
 
-#: SubsGrid.cpp:1106
+#: SubsGrid.cpp:1099
 msgid "Otwieranie napisów nie powiodło się"
 msgstr "Cannot open subtitles"
 
-#: SubsGrid.cpp:1241 SubsGrid.cpp:1271 SubsGrid.cpp:1291
+#: SubsGrid.cpp:1234 SubsGrid.cpp:1264 SubsGrid.cpp:1284
 #, c-format
 msgid ""
 "W linii %i nie można przeskalować wartości '%s'\n"
 "w tagu '%s'"
 msgstr "In line %i can't scale '%s' in tag '%s'"
 
-#: SubsGrid.cpp:1417
+#: SubsGrid.cpp:1410
 msgid "Wyłącz potwierdzenie"
 msgstr "Turn-off warning"
 
-#: SubsGridBase.cpp:238
+#: SubsGridBase.cpp:236
 msgid "Nieprawidłowy FPS. Popraw opcje i spróbuj ponownie."
 msgstr "Invalid FPS. Correct it in options and try again."
 
-#: SubsGridBase.cpp:490 SubsGridBase.cpp:649
+#: SubsGridBase.cpp:489 SubsGridBase.cpp:648
 msgid "Wideo nie zostało wczytane przez FFMS2"
 msgstr "Video wasn't loaded using FFMS2"
 
-#: SubsGridBase.cpp:519
+#: SubsGridBase.cpp:518
 msgid "Nie wybrano stylów do przesunięcia"
 msgstr "Do not choose styles to shift time with"
 
-#: SubsGridBase.cpp:537
+#: SubsGridBase.cpp:536
 #, c-format
 msgid "Czy naprawdę chcesz przesuwać tylko czasy %s?"
 msgstr "Do you really want to shift only %s times?"
 
-#: SubsGridBase.cpp:538
+#: SubsGridBase.cpp:537
 msgid "początkowe"
 msgstr "start"
 
-#: SubsGridBase.cpp:538
+#: SubsGridBase.cpp:537
 msgid "końcowe"
 msgstr "end"
 
-#: SubsGridBase.cpp:548
+#: SubsGridBase.cpp:547
 msgid "Nie zaznaczono linii do przesunięcia"
 msgstr "No lines selected for shifting"
 
-#: SubsGridBase.cpp:1399
+#: SubsGridBase.cpp:1398
 msgid ""
 "Czy na pewno chcesz wyłączyć tryb tłumacza?\n"
 "Obcojęzyczny tekst przetłumaczonych linijek zostanie usunięty."
@@ -6329,48 +6719,48 @@ msgstr "Set tree name"
 msgid "Zmień nazwę drzewka"
 msgstr "Change tree name"
 
-#: SubsGridWindow.cpp:248 SubsGridWindow.cpp:636 SubsGridWindow.cpp:1072
-#: SubsGridWindow.cpp:1238
+#: SubsGridWindow.cpp:251 SubsGridWindow.cpp:646 SubsGridWindow.cpp:1083
+#: SubsGridWindow.cpp:1249
 msgid "W."
 msgstr "L."
 
-#: SubsGridWindow.cpp:250 SubsGridWindow.cpp:638 SubsGridWindow.cpp:1072
-#: SubsGridWindow.cpp:1079 SubsGridWindow.cpp:1238 SubsGridWindow.cpp:1245
+#: SubsGridWindow.cpp:253 SubsGridWindow.cpp:648 SubsGridWindow.cpp:1083
+#: SubsGridWindow.cpp:1090 SubsGridWindow.cpp:1249 SubsGridWindow.cpp:1256
 msgid "Start"
 msgstr "Start"
 
-#: SubsGridWindow.cpp:257 SubsGridWindow.cpp:645
+#: SubsGridWindow.cpp:260 SubsGridWindow.cpp:655
 msgid "M.L."
 msgstr "Left"
 
-#: SubsGridWindow.cpp:258 SubsGridWindow.cpp:646
+#: SubsGridWindow.cpp:261 SubsGridWindow.cpp:656
 msgid "M.P."
 msgstr "Right"
 
-#: SubsGridWindow.cpp:259 SubsGridWindow.cpp:647 SubsGridWindow.cpp:1104
-#: SubsGridWindow.cpp:1270
+#: SubsGridWindow.cpp:262 SubsGridWindow.cpp:657 SubsGridWindow.cpp:1115
+#: SubsGridWindow.cpp:1281
 msgid "M.Pi."
 msgstr "Vert."
 
-#: SubsGridWindow.cpp:262 SubsGridWindow.cpp:651 SubsGridWindow.cpp:1118
-#: SubsGridWindow.cpp:1284
+#: SubsGridWindow.cpp:265 SubsGridWindow.cpp:661 SubsGridWindow.cpp:1129
+#: SubsGridWindow.cpp:1295
 msgid "ZNS"
 msgstr "CPS"
 
-#: SubsGridWindow.cpp:263 SubsGridWindow.cpp:653 SubsGridWindow.cpp:1123
-#: SubsGridWindow.cpp:1289
+#: SubsGridWindow.cpp:266 SubsGridWindow.cpp:663 SubsGridWindow.cpp:1134
+#: SubsGridWindow.cpp:1300
 msgid "Łamania"
 msgstr "Wraps"
 
-#: SubsGridWindow.cpp:264 SubsGridWindow.cpp:654
+#: SubsGridWindow.cpp:267 SubsGridWindow.cpp:664
 msgid "Tekst oryginalny"
 msgstr "Original text"
 
-#: SubsGridWindow.cpp:265 SubsGridWindow.cpp:655 TLDialog.cpp:44
+#: SubsGridWindow.cpp:268 SubsGridWindow.cpp:665 TLDialog.cpp:44
 msgid "Tekst tłumaczenia"
 msgstr "Translation"
 
-#: SubsGridWindow.cpp:2018
+#: SubsGridWindow.cpp:2029
 msgid ""
 "Nie można wyświetlić podglądu, ponieważ wielkość okna napisów jest zbyt mała"
 msgstr "Cannot show preview cause grid height is too low"
@@ -6565,6 +6955,14 @@ msgstr ""
 "original - subtitles with right timing, you can see it to compare lines, it "
 "will be deleted\n"
 "translation - subtitles you paste into the right timing."
+
+#: TabPanel.cpp:297
+msgid "Napisy zostały zmodyfikowane przez inny program, przeładować?"
+msgstr "Subtiltes was modified by another program, reload?"
+
+#: TabPanel.cpp:297
+msgid "Przeładowywanie"
+msgstr "Reloading"
 
 #: TextEditorTagList.cpp:132
 msgid "Pokaż opis"
@@ -6916,65 +7314,65 @@ msgstr ""
 "File isn't a correct video file or is corrupted\n"
 "or codecs or splitter might be missing"
 
-#: VideoBox.cpp:801
+#: VideoBox.cpp:809
 msgid "Czy na pewno chcesz zindeksować poprzednie wideo?"
 msgstr "Are you sure you want to index the previous video?"
 
-#: VideoBox.cpp:813
+#: VideoBox.cpp:821
 msgid "Czy na pewno chcesz zindeksować następne wideo?"
 msgstr "Are you sure you want to index the next video?"
 
-#: VideoBox.cpp:834
+#: VideoBox.cpp:842
 msgid "Odtwórz"
 msgstr "Play"
 
-#: VideoBox.cpp:835
+#: VideoBox.cpp:843
 msgid "Pauza"
 msgstr "Pause"
 
-#: VideoBox.cpp:838
+#: VideoBox.cpp:846
 msgid "Kopiuj pozycję na wideo"
 msgstr "Copy video position"
 
-#: VideoBox.cpp:843
+#: VideoBox.cpp:851
 msgid "Pełny ekran\tF"
 msgstr "Full screen\tF"
 
-#: VideoBox.cpp:844
+#: VideoBox.cpp:852
 msgid "Wyłącz pełny ekran\tEscape"
 msgstr "Exit full screen\tEscape"
 
-#: VideoBox.cpp:852
+#: VideoBox.cpp:860
 #, c-format
 msgid "Przełącz pełny ekran na %i monitor"
 msgstr "Switch full screen to monitor %i"
 
-#: VideoBox.cpp:853
+#: VideoBox.cpp:861
 #, c-format
 msgid "Włącz pełny ekran na %i monitorze"
 msgstr "Open in full screen on monitor %i"
 
-#: VideoBox.cpp:857
+#: VideoBox.cpp:865
 msgid "Otwórz edytor"
 msgstr "Open editor"
 
-#: VideoBox.cpp:894
+#: VideoBox.cpp:902
 msgid "Filtry"
 msgstr "Filters"
 
-#: VideoBox.cpp:894
+#: VideoBox.cpp:902
 msgid "Wyświetla użyte filtry"
 msgstr "Shows used filters"
 
-#: VideoBox.cpp:978
+#: VideoBox.cpp:986
 msgid "Czy na pewno chcesz przenieść wczytany plik wideo do kosza?"
 msgstr "Are you sure you want to move loaded video to recycle bin?"
 
-#: VideoBox.cpp:978
+#: VideoBox.cpp:986
 msgid "Usuwanie"
 msgstr "Deleting"
 
-#: VideoBox.cpp:991
+#: VideoBox.cpp:999
 msgid ""
 "Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
 "(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
@@ -6984,7 +7382,7 @@ msgstr ""
 "(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
 "All files (*.*)|*.*"
 
-#: VideoBox.cpp:1006
+#: VideoBox.cpp:1014
 msgid "Pliki napisów (*.ass),(*.sub),(*.txt)|*.ass;*.sub;*.txt"
 msgstr "Subtitle files (*.ass),(*.sub),(*.txt)|*.ass;*.sub;*.txt"
 
@@ -7274,124 +7672,144 @@ msgstr "Insert"
 msgid "Pomnóż"
 msgstr "Multiply"
 
-#: VideoToolbar.cpp:747 VideoToolbar.cpp:748 VideoToolbar.cpp:799
+#: VideoToolbar.cpp:747 VideoToolbar.cpp:749 VideoToolbar.cpp:805
 #: VisualAllTagsEdition.cpp:86
 msgid "Pomnóż+"
 msgstr "Multiply+"
 
 #: VideoToolbar.cpp:747 VisualAllTagsEdition.cpp:86
-msgid "Gradient tekst"
-msgstr "Gradient text"
+msgid "Gradient tekst rosnąco"
+msgstr "Gradient text increasing"
 
-#: VideoToolbar.cpp:747 VisualAllTagsEdition.cpp:86
-msgid "Gradient linia"
-msgstr "Gradient line"
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+msgid "Gradient tekst malejąco"
+msgstr "Gradient text decreasing"
 
-#: VideoToolbar.cpp:750
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+msgid "Gradient linia rosnąco"
+msgstr "Gradient line increasing"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+msgid "Gradient linia malejąco"
+msgstr "Gradient line decreasing"
+
+#: VideoToolbar.cpp:751
 msgid ""
 "Opcje zmiany tagów:\n"
 "Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
 "Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
 "albo na początku w przypadku wielu linii.\n"
 "Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
-"pierwsza linia nie jest zmieniana."
+"pierwsza linia nie jest zmieniana.\n"
+"Gradnient tekst rosnąco - wstawia tag co znak rosnąco\n"
+"Gradnient tekst malejąco - wstawia tag co znak malejąco\n"
+"Gradient linia rosnąco - wstawia tag w zaznaczone linie rosnąco\n"
+"Gradient linia malejąco - wstawia tag w zaznaczone linie malejąco"
 msgstr ""
 "Options of tag changing:\n"
 "Add - changes all tags adding move on slider.\n"
 "Insert - inserts tag in cursor position when one line \n"
 "or on start of line when multiline.\n"
 "Multiply - multiply move of slider by number od selected line\n"
-"first line is not changes. Made for cascade placing."
+"first line is not changes. Made for cascade placing.\n"
+"Gradient text increasing - put tag in every character\n"
+"increasing it for number on slider\n"
+"Gradient text decreasing - put tag in every character\n"
+"decreasing it from number on slider\n"
+"Gradient line increasing - put tag in every line\n"
+"increasing it for number on slider\n"
+"Gradient line decreasing - put tag in every line\n"
+"decreasing it from number on slider"
 
-#: VideoToolbar.cpp:772
+#: VideoToolbar.cpp:778
 msgid "Edycja tagów z listy oraz tworzenie nowych"
 msgstr "Edition list tags or adding a new tags"
 
-#: VideoToolbar.cpp:1087
+#: VideoToolbar.cpp:1093
 msgid "Lewo-dół"
 msgstr "Left-bottom"
 
-#: VideoToolbar.cpp:1087
+#: VideoToolbar.cpp:1093
 msgid "Środek-dół"
 msgstr "Center-bottom"
 
-#: VideoToolbar.cpp:1087
+#: VideoToolbar.cpp:1093
 msgid "Prawo-dół"
 msgstr "Right-bottom"
 
-#: VideoToolbar.cpp:1088
+#: VideoToolbar.cpp:1094
 msgid "Lewo-środek"
 msgstr "Left-center"
 
-#: VideoToolbar.cpp:1088
+#: VideoToolbar.cpp:1094
 msgid "Środek"
 msgstr "Center"
 
-#: VideoToolbar.cpp:1088
+#: VideoToolbar.cpp:1094
 msgid "Prawo-środek"
 msgstr "Right-center"
 
-#: VideoToolbar.cpp:1089
+#: VideoToolbar.cpp:1095
 msgid "Lewo-góra"
 msgstr "Left-top"
 
-#: VideoToolbar.cpp:1089
+#: VideoToolbar.cpp:1095
 msgid "Środek-góra"
 msgstr "Center-top"
 
-#: VideoToolbar.cpp:1089
+#: VideoToolbar.cpp:1095
 msgid "Prawo-góra"
 msgstr "Right-top"
 
-#: VideoToolbar.cpp:1091
+#: VideoToolbar.cpp:1097
 msgid "Lewo-poniżej"
 msgstr "Left-below"
 
-#: VideoToolbar.cpp:1091
+#: VideoToolbar.cpp:1097
 msgid "Środek-poniżej"
 msgstr "Center-below"
 
-#: VideoToolbar.cpp:1091
+#: VideoToolbar.cpp:1097
 msgid "Prawo-poniżej"
 msgstr "Right-below"
 
-#: VideoToolbar.cpp:1092
+#: VideoToolbar.cpp:1098
 msgid "Lewo-ponad"
 msgstr "Left-above"
 
-#: VideoToolbar.cpp:1092
+#: VideoToolbar.cpp:1098
 msgid "Środek-ponad"
 msgstr "Center-above"
 
-#: VideoToolbar.cpp:1092
+#: VideoToolbar.cpp:1098
 msgid "Prawo-ponad"
 msgstr "Right-above"
 
-#: VideoToolbar.cpp:1093
+#: VideoToolbar.cpp:1099
 msgid "Przed-góra"
 msgstr "Before-top"
 
-#: VideoToolbar.cpp:1093
+#: VideoToolbar.cpp:1099
 msgid "Przed-środek"
 msgstr "Before-center"
 
-#: VideoToolbar.cpp:1093
+#: VideoToolbar.cpp:1099
 msgid "Przed-dół"
 msgstr "Before-bottom"
 
-#: VideoToolbar.cpp:1094
+#: VideoToolbar.cpp:1100
 msgid "Za-góra"
 msgstr "After-top"
 
-#: VideoToolbar.cpp:1094
+#: VideoToolbar.cpp:1100
 msgid "Za-środek"
 msgstr "After-center"
 
-#: VideoToolbar.cpp:1094
+#: VideoToolbar.cpp:1100
 msgid "Za-dół"
 msgstr "After-bottom"
 
-#: VideoToolbar.cpp:1103
+#: VideoToolbar.cpp:1109
 msgid "Położenie tekstu, działa podobnie jak w stylach"
 msgstr "Text placing works similar like in styles"
 
@@ -7451,70 +7869,70 @@ msgstr "Clip rectangle with \\t animation"
 msgid "Liczby po przecinku:"
 msgstr "Number after dot:"
 
-#: VisualAllTagsEdition.cpp:87
+#: VisualAllTagsEdition.cpp:88
 msgid "Brak dodatkowych wartości"
 msgstr "No additional values"
 
-#: VisualAllTagsEdition.cpp:88
+#: VisualAllTagsEdition.cpp:89
 msgid "Jedna dodatkowa wartość"
 msgstr "One additional value"
 
-#: VisualAllTagsEdition.cpp:89
+#: VisualAllTagsEdition.cpp:90
 msgid "Dwie dodatkowe wartości"
 msgstr "Two additional values"
 
-#: VisualAllTagsEdition.cpp:90
+#: VisualAllTagsEdition.cpp:91
 msgid "Trzy dodatkowe wartości"
 msgstr "Three additional values"
 
-#: VisualAllTagsEdition.cpp:92
+#: VisualAllTagsEdition.cpp:93
 msgid "Używane tylko w przypadku gdy tag ma 2 wartości bądź więcej"
 msgstr "Used only when tag have 2 values or more"
 
 # Zły: nie mam pojęcia jak to przetłumaczyć, zostawiam jak było
-#: VisualAllTagsEdition.cpp:95
+#: VisualAllTagsEdition.cpp:96
 msgid "Opcje zmiany tagów"
 msgstr "Change tags options"
 
-#: VisualAllTagsEdition.cpp:101
+#: VisualAllTagsEdition.cpp:102
 #, c-format
 msgid "Wartość %i"
 msgstr "Value %i"
 
-#: VisualAllTagsEdition.cpp:111
+#: VisualAllTagsEdition.cpp:112
 msgid "Dodatkowe wartości:"
 msgstr "Additional values:"
 
-#: VisualAllTagsEdition.cpp:127 VisualDrawingShapes.cpp:104
+#: VisualAllTagsEdition.cpp:128 VisualDrawingShapes.cpp:104
 msgid "Przywróć domyślne"
 msgstr "Restore default"
 
-#: VisualAllTagsEdition.cpp:149 VisualDrawingShapes.cpp:127
+#: VisualAllTagsEdition.cpp:150 VisualDrawingShapes.cpp:127
 msgid "Czy na pewno chcesz przywrócić ustawienia domyślne?"
 msgstr "Are you sure you want to reset to default?"
 
-#: VisualAllTagsEdition.cpp:166
+#: VisualAllTagsEdition.cpp:167
 msgid "Wpisz nazwę nowego tagu."
 msgstr "Enter a name for the new tag."
 
-#: VisualAllTagsEdition.cpp:170
+#: VisualAllTagsEdition.cpp:171
 msgid "Nowy tag już istnieje na liście, wpisz inną nazwę."
 msgstr "New tag already exists, enter another name."
 
-#: VisualAllTagsEdition.cpp:188
+#: VisualAllTagsEdition.cpp:189
 msgid "Nie można usunąć wszystkich tagów z listy"
 msgstr "Cannot remove all tags from list"
 
-#: VisualAllTagsEdition.cpp:213
+#: VisualAllTagsEdition.cpp:214
 #, c-format
 msgid "Zapisać zmiany tagu \"%s\"?"
 msgstr "Save changes of tag \"%s\"?"
 
-#: VisualAllTagsEdition.cpp:295
+#: VisualAllTagsEdition.cpp:296
 msgid "Pole \"Tag\" nie może być puste."
 msgstr "Field \"Tag\" cannot be empty."
 
-#: VisualAllTagsEdition.cpp:303
+#: VisualAllTagsEdition.cpp:304
 msgid ""
 "Pole \"Maksymalna wartość\" musi zawierać wartość\n"
 "większą od pola \"Minimalna wartość\"."
@@ -7522,7 +7940,7 @@ msgstr ""
 "Field \"Maximum value\" have to contain value\n"
 "greater from field \"Minimum value\"."
 
-#: VisualAllTagsEdition.cpp:307
+#: VisualAllTagsEdition.cpp:308
 msgid "Pole \"Przeskok\" zawiera liczbę zbyt wysoką dla danego przedziału."
 msgstr "Field \"Step\" contains number too great for current min - max range."
 
@@ -7605,409 +8023,28 @@ msgstr "Save \"%s\" shape edition?"
 msgid "Pole \"kształt\" nie może być puste."
 msgstr "Field \"shape\" cannot be empty."
 
-#: VisualMove.cpp:427
+#: VisualMove.cpp:414
 msgid ""
 "Wideo musi być ustawione minimum jedną klatkę po czasie początkowym linijki"
 msgstr "Video must be set at least one frame after start time of line"
 
-#: VisualRotationZ.cpp:486 VisualScale.cpp:772
+#: VisualRotationZ.cpp:487 VisualScale.cpp:772
 msgid "Nie można pobrać wartości clipa prostokątnego."
 msgstr "Cannot read clip rectangle values."
 
-#: Visuals.cpp:460
+#: Visuals.cpp:466
 msgid ""
 "Narzędzia edycji wizualnej\n"
 "nie działają na komentarzach"
 msgstr "Visual tools not working on comments"
 
-#: Visuals.cpp:461
+#: Visuals.cpp:467
 msgid ""
 "Linia nie jest widoczna na wideo\n"
 "albo ma zerowy czas trwania"
 msgstr ""
 "Line is not visible on video\n"
 "or has zero duration"
-
-#: config.cpp:605
-#, c-format
-msgid ""
-"W motywie \"%s\" brakowało część kolorów, zostały doczytane z domyślnego."
-msgstr "In theme \"%s\" some colors was missing, and was loaded from default."
-
-#: config.cpp:615
-msgid "Nie można zaczytać motywu, zostanie przywrócony domyśny"
-msgstr "Cannot load theme, reset to default"
-
-#: dshowplayer.cpp:67
-msgid "Nie można zainicjalizować COM"
-msgstr "Cannot initialize COM"
-
-#: dshowplayer.cpp:82
-msgid "Błąd inicjalizacji Direct Show"
-msgstr "Failed to initialize Direct Show"
-
-#: dshowplayer.cpp:92
-msgid "Filtr źródła nie został dodany"
-msgstr "Source filter not added"
-
-#: dshowplayer.cpp:102
-msgid "Nie można dodać renderera wideo"
-msgstr "Cannot add video renderer"
-
-#: dshowplayer.cpp:118
-msgid "Nie można utworzyć instancji renderera dźwięku"
-msgstr "Cannot create audio renderer instance"
-
-#: dshowplayer.cpp:120
-msgid "Nie można dodać renderera Direct Sound"
-msgstr "Cannot add Direct Sound renderer"
-
-#: dshowplayer.cpp:133 dshowplayer.cpp:154 dshowplayer.cpp:174
-#: dshowplayer.cpp:256
-msgid "Nie można wyliczyć pinów źródła"
-msgstr "Cannot enumerate source pins"
-
-#: dshowplayer.cpp:175
-msgid "Nie można wyliczyć pinów renderera"
-msgstr "Cannot enumerate renderer pins"
-
-#: dshowplayer.cpp:176
-msgid "Nie można wyliczyć pinów dsound"
-msgstr "Cannot enumerate Direct Sound pins"
-
-#: dshowplayer.cpp:185
-msgid "Nie można pobrać pinu renderera"
-msgstr "Cannot get renderer pin"
-
-#: dshowplayer.cpp:186
-msgid "Nie można pobrać pinu dsound"
-msgstr "Cannot get dsound pin"
-
-#: dshowplayer.cpp:199 dshowplayer.cpp:224
-msgid "Brak IMediaTypes"
-msgstr "No IMediaTypes"
-
-#: dshowplayer.cpp:200 dshowplayer.cpp:225
-msgid "Brak informacji o rodzaju ścieżki"
-msgstr "No track type info"
-
-#: dshowplayer.cpp:204
-msgid "Nie można połączyć pinu źródła z rendererem wideo"
-msgstr "Cannot connect source pin to video renderer"
-
-#: dshowplayer.cpp:208
-msgid "Nie można połączyć pinu źródła z rendererem audio"
-msgstr "Cannot connect source pin to audio renderer"
-
-#: dshowplayer.cpp:212
-msgid "Nie można połączyć pinu źródła z rendererem audio1"
-msgstr "Cannot connect source pin to audio1 renderer"
-
-#: dshowplayer.cpp:214
-msgid "Nie można znaleźć połączonego pinu źródła"
-msgstr "Cannot find connected source pin"
-
-#: dshowplayer.cpp:216 dshowplayer.cpp:260
-msgid "Nie można pobrać informacji o pinie splittera"
-msgstr "Cannot get splitter pin info"
-
-#: dshowplayer.cpp:219
-msgid "Nie można wyliczyć pinów splittera"
-msgstr "Cannot enumerate splitter pins"
-
-#: dshowplayer.cpp:227
-msgid "Nie można połączyć pinu źródła z rendererem wideo2"
-msgstr "Cannot connect source pin to video2 renderer"
-
-#: dshowplayer.cpp:257
-msgid "Nie można pobrać pinu źródła"
-msgstr "Cannot get source pin"
-
-#: dshowplayer.cpp:404
-msgid "Nie można stworzyć interfejsu filtrów"
-msgstr "Cannot create filters interface"
-
-#: dshowplayer.cpp:408
-msgid "Nie można stworzyć kontrolera"
-msgstr "Cannot create controller"
-
-#: dshowplayer.cpp:409
-msgid "Nie można stworzyć interfejsu szukania"
-msgstr "Cannot create search interface"
-
-#: dshowplayer.cpp:410
-msgid "Nie można stworzyć interfejsu audio"
-msgstr "Cannot create audio interface"
-
-#: dshowplayer.cpp:538 dshowplayer.cpp:562
-msgid "Nie można wyliczyć filtrów"
-msgstr "Cannot enumerate filters"
-
-#: dshowplayer.cpp:542
-msgid "Nie można pobrać nazwy filtra"
-msgstr "Cannot get filter name"
-
-#: dshowplayer.cpp:565
-msgid "Nie można pobrać konfiguracji filtra"
-msgstr "Cannot get filter configuration"
-
-#: findreplace.cpp:399
-msgid "Wyszukiwanie zakończone, rozpocząć od początku?"
-msgstr "Reached end. Search from the beginning?"
-
-#: findreplace.cpp:406
-msgid "Nie znaleziono podanej frazy \""
-msgstr "Couldn't find expression \""
-
-#: findreplace.cpp:816 findreplace.cpp:1131 findreplace.cpp:1172
-#, c-format
-msgid "Zmieniono %i razy."
-msgstr "Replaced %i times."
-
-#: findreplace.cpp:816 findreplace.cpp:1131 findreplace.cpp:1172
-msgid "Szukaj Zamień"
-msgstr "Search Replace"
-
-#: findreplace.cpp:1179
-msgid ""
-"Czy na pewno dokonać zmian we wszystkich napisach?\n"
-"W razie pomyłki kopie zapasowe są w folderze 'ReplaceBackup'"
-msgstr ""
-"Do you want to replace in all subtitle files?\n"
-"After bad replacing backup files are in folder 'ReplaceBackup'"
-
-#: findreplace.cpp:1297
-msgid "Ścieżka szukania jest nieprawidłowa"
-msgstr "Seeking path is invalid"
-
-#: findreplace.cpp:1326
-msgid ""
-"Wszystkich wybranych stylów nie ma w przeszukiwanych napisach,\n"
-"przez co nic nie zostanie znalezione.\n"
-"Co zrobić?"
-msgstr ""
-"All of choosen styles not exist, and nothing will not be found.\n"
-"What to do?"
-
-#: findreplace.cpp:1327 findreplace.cpp:1332
-msgid "Wyczyść style"
-msgstr "Remove styles"
-
-#: findreplace.cpp:1330
-#, c-format
-msgid ""
-"Stylów o nazwach \"%s\" nie ma w przeszukiwanych napisach,\n"
-"co może znacząco zmniejszyć ilość wyników szukania.\n"
-"Co zrobić?"
-msgstr ""
-"Styles named \"%s\" not exist in current subtitles,\n"
-"and it can reduce seeking results.\n"
-"What to do?"
-
-#: findreplace.cpp:1331
-msgid "Usuń nieistniejące style"
-msgstr "Remove not existed styles"
-
-#: kainoteApp.cpp:73 kainoteApp.cpp:82
-msgid "Zabrakło pamięci RAM, usunięto część historii"
-msgstr "Not enough RAM. History partially deleted"
-
-#: kainoteApp.cpp:114
-msgid ""
-"Nie udało się wczytać opcji.\n"
-"Działanie programu zostanie zakończone."
-msgstr "Cannot read settings. Program will be terminated."
-
-#: kainoteApp.cpp:158
-msgid ""
-"Nie udało się wczytać skrótów.\n"
-"Działanie programu zostanie zakończone."
-msgstr "Cannot read hotkeys. Program will be terminated."
-
-#: kainoteApp.cpp:249
-msgid "Wczytać poprzednią sesję?"
-msgstr "Load last session?"
-
-#: kainoteApp.cpp:255
-msgid ""
-"Program się skraszował albo został zamknięty w niewłaściwy sposób,\n"
-"wczytać poprzednią sesję wraz z najnowszymi napisami z autozapisu?"
-msgstr ""
-"Program crashed or was closed improperly,\n"
-"load last session with subtitles from auto save?"
-
-#: stylestore.cpp:71 stylestore.cpp:86 stylestore.cpp:139
-msgid "Nowy"
-msgstr "New"
-
-#: stylestore.cpp:73
-msgid "Usuń wybrany katalog stylów"
-msgstr "Delete chosen styles catalog"
-
-#: stylestore.cpp:79
-msgid "Style katalogu:"
-msgstr "Styles stored:"
-
-#: stylestore.cpp:91 stylestore.cpp:144
-msgid "Sortuj"
-msgstr "Sort"
-
-#: stylestore.cpp:106 stylestore.cpp:155
-msgid "Przesuń zaznaczone style na sam początek"
-msgstr "Move selected styles to beginning"
-
-#: stylestore.cpp:107 stylestore.cpp:156
-msgid "Przesuń zaznaczone style w górę"
-msgstr "Move selected styles up"
-
-#: stylestore.cpp:108 stylestore.cpp:157
-msgid "Przesuń zaznaczone style w dół"
-msgstr "Move selected styles down"
-
-#: stylestore.cpp:109 stylestore.cpp:158
-msgid "Przesuń zaznaczone style na sam koniec"
-msgstr "Move selected styles to end"
-
-#: stylestore.cpp:124
-msgid "Dodaj do magazynu"
-msgstr "Add to storage"
-
-#: stylestore.cpp:125
-msgid "Dodaj do ASS"
-msgstr "Add to ASS"
-
-#: stylestore.cpp:126
-msgid "Dodaj do wszystkich otwartych ASS"
-msgstr "Add to all opened ASS files"
-
-#: stylestore.cpp:131
-msgid "Style pliku ASS:"
-msgstr "Styles in ASS file:"
-
-#: stylestore.cpp:145
-msgid "Oczyść"
-msgstr "Clear"
-
-#: stylestore.cpp:172
-msgid "Odepnij okno edycji"
-msgstr "Detach edition window"
-
-#: stylestore.cpp:277 stylestore.cpp:309 stylestore.cpp:348 stylestore.cpp:641
-#, c-format
-msgid "Styl o nazwie \"%s\" istnieje, podmienić go?"
-msgstr "Style named \"%s\" already exists. Replace?"
-
-#: stylestore.cpp:435
-#, c-format
-msgid "Styl o nazwie \"%s\" jest już na liście."
-msgstr "Style named \"%s\" already exists."
-
-#: stylestore.cpp:497
-msgid "Nazwa stylu została zmieniona, czy chcesz zmienić ją także w napisach?"
-msgstr ""
-"Style name modified. Do you want to change all instances to the new name?"
-
-#: stylestore.cpp:601
-msgid "Wybierz plik ASS"
-msgstr "Choose ASS file"
-
-#: stylestore.cpp:602
-msgid "Pliki napisów ASS(*.ass)|*.ass"
-msgstr "ASS subtitle files(*.ass)|*.ass"
-
-# tekst dodawany przed kopią stylu
-#: stylestore.cpp:680 stylestore.cpp:691
-msgid "Kopia "
-msgstr "Copy of "
-
-#: stylestore.cpp:702 stylestore.cpp:720
-msgid "Nowy Styl"
-msgstr "New Style"
-
-#: stylestore.cpp:763
-#, c-format
-msgid ""
-"Używane style:\n"
-"%s\n"
-"Usunięte style:\n"
-"%s"
-msgstr ""
-"Styles used:\n"
-"%s\n"
-"Styles deleted:\n"
-"%s"
-
-#: stylestore.cpp:764
-msgid "Status usuniętych stylów"
-msgstr "Status of deleted styles"
-
-#: stylestore.cpp:770
-msgid "Katalog stylów"
-msgstr "Styles catalog"
-
-#: stylestore.cpp:771
-msgid "Nowy katalog stylów"
-msgstr "New styles catalog"
-
-#: stylestore.cpp:772
-msgid "Utwórz nowy styl magazynu"
-msgstr "Create new style in storage"
-
-#: stylestore.cpp:773
-msgid "Edytuj zaznaczony styl magazynu"
-msgstr "Edit selected storage style"
-
-#: stylestore.cpp:774
-msgid "Kopiuj styl magazynu"
-msgstr "Copy the style in storage"
-
-#: stylestore.cpp:775
-msgid "Wczytaj do magazynu styl z pliku ass"
-msgstr "Load style from external ASS file to storage"
-
-#: stylestore.cpp:776
-msgid "Usuń styl z magazynu"
-msgstr "Delete style from storage"
-
-#: stylestore.cpp:777
-msgid "Sortuj style w magazynie"
-msgstr "Sort styles in storage"
-
-#: stylestore.cpp:778
-msgid "Utwórz nowy styl napisów"
-msgstr "Create new ASS style"
-
-#: stylestore.cpp:779
-msgid "Edytuj zaznaczony styl napisów"
-msgstr "Edit selected ASS style"
-
-#: stylestore.cpp:780
-msgid "Kopiuj styl napisów"
-msgstr "Copy style of ASS"
-
-#: stylestore.cpp:781
-msgid "Wczytaj do napisów styl z pliku ass"
-msgstr "Load style from external ASS file"
-
-#: stylestore.cpp:782
-msgid "Usuń styl z napisów"
-msgstr "Delete style from ASS"
-
-#: stylestore.cpp:783
-msgid "Sortuj style w napisach"
-msgstr "Sort styles in ASS"
-
-#: stylestore.cpp:784
-msgid "Dodaj do magazynu styl z napisów"
-msgstr "Copy style from ASS to storage"
-
-#: stylestore.cpp:785
-msgid "Dodaj do napisów styl z magazynu"
-msgstr "Copy style from storage to ASS"
-
-#: stylestore.cpp:786
-msgid "Oczyść napisy z nieużywanych stylów"
-msgstr "Delete unused ASS styles"
 
 #~ msgid "Szerokość"
 #~ msgstr "Width"

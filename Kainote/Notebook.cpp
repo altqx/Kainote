@@ -1397,8 +1397,15 @@ void Notebook::LoadLastSession(bool loadCrashSession, const wxString &externalPa
 					if (!subtitles.empty()){
 						//when load crash session better use active line from subtitles
 						if (loadCrashSession) {
+							wxString orgSubtitles = subtitles;
 							FindAutoSaveSubstitute(&subtitles, lastTab);
 							sthis->LoadSubtitles(tab, subtitles);
+							if (orgSubtitles != subtitles) {
+								tab->SubsPath = orgSubtitles;
+								tab->SubsName = tab->SubsPath.AfterLast(L'\\');
+								tab->grid->file->RemoveLastIterSave();
+								tab->grid->UpdateUR(true);
+							}
 						}else
 							sthis->LoadSubtitles(tab, subtitles, activeLine, scrollPosition);
 

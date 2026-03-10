@@ -1165,7 +1165,7 @@ void OptionsDialog::SetOptions(bool saveall)
 					//we need to call function before set a new path
 					//to remove loaded fonts from last folder
 					if (OB.option == EXTERNAL_FONTS_DIRECTORY) {
-						if (!str.EndsWith(L"\\"))
+						if (!str.empty() && !str.EndsWith(L"\\"))
 							str << L"\\";
 
 						FontEnum.ReloadExternalFontsToProcess(str, this);

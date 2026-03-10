@@ -744,10 +744,16 @@ void AllTagsItem::ShowContols(VideoToolbar* vtoolbar)
 	tagList = new KaiChoice(vtoolbar, ID_TAG_LIST, wxDefaultPosition, wxDefaultSize, list);
 	tagList->SetToolTip(_("Lista z tagami obsługiwanymi przez narzędzie"));
 	tagList->SetSelection(selection);
-	wxString optionsList[] = { _("Dodaj"), _("Wstaw"), _("Pomnóż"), _("Pomnóż+"), _("Gradient tekst"), _("Gradient linia") };
+	wxString optionsList[] = { _("Dodaj"), _("Wstaw"), _("Pomnóż"), _("Pomnóż+"), _("Gradient tekst rosnąco"), 
+		_("Gradient tekst malejąco"), _("Gradient linia rosnąco"), _("Gradient linia malejąco") };
 	wxSize wsize = vtoolbar->GetTextExtent(_("Pomnóż+"));
-	options = new KaiChoice(vtoolbar, ID_OPTIONS, wxDefaultPosition, wxSize(wsize.x + 26, -1), 6, optionsList);
-	options->SetToolTip(_("Opcje zmiany tagów:\nDodaj - zmienia wszystkie tagi dodając ruch z suwaka.\nWstaw - wstawia w miejsce kursora w przypadku jednej linii\nalbo na początku w przypadku wielu linii.\nPomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\npierwsza linia nie jest zmieniana."));
+	options = new KaiChoice(vtoolbar, ID_OPTIONS, wxDefaultPosition, wxSize(wsize.x + 26, -1), 8, optionsList);
+	options->SetToolTip(_("Opcje zmiany tagów:\nDodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"\
+		"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\nalbo na początku w przypadku wielu linii.\n"\
+		"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\npierwsza linia nie jest zmieniana.\n"\
+		"Gradnient tekst rosnąco - wstawia tag co znak rosnąco\nGradnient tekst malejąco - wstawia tag co znak malejąco\n"\
+		"Gradient linia rosnąco - wstawia tag w zaznaczone linie rosnąco\n"\
+		"Gradient linia malejąco - wstawia tag w zaznaczone linie malejąco"));
 	options->SetSelection(mode);
 
 	auto sendItemToggled = [=](wxCommandEvent& evt) {

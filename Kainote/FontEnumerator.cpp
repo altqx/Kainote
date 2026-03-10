@@ -330,6 +330,13 @@ bool FontEnumerator::CheckGlyphsExists(HDC dc, const wxString &textForCheck, wxS
 
 void FontEnumerator::ReloadExternalFontsToProcess(const wxString& newFontsPath, wxWindow* parent)
 {
+	if (progress) {
+		Sink* progresscopy = progress;
+		progress = nullptr;
+		delete progresscopy;
+		Sleep(1000);
+		hasExternalFontsLoaded = true;
+	}
 	ProgressSink *progr = new ProgressSink(parent, _("Usuwanie czcionek z zewnętrznego folderu"));
 	progress = progr;
 	progr->SetAndRunTask([&]() {
@@ -337,8 +344,10 @@ void FontEnumerator::ReloadExternalFontsToProcess(const wxString& newFontsPath, 
 			wxString path = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
 			RemoveExternalFontsFromProcess(path);
 		}
-		progress->Title(_("Wczytywanie czcionek z zewnętrznego folderu"));
-		LoadExternalFontsToProcess(newFontsPath);
+		if (wxDirExists(newFontsPath)) {
+			progress->Title(_("Wczytywanie czcionek z zewnętrznego folderu"));
+			LoadExternalFontsToProcess(newFontsPath);
+		}
 		return 1;
 		});
 	progr->ShowDialog();

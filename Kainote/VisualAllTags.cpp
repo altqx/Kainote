@@ -41,7 +41,7 @@ void AllTags::DrawVisual(int time)
 void AllTags::OnMouseEvent(wxMouseEvent& event)
 {
 	if (mode >= MULTIPLY)
-		multiplyCounter = 0;
+		multiplyCounter = (mode == GRADIENT_TEXT_DECREASE || mode == GRADIENT_LINE_DECREASE) ? 1.f : 0.f;
 
 	float x = event.GetX();
 	float y = event.GetY();
@@ -441,11 +441,13 @@ void AllTags::GetVisualValue(wxString* visual, const wxString& curValue)
 
 wxPoint AllTags::ChangeVisual(wxString* txt)
 {
-	if (mode == 4) {
+	if (mode == GRADIENT_TEXT_INCREASE || mode == GRADIENT_TEXT_DECREASE) {
 		auto replfunc = [=](const FindData& data, wxString* result, size_t numOfCharacters) {
 			GetVisualValue(result, data.finding);
-			if(numOfCharacters > 1)
+			if (mode == GRADIENT_TEXT_INCREASE)
 				multiplyCounter += (1.f / (numOfCharacters - 1));
+			else
+				multiplyCounter -= (1.f / (numOfCharacters - 1));
 		};
 		ReplaceAllByChar(actualTag.tag + L"([-0-9.,\\(\\) &A-FH]+)", actualTag.tag, txt, replfunc);
 	}
@@ -481,11 +483,15 @@ wxPoint AllTags::ChangeVisual(wxString* txt)
 
 void AllTags::ChangeVisual(wxString* txt, Dialogue *dial, size_t numOfSelections)
 {
-	if (mode == GRADIENT_TEXT) {
+	if (mode == GRADIENT_TEXT_INCREASE || mode == GRADIENT_TEXT_DECREASE) {
 		auto replfunc = [=](const FindData& data, wxString* result, size_t numOfCharacters) {
 			GetVisualValue(result, data.finding);
-			if (numOfCharacters > 1)
-				multiplyCounter += (1.f / (numOfCharacters - 1));
+			if (numOfCharacters > 1) {
+				if(mode == GRADIENT_TEXT_INCREASE)
+					multiplyCounter += (1.f / (numOfCharacters - 1));
+				else
+					multiplyCounter -= (1.f / (numOfCharacters - 1));
+			}
 		};
 		ReplaceAllByChar(actualTag.tag + L"([-0-9.,\\(\\) &A-FH]+)", actualTag.tag, txt, replfunc);
 	}
@@ -507,8 +513,10 @@ void AllTags::ChangeVisual(wxString* txt, Dialogue *dial, size_t numOfSelections
 			}
 		}
 		Replace(L"\\" + actualTag.tag + strValue, txt);
-		if (mode == GRADIENT_LINE)
+		if (mode == GRADIENT_LINE_INCREASE)
 			multiplyCounter += (1.f / (numOfSelections - 1));
+		if (mode == GRADIENT_LINE_DECREASE)
+			multiplyCounter -= (1.f / (numOfSelections - 1));
 		else if (mode >= MULTIPLY)
 			multiplyCounter++;
 	}

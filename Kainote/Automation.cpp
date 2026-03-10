@@ -795,6 +795,8 @@ namespace Auto{
 		FILETIME ft;
 
 		HANDLE ffile = CreateFile(GetFilename().wc_str(), GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+		if (ffile == INVALID_HANDLE_VALUE)
+			return false;
 
 		GetFileTime(ffile, 0, 0, &ft);
 		CloseHandle(ffile);

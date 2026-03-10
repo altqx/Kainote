@@ -212,7 +212,7 @@ ProgressSinkSilent::ProgressSinkSilent(const wxString& _title)
 
 ProgressSinkSilent::~ProgressSinkSilent()
 {
-	if (hasProgressEnded) {
+	if (!hasProgressEnded) {
 		KainoteFrame::ProgressEndEvent();
 	}
 }

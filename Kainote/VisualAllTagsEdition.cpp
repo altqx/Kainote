@@ -83,7 +83,8 @@ AllTagsEdition::AllTagsEdition(wxWindow* parent, const wxPoint& pos,
 
 	wxBoxSizer* valuesSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* valuesAndInsertModeSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxString insertModes[6] = { _("Dodaj"), _("Wstaw"), _("Pomnóż"), _("Pomnóż+"), _("Gradient tekst"), _("Gradient linia") };
+	wxString insertModes[] = { _("Dodaj"), _("Wstaw"), _("Pomnóż"), _("Pomnóż+"), _("Gradient tekst rosnąco"),
+		_("Gradient tekst malejąco"), _("Gradient linia rosnąco"), _("Gradient linia malejąco") };
 	wxString valuesStr[4] = { _("Brak dodatkowych wartości"), 
 		_("Jedna dodatkowa wartość"), 
 		_("Dwie dodatkowe wartości"), 
@@ -91,7 +92,7 @@ AllTagsEdition::AllTagsEdition(wxWindow* parent, const wxPoint& pos,
 	numOfValues = new KaiChoice(this, ID_ADDITIONAL_VALUES_LIST, wxDefaultPosition, wxDefaultSize, 4, valuesStr);
 	numOfValues->SetToolTip(_("Używane tylko w przypadku gdy tag ma 2 wartości bądź więcej"));
 	numOfValues->SetSelection(currentTag.numOfValues - 1);
-	tagInsertMode = new KaiChoice(this, ID_INSERT_MODES_LIST, wxDefaultPosition, wxDefaultSize, 6, insertModes);
+	tagInsertMode = new KaiChoice(this, ID_INSERT_MODES_LIST, wxDefaultPosition, wxDefaultSize, 8, insertModes);
 	tagInsertMode->SetToolTip(_("Opcje zmiany tagów"));
 	tagInsertMode->SetSelection(currentTag.tagMode);
 	valuesAndInsertModeSizer->Add(numOfValues, 1, wxEXPAND | wxALL, 4);
