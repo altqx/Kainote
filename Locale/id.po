@@ -7,7 +7,7 @@
 # Weblate <noreply-mt-weblate@weblate.org>, 2026.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-01-27 19:02+0000\nLast-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\nLanguage-Team: Indonesian <https://hosted.weblate.org/projects/kainote/kainote/id/>\nLanguage: id\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 5.16-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-03-10 10:10+0000\nLast-Translator: Weblate <noreply-mt-weblate@weblate.org>\nLanguage-Team: Indonesian <https://hosted.weblate.org/projects/kainote/kainote/id/>\nLanguage: id\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 5.17-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:134
 msgid "Odtwórz następną linijkę"
@@ -9320,27 +9320,6 @@ msgstr "Gandakan"
 msgid "Pomnóż+"
 msgstr "Mengalikan+"
 
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient tekst"
-msgstr "Teks gradien"
-
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient linia"
-msgstr "Garis gradien"
-
-#: VideoToolbar.cpp:740
-#, fuzzy
-msgid ""
-"Opcje zmiany tagów:\n"
-"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
-"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
-"albo na początku w przypadku wielu linii.\n"
-"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
-"pierwsza linia nie jest zmieniana."
-msgstr "Pilihan untuk mengubah tag:\nTambah - mengubah semua tag yang ditambahkan dengan menggeser penggeser.\nSisipkan - menyisipkan tag pada posisi kursor saat satu baris \natau di awal baris saat multibaris.\nMultiply - mengalikan gerakan slider dengan nomor baris yang dipilih\nbaris pertama tidak berubah. Dibuat untuk penempatan bertingkat."
-
 #: VideoToolbar.cpp:762
 #, fuzzy
 msgid "Edycja tagów z listy oraz tworzenie nowych"
@@ -9460,3 +9439,58 @@ msgstr "Folder dengan font eksternal"
 #, fuzzy
 msgid "Wybierz zewnętrzny folder czcionek"
 msgstr "Pilih pilih folder font eksternal"
+
+#: HotkeysNaming.cpp:200 KainoteFrame.cpp:268
+#, fuzzy
+msgid "Wyłącz powiększenie wideo"
+msgstr "Matikan video zoom"
+
+#: OptionsDialog.cpp:566
+#, fuzzy
+msgid "Początkowy zoom wideo w procentach"
+msgstr "Mulai video zoom dalam persen."
+
+#: TabPanel.cpp:297
+#, fuzzy
+msgid "Napisy zostały zmodyfikowane przez inny program, przeładować?"
+msgstr "Subtiltes dimodifikasi oleh program lain, reload?"
+
+#: VideoToolbar.cpp:747 VisualAllTagsEdition.cpp:86
+#, fuzzy
+msgid "Gradient tekst rosnąco"
+msgstr "Teks Gradien meningkat"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient tekst malejąco"
+msgstr "Penurunan teks Gradien"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient linia rosnąco"
+msgstr "Garis Gradien meningkatkan"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient linia malejąco"
+msgstr "Gradien garis menurun"
+
+#: VideoToolbar.cpp:751
+#, fuzzy
+msgid ""
+"Opcje zmiany tagów:\n"
+"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
+"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
+"albo na początku w przypadku wielu linii.\n"
+"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
+"pierwsza linia nie jest zmieniana.\n"
+"Gradnient tekst rosnąco - wstawia tag co znak rosnąco\n"
+"Gradnient tekst malejąco - wstawia tag co znak malejąco\n"
+"Gradient linia rosnąco - wstawia tag w zaznaczone linie rosnąco\n"
+"Gradient linia malejąco - wstawia tag w zaznaczone linie malejąco"
+msgstr "Pilihan tag berubah:\nTambahkan - mengubah semua tag menambahkan bergerak pada slider.\nMasukkan - masukkan tag di posisi kursor ketika satu baris\natau pada awal garis ketika multiline.\nMultiply - multiply bergerak dari slider dengan nomor od garis yang dipilih\nbaris pertama tidak berubah. Dibuat untuk menempatkan cascade.\nTeks Gradien meningkat - masukkan tag di setiap karakter\nmeningkatkannya untuk jumlah pada slider\nGradien teks menurun - masukkan tag di setiap karakter\nmenguranginya dari angka pada slider\nGaris Gradien meningkat - masukkan tag di setiap baris\nmeningkatkannya untuk jumlah pada slider\nGradien garis menurun - masukkan tag di setiap baris\nmenguranginya dari angka pada slider"
+
+#: TabPanel.cpp:297
+#, fuzzy
+msgid "Przeładowywanie"
+msgstr "Memuat ulang"
