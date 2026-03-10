@@ -6989,14 +6989,6 @@ msgstr "선택"
 msgid "Wstaw"
 msgstr "삽입"
 
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-msgid "Gradient tekst"
-msgstr "그라데이션 글자"
-
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-msgid "Gradient linia"
-msgstr "그라데이션 선"
-
 #: VisualAllTagsEdition.cpp:27
 msgid "Edycja tagów"
 msgstr "태그 편집"
@@ -7863,16 +7855,6 @@ msgid ""
 "Po wybraniu rysunku z listy należy ustawić kursor\n"
 "w miejcu początku przytrzymać lewy przycisk myszy i przeciągnąć."
 msgstr "편집이 가능한 ASS 도면 목록입니다.\n목록에서 그림을 선택한 후 커서를 제자리에 설정하십시오.\n그리기 시작을 누르고 마우스 왼쪽 버튼을 클릭하고 드래그합니다."
-
-#: VideoToolbar.cpp:740
-msgid ""
-"Opcje zmiany tagów:\n"
-"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
-"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
-"albo na początku w przypadku wielu linii.\n"
-"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
-"pierwsza linia nie jest zmieniana."
-msgstr "태그 변경 옵션:\n추가 - 슬라이더에서 이동을 추가하는 모든 태그를 변경합니다.\n삽입 - 한 줄이면 커서 위치에 태그를 삽입합니다.\n여러 줄의 경우 줄의 시작 부분에 삽입합니다.\n곱하기 - 슬라이더 이동에 선택한 줄 수를 곱합니다.\n첫 번째 줄은 변경되지 않습니다."
 
 #: VisualAllTagsEdition.cpp:75
 msgid "Wycinek prostokątny z obsługą animacji"

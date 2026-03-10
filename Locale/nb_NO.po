@@ -5463,16 +5463,6 @@ msgstr "Velg"
 msgid "Wstaw"
 msgstr "Sett inn"
 
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient tekst"
-msgstr "Gradient tekst"
-
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient linia"
-msgstr "Gradientlinje"
-
 #: VisualAllTagsEdition.cpp:27
 #, fuzzy
 msgid "Edycja tagów"
@@ -8937,17 +8927,6 @@ msgstr "Liste over ASS-tegninger med redigeringsmulighet.\nEtter å ha valgt teg
 #, fuzzy
 msgid "Lista z tagami obsługiwanymi przez narzędzie"
 msgstr "Liste over tagger som kan redigere visuelt verktøy"
-
-#: VideoToolbar.cpp:740
-#, fuzzy
-msgid ""
-"Opcje zmiany tagów:\n"
-"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
-"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
-"albo na początku w przypadku wielu linii.\n"
-"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
-"pierwsza linia nie jest zmieniana."
-msgstr "Alternativer for å endre tag:\nLegg til - endrer alle tagger og legger til flytt på glidebryteren.\nSett inn - setter inn tag i markørposisjon når en linje\neller på start av linje når multiline.\nMultipliser - multipliser flytting av glidebryteren med nummeret på valgt linje\nførste linje er ikke endringer. Laget for kaskadeplassering."
 
 #: VideoToolbar.cpp:1079
 #, fuzzy

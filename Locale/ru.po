@@ -9,7 +9,7 @@
 # Yurt Page <yurtpage+weblate@gmail.com>, 2025.
 # Sisitenr <sisiton2019@gmail.com>, 2025.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-01-27 19:02+0000\nLast-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\nLanguage-Team: Russian <https://hosted.weblate.org/projects/kainote/kainote/ru/>\nLanguage: ru\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\nX-Generator: Weblate 5.16-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-03-10 10:09+0000\nLast-Translator: Weblate <noreply-mt-weblate@weblate.org>\nLanguage-Team: Russian <https://hosted.weblate.org/projects/kainote/kainote/ru/>\nLanguage: ru\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\nX-Generator: Weblate 5.17-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:72
 msgid "Pasek szukania"
@@ -386,11 +386,6 @@ msgstr "Аудио играть до и после маркера в милли�
 #, fuzzy
 msgid "Akcja zaznacz linijki"
 msgstr "Действие Выбор линий"
-
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient tekst"
-msgstr "Графический текст"
 
 #: TextEditorTagList.cpp:367
 #, fuzzy
@@ -1275,11 +1270,6 @@ msgstr "Переводчики:\nверсия %s со дня %s"
 #, fuzzy
 msgid "Wklejenie tłumaczenia"
 msgstr "Перевод"
-
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient linia"
-msgstr "Графическая линия"
 
 #: VideoToolbar.cpp:1083
 #, fuzzy
@@ -4272,16 +4262,6 @@ msgstr "Открывает автосохранение из списка"
 #, c-format, fuzzy
 msgid ", aktywna linia %i"
 msgstr ", активная линия %i"
-
-#: VideoToolbar.cpp:740
-msgid ""
-"Opcje zmiany tagów:\n"
-"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
-"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
-"albo na początku w przypadku wielu linii.\n"
-"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
-"pierwsza linia nie jest zmieniana."
-msgstr "Варианты изменения метки:\nДобавить - меняет все метки, добавляя движение на слайдер.\nВставить - вставка метки в положение курсора, когда одна линия \nили на старте линии при мультилинии.\nУмножить - умножить ход слайдера по количеству выбранной линии\nпервая линия - это не изменения. Сделано для каскадного размещения."
 
 #: SubsGrid.cpp:174
 #, fuzzy
@@ -9217,3 +9197,58 @@ msgstr "Папка с внешними шрифтами"
 #, fuzzy
 msgid "Wybierz zewnętrzny folder czcionek"
 msgstr "Выберите папку внешнего шрифта"
+
+#: HotkeysNaming.cpp:200 KainoteFrame.cpp:268
+#, fuzzy
+msgid "Wyłącz powiększenie wideo"
+msgstr "Выключите видеозум"
+
+#: OptionsDialog.cpp:566
+#, fuzzy
+msgid "Początkowy zoom wideo w procentach"
+msgstr "Запуск видео увеличивает процент."
+
+#: TabPanel.cpp:297
+#, fuzzy
+msgid "Napisy zostały zmodyfikowane przez inny program, przeładować?"
+msgstr "Subtiltes был изменен другой программой, перезагрузка?"
+
+#: VideoToolbar.cpp:747 VisualAllTagsEdition.cpp:86
+#, fuzzy
+msgid "Gradient tekst rosnąco"
+msgstr "Увеличение текста"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient tekst malejąco"
+msgstr "Постепенное уменьшение текста"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient linia rosnąco"
+msgstr "Увеличивается"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient linia malejąco"
+msgstr "Уменьшается"
+
+#: VideoToolbar.cpp:751
+#, fuzzy
+msgid ""
+"Opcje zmiany tagów:\n"
+"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
+"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
+"albo na początku w przypadku wielu linii.\n"
+"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
+"pierwsza linia nie jest zmieniana.\n"
+"Gradnient tekst rosnąco - wstawia tag co znak rosnąco\n"
+"Gradnient tekst malejąco - wstawia tag co znak malejąco\n"
+"Gradient linia rosnąco - wstawia tag w zaznaczone linie rosnąco\n"
+"Gradient linia malejąco - wstawia tag w zaznaczone linie malejąco"
+msgstr "Варианты изменения тега:\nДобавить - меняет все теги, добавляя движение на слайдер.\nВставка - вставка тега в положение курсора, когда одна строка\nили на старте линии при мультилинии.\nMultiply - умножить ход слайдера по количеству выбранной линии\nпервая строка - это не изменения. Сделано для каскада.\nГрадиентный текст увеличивается - ставьте тег в каждом персонаже\nувеличение его по количеству на слайдере\nПостепенное уменьшение текста - положите тег в каждый персонаж\nуменьшение его от числа на слайдере\nУвеличивается градиентная линия - положите тег в каждую линию\nувеличение его по количеству на слайдере\nУбывающая линия - положите тег в каждую линию\nуменьшение его от числа на слайдере"
+
+#: TabPanel.cpp:297
+#, fuzzy
+msgid "Przeładowywanie"
+msgstr "Обновление…"
