@@ -1,0 +1,38 @@
+[submodule "Thirdparty/AviSynthPlus"]
+	path = Thirdparty/AviSynthPlus
+	url = https://github.com/AviSynth/AviSynthPlus.git
+[submodule "Thirdparty/ffms2"]
+	path = Thirdparty/ffms2
+	url = https://github.com/FFMS/ffms2.git
+[submodule "Thirdparty/freetype2"]
+	path = Thirdparty/freetype2
+	url = https://gitlab.freedesktop.org/freetype/freetype.git
+[submodule "Thirdparty/fribidi"]
+	path = Thirdparty/fribidi
+	url = https://github.com/fribidi/fribidi.git
+[submodule "Thirdparty/harfbuzz"]
+	path = Thirdparty/harfbuzz
+	url = https://github.com/harfbuzz/harfbuzz.git
+[submodule "Thirdparty/Hunspell"]
+	path = Thirdparty/Hunspell
+	url = https://github.com/hunspell/hunspell.git
+[submodule "Thirdparty/libass"]
+	path = Thirdparty/libass
+	url = https://github.com/libass/libass.git
+[submodule "Thirdparty/LuaJIT"]
+	path = Thirdparty/LuaJIT
+	url = https://github.com/LuaJIT/LuaJIT.git
+	branch = v2.1
+[submodule "Thirdparty/uchardet"]
+	path = Thirdparty/uchardet
+	url = https://gitlab.freedesktop.org/uchardet/uchardet.git
+[submodule "Thirdparty/wxWidgets"]
+	path = Thirdparty/wxWidgets
+	url = https://github.com/wxWidgets/wxWidgets.git
+[submodule "Thirdparty/xy-VSFilter-xy_sub_filter_rc5"]
+	path = Thirdparty/xy-VSFilter-xy_sub_filter_rc5
+	url = https://github.com/pinterf/xy-VSFilter.git
+	branch = xy_sub_filter_rc5
+[submodule "Thirdparty/luabins"]
+	path = Thirdparty/luabins
+	url = https://github.com/agladysh/luabins.git

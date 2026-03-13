@@ -59,10 +59,27 @@ Before you begin, you must install the following software:
 
 ### 1. Initial Project Setup
 
-1.  Download the following libraries and extract their contents directly into the `Thirdparty` folder. The final paths should look like `Thirdparty/boost`, `Thirdparty/icu`, etc.
+1.  **Clone the repository with all submodules** (most third-party libraries are managed as git submodules):
+    ```bash
+    git clone --recurse-submodules https://github.com/bjakja/Kainote.git
+    ```
+    If you already cloned without `--recurse-submodules`, run:
+    ```bash
+    git submodule update --init --recursive
+    ```
+
+2.  **Apply the FFMS2 patch** to add Kainote-specific API extensions:
+    ```bash
+    cd Thirdparty/ffms2
+    git apply ../patches/ffms2-kainote.patch
+    cd ../..
+    ```
+
+3.  Download the following two libraries manually (they are too large to be practical as submodules) and extract their contents directly into the `Thirdparty` folder. The final paths should look like `Thirdparty/boost`, `Thirdparty/icu`, etc.
     * [**Boost**](https://www.boost.org/releases/latest/)
     * [**icu**](https://github.com/unicode-org/icu/releases/) (Download icu4c-*-src.zip)
-2.  The solution requires **FFMS2** (FFmpeg Source 2), which must be compiled from source. Follow the steps in the next section carefully.
+
+4.  The solution requires **FFMS2** (FFmpeg Source 2), which must be compiled from source. Follow the steps in the next section carefully.
 
 ### 2. Building Dependencies (FFmpeg & FFMS2)
 
@@ -125,48 +142,23 @@ These steps use **MSYS2** to create a build environment for compiling the librar
     ```
     This will install the FFmpeg headers and libraries into `C:/msys64/usr/local`.
 
-#### D. Update FFMS2 source
+#### D. Apply FFMS2 Kainote Patch
 
-1.  **FFMS2 update**: Source update require to add custom code. Download FFMS2 from [GitHub repository](https://github.com/FFMS/ffms2/archive/refs/heads/master.zip). Change it in Thirdparty/FFMS2 folder. Open Visual Studio and add custom code in file API/ffms.h before **#endif** on end of file.
+The FFMS2 submodule points to upstream but requires Kainote-specific API extensions (track names/language, chapters, attachments, subtitle extraction). These are captured in a patch file.
+
+> **Note**: If you followed the clone instructions in [Step 1](#1-initial-project-setup), this patch has already been applied. Only run this if you need to re-apply it (e.g., after updating the `ffms2` submodule).
+
 ```bash
-	//Kainote functions
-	FFMS_API(const char*) FFMS_GetTrackName(FFMS_Indexer* Indexer, int Track);
-	FFMS_API(const char*) FFMS_GetTrackLanguage(FFMS_Indexer* Indexer, int Track);
-	typedef struct FFMS_Chapter {
-		const char* Title;
-		int64_t Start;
-		int64_t End;
-	} FFMS_Chapter;
-	typedef struct FFMS_Chapters {
-		FFMS_Chapter* Chapters;
-		int NumOfChapters;
-	} FFMS_Chapters;
-	FFMS_API(FFMS_Chapters*) FFMS_GetChapters(FFMS_Indexer* Indexer);
-	FFMS_API(void) FFMS_FreeChapters(FFMS_Chapters** Chapters);
-	typedef struct FFMS_Attachment {
-		const char* Filename;
-		const char* Mimetype;
-		const uint8_t* Data;
-		int DataSize;
-	} FFMS_Attachment;
-	FFMS_API(FFMS_Attachment*) FFMS_GetAttachment(FFMS_Indexer* Indexer, int Track);
-	FFMS_API(void) FFMS_FreeAttachment(FFMS_Attachment** Attachment);
-	typedef int (FFMS_CC* GetSubtitlesCallback)(int64_t Start, int64_t Duration, int64_t Total, const char* Line, void* ICPrivate);
-	FFMS_API(void) FFMS_GetSubtitles(FFMS_Indexer* Indexer, int Track, GetSubtitlesCallback IC, void* ICPrivate);
-	FFMS_API(const char*) FFMS_GetSubtitleExtradata(FFMS_Indexer* Indexer, int Track);
-	FFMS_API(const char*) FFMS_GetSubtitleFormat(FFMS_Indexer* Indexer, int Track);
+cd Thirdparty/ffms2
+git apply ../patches/ffms2-kainote.patch
+cd ../..
 ```
-Add custom code in file Indexing/Indexing.h on end of struct **FFMS_Indexer**
-```bash
-	//Kainote functions
-	const char* GetTrackName(int Track);
-	const char* GetTrackLanguage(int Track);
-	FFMS_Chapters* GetChapters();
-	FFMS_Attachment* GetAttachment(int Track);
-	void GetSubtitles(int Track, GetSubtitlesCallback IC, void* ICPrivate);
-	const char* GetSubtitleExtradata(int Track);
-	const char* GetSubtitleFormat(int Track);
-```
+
+The patch modifies:
+- `include/ffms.h` — adds `FFMS_ColorSpaces` enum and Kainote API function declarations
+- `src/core/indexing.h` — adds Kainote method declarations to `FFMS_Indexer`
+
+
 
 ### 3. Building Kainote
 

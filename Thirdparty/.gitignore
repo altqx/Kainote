@@ -28,7 +28,6 @@ build/vvenc/
 build/dav1d/
 build/vvenc32/
 build/dav1dx32/
-xy-VSFilter-master/src/filters/transform/vsfilter/csri2.h
 curl/
 uchardet/build-mac/
 uchardet/script/
@@ -37,3 +36,5 @@ curl1/
 openssl-3.6.1/
 *.gz
 *.exe
+boost/
+icu/
