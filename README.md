@@ -68,11 +68,12 @@ Before you begin, you must install the following software:
     git submodule update --init --recursive
     ```
 
-2.  **Apply the FFMS2 patch** to add Kainote-specific API extensions:
+2.  **Apply Kainote patches** to the submodules that have custom modifications:
     ```bash
-    cd Thirdparty/ffms2
-    git apply ../patches/ffms2-kainote.patch
-    cd ../..
+    cd Thirdparty/ffms2 && git apply ../patches/ffms2-kainote.patch && cd ../..
+    cd Thirdparty/xy-VSFilter-xy_sub_filter_rc5 && git apply ../patches/xy-vsfilter-kainote.patch && cd ../..
+    cd Thirdparty/wxWidgets && git apply ../patches/wxwidgets-kainote.patch && cd ../..
+    cd Thirdparty/Hunspell && git apply ../patches/hunspell-kainote.patch && cd ../..
     ```
 
 3.  Download the following two libraries manually (they are too large to be practical as submodules) and extract their contents directly into the `Thirdparty` folder. The final paths should look like `Thirdparty/boost`, `Thirdparty/icu`, etc.
@@ -142,24 +143,16 @@ These steps use **MSYS2** to create a build environment for compiling the librar
     ```
     This will install the FFmpeg headers and libraries into `C:/msys64/usr/local`.
 
-#### D. Apply FFMS2 Kainote Patch
+#### D. Apply Kainote Patches (if not already done)
 
-The FFMS2 submodule points to upstream but requires Kainote-specific API extensions (track names/language, chapters, attachments, subtitle extraction). These are captured in a patch file.
-
-> **Note**: If you followed the clone instructions in [Step 1](#1-initial-project-setup), this patch has already been applied. Only run this if you need to re-apply it (e.g., after updating the `ffms2` submodule).
+Several submodules have Kainote-specific modifications captured as patch files in `Thirdparty/patches/`. If you followed [Step 1](#1-initial-project-setup), these are already applied. Re-apply after updating submodules:
 
 ```bash
-cd Thirdparty/ffms2
-git apply ../patches/ffms2-kainote.patch
-cd ../..
+cd Thirdparty/ffms2 && git apply ../patches/ffms2-kainote.patch && cd ../..
+cd Thirdparty/xy-VSFilter-xy_sub_filter_rc5 && git apply ../patches/xy-vsfilter-kainote.patch && cd ../..
+cd Thirdparty/wxWidgets && git apply ../patches/wxwidgets-kainote.patch && cd ../..
+cd Thirdparty/Hunspell && git apply ../patches/hunspell-kainote.patch && cd ../..
 ```
-
-The patch modifies:
-- `include/ffms.h` — adds `FFMS_ColorSpaces` enum and Kainote API function declarations
-- `src/core/indexing.h` — adds Kainote method declarations to `FFMS_Indexer`
-
-
-
 ### 3. Building Kainote
 
 1.  **Configure Project Paths**: If you installed the Windows SDK or DirectX SDK to a location other than the `C:` drive, you must update the paths in the project properties within Visual Studio (`Project Properties > VC++ Directories`).
