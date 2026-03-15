@@ -372,7 +372,11 @@ void EditBox::SetLine(int Row, bool setaudio, bool save, bool nochangeline, bool
 	bool rowChanged = currentLine != Row;
 	//when preview is shown do not block setline 
 	//cause after click on preview and click back on original shit happens
-	if (nochangeline && !rowChanged && !tab->grid->preview){ goto done; }
+	if (nochangeline && !rowChanged && !tab->grid->preview) { 
+		//block setting audio but refresh it on video
+		setaudio = false; 
+		goto done; 
+	}
 	// space for guard by mutex
 	// don't use editionMutex with OpenSubs opened later
 	{
@@ -449,8 +453,6 @@ void EditBox::SetLine(int Row, bool setaudio, bool save, bool nochangeline, bool
 	if (tab->grid->preview && tab->grid != grid)
 		return;
 
-	if (setaudio && ABox && ABox->IsShown()){ ABox->audioDisplay->SetDialogue(line, currentLine); }
-
 done:
 	VideoBox *vb = tab->video;
 	int playAfter = 0, seekAfter = 0;
@@ -459,10 +461,12 @@ done:
 	if (seekAfter == 1 && playAfter < 2 && !nochangeline && rowChanged){
 		if (vb->GetState() != None){
 			if (vb->GetState() == Playing){ vb->Pause(); }
-			vb->Seek(line->Start.mstime, true, true, true, true, true, false);
+			vb->Seek(line->Start.mstime, true, true, true, true, true, !setaudio);
 		}
 		//return;
 	}
+
+	if (setaudio && ABox && ABox->IsShown()) { ABox->audioDisplay->SetDialogue(line, currentLine); }
 
 	if (playAfter > 0 && autoPlay){
 		if (playAfter == 1){

@@ -282,8 +282,14 @@ done:
 			//divide points by scale to get original subtitle position
 			Points[i].x -= offsetxy.x;
 			Points[i].y -= offsetxy.y;
-			if(frz)
+			if (frz) {
+				//set scale cause normally ponits do not have scale but, position and coeff have
+				Points[i].x *= scale.x;
+				Points[i].y *= scale.y;
 				RotateDrawing(&Points[i], s, c, orgpivot);
+				Points[i].x /= scale.x;
+				Points[i].y /= scale.y;
+			}
 		}
 	}
 	pointArea = 4.f / zoomScale.x;
@@ -308,7 +314,12 @@ void DrawingAndClip::GetVisual(wxString *visual)
 			float c = cos(frz * rad);
 			originalPoints = Points;
 			for (size_t i = 0; i < psize; i++){
+				//set scale cause normally ponits do not have scale but, position and coeff have
+				Points[i].x *= scale.x;
+				Points[i].y *= scale.y;
 				RotateDrawing(&Points[i], s, c, orgpivot);
+				Points[i].x /= scale.x;
+				Points[i].y /= scale.y;
 			}
 		}
 		offsetxy = CalcDrawingSize(alignment, &Points);

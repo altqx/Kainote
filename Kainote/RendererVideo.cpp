@@ -367,6 +367,15 @@ void RendererVideo::ResetZoom()
 	m_MainStreamRect.right = (m_ZoomRect.width - m_BackBufferRect.left) / videoToScreenXX;
 	m_MainStreamRect.bottom = (m_ZoomRect.height - m_BackBufferRect.top) / videoToScreenYY;
 	m_ZoomPercent = size.x / (m_ZoomRect.width - m_ZoomRect.x);
+	if (videoControl->m_IsFullscreen) { UpdateRects(false); }
+	if (m_Visual) {
+		SetVisualZoom();
+		if (m_Visual && (m_Visual->Visual < CLIPRECT || m_Visual->Visual > VECTORDRAW)) {
+			SAFE_DELETE(m_Visual->dummytext);
+			m_Visual->SetCurVisual();
+			m_HasVisualEdition = true;
+		}
+	}
 	ZoomChanged();
 	Render();
 	videoControl->SetScaleAndZoom();
