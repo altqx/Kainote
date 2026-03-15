@@ -459,7 +459,7 @@ done:
 	if (seekAfter == 1 && playAfter < 2 && !nochangeline && rowChanged){
 		if (vb->GetState() != None){
 			if (vb->GetState() == Playing){ vb->Pause(); }
-			vb->Seek(line->Start.mstime);
+			vb->Seek(line->Start.mstime, true, true, true, true, true, false);
 		}
 		//return;
 	}

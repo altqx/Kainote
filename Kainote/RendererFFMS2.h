@@ -34,8 +34,8 @@ public:
 	bool Play(int end = -1);
 	bool Pause();
 	bool Stop();
-	void SetPosition(int _time, bool starttime = true, bool corect = true, bool async = true);
-	void SetFFMS2Position(int time, bool starttime);
+	void SetPosition(int _time, bool starttime = true, bool corect = true, bool async = true, bool refreshAudio = true) override;
+	void SetFFMS2Position(int time, bool starttime, bool refreshAudio = true) override;
 	void GoToNextKeyframe();
 	void GoToPrevKeyframe();
 	int GetFrameTime(bool start = true);

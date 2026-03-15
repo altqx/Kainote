@@ -41,7 +41,7 @@ public:
 	bool Play(int end = -1);
 	bool Pause();
 	bool Stop();
-	void SetPosition(int _time, bool starttime = true, bool corect = true, bool async = true);
+	void SetPosition(int _time, bool starttime = true, bool corect = true, bool async = true, bool refreshAudio = true) override;
 	int GetFrameTime(bool start = true);
 	void GetStartEndDelay(int startTime, int endTime, int *retStart, int *retEnd);
 	int GetFrameTimeFromTime(int time, bool start = true);

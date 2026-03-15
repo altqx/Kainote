@@ -90,8 +90,8 @@ public:
 	virtual bool Play(int end = -1){ return false; };
 	virtual bool Pause(){ return false; };
 	virtual bool Stop(){ return false; };
-	virtual void SetPosition(int _time, bool starttime = true, bool corect = true, bool async = true){};
-	virtual void SetFFMS2Position(int time, bool starttime){};
+	virtual void SetPosition(int _time, bool starttime = true, bool corect = true, bool async = true, bool refreshAudio = true){};
+	virtual void SetFFMS2Position(int time, bool starttime, bool refreshAudio = true){};
 	virtual void GoToNextKeyframe(){};
 	virtual void GoToPrevKeyframe(){};
 	virtual int GetFrameTime(bool start = true){ return 0; };

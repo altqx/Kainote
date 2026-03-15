@@ -371,16 +371,17 @@ bool RendererFFMS2::Stop()
 	return false;
 }
 
-void RendererFFMS2::SetPosition(int _time, bool starttime/*=true*/, bool corect/*=true*/, bool async /*= true*/)
+void RendererFFMS2::SetPosition(int _time, bool starttime/*=true*/, bool corect/*=true*/, 
+	bool async /*= true*/, bool refreshAudio/* = true*/)
 {
 	if (m_State == Playing || !async)
-		SetFFMS2Position(_time, starttime);
+		SetFFMS2Position(_time, starttime, refreshAudio);
 	else
-		m_FFMS2->SetPosition(_time, starttime);
+		m_FFMS2->SetPosition(_time, starttime, refreshAudio);
 }
 
 //is from video thread make safe any deletion
-void RendererFFMS2::SetFFMS2Position(int _time, bool starttime){
+void RendererFFMS2::SetFFMS2Position(int _time, bool starttime, bool refreshAudio/* = true*/){
 	bool playing = m_State == Playing;
 	m_Frame = m_FFMS2->GetFramefromMS(_time, (m_Time > _time) ? 0 : m_Frame);
 	if (!starttime){
@@ -414,7 +415,7 @@ void RendererFFMS2::SetFFMS2Position(int _time, bool starttime){
 	else{
 		//rebuild spectrum cause position can be changed
 		//and it causes random bugs
-		if (m_AudioPlayer){ m_AudioPlayer->UpdateImage(false, true); }
+		if (refreshAudio && m_AudioPlayer){ m_AudioPlayer->UpdateImage(false, false); }
 		
 		videoControl->RefreshTime();
 		Render();

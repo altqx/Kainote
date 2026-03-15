@@ -149,7 +149,7 @@ void ProviderFFMS2::Processing()
 		}
 		else if (wait_result == WAIT_OBJECT_0 + 1) {
 			//entire seeking have to be in this thread or subtitles will out of sync
-			m_renderer->SetFFMS2Position(m_changedTime, m_isStartTime);
+			m_renderer->SetFFMS2Position(m_changedTime, m_isStartTime, m_refreshAudio);
 		}
 		else {
 			break;

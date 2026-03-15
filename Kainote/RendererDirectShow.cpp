@@ -571,7 +571,7 @@ bool RendererDirectShow::Stop()
 	return false;
 }
 
-void RendererDirectShow::SetPosition(int _time, bool starttime/*=true*/, bool corect/*=true*/, bool async /*= true*/)
+void RendererDirectShow::SetPosition(int _time, bool starttime/*=true*/, bool corect/*=true*/, bool async /*= true*/, bool refreshAudio/* = true*/)
 {
 
 	bool playing = m_State == Playing;

@@ -388,11 +388,12 @@ bool VideoBox::LoadVideo(const wxString& fileName, int subsFlag, bool fulls /*= 
 }
 
 
-bool VideoBox::Seek(int whre, bool starttime/*=true*/, bool disp/*=true*/, bool reloadSubs/*=true*/, bool correct /*= true*/, bool asynchonize /*= true*/)
+bool VideoBox::Seek(int whre, bool starttime/*=true*/, bool disp/*=true*/, bool reloadSubs/*=true*/, 
+	bool correct /*= true*/, bool asynchonize /*= true*/, bool refreshAudio /*= true*/)
 {
 	wxMutexLocker lock(vbmutex);
 	if (!renderer){ return false; }
-	renderer->SetPosition(whre, starttime, correct, asynchonize);
+	renderer->SetPosition(whre, starttime, correct, asynchonize, refreshAudio);
 	return true;
 }
 

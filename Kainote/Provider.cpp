@@ -179,10 +179,11 @@ void Provider::OpenKeyframes(const wxString& filename)
 	}
 }
 
-void Provider::SetPosition(int time, bool starttime)
+void Provider::SetPosition(int time, bool starttime, bool refteshAudio/* = true*/)
 {
 	m_changedTime = time;
 	m_isStartTime = starttime;
+	m_refreshAudio = refteshAudio;
 	SetEvent(m_eventSetPosition);
 }
 

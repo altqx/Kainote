@@ -66,7 +66,7 @@ public:
 	long long GetNumFrames() { return m_numFrames; }
 	void SetNumFrames(long long numFrames) { m_numFrames = numFrames; }
 	void OpenKeyframes(const wxString& filename);
-	void SetPosition(int time, bool starttime);
+	void SetPosition(int time, bool starttime, bool refteshAudio = true);
 	bool AudioNotInitialized() {
 		return audioNotInitialized;
 	}
@@ -91,6 +91,7 @@ protected:
 	int m_framePlane = 0;
 	int m_changedTime = 0;
 	bool m_isStartTime = false;
+	bool m_refreshAudio = true;
 	double m_duration = 0;
 	float m_FPS;
 	long long m_numSamples;
