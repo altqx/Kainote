@@ -7858,27 +7858,6 @@ msgstr "Berganda"
 msgid "Pomnóż+"
 msgstr "Darab+"
 
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient tekst"
-msgstr "Teks kecerunan"
-
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient linia"
-msgstr "Garis kecerunan"
-
-#: VideoToolbar.cpp:740
-#, fuzzy
-msgid ""
-"Opcje zmiany tagów:\n"
-"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
-"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
-"albo na początku w przypadku wielu linii.\n"
-"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
-"pierwsza linia nie jest zmieniana."
-msgstr "Pilihan untuk menukar teg:\nTambah - menukar semua teg menambah bergerak pada gelangsar.\nSisip - memasukkan tag dalam kedudukan kursor apabila satu baris\natau pada permulaan baris apabila berbilang baris.\nDarab - darabkan pergerakan peluncur dengan nombor od baris yang dipilih\nbaris pertama bukan perubahan. Dibuat untuk meletakkan lata."
-
 #: VideoToolbar.cpp:762
 #, fuzzy
 msgid "Edycja tagów z listy oraz tworzenie nowych"

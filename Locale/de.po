@@ -7,7 +7,7 @@
 # Weblate <noreply-mt-weblate@weblate.org>, 2026.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-01-27 19:02+0000\nLast-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\nLanguage-Team: German <https://hosted.weblate.org/projects/kainote/kainote/de/>\nLanguage: de\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.16-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-03-10 10:10+0000\nLast-Translator: Weblate <noreply-mt-weblate@weblate.org>\nLanguage-Team: German <https://hosted.weblate.org/projects/kainote/kainote/de/>\nLanguage: de\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.17-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:72
 msgid "Pasek szukania"
@@ -7660,27 +7660,6 @@ msgstr "Liste der Tags, die das visuelle Werkzeug bearbeiten kann"
 msgid "Pomnóż+"
 msgstr "Multiplizieren+"
 
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient tekst"
-msgstr "Text mit Farbverlauf"
-
-#: VideoToolbar.cpp:737 VisualAllTagsEdition.cpp:86
-#, fuzzy
-msgid "Gradient linia"
-msgstr "Steigungslinie"
-
-#: VideoToolbar.cpp:740
-#, fuzzy
-msgid ""
-"Opcje zmiany tagów:\n"
-"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
-"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
-"albo na początku w przypadku wielu linii.\n"
-"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
-"pierwsza linia nie jest zmieniana."
-msgstr "Optionen zum Ändern von Tags:\nHinzufügen - ändert alle Tags, indem es den Schieberegler bewegt.\nEinfügen - fügt das Tag an der Cursorposition ein, wenn es sich um eine Zeile handelt\noder am Anfang der Zeile, wenn mehrzeilig.\nMultiplizieren - multipliziert die Bewegung des Schiebereglers mit der Anzahl der ausgewählten Zeilen.\nDie erste Zeile wird nicht geändert. Für die Kaskadenplatzierung gemacht."
-
 #: VideoToolbar.cpp:762
 #, fuzzy
 msgid "Edycja tagów z listy oraz tworzenie nowych"
@@ -8546,3 +8525,58 @@ msgstr "Ordner mit externen Schriftarten"
 #, fuzzy
 msgid "Wybierz zewnętrzny folder czcionek"
 msgstr "Wählen Sie den externen Schriftordner aus"
+
+#: HotkeysNaming.cpp:200 KainoteFrame.cpp:268
+#, fuzzy
+msgid "Wyłącz powiększenie wideo"
+msgstr "Video vergrößern"
+
+#: OptionsDialog.cpp:566
+#, fuzzy
+msgid "Początkowy zoom wideo w procentach"
+msgstr "Starten Sie Videozoom in Prozent."
+
+#: TabPanel.cpp:297
+#, fuzzy
+msgid "Napisy zostały zmodyfikowane przez inny program, przeładować?"
+msgstr "Subtiltes wurde durch ein anderes Programm geändert, neu geladen?"
+
+#: VideoToolbar.cpp:747 VisualAllTagsEdition.cpp:86
+#, fuzzy
+msgid "Gradient tekst rosnąco"
+msgstr "Gradienter Text zunehmend"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient tekst malejąco"
+msgstr "Gradienter Text abnehmend"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient linia rosnąco"
+msgstr "Gradientenlinie zunehmend"
+
+#: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
+#, fuzzy
+msgid "Gradient linia malejąco"
+msgstr "Gradientenlinie abnehmend"
+
+#: VideoToolbar.cpp:751
+#, fuzzy
+msgid ""
+"Opcje zmiany tagów:\n"
+"Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
+"Wstaw - wstawia w miejsce kursora w przypadku jednej linii\n"
+"albo na początku w przypadku wielu linii.\n"
+"Pomnóż - mnoży ruch suwaka przez numer zaznaczonej linijki\n"
+"pierwsza linia nie jest zmieniana.\n"
+"Gradnient tekst rosnąco - wstawia tag co znak rosnąco\n"
+"Gradnient tekst malejąco - wstawia tag co znak malejąco\n"
+"Gradient linia rosnąco - wstawia tag w zaznaczone linie rosnąco\n"
+"Gradient linia malejąco - wstawia tag w zaznaczone linie malejąco"
+msgstr "Optionen des Tagswechsels:\nHinzufügen - ändert alle Tags, die auf Slider verschieben.\nEinfügen - Einfügen des Tags in Cursorposition, wenn eine Zeile\noder am Anfang der Linie, wenn Multiline.\nMultiply - Multiply Bewegung des Schiebers nach Anzahl od ausgewählte Zeile\neine erste Zeile ist keine Änderungen. Hergestellt für Kaskade Platzierung.\nGradiente Textvergrößerung - setzen Tag in jedem Zeichen\nErhöhen Sie es für Nummer auf Schieberegler\nGradienter Text abnehmend - setzen Tag in jedem Zeichen\nabnehmen von der Anzahl auf dem Schieberegler\nGradiente Linie zunehmend - setzen Tag in jeder Zeile\nErhöhen Sie es für Nummer auf Schieberegler\nGradiente Linie abnehmend - setzen Tag in jeder Zeile\nabnehmen von der Anzahl auf dem Schieberegler"
+
+#: TabPanel.cpp:297
+#, fuzzy
+msgid "Przeładowywanie"
+msgstr "Aktualisiert"
