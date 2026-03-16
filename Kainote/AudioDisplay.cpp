@@ -1546,11 +1546,12 @@ void AudioDisplay::SetSelection(int start, int end) {
 ////////////////
 // Set dialogue
 void AudioDisplay::SetDialogue(Dialogue *diag, int n, bool moveToEnd) {
+	wxCriticalSectionLocker lock(mutex);
 	// Actual parameters
 	// Set variables
 	bool isNextLine = (line_n + 1 == n);
 	line_n = n;
-	//dialog jest tylko odczytywany, jest on własnością editboxa, usuwać go nie można.
+	//dialogue is only readed is editbox property do not destroy
 	dialogue = diag;
 	NeedCommit = false;
 	currentSyllable = 0;
@@ -1578,12 +1579,9 @@ void AudioDisplay::SetDialogue(Dialogue *diag, int n, bool moveToEnd) {
 	}
 
 
-	// Reset karaoke pos
-
+	// Split karaoke syllables
 	if (hasKara){
-		//whichsyl=0;
 		karaoke->Split();
-
 	}
 
 	// Update	

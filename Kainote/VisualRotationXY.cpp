@@ -60,7 +60,7 @@ void RotationXY::DrawVisual(int time)
 	if (from != org){
 		float txx = ((from.x / s.x) * 60) - 30;
 		float tyy = ((from.y / s.y) * 60) - 30;
-		D3DXMatrixTranslation(&matTramsate, txx - (xxx), -(tyy - (yyy * 30)), 0.0f);
+		D3DXMatrixTranslation(&matTramsate, txx - (xxx * 30), -(tyy - (yyy * 30)), 0.0f);
 		matRotate = matTramsate*matRotate;
 	}
 
@@ -316,7 +316,7 @@ wxPoint RotationXY::ChangeVisual(wxString* txt)
 {
 	if (isOrg) {
 		//org is placed only on time in line
-		FindTag(L"org\\(([^\\)]+)", *txt, 1);
+		FindTag(L"org\\(([^\\)]+)\\)", *txt, 1);
 		wxString visual = L"\\org(" + getfloat(((org.x / zoomScale.x) + zoomMove.x) * coeffW) + L"," +
 			getfloat(((org.y / zoomScale.y) + zoomMove.y) * coeffH) + L")";
 

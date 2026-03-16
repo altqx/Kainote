@@ -95,7 +95,6 @@ private:
 	int *min = nullptr;
 
 	wxCriticalSection mutex;
-	wxCriticalSection mutexUpdate;
 	int currentSyllable = 0;
 	int currentCharacter = 0;
 	int syllableHover = 0;

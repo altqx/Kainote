@@ -376,7 +376,7 @@ wxPoint RotationZ::ChangeVisual(wxString* txt)
 	}
 
 	if (isOrg) {
-		FindTag(L"org\\(([^\\)]+)", *txt, 1);
+		FindTag(L"org\\(([^\\)]+)\\)", *txt, 1);
 		wxString visual = L"\\org(" + getfloat(((org.x / zoomScale.x) + zoomMove.x) * coeffW) + L"," +
 			getfloat(((org.y / zoomScale.y) + zoomMove.y) * coeffH) + L")";
 
