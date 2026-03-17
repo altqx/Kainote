@@ -223,7 +223,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 		//refresh have to be fast, reduce recalculation id to key to minimum
 		//scrollPositionId it's also strored 
 		int key = scrollPosition - 1;
-		int numeration = key;
+		int numeration = GetDialoguePosition(scrollPosition);
 		int id = scrollPositionId - 1;
 		int idmarkerPos = -1;
 		int idcurrentLine = -1;
@@ -270,7 +270,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 			}
 			else{
 				TextData &Misspells = SpellErrors[key];
-				strings.push_back(wxString::Format(L"%i", numeration + 1));
+				strings.push_back(wxString::Format(L"%i", numeration));
 
 				isComment = Dial->IsComment;
 				if (key == markedLine)
@@ -616,7 +616,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 	//refresh have to be fast, reduce recalculation id to key to minimum
 	//scrollPositionId it's also strored 
 	int key = scrollPosition - 1;
-	int numeration = key;
+	int numeration = GetDialoguePosition(scrollPosition);
 	int id = scrollPositionId - 1;
 	int idmarkerPos = -1;
 	int idcurrentLine = -1;
@@ -667,7 +667,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 		}
 		else{
 			TextData &Misspells = SpellErrors[key];
-			strings.push_back(wxString::Format(L"%i", numeration + 1));
+			strings.push_back(wxString::Format(L"%i", numeration));
 
 			isComment = Dial->IsComment;
 			if (key == markedLine)

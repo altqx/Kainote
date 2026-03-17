@@ -138,6 +138,7 @@ public:
 	size_t GetKeyFromScrollPos(int numOfLines);
 	//it should works without checks;
 	size_t GetKeyFromPosition(size_t position, int delta, bool safe = true);
+	size_t GetDialoguePosition(size_t keyPosition);
 
 	void DummyUndo(int newIter);
 	void GetCommonStyles(SubsGridBase *grid, wxArrayString &styleTable);

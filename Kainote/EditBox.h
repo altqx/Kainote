@@ -195,6 +195,7 @@ private:
 	void OnStyleEdit(wxCommandEvent& event);
 	void OnFontChange(wxCommandEvent& event);
 	void SetTagButtons();
+	void SetAlignment();
 	void DoTooltips();
 	wxPoint FindBrackets(const wxString & text, long from);
 	void SwapRTLTextLines(wxString* text, int posOfSplit, const wxString & splitTag);

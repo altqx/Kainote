@@ -2047,6 +2047,19 @@ size_t SubsGridBase::GetKeyFromPosition(size_t position, int delta, bool safe /*
 	return position;
 }
 
+size_t SubsGridBase::GetDialoguePosition(size_t keyPosition)
+{
+	if (keyPosition >= file->GetCount())
+		return file->GetCount() - 1;
+
+	size_t dialogues = 0;
+	for (size_t i = 0; i < keyPosition; i++) {
+		if (!file->GetDialogue(i)->NonDialogue)
+			dialogues++;
+	}
+	return dialogues;
+}
+
 
 
 

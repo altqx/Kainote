@@ -160,17 +160,9 @@ EditBox::EditBox(wxWindow *parent, int idd)
 	isdetached = splittedTags = false;
 	Visual = 0;
 
-	wxArrayString ans;
-	ans.Add(L"an1");
-	ans.Add(L"an2");
-	ans.Add(L"an3");
-	ans.Add(L"an4");
-	ans.Add(L"an5");
-	ans.Add(L"an6");
-	ans.Add(L"an7");
-	ans.Add(L"an8");
-	ans.Add(L"an9");
-
+	wxString alignments[] = { _("Lewo-dół") + L" (an1)", _("Środek-dół") + L" (an2)", _("Prawo-dół") + L" (an3)",
+		_("Lewo-środek") + L" (an4)", _("Środek") + L" (an5)", _("Prawo-środek") + L" (an6)",
+		_("Lewo-góra") + L" (an7)", _("Środek-góra") + L" (an8)", _("Prawo-góra") + L" (an9)" };
 
 	Bfont = new MappedButton(this, EDITBOX_CHANGE_FONT, emptyString, _("Wybór czcionki"), 
 		wxDefaultPosition, wxDefaultSize, EDITBOX_HOTKEY, MAKE_SQUARE_BUTTON);
@@ -204,7 +196,7 @@ EditBox::EditBox(wxWindow *parent, int idd)
 	Bcol4->SetBitmap(wxBITMAP_PNG(L"Kolor4"));
 	Bcol4->Bind(wxEVT_RIGHT_UP, &EditBox::OnColorRightClick, this);
 	
-	Ban = new KaiChoice(this, ID_AN, wxDefaultPosition, wxDefaultSize, ans);
+	Ban = new KaiChoice(this, ID_AN, wxDefaultPosition, wxDefaultSize, 9, alignments);
 	Ban->Select(1);
 
 	BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
@@ -415,7 +407,7 @@ void EditBox::SetLine(int Row, bool setaudio, bool save, bool nochangeline, bool
 		grid->currentLine = Row;
 		wxDELETE(line);
 		line = grid->GetDialogue(currentLine)->Copy();
-		LineNumber->SetLabelText(wxString::Format(_("Linia: %i"), (int)grid->file->GetElementByKey(currentLine) + 1));
+		LineNumber->SetLabelText(wxString::Format(_("Linia: %i"), (int)grid->GetDialoguePosition(currentLine) + 1));
 		Comment->SetValue(line->IsComment);
 		LayerEdit->SetInt(line->Layer);
 		StartEdit->SetTime(line->Start, false, 1);
@@ -446,6 +438,9 @@ void EditBox::SetLine(int Row, bool setaudio, bool save, bool nochangeline, bool
 
 		//set characters per seconds and wraps
 		UpdateChars();
+
+		//set alighment on list
+		SetAlignment();
 	}
 
 	//block show audio and video when preview enabled
@@ -2034,6 +2029,20 @@ void EditBox::SetTagButtons()
 
 
 
+}
+
+void EditBox::SetAlignment()
+{
+	Styles* currentStyle = grid->GetStyle(0, line->Style);
+	const wxString& txt = line->TextTl != L"" ? line->TextTl : line->Text;
+	int tmpan;
+	tmpan = wxAtoi(currentStyle->Alignment);
+	wxRegEx an(L"\\\\an([0-9]+)", wxRE_ADVANCED);
+	if (an.Matches(txt)) {
+		tmpan = wxAtoi(an.GetMatch(txt, 1));
+	}
+	// an list starts from 0 an from 1 
+	Ban->SetSelection(tmpan - 1);
 }
 
 void EditBox::SetActiveLineToDoubtful()
