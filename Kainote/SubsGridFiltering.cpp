@@ -39,8 +39,7 @@ void SubsGridFiltering::Filter(bool autoFiltering, bool removeFiltering)
 	if (removeFiltering){
 		if (grid->file->IsFiltered()){
 			TurnOffFiltering();
-			grid->file->SetFiltered(false);
-			FilteringFinalize();
+			FilteringFinalize(FILTERING_REMOVE);
 		}
 		return;
 	}
@@ -90,7 +89,7 @@ void SubsGridFiltering::Filter(bool autoFiltering, bool removeFiltering)
 			lastDial = dial;
 			lastI = i;
 		}
-		else{
+		else if(dial->isVisible != VISIBLE){
 			Dialogue* dialc = grid->file->CopyDialogue(i, true, true);
 			dialc->isVisible = VISIBLE;
 		}
@@ -217,10 +216,13 @@ void SubsGridFiltering::TurnOffFiltering()
 
 void SubsGridFiltering::FilteringFinalize(int id)
 {
-	grid->RefreshSubsOnVideo(activeLine);
-	grid->RefreshColumns();
-	grid->file->SetAsEdited();
-	grid->SetModified(id, false, false, -1, false);
+	bool removeFiltering = id == FILTERING_REMOVE;
+	if (grid->file->IsNotSaved() || removeFiltering) {
+		grid->file->SetFiltered(!removeFiltering);
+		grid->RefreshSubsOnVideo(activeLine);
+		grid->RefreshColumns();
+		grid->SetModified(id, false, false, -1, false);
+	}
 }
 
 inline bool SubsGridFiltering::CheckHiding(Dialogue *dial, int i)

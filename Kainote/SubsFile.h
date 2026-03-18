@@ -79,7 +79,9 @@ enum{
 	TREE_ADD_LINES,
 	TREE_REMOVE,
 	AUTOMATION_SCRIPT,
-	FILTERING_CHANGE
+	FILTERING_CHANGE,
+	FILTERING_REMOVE,
+	GRID_SPLIT_LINES,
 };
 
 //Filtering is treated as keys, every dialogue get/set functions use keys, ids are only for paint or mouse using
@@ -140,7 +142,7 @@ public:
 	void InsertRows(int Row, const std::vector<Dialogue *> &RowsTable, bool AddToDestroy);
 	//Warning!! Adding the same dialogue pointer to destroyer cause crash
 	//not adding it when needed cause memory leaks.
-	void InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy, bool Save);
+	void InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy);
 	void SwapRows(int frst, int scnd);
 	void SortAll(bool func(Dialogue *i, Dialogue *j));
 	void SortSelected(bool func(Dialogue *i, Dialogue *j));

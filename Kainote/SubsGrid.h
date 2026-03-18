@@ -60,6 +60,7 @@ private:
 	void OnMakeContinous(int id);
 	void OnShowPreview();
 	void Filter(int id);
+	void Split(int id);
 	void TreeAddLines(int treeLine);
 	void TreeCopy(int treeLine);
 	void TreeChangeName(int treeLine);

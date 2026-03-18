@@ -130,7 +130,7 @@ public:
 	// returns visible lines as string for Vsfilter
 	wxString *GetVisible(bool *visible = 0, wxPoint *point = nullptr, wxArrayInt *selected = nullptr, bool allSubs = false);
 	void SelectVisible();
-	bool IsLineVisible();
+	bool IsLineVisible(bool visibleOnPlay = true);
 	//Get line key from scrollPosition.
 	//Every value will be stored as key.
 	//Simple function to convert key to id from scroll position

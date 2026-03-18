@@ -314,6 +314,9 @@ public:
 	//ref value after copy dialogue it can by modifiable
 	wxString & GetText();
 	void SetText(const wxString &text);
+	void SplitByChar(wxArrayString* charsTable);
+	void SplitByWord(wxArrayString* wordsTable);
+	void SplitByWrap(wxArrayString* wrapsTable);
 	Dialogue();
 	Dialogue(const wxString &ldial, const wxString &txttl = emptyString);
 	~Dialogue();

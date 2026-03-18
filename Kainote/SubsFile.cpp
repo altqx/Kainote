@@ -109,7 +109,7 @@ File *File::Copy(bool copySelections)
 
 SubsFile::SubsFile(wxMutex * editionGuard)
 {
-	historyNames = new wxString[FILTERING_CHANGE + 1]{
+	historyNames = new wxString[GRID_SPLIT_LINES + 1]{
 		//first element is not used but is to secure it from number 0
 		emptyString,
 			_("Otwarcie napisów"),
@@ -168,7 +168,9 @@ SubsFile::SubsFile(wxMutex * editionGuard)
 			_("Dodanie linii do drzewka"),
 			_("Usunięcie drzewka"),
 			_("Skrypt automatyzacji"),
-			_("Filtrowanie")
+			_("Filtrowanie"),
+			_("Usunięcie filtrowania"),
+			_("Dzielenie linii")
 	};
 	iter = 0;
 	edited = false;
@@ -877,7 +879,7 @@ void SubsFile::InsertRows(int Row,
 	if (AddToDestroy){ subs->deleteDialogues.insert(subs->deleteDialogues.end(), RowsTable.begin(), RowsTable.end()); }
 }
 
-void SubsFile::InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy, bool Save)
+void SubsFile::InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy)
 {
 	size_t convertedRow = Row;
 	if (convertedRow >= subs->dialogues.size()){ convertedRow = subs->dialogues.size(); }

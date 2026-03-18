@@ -71,8 +71,10 @@ private:
 	wxString userDictionaryPath;
 	bool useSpellChecker = true;
 	bool isRTL = false;
+	bool allCPSChars = false;
+	bool allWrapsChars = false;
 	//no const cause of clearing
-	inline void Check(std::wstring &checkText, TextData *errs, std::vector<MisspellData> *misspells, std::vector<size_t> &textOffset, const wxString &text, bool repltags, int replaceTagsLen);
+	inline void Check(std::wstring &checkText, TextData *errs, std::vector<MisspellData> *misspells, std::vector<size_t> &textOffset, const wxString &text, bool repltags, int replaceTagsLen, int fullTextLen);
 };
 
 

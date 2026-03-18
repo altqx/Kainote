@@ -1145,7 +1145,7 @@ void SubsGridBase::InsertRows(int Row,
 // two addings makes crash when object is destroyed.
 void SubsGridBase::InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy, bool Save)
 {
-	file->InsertRows(Row, NumRows, Dialog, AddToDestroy, Save);
+	file->InsertRows(Row, NumRows, Dialog, AddToDestroy);
 	//spellErrors Array take all dialogues for compatybility
 	//but can be simply cleared
 	if (SpellErrors.size() > Row){
@@ -1205,8 +1205,8 @@ void SubsGridBase::SetModified(unsigned char editionType, bool redit, bool dummy
 			int newCurrentLine = (SetEditBoxLine >= 0) ? SetEditBoxLine : currentLine;
 			if (newCurrentLine >= GetCount()){ newCurrentLine = GetCount() - 1; }
 			lastRow = newCurrentLine;
-			int w, h;
-			GetClientSize(&w, &h);
+			/*int w, h;
+			GetClientSize(&w, &h);*/
 			if (Scroll){
 				if (Options.GetBool(GRID_DONT_CENTER_ACTIVE_LINE))
 					MakeVisible(newCurrentLine);
@@ -1710,10 +1710,10 @@ void SubsGridBase::SelectVisible()
 		Refresh(false);
 }
 
-bool SubsGridBase::IsLineVisible()
+bool SubsGridBase::IsLineVisible(bool visibleOnPlay/* = true*/)
 {
 	int _time = tab->video->Tell();
-	bool toEnd = tab->video->GetState() == Playing;
+	bool toEnd = tab->video->GetState() == Playing && visibleOnPlay;
 	return ((_time >= (edit->line->Start.mstime - 5) || toEnd) && _time < (edit->line->End.mstime + 5));
 }
 

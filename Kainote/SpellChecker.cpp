@@ -234,7 +234,8 @@ bool SpellChecker::RemoveWords(const wxArrayString &words)
 	return succeded > 0;
 }
 
-inline void SpellChecker::Check(std::wstring &checkText, TextData *errs, std::vector<MisspellData> *misspells, std::vector<size_t> &textOffset, const wxString &text, bool repltags, int replaceTagsLen) {
+inline void SpellChecker::Check(std::wstring &checkText, TextData *errs, std::vector<MisspellData> *misspells, 
+	std::vector<size_t> &textOffset, const wxString &text, bool repltags, int replaceTagsLen, int fullTextLen) {
 	using namespace boost::locale;
 	boundary::wssegment_index index(boundary::word, checkText.begin(), checkText.end());
 	boundary::wssegment_index::iterator p, e;
@@ -291,10 +292,11 @@ inline void SpellChecker::Check(std::wstring &checkText, TextData *errs, std::ve
 	else {
 		KaiLog(L"text offset size != text size not spellchecking");
 	}
-	errs->chars += charCounter;
+	errs->chars += allCPSChars ? fullTextLen : charCounter;
+	int wrapsCharCounter = allWrapsChars ? fullTextLen : charCounter;
 	if(!errs->badWraps)
-		errs->badWraps = (charCounter > 43) || errs->wraps.Freq(L'/') > 1;
-	errs->wraps << charCounter << L"/";
+		errs->badWraps = (wrapsCharCounter > 43) || errs->wraps.Freq(L'/') > 1;
+	errs->wraps << wrapsCharCounter << L"/";
 	checkText.clear();
 	textOffset.clear();
 }
@@ -315,7 +317,10 @@ void SpellChecker::CheckTextAndBrackets(const wxString &text, TextData *errs, bo
 	int lastStartTBracket = -1;
 	int lastStartCBracket = -1;
 	int lastEndCBracket = -1;
+	int hardSpaceOffset = 0;
 	useSpellChecker = spellchecker && hunspell;
+	allCPSChars = Options.GetBool(CALC_SPACES_AND_PUNCTATION_FOR_CPS);
+	allWrapsChars = Options.GetBool(CALC_SPACES_AND_PUNCTATION_FOR_WRAPS);
 	bool drawing = false;
 	wxUniChar split = (subsFormat > SRT) ? L'|' : L'\\';
 	wxUniChar bracketStart = (subsFormat == SRT) ? L'<' : L'{';
@@ -408,17 +413,21 @@ void SpellChecker::CheckTextAndBrackets(const wxString &text, TextData *errs, bo
 
 		if (!block && !drawing) {
 			if (ch == split) {
+				int fullTextLen = checkText.size();
 				if (subsFormat > SRT) {
 					checkText += L" ";
 					textOffset.push_back(repltags ? tagReplaceI : i);
-					Check(checkText, errs, misspells, textOffset, text, repltags, replaceTagsLen);
+					Check(checkText, errs, misspells, textOffset, text, repltags, replaceTagsLen, fullTextLen);
 				}
 				else{
 					//replace for \n
 					const wxUniChar &nch = text[(i + 1 < textLen) ? i + 1 : i];
 					bool splitSecond = nch == L'N' || nch == L'n';
-					if (splitSecond || nch == L'h')
+					if (splitSecond || nch == L'h') {
 						checkText += L"  ";
+						if(nch == L'h')
+							hardSpaceOffset += 1;
+					}
 					else {
 						checkText += ch;
 						checkText += nch;
@@ -427,7 +436,8 @@ void SpellChecker::CheckTextAndBrackets(const wxString &text, TextData *errs, bo
 					textOffset.push_back(repltags ? tagReplaceI + 1 : i + 1);
 
 					if (splitSecond) {
-						Check(checkText, errs, misspells, textOffset, text, repltags, replaceTagsLen);
+						Check(checkText, errs, misspells, textOffset, text, repltags, replaceTagsLen, fullTextLen - hardSpaceOffset);
+						hardSpaceOffset = 0;
 					}
 
 					i++;
@@ -446,7 +456,7 @@ void SpellChecker::CheckTextAndBrackets(const wxString &text, TextData *errs, bo
 
 	}
 	if (checkText.size()) {
-		Check(checkText, errs, misspells, textOffset, text, repltags, replaceTagsLen);
+		Check(checkText, errs, misspells, textOffset, text, repltags, replaceTagsLen, checkText.size() - hardSpaceOffset);
 	}
 	if (errs->wraps.empty())
 		errs->wraps = L"0/";

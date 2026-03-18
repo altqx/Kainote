@@ -420,6 +420,14 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		MainSizer10->Add(new KaiStaticText(EditorAdvanced, -1, _("Czcionka programu:")), 5, wxRIGHT | /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND, 10);
 		MainSizer10->Add(programFont, 0, wxEXPAND);
 
+		KaiCheckBox* allCharWraps = new KaiCheckBox(EditorAdvanced, -1, _("Zliczaj spacje i znaki interpunkcyjne dla łamań"));
+		allCharWraps->SetValue(Options.GetBool(CALC_SPACES_AND_PUNCTATION_FOR_WRAPS));
+		ConOpt(allCharWraps, CALC_SPACES_AND_PUNCTATION_FOR_WRAPS);
+		KaiCheckBox* allCharCPS = new KaiCheckBox(EditorAdvanced, -1, _("Zliczaj spacje i znaki interpunkcyjne dla ZNS"));
+		allCharCPS->SetValue(Options.GetBool(CALC_SPACES_AND_PUNCTATION_FOR_CPS));
+		ConOpt(allCharCPS, CALC_SPACES_AND_PUNCTATION_FOR_CPS);
+		
+
 		KaiStaticBoxSizer* alm = new KaiStaticBoxSizer(wxHORIZONTAL, EditorAdvanced, _("Sposób wczytywania skryptów autoload"));
 		wxString methods[] = { _("Przy starcie programu asynchronicznie"), _("Przy starcie programu"), _("Przy otwarciu menu asynchronicznie"), _("Przy otwarciu menu") };
 		KaiChoice* cmb = new KaiChoice(EditorAdvanced, ID_KAI_CHOICE, wxDefaultPosition, wxSize(200, -1), 4, methods, wxTE_PROCESS_ENTER);
@@ -440,6 +448,8 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		fontsPath->Add(path, 4, wxALL | wxEXPAND, 4);
 		fontsPath->Add(choosePath, 1, wxALL | wxEXPAND, 4);
 
+		Main1Sizer->Add(allCharWraps, 0, wxALL, 2);
+		Main1Sizer->Add(allCharCPS, 0, wxALL, 2);
 		Main1Sizer->Add(MainSizer2, 0, wxRIGHT | wxLEFT | wxTOP | wxEXPAND, 5);
 		Main1Sizer->Add(MainSizer3, 0, wxRIGHT | wxLEFT | wxTOP | wxEXPAND, 5);
 		Main1Sizer->Add(MainSizer4, 0, wxRIGHT | wxLEFT | wxTOP | wxEXPAND, 5);

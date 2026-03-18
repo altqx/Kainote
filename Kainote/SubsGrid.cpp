@@ -137,6 +137,7 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	menu->SetMaxVisible(35);
 	Menu *hidemenu = new Menu(GRID_HOTKEY);
 	Menu *filterMenu = new Menu(GRID_HOTKEY);
+	Menu* splitMenu = new Menu(GRID_HOTKEY);
 	//hide submenu
 	hidemenu->SetAccMenu(GRID_HIDE_LAYER, _("Ukryj warstwę"), _("Ukryj warstwę"), subsFormat < SRT, ITEM_CHECK)->Check((visibleColumns & LAYER) != 0);
 	hidemenu->SetAccMenu(GRID_HIDE_START, _("Ukryj czas początkowy"), _("Ukryj czas początkowy"), true, ITEM_CHECK)->Check((visibleColumns & START) != 0);
@@ -150,6 +151,17 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	hidemenu->SetAccMenu(GRID_HIDE_CPS, _("Ukryj znaki na sekundę"), _("Ukryj znaki na sekundę"), true, ITEM_CHECK)->Check((visibleColumns & CPS) != 0);
 	hidemenu->SetAccMenu(GRID_HIDE_WRAPS, _("Ukryj łamania linii"), _("Ukryj łamania linii"), true, ITEM_CHECK)->Check((visibleColumns & WRAPS) != 0);
 
+	//split menu
+	bool isEnabled = (sels == 1 && IsLineVisible(false));
+	splitMenu->SetAccMenu(GRID_SPLIT_BY_VIDEO_TIME, _("Podziel linię do czasu wideo"))->Enable(isEnabled);
+	isEnabled = sels > 0 && tab->video->HasFFMS2();
+	splitMenu->SetAccMenu(GRID_SPLIT_BY_FRAME, _("Podziel linie na klatki"))->Enable(isEnabled);
+	splitMenu->SetAccMenu(GRID_SPLIT_BY_FRAME_AND_CHARS, _("Podziel linię na klatki i znaki"))->Enable(isEnabled);
+	isEnabled = sels > 0;
+	splitMenu->SetAccMenu(GRID_SPLIT_BY_CHARS, _("Podziel linie na znaki"))->Enable(isEnabled);
+	splitMenu->SetAccMenu(GRID_SPLIT_BY_WORDS, _("Podziel linie na słowa"))->Enable(isEnabled);
+	splitMenu->SetAccMenu(GRID_SPLIT_BY_WRAPS, _("Podziel linie według łamań"))->Enable(isEnabled);
+
 	//styles menu
 	Menu *stylesMenu = new Menu();
 	std::vector<Styles*> *styles = file->GetStyleTable();
@@ -158,7 +170,10 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	filterStyles.clear();
 	for (size_t i = 0; i < StylesSize(); i++){
 		MenuItem * styleItem = stylesMenu->Append(ID_FILTERING_STYLES, (*styles)[i]->Name, emptyString, true, nullptr, nullptr, ITEM_CHECK);
-		if (optionsFilterStyles.Index((*styles)[i]->Name) != -1){ styleItem->Check(); filterStyles.Add((*styles)[i]->Name); }
+		if (optionsFilterStyles.Index((*styles)[i]->Name) != -1){ 
+			styleItem->Check(); 
+			filterStyles.Add((*styles)[i]->Name); 
+		}
 	}
 	//filter submenu
 	int filterBy = Options.GetInt(GRID_FILTER_BY);
@@ -175,7 +190,7 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	filterMenu->SetAccMenu(GRID_FILTER, _("Filtruj"), _("Filtruj"));
 	filterMenu->SetAccMenu(GRID_FILTER_BY_NOTHING, _("Wyłącz filtrowanie"), _("Wyłącz filtrowanie"))->Enable(file->IsFiltered());
 
-	bool isEnabled;
+	
 	isEnabled = (sels > 0);
 	menu->SetAccMenu(GRID_INSERT_BEFORE, _("Wstaw &przed"))->Enable(isEnabled);
 	menu->SetAccMenu(GRID_INSERT_AFTER, _("Wstaw p&o"))->Enable(isEnabled);
@@ -198,6 +213,7 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	isEnabled = (sels > 0);
 	menu->SetAccMenu(GRID_MAKE_CONTINOUS_PREVIOUS_LINE, _("Ustaw czasy jako ciągłe (poprzednia linijka)"))->Enable(isEnabled);
 	menu->SetAccMenu(GRID_MAKE_CONTINOUS_NEXT_LINE, _("Ustaw czasy jako ciągłe (następna linijka)"))->Enable(isEnabled);
+	menu->Append(4443, _("Podziel linie"), splitMenu);
 	menu->SetAccMenu(GRID_SELECT_VISIBLE_LINES, _("Zaznacz wszystkie linie widoczne na wideo"))->Enable(isEnabled);
 	menu->SetAccMenu(GRID_COPY, _("Kopiuj\tCtrl-C"))->Enable(isEnabled);
 	menu->SetAccMenu(GRID_CUT, _("Wytnij\tCtrl-X"))->Enable(isEnabled);
@@ -788,6 +804,13 @@ void SubsGrid::OnAccelerator(wxCommandEvent &event)
 		filter.MakeTree();
 		break;
 	}
+	case GRID_SPLIT_BY_VIDEO_TIME:
+	case GRID_SPLIT_BY_FRAME_AND_CHARS:
+	case GRID_SPLIT_BY_FRAME:
+	case GRID_SPLIT_BY_CHARS:
+	case GRID_SPLIT_BY_WORDS:
+	case GRID_SPLIT_BY_WRAPS:
+		Split(id); break;
 	case GRID_FILTER:
 	case GRID_FILTER_BY_NOTHING:
 		Filter(id); break;
@@ -1477,8 +1500,101 @@ bool SubsGrid::SwapAssProperties()
 void SubsGrid::Filter(int id)
 {
 	SubsGridFiltering filter((SubsGrid*)this, currentLine);
-	if (id != GRID_FILTER_BY_NOTHING){ file->SetFiltered(true); }
 	filter.Filter(false, id == GRID_FILTER_BY_NOTHING);
+}
+
+void SubsGrid::Split(int id)
+{
+	file->GetSelections(selections);
+	if (selections.GetCount() < 1) return;
+	if (id == GRID_SPLIT_BY_VIDEO_TIME && selections.GetCount() == 1) {
+		int curLine = selections[0];
+		Dialogue* dial = file->CopyDialogue(curLine);
+		Dialogue* splitDial = dial->Copy();
+		int _time = tab->video->Tell();
+		_time = tab->video->GetFrameTimeFromTime(_time, false);
+		ZEROIT(_time);
+		dial->End.NewTime(_time);
+		splitDial->Start.NewTime(_time);
+		InsertRows(curLine + 1, 1, splitDial, true);
+	}
+	else {
+		return;
+		wxArrayString splitTable;
+		for (size_t i = 0; i < selections.GetCount(); i++) {
+			Dialogue* dialc = CopyDialogue(selections[i]);
+			switch (id) {
+			case GRID_SPLIT_BY_FRAME_AND_CHARS:
+			case GRID_SPLIT_BY_FRAME:
+			{
+				if (tab->video->HasFFMS2()) {
+					int frameStart = tab->video->GetFFMS2()->GetFramefromMS(dialc->Start.mstime);
+					int frameEnd = tab->video->GetFFMS2()->GetFramefromMS(dialc->End.mstime);
+					int numFrames = frameEnd - frameStart;
+					int charPerLine = splitTable.GetCount() / numFrames;
+					int sameCharInLine = numFrames / splitTable.GetCount();
+					int curCharacter = 0;
+					float modCharPerLine = fmodf(splitTable.GetCount(), numFrames);
+					float modSameCharInLine = fmodf(numFrames, splitTable.GetCount());
+					if (id == GRID_SPLIT_BY_FRAME_AND_CHARS)
+						dialc->SplitByChar(&splitTable);
+
+					for (int j = frameStart; j <= frameEnd; j++) {
+						int lineStart = tab->video->GetFrameTimeFromFrame(j);
+						int lineEnd = tab->video->GetFrameTimeFromFrame(j, false);
+						if (j != frameStart) {
+							dialc = dialc->Copy();
+							InsertRows(i, 1, dialc);
+						}
+						dialc->Start.NewTime(ZEROIT(lineStart));
+						dialc->End.NewTime(ZEROIT(lineEnd));
+						if (id == GRID_SPLIT_BY_FRAME_AND_CHARS) {
+							if (charPerLine) {
+								int curCharPerLine = curCharacter <= modCharPerLine ? charPerLine + 1 : charPerLine;
+								wxString txt;
+								for (int l = 0; l < curCharPerLine; l++) {
+									txt << splitTable[l + curCharacter];
+									curCharacter++;
+								}
+								if (dialc->TextTl != emptyString) {
+									dialc->TextTl = txt;
+								}
+								else {
+									dialc->Text = txt;
+								}
+							}
+							else {
+
+							}
+						}
+					}
+				}
+				break;
+			}
+			case GRID_SPLIT_BY_CHARS:
+			{
+
+				break;
+			}
+			case GRID_SPLIT_BY_WORDS:
+			{
+
+				break;
+			}
+			case GRID_SPLIT_BY_WRAPS:
+			{
+
+				break;
+			}
+			default:
+				break;
+			}
+
+		}
+
+	}
+	SetModified(GRID_SPLIT_LINES);
+	Refresh(false);
 }
 
 void SubsGrid::TreeAddLines(int treeLine)

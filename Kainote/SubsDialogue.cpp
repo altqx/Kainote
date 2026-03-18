@@ -223,6 +223,18 @@ void Dialogue::SetText(const wxString &text)
 		Text = text;
 }
 
+void Dialogue::SplitByChar(wxArrayString* charsTable)
+{
+}
+
+void Dialogue::SplitByWord(wxArrayString* wordsTable)
+{
+}
+
+void Dialogue::SplitByWrap(wxArrayString* wrapsTable)
+{
+}
+
 void Dialogue::GetTextElement(int replaceColumn, wxString *elementText, bool appendTextTL)
 {
 	if (replaceColumn == TXT){ 
