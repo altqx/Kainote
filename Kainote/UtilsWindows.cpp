@@ -139,6 +139,84 @@ bool GetMonitorWithSize(std::vector<tagRECT>* MonitorRects, wxRect* monrect)
 	return false;
 }
 
+bool GetLineTextExtents(const wxString& text, Styles* style, float* width, float* height, float* descent, float* extlead)
+{
+	float fwidth = 0, fheight = 0, fdescent = 0, fextlead = 0;
+	float fontsize = style->GetFontSizeDouble() * 64.f;
+	float spacing = wxAtof(style->Spacing) * 64.f;
+
+
+	size_t thetextlen = text.length();
+	if (!thetextlen) {
+		*width = 0;
+		*height = 0;
+		if (descent)
+			*descent = 0;
+		if (extlead)
+			*extlead = 0;
+		return true;
+	}
+
+	const wchar_t* thetext = text.wc_str();
+
+
+	SIZE sz;
+	HDC thedc = CreateCompatibleDC(0);
+	if (!thedc) return false;
+	SetMapMode(thedc, MM_TEXT);
+
+	LOGFONTW lf;
+	ZeroMemory(&lf, sizeof(lf));
+	lf.lfHeight = (LONG)fontsize;
+	lf.lfWeight = style->Bold ? FW_BOLD : FW_NORMAL;
+	lf.lfItalic = style->Italic;
+	lf.lfUnderline = style->Underline;
+	lf.lfStrikeOut = style->StrikeOut;
+	lf.lfCharSet = wxAtoi(style->Encoding);
+	lf.lfOutPrecision = OUT_TT_PRECIS;
+	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+	lf.lfQuality = ANTIALIASED_QUALITY;
+	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+	_tcsncpy(lf.lfFaceName, style->Fontname.wc_str(), 32);
+
+	HFONT thefont = CreateFontIndirect(&lf);
+	if (!thefont) return false;
+	SelectObject(thedc, thefont);
+
+	if (spacing != 0) {
+		fwidth = 0;
+		for (size_t i = 0; i < thetextlen; i++) {
+			GetTextExtentPoint32(thedc, &thetext[i], 1, &sz);
+			fwidth += sz.cx + spacing;
+			fheight = sz.cy;
+		}
+	}
+	else {
+		GetTextExtentPoint32(thedc, thetext, (int)thetextlen, &sz);
+		fwidth = sz.cx;
+		fheight = sz.cy;
+	}
+
+
+	TEXTMETRIC tm;
+	GetTextMetrics(thedc, &tm);
+	fdescent = tm.tmDescent;
+	fextlead = tm.tmExternalLeading;
+
+	DeleteObject(thedc);
+	DeleteObject(thefont);
+	float scalex = wxAtof(style->ScaleX) / 100.f;
+	float scaley = wxAtof(style->ScaleY) / 100.f;
+
+	*width = scalex * (fwidth / 64.f);
+	*height = scaley * (fheight / 64.f);
+	if (descent)
+		*descent = scaley * (fdescent / 64.f);
+	if (extlead)
+		*extlead = scaley * (fextlead / 64.f);
+
+	return true;
+}
 
 
 #ifdef _M_IX86

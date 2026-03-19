@@ -16,6 +16,7 @@
 #pragma once
 #include <vector>
 #include <wx\window.h>
+#include "Styles.h"
 #undef GetClientRect
 #include <windows.h>
 
@@ -28,6 +29,7 @@ int FindMonitor(std::vector<tagRECT> *MonitorRects, const wxPoint &pos);
 bool IsMonitorRect(std::vector<tagRECT>* MonitorRects, const wxRect& rect);
 //put rect with seeking size
 bool GetMonitorWithSize(std::vector<tagRECT>* MonitorRects, wxRect *monrect);
+bool GetLineTextExtents(const wxString& text, Styles* style, float* width, float* height, float* descent = nullptr, float* extlead = nullptr);
 
 #ifdef _M_IX86
 void SetThreadName(DWORD id, LPCSTR szThreadName);

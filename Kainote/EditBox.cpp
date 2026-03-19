@@ -1061,7 +1061,7 @@ void EditBox::OnStrikeClick(wxCommandEvent& event)
 void EditBox::OnAnChoice(wxCommandEvent& event)
 {
 	FindTag(L"an([0-9])", emptyString, 1);
-	PutTagInText(L"\\" + Ban->GetString(Ban->GetSelection()), emptyString, true);
+	PutTagInText(L"\\an" + std::to_wstring(Ban->GetSelection() + 1), emptyString, true);
 }
 
 void EditBox::OnTlMode(wxCommandEvent& event)

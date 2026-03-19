@@ -50,6 +50,7 @@ class AssColor
 
 };
 
+class ParseData;
 
 class Styles
 {
@@ -72,6 +73,7 @@ public:
 	int GetAlignment();
 	double GetScaleXDouble();
 	double GetScaleYDouble();
+	void SetStyleFromParseData(ParseData *data);
 	Styles();
 	Styles(wxString styledata, char format = 1);
 	~Styles();

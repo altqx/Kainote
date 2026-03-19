@@ -27,6 +27,7 @@
 #include "stylestore.h"
 #include "AudioBox.h"
 #include "SubtitlesProviderManager.h"
+#include "UtilsWindows.h"
 #include <wx/intl.h>
 #include <wx/string.h>
 #include <wx/clipbrd.h>
@@ -156,7 +157,6 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	splitMenu->SetAccMenu(GRID_SPLIT_BY_VIDEO_TIME, _("Podziel linię do czasu wideo"))->Enable(isEnabled);
 	isEnabled = sels > 0 && tab->video->HasFFMS2();
 	splitMenu->SetAccMenu(GRID_SPLIT_BY_FRAME, _("Podziel linie na klatki"))->Enable(isEnabled);
-	splitMenu->SetAccMenu(GRID_SPLIT_BY_FRAME_AND_CHARS, _("Podziel linię na klatki i znaki"))->Enable(isEnabled);
 	isEnabled = sels > 0;
 	splitMenu->SetAccMenu(GRID_SPLIT_BY_CHARS, _("Podziel linie na znaki"))->Enable(isEnabled);
 	splitMenu->SetAccMenu(GRID_SPLIT_BY_WORDS, _("Podziel linie na słowa"))->Enable(isEnabled);
@@ -805,7 +805,6 @@ void SubsGrid::OnAccelerator(wxCommandEvent &event)
 		break;
 	}
 	case GRID_SPLIT_BY_VIDEO_TIME:
-	case GRID_SPLIT_BY_FRAME_AND_CHARS:
 	case GRID_SPLIT_BY_FRAME:
 	case GRID_SPLIT_BY_CHARS:
 	case GRID_SPLIT_BY_WORDS:
@@ -1519,71 +1518,146 @@ void SubsGrid::Split(int id)
 		InsertRows(curLine + 1, 1, splitDial, true);
 	}
 	else {
-		return;
 		wxArrayString splitTable;
-		for (size_t i = 0; i < selections.GetCount(); i++) {
-			Dialogue* dialc = CopyDialogue(selections[i]);
+		wxSize subsSize;
+		GetASSRes(&subsSize.x, &subsSize.y);
+
+		for (size_t i = selections.GetCount(); i > 0; i--) {
+			size_t g = selections[i - 1];
+			Dialogue* dialc = CopyDialogue(g);
 			switch (id) {
-			case GRID_SPLIT_BY_FRAME_AND_CHARS:
 			case GRID_SPLIT_BY_FRAME:
 			{
 				if (tab->video->HasFFMS2()) {
 					int frameStart = tab->video->GetFFMS2()->GetFramefromMS(dialc->Start.mstime);
 					int frameEnd = tab->video->GetFFMS2()->GetFramefromMS(dialc->End.mstime);
-					int numFrames = frameEnd - frameStart;
-					int charPerLine = splitTable.GetCount() / numFrames;
-					int sameCharInLine = numFrames / splitTable.GetCount();
-					int curCharacter = 0;
-					float modCharPerLine = fmodf(splitTable.GetCount(), numFrames);
-					float modSameCharInLine = fmodf(numFrames, splitTable.GetCount());
-					if (id == GRID_SPLIT_BY_FRAME_AND_CHARS)
-						dialc->SplitByChar(&splitTable);
-
+				
 					for (int j = frameStart; j <= frameEnd; j++) {
 						int lineStart = tab->video->GetFrameTimeFromFrame(j);
 						int lineEnd = tab->video->GetFrameTimeFromFrame(j, false);
 						if (j != frameStart) {
 							dialc = dialc->Copy();
-							InsertRows(i, 1, dialc);
+							g++;
+							InsertRows(g, 1, dialc);
 						}
 						dialc->Start.NewTime(ZEROIT(lineStart));
 						dialc->End.NewTime(ZEROIT(lineEnd));
-						if (id == GRID_SPLIT_BY_FRAME_AND_CHARS) {
-							if (charPerLine) {
-								int curCharPerLine = curCharacter <= modCharPerLine ? charPerLine + 1 : charPerLine;
-								wxString txt;
-								for (int l = 0; l < curCharPerLine; l++) {
-									txt << splitTable[l + curCharacter];
-									curCharacter++;
-								}
-								if (dialc->TextTl != emptyString) {
-									dialc->TextTl = txt;
-								}
-								else {
-									dialc->Text = txt;
-								}
-							}
-							else {
-
-							}
-						}
 					}
 				}
 				break;
 			}
 			case GRID_SPLIT_BY_CHARS:
-			{
-
-				break;
-			}
 			case GRID_SPLIT_BY_WORDS:
-			{
-
-				break;
-			}
 			case GRID_SPLIT_BY_WRAPS:
 			{
+				wxString &dialText = dialc->GetText();
+				if (dialText.empty())
+					continue;
 
+				wxString tags[] = { L"pos", L"an", L"fscx", L"fscy", L"fsp", L"fs", L"fn" };
+				ParseData* tagsData = dialc->ParseTags(tags, 2);
+				Styles* style = GetStyle(0, dialc->Style);
+				style = style->Copy();
+				style->SetStyleFromParseData(tagsData);
+				wxString posval;
+				int an = 0;
+				if (dialc->FindTag(L"an", &posval)) {
+					an = wxAtoi(posval);
+				}
+				else {
+					an = wxAtoi(style->Alignment);
+				}
+				float x = 0, y = 0;
+				if (dialc->FindTag(L"pos", &posval)) {
+					GetTwoValueFloat(posval, &x, &y);
+				}
+				else {
+					dialc->GetDefaultPosition(style, an, subsSize, &x, &y);
+				}
+				float w = 0, h = 0;
+				if (!GetLineTextExtents(dialText, style, &w, &h)) {
+					KaiLogSilent(L"Could not get split text extents of \'" + dialText + "\'");
+				}
+
+				if (id == GRID_SPLIT_BY_CHARS)
+					dialc->SplitByChar(&splitTable);
+				else if (id == GRID_SPLIT_BY_WORDS)
+					dialc->SplitByWord(&splitTable);
+				else
+					dialc->SplitByWrap(&splitTable);
+
+				if (id != GRID_SPLIT_BY_WRAPS) {
+					if (an % 3 == 2) {
+						x -= (w / 2);
+					}
+					else if (an % 3 == 0) {
+						x -= w;
+					}
+				}
+				else {
+					int hoffset = (splitTable.GetCount() - 1) * h;
+					if (an < 4) {
+						y -= (h + hoffset);
+					}
+					else if (an < 7) {
+						y -= ((h + hoffset) / 2);
+					}
+					/*else {
+						y -= hoffset;
+					}*/
+				}
+				dialc->ClearParse();
+
+				for (size_t j = 0; j < splitTable.GetCount(); j++) {
+					wxString txt = splitTable[j];
+					if (!GetLineTextExtents(txt, style, &w, &h)) {
+						KaiLogSilent(L"Could not get split text extents of \'" + txt + "\'");
+					}
+					txt.Trim();
+					if (id == GRID_SPLIT_BY_WRAPS) {
+						if (an < 4) {
+							y += h;
+						}
+						else if (an < 7) {
+							y += (h / 2);
+						}
+					}
+					else {
+						if (an % 3 == 2) {
+							x += (w / 2);
+						}
+						else if (an % 3 == 0) {
+							x += w;
+						}
+					}
+					if (!txt.empty()) {
+						if (j != 0) {
+							dialc = dialc->Copy();
+							g++;
+							InsertRows(g, 1, dialc);
+						}
+						dialc->SetText(L"{\\pos(" + getfloat(x) + L"," + getfloat(y) + L")\\an" + 
+							std::to_wstring(an) + L"}" + txt);
+					}
+					if (id == GRID_SPLIT_BY_WRAPS) {
+						if(an < 4){}
+						else if (an < 7) {
+							y += (h / 2);
+						}
+						else{
+							y += h;
+						}
+					}
+					else {
+						if (an % 3 == 2) {
+							x += (w / 2);
+						}
+						else if (an % 3 == 1) {
+							x += w;
+						}
+					}
+				}
+				delete style;
 				break;
 			}
 			default:

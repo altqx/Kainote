@@ -27,6 +27,7 @@
 #include "SubtitlesProviderManager.h"
 #include <wx/regex.h>
 #include "config.h"
+#include "UtilsWindows.h"
 
 
 //#include <wx/msw/winundef.h>
@@ -214,7 +215,7 @@ D3DXVECTOR2 Visuals::GetDialogueAdditionalPosition(Dialogue* dialogue)
 void Visuals::GetRectFromSize(D3DXVECTOR2 size, int an, Dialogue* dial, Styles* style, D3DXVECTOR2* pos, D3DXVECTOR2* pos1)
 {
 	D3DXVECTOR2 result;
-	SetPositionByAn(&result, an, dial, style);
+	dial->GetDefaultPosition(style, an, SubsSize, &result.x, &result.y);
 	if (an % 3 == 2) {
 		result.x -= (size.x / 2);
 	}
@@ -227,9 +228,7 @@ void Visuals::GetRectFromSize(D3DXVECTOR2 size, int an, Dialogue* dial, Styles* 
 	else if (an < 7) {
 		result.y -= (size.y / 2);
 	}
-	/*else if (an < 10) {
-		
-	}*/
+	
 	*pos = result;
 	pos1->x = result.x + size.x;
 	pos1->y = result.y + size.y;
@@ -239,33 +238,6 @@ bool Visuals::IsInRect(D3DXVECTOR2 pos, D3DXVECTOR2 pos1, D3DXVECTOR2 secondpos,
 {
 	return ((secondpos1.x > pos.x) && (secondpos.x < pos1.x)
 		&& (secondpos1.y > pos.y) && (secondpos.y < pos1.y));
-}
-
-void Visuals::SetPositionByAn(D3DXVECTOR2* pos, int an, Dialogue* dial, Styles* style)
-{
-	if (an % 3 == 2) {
-		int marginL = (dial->MarginL != 0) ? dial->MarginL : wxAtoi(style->MarginL);
-		int marginR = (dial->MarginR != 0) ? dial->MarginR : wxAtoi(style->MarginR);
-		pos->x = ((SubsSize.x + marginL - marginR) / 2);
-	}
-	else if (an % 3 == 0) {
-		pos->x = (dial->MarginR != 0) ? dial->MarginR : wxAtoi(style->MarginR);
-		pos->x = SubsSize.x - pos->x;
-	}
-	else {
-		pos->x = (dial->MarginL != 0) ? dial->MarginL : wxAtoi(style->MarginL);
-	}
-
-	if (an < 4) {
-		pos->y = (dial->MarginV != 0) ? dial->MarginV : wxAtoi(style->MarginV);
-		pos->y = SubsSize.y - pos->y;
-	}
-	else if (an < 7) {
-		pos->y = (SubsSize.y / 2);
-	}
-	else {
-		pos->y = (dial->MarginV != 0) ? dial->MarginV : wxAtoi(style->MarginV);
-	}
 }
 
 void Visuals::RenderSubs(wxString *subs, bool redraw /*= true*/)
@@ -643,8 +615,7 @@ D3DXVECTOR2 Visuals::GetPosnScale(D3DXVECTOR2 *scale, byte *AN, double *tbl)
 		}
 		if (AN){ *AN = tmpan; }
 		if (foundpos){ return ppos; }
-		
-		SetPositionByAn(&ppos, tmpan, edit->line, currentStyle);
+		edit->line->GetDefaultPosition(currentStyle, tmpan, SubsSize, &ppos.x, &ppos.y);
 	}
 
 
@@ -826,7 +797,7 @@ D3DXVECTOR2 Visuals::GetPosition(Dialogue *Dial, bool *putinBracket, wxPoint *Te
 	if (an.Matches(txt)){
 		tmpan = wxAtoi(an.GetMatch(txt, 1));
 	}
-	SetPositionByAn(&result, tmpan, Dial, currentStyle);
+	Dial->GetDefaultPosition(currentStyle, tmpan, SubsSize, &result.x, &result.y);
 	D3DXVECTOR2 additional = GetDialogueAdditionalPosition(Dial);
 	result.y += additional.y;
 	return result;
@@ -879,84 +850,6 @@ void Visuals::SetModified(int action, bool dummy)
 	tab->grid->Refresh();
 }
 
-bool Visuals::GetTextExtents(const wxString & text, Styles *style, float* width, float* height, float* descent, float* extlead)
-{
-	float fwidth = 0, fheight = 0, fdescent = 0, fextlead = 0;
-	float fontsize = style->GetFontSizeDouble() * 32;
-	float spacing = wxAtof(style->Spacing) * 32;
-
-	
-	size_t thetextlen = text.length();
-	if (!thetextlen) {
-		*width = 0;
-		*height = 0;
-		if (descent)
-			*descent = 0;
-		if (extlead)
-			*extlead = 0;
-		return true;
-	}
-
-	const wchar_t* thetext = text.wc_str();
-
-	
-	SIZE sz;
-	HDC thedc = CreateCompatibleDC(0);
-	if (!thedc) return false;
-	SetMapMode(thedc, MM_TEXT);
-
-	LOGFONTW lf;
-	ZeroMemory(&lf, sizeof(lf));
-	lf.lfHeight = (LONG)fontsize;
-	lf.lfWeight = style->Bold ? FW_BOLD : FW_NORMAL;
-	lf.lfItalic = style->Italic;
-	lf.lfUnderline = style->Underline;
-	lf.lfStrikeOut = style->StrikeOut;
-	lf.lfCharSet = wxAtoi(style->Encoding);
-	lf.lfOutPrecision = OUT_TT_PRECIS;
-	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-	lf.lfQuality = ANTIALIASED_QUALITY;
-	lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-	_tcsncpy(lf.lfFaceName, style->Fontname.wc_str(), 32);
-
-	HFONT thefont = CreateFontIndirect(&lf);
-	if (!thefont) return false;
-	SelectObject(thedc, thefont);
-
-	if (spacing != 0) {
-		fwidth = 0;
-		for (size_t i = 0; i < thetextlen; i++) {
-			GetTextExtentPoint32(thedc, &thetext[i], 1, &sz);
-			fwidth += sz.cx + spacing;
-			fheight = sz.cy;
-		}
-	}
-	else {
-		GetTextExtentPoint32(thedc, thetext, (int)thetextlen, &sz);
-		fwidth = sz.cx;
-		fheight = sz.cy;
-	}
-
-
-	TEXTMETRIC tm;
-	GetTextMetrics(thedc, &tm);
-	fdescent = tm.tmDescent;
-	fextlead = tm.tmExternalLeading;
-
-	DeleteObject(thedc);
-	DeleteObject(thefont);
-	float scalex = wxAtof(style->ScaleX) / 100.f;
-	float scaley = wxAtof(style->ScaleY) / 100.f;
-
-	*width = scalex * (fwidth / 32);
-	*height = scaley * (fheight / 32);
-	if(descent)
-		*descent = scaley * (fdescent / 32);
-	if(extlead)
-		*extlead = scaley * (fextlead / 32);
-
-	return true;
-}
 
 D3DXVECTOR2 Visuals::GetTextSize(Dialogue* dial, D3DXVECTOR2* border, Styles* style, 
 	bool keepExtraLead, D3DXVECTOR2* extralead, D3DXVECTOR2* drawingPosition, D3DXVECTOR2* bordshad)
@@ -1062,7 +955,7 @@ D3DXVECTOR2 Visuals::GetTextSize(Dialogue* dial, D3DXVECTOR2* border, Styles* st
 				while (i != -1) {
 					i = tag->value.find(L"\\N", g);
 					wxString pltext = tag->value.Mid(g, i - g).Trim().Trim(false);
-					if (GetTextExtents(pltext, measuringStyle, &fwidth, &fheight, &extlead, &descent)) {
+					if (GetLineTextExtents(pltext, measuringStyle, &fwidth, &fheight, &extlead, &descent)) {
 						maxwidth += fwidth;
 						if(!result.y && !keepExtraLead)
 							fheight -= (extlead - descent);

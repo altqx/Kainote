@@ -21,6 +21,7 @@
 
 #include "config.h"
 #include "SubsTime.h"
+#include "Styles.h"
 #include <wx/colour.h>
 #include <vector>
 
@@ -314,9 +315,12 @@ public:
 	//ref value after copy dialogue it can by modifiable
 	wxString & GetText();
 	void SetText(const wxString &text);
-	void SplitByChar(wxArrayString* charsTable);
+	void SplitByChar(wxArrayString* charsTable, bool addSpaces = true);
 	void SplitByWord(wxArrayString* wordsTable);
 	void SplitByWrap(wxArrayString* wrapsTable);
+	void SplitWords(wxArrayString* wordsTable, std::wstring &wordsText, size_t offset, const wxString &text);
+	bool FindTag(const wxString &tag, wxString *value);
+	void GetDefaultPosition(Styles* lineStyle, int an, const wxSize & subsSize, float *posx, float *posy);
 	Dialogue();
 	Dialogue(const wxString &ldial, const wxString &txttl = emptyString);
 	~Dialogue();

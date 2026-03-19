@@ -258,65 +258,11 @@ namespace Auto{
 			return 4;
 		}
 
-		double width = 0, height = 0, descent = 0, extlead = 0;
-		double fontsize = st->GetFontSizeDouble() * 64.0;
-		double spacing = wxAtof(st->Spacing) * 64.0;
-
-		SIZE sz;
-		size_t thetextlen = text.length();
-		const TCHAR* thetext = text.wc_str();
-
-		HDC thedc = CreateCompatibleDC(0);
-		if (!thedc) return false;
-		SetMapMode(thedc, MM_TEXT);
-
-		LOGFONTW lf;
-		ZeroMemory(&lf, sizeof(lf));
-		lf.lfHeight = (LONG)fontsize;
-		lf.lfWeight = st->Bold ? FW_BOLD : FW_NORMAL;
-		lf.lfItalic = st->Italic;
-		lf.lfUnderline = st->Underline;
-		lf.lfStrikeOut = st->StrikeOut;
-		lf.lfCharSet = wxAtoi(st->Encoding);
-		lf.lfOutPrecision = OUT_TT_PRECIS;
-		lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-		lf.lfQuality = ANTIALIASED_QUALITY;
-		lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		_tcsncpy(lf.lfFaceName, st->Fontname.wc_str(), 32);
-
-		HFONT thefont = CreateFontIndirect(&lf);
-		if (!thefont) return false;
-		SelectObject(thedc, thefont);
-
-		if (spacing != 0) {
-			width = 0;
-			for (unsigned int i = 0; i < thetextlen; i++) {
-				GetTextExtentPoint32(thedc, &thetext[i], 1, &sz);
-				width += sz.cx + spacing;
-				height = sz.cy;
-			}
+		float width = 0, height = 0, descent = 0, extlead = 0;
+		if (!GetLineTextExtents(text, st, &width, &height, &descent, &extlead)) {
+			SAFE_DELETE(e);
+			return 0;
 		}
-		else {
-			GetTextExtentPoint32(thedc, thetext, (int)thetextlen, &sz);
-			width = sz.cx;
-			height = sz.cy;
-		}
-
-
-		TEXTMETRIC tm;
-		GetTextMetrics(thedc, &tm);
-		descent = tm.tmDescent;
-		extlead = tm.tmExternalLeading;
-
-		DeleteObject(thedc);
-		DeleteObject(thefont);
-		
-		double scalex = wxAtof(st->ScaleX) / 100.0;
-		double scaley = wxAtof(st->ScaleY) / 100.0;
-		width = scalex * (width / 64.0);
-		height = scaley * (height / 64.0);
-		descent = scaley * (descent / 64.0);
-		extlead = scaley * (extlead / 64.0);
 		SAFE_DELETE(e);
 
 		lua_pushnumber(L, width);

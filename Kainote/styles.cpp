@@ -18,6 +18,7 @@
 #include <wx/tokenzr.h>
 #include <wx/log.h>
 #include "config.h"
+#include "SubsDialogue.h"
 
 AssColor::AssColor()
 {
@@ -187,6 +188,56 @@ double Styles::GetScaleYDouble()
 		scaley = wxAtoi(ScaleY);
 
 	return scaley;
+}
+
+void Styles::SetStyleFromParseData(ParseData* data)
+{
+	for (size_t i = 0; i < data->tags.size(); i++) {
+		TagData* tagData = data->tags[i];
+		wxString& tag = tagData->tagName;
+		if (tag == L"fs")
+			Fontsize = tagData->value;
+		else if (tag == L"bord")
+			Outline = tagData->value;
+		else if (tag == L"shad")
+			Shadow = tagData->value;
+		else if (tag == L"fsp")
+			Spacing = tagData->value;
+		else if (tag == L"fscx")
+			ScaleX = tagData->value;
+		else if (tag == L"fscy")
+			ScaleY = tagData->value;
+		else if (tag == L"c" || tag == L"1c")
+			PrimaryColour.SetAss(tagData->value);
+		else if (tag == L"2c")
+			SecondaryColour.SetAss(tagData->value);
+		else if (tag == L"3c")
+			OutlineColour.SetAss(tagData->value);
+		else if (tag == L"4c")
+			BackColour.SetAss(tagData->value);
+		else if (tag == L"1a")
+			PrimaryColour.SetAlphaString(tagData->value);
+		else if (tag == L"2a")
+			SecondaryColour.SetAlphaString(tagData->value);
+		else if (tag == L"3a")
+			OutlineColour.SetAlphaString(tagData->value);
+		else if (tag == L"4a")
+			BackColour.SetAlphaString(tagData->value);
+		else if (tag == L"fn")
+			Fontname = tagData->value;
+		else if (tag == L"b")
+			Bold = tagData->value == L"1";
+		else if (tag == L"i")
+			Italic = tagData->value == L"1";
+		else if (tag == L"u")
+			Underline = tagData->value == L"1";
+		else if (tag == L"s")
+			StrikeOut = tagData->value == L"1";
+		else if (tag == L"fr" || tag == L"frz")
+			Angle = tagData->value;
+		else if (tag == L"an")
+			Alignment = tagData->value;
+	}
 }
 
 Styles::Styles()

@@ -88,7 +88,6 @@ public:
 	D3DXVECTOR2 GetDialogueAdditionalPosition(Dialogue *dialogue);
 	void GetRectFromSize(D3DXVECTOR2 size, int an, Dialogue* dial, Styles* style, D3DXVECTOR2* pos, D3DXVECTOR2* pos1);
 	bool IsInRect(D3DXVECTOR2 pos, D3DXVECTOR2 pos1, D3DXVECTOR2 secondpos, D3DXVECTOR2 secondpos1);
-	void SetPositionByAn(D3DXVECTOR2* pos, int an, Dialogue *dial, Styles *style);
 	void RenderSubs(wxString *subs, bool redraw = true);
 
 	virtual void SetVisual(Dialogue* dial, int tool, bool noRefresh = false);
@@ -116,7 +115,6 @@ public:
 	void RotateDrawing(ClipPoint* point, float sinOfAngle, float cosOfAngle, D3DXVECTOR2 orgpivot);
 	void GetMoveTimes(int *start, int *end);
 	void SetModified(int action, bool dummy = false);
-	bool GetTextExtents(const wxString &text, Styles *style, float* width, float* height, float* descent = nullptr, float* extlead = nullptr);
 	void Curve(int pos, std::vector<ClipPoint>* vectorPoints, std::vector<D3DXVECTOR2>* table, bool bspline = false, int nBsplinePoints = 4, int currentPoint = 0);
 	//bordshad must be 2 elements table
 	D3DXVECTOR2 GetTextSize(Dialogue* dial, D3DXVECTOR2 *bord, Styles* style = nullptr, 

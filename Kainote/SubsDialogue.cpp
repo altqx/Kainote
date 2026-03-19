@@ -21,6 +21,9 @@
 #include <wx/log.h>
 #include <map>
 #include <iostream>
+#include <boost/locale/boundary/index.hpp>
+#include <boost/locale/boundary/segment.hpp>
+#include <boost/locale/boundary/types.hpp>
 
 TagData::TagData(const wxString &name, unsigned int _startTextPos)
 {
@@ -223,16 +226,204 @@ void Dialogue::SetText(const wxString &text)
 		Text = text;
 }
 
-void Dialogue::SplitByChar(wxArrayString* charsTable)
+void Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/)
 {
+	const wxString& txt = (TextTl->empty()) ? &Text : &TextTl;
+	size_t len = txt.Len();
+	bool inBrackets = false;
+	wxString charWithTags;
+	size_t i = 0;
+	while (i < len) {
+		wxUniChar ch = txt[i];
+		if (i == len - 1) {
+			charWithTags << ch;
+			charsTable->Add(charWithTags);
+			break;
+		}
+		if (!inBrackets && ch == L'\\') {
+			wxUniChar nch = txt[i + 1];
+			if (nch == L'N' || nch == L'n') {
+				i += 2;
+				continue;
+			}
+		}
+		charWithTags << ch;
+		if (ch == L'{') {
+			inBrackets = true;
+		}
+		else if (ch == L'}') {
+			inBrackets = false;
+		}
+		else if (!inBrackets) {
+			if (!addSpaces && wxIsspace(ch)) {
+				charWithTags.Empty();
+				i++;
+				continue;
+			}
+
+			charsTable->Add(charWithTags);
+			charWithTags.Empty();
+		}
+		i++;
+	}
 }
 
 void Dialogue::SplitByWord(wxArrayString* wordsTable)
 {
+	const wxString& txt = (TextTl->empty()) ? &Text : &TextTl;
+	size_t len = txt.Len();
+	bool inBrackets = false;
+	std::wstring words;
+	size_t i = 0;
+	size_t offset = 0;
+	while (i < len) {
+		wxUniChar ch = txt[i];
+		if (i == len - 1) {
+			words += ch;
+			SplitWords(wordsTable, words, offset, txt);
+			break;
+		}
+		if (!inBrackets && ch == L'\\') {
+			wxUniChar nch = txt[i + 1];
+			if (nch == L'N' || nch == L'n') {
+				SplitWords(wordsTable, words, offset, txt);
+				words = L"";
+				offset += words.length();
+				i += 2;
+				continue;
+			}
+		}
+		if (ch == L'{') {
+			inBrackets = true;
+		}
+		else if (ch == L'}') {
+			inBrackets = false;
+		}
+		
+		words += ch;
+		
+		i++;
+	}
 }
 
 void Dialogue::SplitByWrap(wxArrayString* wrapsTable)
 {
+	const wxString& txt = (TextTl->empty()) ? &Text : &TextTl;
+	size_t len = txt.Len();
+	bool inBrackets = false;
+	wxString wrapWithTags;
+	size_t i = 0;
+	while (i < len) {
+		wxUniChar ch = txt[i];
+		if (i == len - 1) {
+			wrapWithTags << ch;
+			wrapsTable->Add(wrapWithTags);
+			break;
+		}
+		if (!inBrackets && ch == L'\\') {
+			wxUniChar nch = txt[i + 1];
+			if (nch == L'N' || nch == L'n') {
+				wrapsTable->Add(wrapWithTags);
+				wrapWithTags.Empty();
+				i += 2;
+				continue;
+			}
+		}
+		wrapWithTags << ch;
+		if (ch == L'{') {
+			inBrackets = true;
+		}
+		else if (ch == L'}') {
+			inBrackets = false;
+		}
+		i++;
+	}
+}
+
+void Dialogue::SplitWords(wxArrayString* wordsTable, std::wstring& wordsText, size_t offset, const wxString& text)
+{
+	using namespace boost::locale;
+	boundary::wssegment_index index(boundary::word, wordsText.begin(), wordsText.end());
+	boundary::wssegment_index::iterator p, e;
+	size_t curWordPos = 0;
+	size_t wordOffset = offset;
+	for (p = index.begin(), e = index.end(); p != e; ++p) {
+		wxString word = wxString(*p);
+		size_t wordLen = word.length();
+		if (p->rule() & boundary::word_any) {
+			curWordPos += wordLen;
+		}
+		else {
+			size_t i = 0;
+			while (i < wordLen) {
+				wxUniChar ch = word[i];
+				if (iswspace(ch)) {
+					//add word
+					if (curWordPos) {
+						wordsTable->Add(text.substr(wordOffset, curWordPos));
+						wordOffset += curWordPos;
+						curWordPos = 0;
+					}
+					curWordPos = wordLen - i;
+					break;
+				}
+				i++;
+				curWordPos++;
+			}
+			//add space
+			if (curWordPos) {
+				wordsTable->Add(text.substr(wordOffset, curWordPos));
+				wordOffset += curWordPos;
+				curWordPos = 0;
+			}
+			//curWordPos += wordLen;
+		}
+	}
+	if (curWordPos && wordOffset < text.Len()) {
+		wordsTable->Add(text.substr(wordOffset, curWordPos));
+	}
+}
+
+bool Dialogue::FindTag(const wxString& tag, wxString* value)
+{
+	if (!parseData)
+		return false;
+
+	for (size_t i = 0; i < parseData->tags.size(); i++) {
+		TagData* tagData = parseData->tags[i];
+		if (tag == tagData->tagName) {
+			*value = tagData->value;
+			return true;
+		}
+	}
+	return false;
+}
+
+void Dialogue::GetDefaultPosition(Styles* lineStyle, int an, const wxSize& subsSize, float* posx, float* posy)
+{
+	if (an % 3 == 2) {
+		int marginL = (MarginL != 0) ? MarginL : wxAtoi(lineStyle->MarginL);
+		int marginR = (MarginR != 0) ? MarginR : wxAtoi(lineStyle->MarginR);
+		*posx = ((subsSize.x + marginL - marginR) / 2);
+	}
+	else if (an % 3 == 0) {
+		*posx = (MarginR != 0) ? MarginR : wxAtoi(lineStyle->MarginR);
+		*posx = subsSize.x - *posx;
+	}
+	else {
+		*posx = (MarginL != 0) ? MarginL : wxAtoi(lineStyle->MarginL);
+	}
+
+	if (an < 4) {
+		*posy = (MarginV != 0) ? MarginV : wxAtoi(lineStyle->MarginV);
+		*posy = subsSize.y - *posy;
+	}
+	else if (an < 7) {
+		*posy = (subsSize.y / 2);
+	}
+	else {
+		*posy = (MarginV != 0) ? MarginV : wxAtoi(lineStyle->MarginV);
+	}
 }
 
 void Dialogue::GetTextElement(int replaceColumn, wxString *elementText, bool appendTextTL)
