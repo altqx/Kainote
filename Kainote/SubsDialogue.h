@@ -321,6 +321,9 @@ public:
 	void SplitWords(wxArrayString* wordsTable, std::wstring &wordsText, size_t offset, const wxString &text);
 	bool FindTag(const wxString &tag, wxString *value);
 	void GetDefaultPosition(Styles* lineStyle, int an, const wxSize & subsSize, float *posx, float *posy);
+	//when text set use the text else used dialogue text;
+	void GetTextStripped(wxString* textStripped, const wxString& text = L"");
+	void GetFirstTagsBlock(wxString* tagBlock);
 	Dialogue();
 	Dialogue(const wxString &ldial, const wxString &txttl = emptyString);
 	~Dialogue();

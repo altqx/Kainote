@@ -18,7 +18,7 @@
 #include "SubsDialogue.h"
 #include <wx/log.h>
 
-float SubsTime::FPS = 23.976;
+float SubsTime::FPS = 23.976f;
 
 SubsTime::SubsTime(){
 	mstime = 0;

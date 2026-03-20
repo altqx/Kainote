@@ -125,7 +125,7 @@ namespace Auto{
 
 		// The moonscript line tables give us a character offset into the file,
 		// so now we need to map that to a line number
-		lua_getfield(L, LUA_REGISTRYINDEX, ("raw moonscript: " + file).c_str());
+		lua_getfield(L, LUA_REGISTRYINDEX, ("raw moonscript: " + file).mb_str(wxConvUTF8).data());
 		if (!lua_isstring(L, -1)) {
 			lua_pop(L, 1);
 			return lua_line;
@@ -165,7 +165,7 @@ namespace Auto{
 				frames << "(tail call)";
 			else {
 				bool is_moon = false;
-				wxString file = ar.source;
+				wxString file = wxString(ar.source, wxConvUTF8);
 				if (file == "=[C]")
 					file = "<C function>";
 				else if (file.EndsWith(".moon"))

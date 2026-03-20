@@ -61,7 +61,7 @@ namespace Auto {
 		}
 		//wxString name = filename.AfterLast('\\');
 		if (!filename.EndsWith("moon")){
-			bool ret = luaL_loadbuffer(L, (compatybility) ? constbuff : buff, size, filename.utf8_str().data()) == 0;
+			bool ret = luaL_loadbuffer(L, (compatybility) ? constbuff : buff, size, filename.mb_str(wxConvUTF8).data()) == 0;
 
 			return ret;
 
@@ -75,7 +75,7 @@ namespace Auto {
 		// error handling
 		lua_pushlstring(L, (compatybility) ? constbuff : buff, size);
 		lua_pushvalue(L, -1);
-		lua_setfield(L, LUA_REGISTRYINDEX, ("raw moonscript: " + filename).utf8_str().data());
+		lua_setfield(L, LUA_REGISTRYINDEX, ("raw moonscript: " + filename).mb_str(wxConvUTF8).data());
 		
 		push_value(L, filename);
 		if (lua_pcall(L, 2, 2, 0))
@@ -123,7 +123,7 @@ namespace Auto {
 
 
 			if (!LoadFile(L, filename))
-				return error(L, "Error loading Lua module \"%s\":\n%s", filename.utf8_str().data(), check_string(L, 1).utf8_str().data());
+				return error(L, "Error loading Lua module \"%s\":\n%s", filename.mb_str(wxConvUTF8).data(), check_string(L, 1).mb_str(wxConvUTF8).data());
 			break;
 
 		}

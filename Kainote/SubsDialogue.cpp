@@ -60,6 +60,43 @@ ParseData::~ParseData()
 	tags.clear();
 }
 
+void Dialogue::GetTextStripped(wxString* textStripped, const wxString& text)
+{
+	const wxString& txt = text.empty() ? GetTextNoCopy() : text;
+	if (txt.empty())
+		return;
+
+	wxRegEx re(L"{[^}]*}", wxRE_ADVANCED | wxRE_ICASE);
+	if (!re.IsValid()) {
+		KaiLogSilent(L"Text stripped regex is not valid");
+		return;
+	}
+	*textStripped = txt;
+	re.ReplaceAll(textStripped, L"");
+}
+
+void Dialogue::GetFirstTagsBlock(wxString* tagBlock)
+{
+	const wxString& txt = GetTextNoCopy();
+	size_t length = txt.Len();
+	bool block = false;
+	for (size_t i = 0; i < length; i++) {
+		wxUniChar c = txt[i];
+		if (c == L'{')
+			block = true;
+		else if (c == L'}') {
+			*tagBlock << c;
+			block = false;
+		}
+		if (block) {
+			*tagBlock << c;
+		}
+		else if(i < length - 1 && txt[i + 1] != L'{') {
+			break;
+		}
+	}
+}
+
 Dialogue::Dialogue()
 {
 	Format = ASS;
@@ -243,6 +280,7 @@ void Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/)
 		if (!inBrackets && ch == L'\\') {
 			wxUniChar nch = txt[i + 1];
 			if (nch == L'N' || nch == L'n') {
+				charWithTags << L" ";
 				i += 2;
 				continue;
 			}
@@ -270,7 +308,8 @@ void Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/)
 
 void Dialogue::SplitByWord(wxArrayString* wordsTable)
 {
-	const wxString& txt = (TextTl->empty()) ? &Text : &TextTl;
+	wxString txt;
+	GetTextStripped(&txt);
 	size_t len = txt.Len();
 	bool inBrackets = false;
 	std::wstring words;
@@ -286,6 +325,7 @@ void Dialogue::SplitByWord(wxArrayString* wordsTable)
 		if (!inBrackets && ch == L'\\') {
 			wxUniChar nch = txt[i + 1];
 			if (nch == L'N' || nch == L'n') {
+				words += L" ";
 				SplitWords(wordsTable, words, offset, txt);
 				words = L"";
 				offset += words.length();
@@ -354,29 +394,24 @@ void Dialogue::SplitWords(wxArrayString* wordsTable, std::wstring& wordsText, si
 			curWordPos += wordLen;
 		}
 		else {
-			size_t i = 0;
-			while (i < wordLen) {
-				wxUniChar ch = word[i];
-				if (iswspace(ch)) {
-					//add word
-					if (curWordPos) {
-						wordsTable->Add(text.substr(wordOffset, curWordPos));
-						wordOffset += curWordPos;
-						curWordPos = 0;
-					}
-					curWordPos = wordLen - i;
-					break;
+			
+			if (iswspace(word[0])) {
+				//add word
+				if (curWordPos) {
+					wordsTable->Add(text.substr(wordOffset, curWordPos));
+					wordOffset += curWordPos;
+					curWordPos = 0;
 				}
-				i++;
-				curWordPos++;
+				curWordPos = wordLen;
+				//add space
+				if (curWordPos) {
+					wordsTable->Add(text.substr(wordOffset, curWordPos));
+					wordOffset += curWordPos;
+					curWordPos = 0;
+				}
 			}
-			//add space
-			if (curWordPos) {
-				wordsTable->Add(text.substr(wordOffset, curWordPos));
-				wordOffset += curWordPos;
-				curWordPos = 0;
-			}
-			//curWordPos += wordLen;
+			else
+				curWordPos += wordLen;
 		}
 	}
 	if (curWordPos && wordOffset < text.Len()) {

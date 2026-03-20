@@ -56,7 +56,7 @@ ProviderFFMS2::ProviderFFMS2(const wxString& filename, RendererVideo* renderer,
 	else {
 		progress->SetAndRunTask([&]() {return Init(); });
 		progress->ShowDialog();
-		*_success = ((int)progress->Wait() == 1);
+		*_success = ((long long)progress->Wait() == 1);
 	}
 	SAFE_DELETE(progress);
 	if (m_index) { FFMS_DestroyIndex(m_index); }

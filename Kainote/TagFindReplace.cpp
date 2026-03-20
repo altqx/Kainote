@@ -28,6 +28,10 @@ bool TagFindReplace::FindTag(const wxString& pattern, const wxString& text, int 
 	lastPattern = pattern;
 	regex.Compile(L"^" + pattern, wxRE_ADVANCED);
 
+	if (!regex.IsValid()) {
+		return false;
+	}
+
 	if (currentTab) {
 		TextEditor* editor = currentTab->edit->GetEditor();
 		if (txt.empty())

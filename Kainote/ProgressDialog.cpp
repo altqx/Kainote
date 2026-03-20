@@ -190,7 +190,7 @@ void ProgressSink::EndModal()
 
 wxThread::ExitCode ProgressSink::Entry()
 {
-	int result = task();
+	long long result = task();
 	EndModal();
 	return (wxThread::ExitCode)result;
 }

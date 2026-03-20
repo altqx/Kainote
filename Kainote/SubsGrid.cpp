@@ -1521,7 +1521,7 @@ void SubsGrid::Split(int id)
 		wxArrayString splitTable;
 		wxSize subsSize;
 		GetASSRes(&subsSize.x, &subsSize.y);
-
+		TagFindReplace TFR;
 		for (size_t i = selections.GetCount(); i > 0; i--) {
 			size_t g = selections[i - 1];
 			Dialogue* dialc = CopyDialogue(g);
@@ -1550,12 +1550,16 @@ void SubsGrid::Split(int id)
 			case GRID_SPLIT_BY_WORDS:
 			case GRID_SPLIT_BY_WRAPS:
 			{
-				wxString &dialText = dialc->GetText();
+				wxString dialText;
+				dialc->GetTextStripped(&dialText);
 				if (dialText.empty())
 					continue;
 
-				wxString tags[] = { L"pos", L"an", L"fscx", L"fscy", L"fsp", L"fs", L"fn" };
-				ParseData* tagsData = dialc->ParseTags(tags, 2);
+				wxString firstTagsBlock;
+				dialc->GetFirstTagsBlock(&firstTagsBlock);
+				
+				wxString tags[] = { L"pos", L"an", L"fscx", L"fscy", L"fsp", L"fs", L"fn", L"b", L"i"};
+				ParseData* tagsData = dialc->ParseTags(tags, 9);
 				Styles* style = GetStyle(0, dialc->Style);
 				style = style->Copy();
 				style->SetStyleFromParseData(tagsData);
@@ -1578,6 +1582,10 @@ void SubsGrid::Split(int id)
 				if (!GetLineTextExtents(dialText, style, &w, &h)) {
 					KaiLogSilent(L"Could not get split text extents of \'" + dialText + "\'");
 				}
+				
+				TFR.FindTag(L"an([0-9]*)", firstTagsBlock, 0);
+				TFR.Replace(L"\\an" + std::to_wstring(an), &firstTagsBlock);
+				
 
 				if (id == GRID_SPLIT_BY_CHARS)
 					dialc->SplitByChar(&splitTable);
@@ -1609,7 +1617,8 @@ void SubsGrid::Split(int id)
 				dialc->ClearParse();
 
 				for (size_t j = 0; j < splitTable.GetCount(); j++) {
-					wxString txt = splitTable[j];
+					wxString txt;
+					dialc->GetTextStripped(&txt, splitTable[j]);
 					if (!GetLineTextExtents(txt, style, &w, &h)) {
 						KaiLogSilent(L"Could not get split text extents of \'" + txt + "\'");
 					}
@@ -1636,8 +1645,9 @@ void SubsGrid::Split(int id)
 							g++;
 							InsertRows(g, 1, dialc);
 						}
-						dialc->SetText(L"{\\pos(" + getfloat(x) + L"," + getfloat(y) + L")\\an" + 
-							std::to_wstring(an) + L"}" + txt);
+						TFR.FindTag(L"pos\\((.+)\\)", firstTagsBlock, 0);
+						TFR.Replace(L"\\pos(" + getfloat(x) + L"," + getfloat(y) + L")", &firstTagsBlock);
+						dialc->SetText(firstTagsBlock + txt);
 					}
 					if (id == GRID_SPLIT_BY_WRAPS) {
 						if(an < 4){}
