@@ -95,8 +95,10 @@ void KaiToolbar::InitToolbar()
 
 void KaiToolbar::AddItem(int id, const wxString &label, wxBitmap *normal, bool enable, byte type, bool toggled)
 {
-	if (tools.size() > 0 && tools[tools.size() - 1]->GetType() == 3){
-		tools.insert(tools.begin() + tools.size() - 2, new toolitem(normal, label, id, enable, type, toggled));
+	size_t toolsSize = tools.size();
+	if (toolsSize > 0 && tools[toolsSize - 1]->GetType() == 3){
+		int fromEnd = (toolsSize > 1) ? 2 : 1;
+		tools.insert(tools.begin() + toolsSize - fromEnd, new toolitem(normal, label, id, enable, type, toggled));
 		return;
 	}
 	tools.push_back(new toolitem(normal, label, id, enable, type, toggled));
@@ -579,20 +581,21 @@ void ToolbarMenu::OnPaint(wxPaintEvent &event)
 	tdc.DrawRectangle(0, 0, ow, h);
 	int visible = (h - fh + 8) / fh;
 	int idssize = parent->ids.size();
-	if (scPos >= idssize - visible){ scPos = idssize - visible; }
+	if (scPos > idssize - visible){ scPos = idssize - visible; }
 	else if (scPos < 0){ scPos = 0; }
-	int maxsize = MAX(idssize, scPos + visible);
+	//int maxsize = MAX(idssize, scPos + visible);
 	scroll->SetScrollbar(scPos, visible, idssize, visible - 1);
 	scroll->SetSize(w, fh + 8, thickness, h - (fh + 9));
 	tdc.SetTextForeground(txt);
 	for (int i = 0; i < visible; i++)
 	{
 		int posY = (fh * i) + fh + 6;
-		MenuItem *item = parent->mb->FindItem(parent->ids[i + scPos]);
+		int itemId = parent->ids[i + scPos];
+		MenuItem *item = parent->mb->FindItem(itemId);
 		bool check = false;
 		for (size_t j = 0; j < parent->tools.size(); j++)
 		{
-			if (parent->tools[j]->id == parent->ids[i + scPos]){ check = true; break; }
+			if (parent->tools[j]->id == itemId){ check = true; break; }
 		}
 		if (i + scPos == sel){
 			tdc.SetPen(wxPen(Options.GetColour(MENU_BORDER_SELECTION)));

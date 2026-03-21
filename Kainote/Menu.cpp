@@ -542,7 +542,7 @@ void MenuDialog::OnMouseEvent(wxMouseEvent &evt)
 			hideSubmenuTimer.Start(400, true);
 			subMenuIsShown = false;
 		}
-		if (sel != submenuToHide){ sel = -1; Refresh(false); }
+		if (sel != submenuToHide){ sel = submenuToHide; Refresh(false); }
 		KainoteFrame::Get()->SetStatusText(emptyString, 0);
 		return;
 	}
@@ -568,7 +568,7 @@ void MenuDialog::OnMouseEvent(wxMouseEvent &evt)
 		Refresh(false);
 	}
 	if (subMenuIsShown && elem != submenuToHide){
-		hideSubmenuTimer.Start(400, true);
+		hideSubmenuTimer.Start(300, true);
 		subMenuIsShown = false;
 	}
 	if (elem != sel){

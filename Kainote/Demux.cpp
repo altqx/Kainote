@@ -166,7 +166,7 @@ bool Demux::GetSubtitles(SubsGrid* target)
 			return 1;
 		});
 		progress->ShowDialog();
-		bool isgood = ((int)progress->Wait() == 1);
+		bool isgood = ((long long)progress->Wait() == 1);
 		delete progress; 
 		progress = nullptr;
 		return isgood;

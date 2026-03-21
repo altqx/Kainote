@@ -151,6 +151,11 @@ void HotkeysNaming::CreateNamesMap()
 	names[GRID_TRANSLATION_DIALOG] = _("Okno przesuwania dialogów");
 	names[GRID_SET_NEW_FPS] = _("Ustaw nowy FPS");
 	names[GRID_SHOW_PREVIEW] = _("Pokaż podgląd napisów");
+	names[GRID_SPLIT_BY_VIDEO_TIME] = _("Podziel linię do czasu wideo");
+	names[GRID_SPLIT_BY_FRAME] = _("Podziel linie na klatki");
+	names[GRID_SPLIT_BY_CHARS] = _("Podziel linie na znaki");
+	names[GRID_SPLIT_BY_WORDS] = _("Podziel linie na słowa");
+	names[GRID_SPLIT_BY_WRAPS] = _("Podziel linie według łamań");
 	names[GLOBAL_OPEN_ASS_PROPERTIES] = _("Właściwości pliku ASS");
 	names[GLOBAL_ABOUT] = _("O programie");
 	names[GLOBAL_ANSI] = _("Wątek programu na forum AnimeSub.info");

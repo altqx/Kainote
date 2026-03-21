@@ -306,7 +306,7 @@ public:
 	//Remember parse patterns need "tag1|tag2|..." without slashes.
 	//Remember string position is start of the value, position of tag -=tagname.len+1
 	//vector value has tagName "pvector" to make easier to find and avoid bugs
-	ParseData* ParseTags(wxString *tags, size_t n, bool plainText = false);
+	ParseData* ParseTags(wxString *tags, size_t n, bool plainText = false, const wxString& textToParse = L"");
 	void ChangeTimes(int start, int end);
 	void ClearParse();
 	void GetTextElement(int element, wxString *elementText, bool appendTextTL = false);
@@ -315,15 +315,21 @@ public:
 	//ref value after copy dialogue it can by modifiable
 	wxString & GetText();
 	void SetText(const wxString &text);
-	void SplitByChar(wxArrayString* charsTable, bool addSpaces = true);
-	void SplitByWord(wxArrayString* wordsTable);
-	void SplitByWrap(wxArrayString* wrapsTable);
+	//returns wraps, wrap is set as \N
+	int SplitByChar(wxArrayString* charsTable, bool addSpaces = true, const wxString &textToSplit = L"");
+	//returns wraps, wrap is set as \N
+	int SplitByWord(wxArrayString* wordsTable, const wxString& textToSplit = L"");
+	//returns wraps
+	int SplitByWrap(wxArrayString* wrapsTable);
 	void SplitWords(wxArrayString* wordsTable, std::wstring &wordsText, size_t offset, const wxString &text);
 	bool FindTag(const wxString &tag, wxString *value);
-	void GetDefaultPosition(Styles* lineStyle, int an, const wxSize & subsSize, float *posx, float *posy);
+	void GetDefaultPosition(Styles* lineStyle, int an, const wxSize &subsSize, float *posx, float *posy);
 	//when text set use the text else used dialogue text;
 	void GetTextStripped(wxString* textStripped, const wxString& text = L"");
-	void GetFirstTagsBlock(wxString* tagBlock);
+	void GetFirstTagsBlock(wxString* tagBlock, const wxString& text = L"");
+	//output is first bock to be merged second block
+	void MergeTagBlocks(wxString* output, const wxString & blockToMerge);
+	void GetTagName(const wxString& tagWithValue, wxString* name);
 	Dialogue();
 	Dialogue(const wxString &ldial, const wxString &txttl = emptyString);
 	~Dialogue();

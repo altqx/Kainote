@@ -60,42 +60,6 @@ ParseData::~ParseData()
 	tags.clear();
 }
 
-void Dialogue::GetTextStripped(wxString* textStripped, const wxString& text)
-{
-	const wxString& txt = text.empty() ? GetTextNoCopy() : text;
-	if (txt.empty())
-		return;
-
-	wxRegEx re(L"{[^}]*}", wxRE_ADVANCED | wxRE_ICASE);
-	if (!re.IsValid()) {
-		KaiLogSilent(L"Text stripped regex is not valid");
-		return;
-	}
-	*textStripped = txt;
-	re.ReplaceAll(textStripped, L"");
-}
-
-void Dialogue::GetFirstTagsBlock(wxString* tagBlock)
-{
-	const wxString& txt = GetTextNoCopy();
-	size_t length = txt.Len();
-	bool block = false;
-	for (size_t i = 0; i < length; i++) {
-		wxUniChar c = txt[i];
-		if (c == L'{')
-			block = true;
-		else if (c == L'}') {
-			*tagBlock << c;
-			block = false;
-		}
-		if (block) {
-			*tagBlock << c;
-		}
-		else if(i < length - 1 && txt[i + 1] != L'{') {
-			break;
-		}
-	}
-}
 
 Dialogue::Dialogue()
 {
@@ -263,12 +227,102 @@ void Dialogue::SetText(const wxString &text)
 		Text = text;
 }
 
-void Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/)
+void Dialogue::GetTextStripped(wxString* textStripped, const wxString& text)
 {
-	const wxString& txt = (TextTl->empty()) ? &Text : &TextTl;
+	const wxString& txt = text.empty() ? GetTextNoCopy() : text;
+	if (txt.empty())
+		return;
+
+	wxRegEx re(L"{[^}]*}", wxRE_ADVANCED | wxRE_ICASE);
+	if (!re.IsValid()) {
+		KaiLogSilent(L"Text stripped regex is not valid");
+		return;
+	}
+	*textStripped = txt;
+	re.ReplaceAll(textStripped, L"");
+}
+
+void Dialogue::GetFirstTagsBlock(wxString* tagBlock, const wxString& text/* = L""*/)
+{
+	const wxString& txt = text.empty() ? GetTextNoCopy() : text;
+	size_t length = txt.Len();
+	bool block = false;
+	for (size_t i = 0; i < length; i++) {
+		wxUniChar c = txt[i];
+		if (c == L'{')
+			block = true;
+		else if (c == L'}') {
+			*tagBlock << c;
+			block = false;
+		}
+		if (block) {
+			*tagBlock << c;
+		}
+		else if (i < length - 1 && txt[i + 1] != L'{') {
+			break;
+		}
+	}
+}
+
+void Dialogue::MergeTagBlocks(wxString* output, const wxString& blockToMerge)
+{
+	if (blockToMerge.empty())
+		return;
+
+	if (output->Len() < 3) {
+		*output = blockToMerge;
+		return;
+	}
+
+	
+	wxStringTokenizer token(blockToMerge.substr(1, blockToMerge.Len() - 2), L"\\", wxTOKEN_STRTOK);
+	while (token.HasMoreTokens()) {
+		wxString curToken = token.NextToken();
+		wxString tag;
+		GetTagName(curToken, &tag);
+		wxRegEx re(L"\\\\" + tag + L"([^\\}])*");
+		if (!re.IsValid()) {
+			KaiLogSilent("Regex tag seeking is invalid '\\\\" + tag + L"([^\\}])*'");
+			continue;
+		}
+		if (re.ReplaceAll(output, L"\\\\" + curToken) < 1) {
+			output->insert((output->Len() - 1), L"\\" + curToken);
+		}
+
+	}
+}
+
+void Dialogue::GetTagName(const wxString& tagWithValue, wxString* name)
+{
+	if (tagWithValue.StartsWith(L"fn")) {
+		*name = L"fn";
+	}
+	else {
+		size_t len = tagWithValue.Len();
+		if (len < 1)
+			return;
+
+		wxString delims = L"0123456789-.(";
+		*name << tagWithValue[0];
+		size_t i = 1;
+		while (i < len) {
+			wxUniChar ch = tagWithValue[i];
+			if (delims.find(ch) != -1)
+				break;
+
+			*name << ch;
+			i++;
+		}
+	}
+}
+
+int Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/, const wxString& textToSplit/* = L""*/)
+{
+	const wxString& txt = textToSplit.empty() ? GetTextNoCopy() : textToSplit;
 	size_t len = txt.Len();
 	bool inBrackets = false;
 	wxString charWithTags;
+	int wraps = 0;
 	size_t i = 0;
 	while (i < len) {
 		wxUniChar ch = txt[i];
@@ -280,7 +334,8 @@ void Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/)
 		if (!inBrackets && ch == L'\\') {
 			wxUniChar nch = txt[i + 1];
 			if (nch == L'N' || nch == L'n') {
-				charWithTags << L" ";
+				charsTable->Add("\\N");
+				wraps++;
 				i += 2;
 				continue;
 			}
@@ -304,17 +359,20 @@ void Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/)
 		}
 		i++;
 	}
+	return wraps;
 }
 
-void Dialogue::SplitByWord(wxArrayString* wordsTable)
+int Dialogue::SplitByWord(wxArrayString* wordsTable, const wxString& textToSplit/* = L""*/)
 {
 	wxString txt;
-	GetTextStripped(&txt);
+	const wxString& txtToSplit = textToSplit.empty() ? GetTextNoCopy() : textToSplit;
+	GetTextStripped(&txt, txtToSplit);
 	size_t len = txt.Len();
 	bool inBrackets = false;
 	std::wstring words;
 	size_t i = 0;
 	size_t offset = 0;
+	int wraps = 0;
 	while (i < len) {
 		wxUniChar ch = txt[i];
 		if (i == len - 1) {
@@ -325,9 +383,10 @@ void Dialogue::SplitByWord(wxArrayString* wordsTable)
 		if (!inBrackets && ch == L'\\') {
 			wxUniChar nch = txt[i + 1];
 			if (nch == L'N' || nch == L'n') {
-				words += L" ";
 				SplitWords(wordsTable, words, offset, txt);
 				words = L"";
+				wordsTable->Add(L"\\N");
+				wraps++;
 				offset += words.length();
 				i += 2;
 				continue;
@@ -344,9 +403,10 @@ void Dialogue::SplitByWord(wxArrayString* wordsTable)
 		
 		i++;
 	}
+	return wraps;
 }
 
-void Dialogue::SplitByWrap(wxArrayString* wrapsTable)
+int Dialogue::SplitByWrap(wxArrayString* wrapsTable)
 {
 	const wxString& txt = (TextTl->empty()) ? &Text : &TextTl;
 	size_t len = txt.Len();
@@ -378,6 +438,7 @@ void Dialogue::SplitByWrap(wxArrayString* wrapsTable)
 		}
 		i++;
 	}
+	return wrapsTable->GetCount() - 1;
 }
 
 void Dialogue::SplitWords(wxArrayString* wordsTable, std::wstring& wordsText, size_t offset, const wxString& text)
@@ -439,7 +500,7 @@ void Dialogue::GetDefaultPosition(Styles* lineStyle, int an, const wxSize& subsS
 	if (an % 3 == 2) {
 		int marginL = (MarginL != 0) ? MarginL : wxAtoi(lineStyle->MarginL);
 		int marginR = (MarginR != 0) ? MarginR : wxAtoi(lineStyle->MarginR);
-		*posx = ((subsSize.x + marginL - marginR) / 2);
+		*posx = ((subsSize.x + marginL - marginR) / 2.f);
 	}
 	else if (an % 3 == 0) {
 		*posx = (MarginR != 0) ? MarginR : wxAtoi(lineStyle->MarginR);
@@ -454,7 +515,7 @@ void Dialogue::GetDefaultPosition(Styles* lineStyle, int an, const wxSize& subsS
 		*posy = subsSize.y - *posy;
 	}
 	else if (an < 7) {
-		*posy = (subsSize.y / 2);
+		*posy = (subsSize.y / 2.f);
 	}
 	else {
 		*posy = (MarginV != 0) ? MarginV : wxAtoi(lineStyle->MarginV);
@@ -910,13 +971,13 @@ Dialogue *Dialogue::Copy(bool keepstate, bool copyIsVisible)
 
 //Remember parse patterns need "tag1|tag2|..." without slashes.
 //Remember string position is start of the value, position of tag -=tagname.len+1
-ParseData* Dialogue::ParseTags(wxString *tags, size_t ntags, bool plainText)
+ParseData* Dialogue::ParseTags(wxString *tags, size_t ntags, bool plainText, const wxString& textToParse/* = L""*/)
 {
 	if (parseData) {
 		delete parseData; 
 		parseData = nullptr;
 	}
-	wxString txt = (TextTl != emptyString) ? TextTl : Text;
+	const wxString& txt = textToParse.empty() ? GetTextNoCopy() : textToParse;
 	size_t pos = 0;
 	size_t plainStart = 0;
 	bool hasDrawing = false;

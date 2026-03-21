@@ -18,6 +18,7 @@
 #include "KaiDialog.h"
 #include "ListControls.h"
 #include "KaiTextCtrl.h"
+#include "KaiCheckBox.h"
 
 class FPSDialog : public KaiDialog
 {
@@ -40,4 +41,15 @@ public:
 private:
 	void OkClick(wxCommandEvent &evt);
 	KaiTextCtrl *treeDescription;
+};
+
+class SwapPropertiesDialog :public KaiDialog
+{
+public:
+	SwapPropertiesDialog(wxWindow* parent);
+	virtual ~SwapPropertiesDialog() {};
+	void SaveValues();
+
+private:
+	KaiCheckBox* fields[6];
 };

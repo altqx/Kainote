@@ -971,7 +971,7 @@ namespace Auto{
 
 		ps->ShowDialog(StrDisplay());
 		wxThread::ExitCode code = call.Wait();
-		bool failed = (int)code == 1;
+		bool failed = (long long)code == 1;
 
 		if (ps->lpd->cancelled || failed){
 			SAFE_DELETE(subsobj);

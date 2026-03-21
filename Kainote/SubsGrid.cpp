@@ -139,6 +139,7 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 	Menu *hidemenu = new Menu(GRID_HOTKEY);
 	Menu *filterMenu = new Menu(GRID_HOTKEY);
 	Menu* splitMenu = new Menu(GRID_HOTKEY);
+	Menu* insertMenu = new Menu(GRID_HOTKEY);
 	//hide submenu
 	hidemenu->SetAccMenu(GRID_HIDE_LAYER, _("Ukryj warstwę"), _("Ukryj warstwę"), subsFormat < SRT, ITEM_CHECK)->Check((visibleColumns & LAYER) != 0);
 	hidemenu->SetAccMenu(GRID_HIDE_START, _("Ukryj czas początkowy"), _("Ukryj czas początkowy"), true, ITEM_CHECK)->Check((visibleColumns & START) != 0);
@@ -192,13 +193,14 @@ void SubsGrid::ContextMenu(const wxPoint &pos)
 
 	
 	isEnabled = (sels > 0);
-	menu->SetAccMenu(GRID_INSERT_BEFORE, _("Wstaw &przed"))->Enable(isEnabled);
-	menu->SetAccMenu(GRID_INSERT_AFTER, _("Wstaw p&o"))->Enable(isEnabled);
+	insertMenu->SetAccMenu(GRID_INSERT_BEFORE, _("Wstaw &przed"))->Enable(isEnabled);
+	insertMenu->SetAccMenu(GRID_INSERT_AFTER, _("Wstaw p&o"))->Enable(isEnabled);
 	isEnabled = (isEnabled && tab->video->GetState() != None);
-	menu->SetAccMenu(GRID_INSERT_BEFORE_VIDEO, _("Wstaw przed z &czasem wideo"))->Enable(isEnabled);
-	menu->SetAccMenu(GRID_INSERT_AFTER_VIDEO, _("Wstaw po z c&zasem wideo"))->Enable(isEnabled);
-	menu->SetAccMenu(GRID_INSERT_BEFORE_WITH_VIDEO_FRAME, _("Wstaw przed z czasem klatki wideo"))->Enable(isEnabled);
-	menu->SetAccMenu(GRID_INSERT_AFTER_WITH_VIDEO_FRAME, _("Wstaw po z czasem klatki wideo"))->Enable(isEnabled);
+	insertMenu->SetAccMenu(GRID_INSERT_BEFORE_VIDEO, _("Wstaw przed z &czasem wideo"))->Enable(isEnabled);
+	insertMenu->SetAccMenu(GRID_INSERT_AFTER_VIDEO, _("Wstaw po z c&zasem wideo"))->Enable(isEnabled);
+	insertMenu->SetAccMenu(GRID_INSERT_BEFORE_WITH_VIDEO_FRAME, _("Wstaw przed z czasem klatki wideo"))->Enable(isEnabled);
+	insertMenu->SetAccMenu(GRID_INSERT_AFTER_WITH_VIDEO_FRAME, _("Wstaw po z czasem klatki wideo"))->Enable(isEnabled);
+	menu->Append(4442, _("Wstaw linie"), insertMenu);
 	isEnabled = (sels > 0);
 	menu->SetAccMenu(GRID_DUPLICATE_LINES, _("&Duplikuj linie"))->Enable(isEnabled);
 	isEnabled = (sels == 2);
@@ -1410,51 +1412,6 @@ void SubsGrid::OnSetNewFPS()
 	}
 }
 
-class SwapPropertiesDialog :public KaiDialog
-{
-public:
-	SwapPropertiesDialog(wxWindow *parent)
-		:KaiDialog(parent, -1, _("Potwierdzenie"))
-	{
-		DialogSizer *main = new DialogSizer(wxVERTICAL);
-		const int numFields = 6;
-		wxString fieldNames[numFields] = { _("Tytuł"), _("Autor"), _("Tłumaczenie"), _("Korekta"), _("Timing"), _("Edycja") };
-		CONFIG fieldOnValues[numFields] = { ASS_PROPERTIES_TITLE_ON, ASS_PROPERTIES_SCRIPT_ON, ASS_PROPERTIES_TRANSLATION_ON,
-			ASS_PROPERTIES_EDITING_ON, ASS_PROPERTIES_TIMING_ON, ASS_PROPERTIES_UPDATE_ON };
-		for (int i = 0; i < numFields; i++){
-			fields[i] = new KaiCheckBox(this, -1, fieldNames[i]);
-			fields[i]->SetValue(Options.GetBool(fieldOnValues[i]));
-			main->Add(fields[i], 0, wxEXPAND | wxALL, 3);
-		}
-		wxBoxSizer *buttons = new wxBoxSizer(wxHORIZONTAL);
-		MappedButton *Ok = new MappedButton(this, wxID_OK, L"OK");
-		MappedButton *Cancel = new MappedButton(this, wxID_CANCEL, _("Anuluj"));
-		MappedButton *TurnOf = new MappedButton(this, 19921, _("Wyłącz potwierdzenie"));
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
-			Options.SetBool(ASS_PROPERTIES_ASK_FOR_CHANGE, false);
-			Options.SaveOptions(true, false);
-			EndModal(19921);
-		}, 19921);
-		buttons->Add(Ok, 1, wxALL, 4);
-		buttons->Add(Cancel, 1, wxALL, 4);
-		buttons->Add(TurnOf, 0, wxALL, 4);
-		main->Add(buttons);
-		SetSizerAndFit(main);
-		CenterOnParent();
-	}
-	virtual ~SwapPropertiesDialog(){};
-	void SaveValues(){
-		const int numFields = 6;
-		CONFIG fieldOnValues[numFields] = { ASS_PROPERTIES_TITLE_ON, ASS_PROPERTIES_SCRIPT_ON, ASS_PROPERTIES_TRANSLATION_ON,
-			ASS_PROPERTIES_EDITING_ON, ASS_PROPERTIES_TIMING_ON, ASS_PROPERTIES_UPDATE_ON };
-		for (int i = 0; i < numFields; i++){
-			Options.SetBool(fieldOnValues[i], fields[i]->GetValue());
-		}
-	}
-private:
-	KaiCheckBox *fields[6];
-};
-
 bool SubsGrid::SwapAssProperties()
 {
 	const int numFields = 6;
@@ -1518,13 +1475,14 @@ void SubsGrid::Split(int id)
 		InsertRows(curLine + 1, 1, splitDial, true);
 	}
 	else {
-		wxArrayString splitTable;
 		wxSize subsSize;
 		GetASSRes(&subsSize.x, &subsSize.y);
+		wxString tags[] = { L"pos", L"an", L"fscx", L"fscy", L"fsp", L"fs", L"fn", L"b", L"i" };
 		TagFindReplace TFR;
 		for (size_t i = selections.GetCount(); i > 0; i--) {
 			size_t g = selections[i - 1];
 			Dialogue* dialc = CopyDialogue(g);
+			wxArrayString wrapsTable;
 			switch (id) {
 			case GRID_SPLIT_BY_FRAME:
 			{
@@ -1558,112 +1516,148 @@ void SubsGrid::Split(int id)
 				wxString firstTagsBlock;
 				dialc->GetFirstTagsBlock(&firstTagsBlock);
 				
-				wxString tags[] = { L"pos", L"an", L"fscx", L"fscy", L"fsp", L"fs", L"fn", L"b", L"i"};
-				ParseData* tagsData = dialc->ParseTags(tags, 9);
 				Styles* style = GetStyle(0, dialc->Style);
 				style = style->Copy();
-				style->SetStyleFromParseData(tagsData);
+				//style->SetStyleFromParseData(tagsData);
 				wxString posval;
 				int an = 0;
+				ParseData* tagsData = dialc->ParseTags(tags, 9, false);
 				if (dialc->FindTag(L"an", &posval)) {
 					an = wxAtoi(posval);
 				}
 				else {
 					an = wxAtoi(style->Alignment);
 				}
-				float x = 0, y = 0;
+				float posx = 0, posy = 0;
 				if (dialc->FindTag(L"pos", &posval)) {
-					GetTwoValueFloat(posval, &x, &y);
+					GetTwoValueFloat(posval, &posx, &posy);
 				}
 				else {
-					dialc->GetDefaultPosition(style, an, subsSize, &x, &y);
+					dialc->GetDefaultPosition(style, an, subsSize, &posx, &posy);
 				}
-				float w = 0, h = 0;
-				if (!GetLineTextExtents(dialText, style, &w, &h)) {
-					KaiLogSilent(L"Could not get split text extents of \'" + dialText + "\'");
-				}
-				
 				TFR.FindTag(L"an([0-9]*)", firstTagsBlock, 0);
 				TFR.Replace(L"\\an" + std::to_wstring(an), &firstTagsBlock);
-				
-
-				if (id == GRID_SPLIT_BY_CHARS)
-					dialc->SplitByChar(&splitTable);
-				else if (id == GRID_SPLIT_BY_WORDS)
-					dialc->SplitByWord(&splitTable);
-				else
-					dialc->SplitByWrap(&splitTable);
-
-				if (id != GRID_SPLIT_BY_WRAPS) {
-					if (an % 3 == 2) {
-						x -= (w / 2);
-					}
-					else if (an % 3 == 0) {
-						x -= w;
-					}
-				}
-				else {
-					int hoffset = (splitTable.GetCount() - 1) * h;
-					if (an < 4) {
-						y -= (h + hoffset);
-					}
-					else if (an < 7) {
-						y -= ((h + hoffset) / 2);
-					}
-					/*else {
-						y -= hoffset;
-					}*/
-				}
 				dialc->ClearParse();
+				int wraps = 0;
+				wraps = dialc->SplitByWrap(&wrapsTable);
+				float y = posy;
+				bool first = true;
+				for (size_t k = 0; k < wrapsTable.GetCount(); k++) {
 
-				for (size_t j = 0; j < splitTable.GetCount(); j++) {
-					wxString txt;
-					dialc->GetTextStripped(&txt, splitTable[j]);
-					if (!GetLineTextExtents(txt, style, &w, &h)) {
-						KaiLogSilent(L"Could not get split text extents of \'" + txt + "\'");
+					wxArrayString splitTable;
+					wxString wrapText;
+					const wxString& wrapTextFull = wrapsTable[k];
+					dialc->GetTextStripped(&wrapText, wrapTextFull);
+					ParseData* tagsData = dialc->ParseTags(tags, 9, false, wrapTextFull);
+					if (k > 0) {
+						wxString wrapTagsBlock;
+						dialc->GetFirstTagsBlock(&wrapTagsBlock, wrapTextFull);
+						dialc->MergeTagBlocks(&firstTagsBlock, wrapTagsBlock);
+						TFR.FindTag(L"an([0-9]*)", firstTagsBlock, 0);
+						TFR.Replace(L"\\an" + std::to_wstring(an), &firstTagsBlock);
 					}
-					txt.Trim();
-					if (id == GRID_SPLIT_BY_WRAPS) {
-						if (an < 4) {
-							y += h;
-						}
-						else if (an < 7) {
-							y += (h / 2);
-						}
+					style->SetStyleFromParseData(tagsData);
+					dialc->ClearParse();
+					wrapText.Trim();
+					float x = posx;
+					float w = 0, h = 0;
+					if (!GetLineTextExtents(wrapText, style, &w, &h)) {
+						KaiLogSilent(L"Could not get split text extents of \'" + wrapText + "\'");
 					}
-					else {
+
+
+					if (id == GRID_SPLIT_BY_CHARS)
+						dialc->SplitByChar(&splitTable, true, wrapTextFull);
+					else if (id == GRID_SPLIT_BY_WORDS)
+						dialc->SplitByWord(&splitTable, wrapTextFull);
+					else//when wraps we got already wrap text and need to add to table to insert dialogue
+						splitTable.Add(wrapTextFull);
+					
+					bool splitByWraps = id == GRID_SPLIT_BY_WRAPS;
+
+					if (!splitByWraps) {
 						if (an % 3 == 2) {
-							x += (w / 2);
+							x -= (w / 2);
 						}
 						else if (an % 3 == 0) {
-							x += w;
+							x -= w;
 						}
 					}
-					if (!txt.empty()) {
-						if (j != 0) {
-							dialc = dialc->Copy();
-							g++;
-							InsertRows(g, 1, dialc);
+					if ((splitByWraps || wraps) && k == 0) {
+						if (!wraps)
+							continue;
+
+						int hoffset = wraps * h;
+						if (an < 4) {
+							y -= (h + hoffset);
 						}
-						TFR.FindTag(L"pos\\((.+)\\)", firstTagsBlock, 0);
-						TFR.Replace(L"\\pos(" + getfloat(x) + L"," + getfloat(y) + L")", &firstTagsBlock);
-						dialc->SetText(firstTagsBlock + txt);
-					}
-					if (id == GRID_SPLIT_BY_WRAPS) {
-						if(an < 4){}
 						else if (an < 7) {
-							y += (h / 2);
-						}
-						else{
-							y += h;
+							y -= ((h + hoffset) / 2);
 						}
 					}
-					else {
-						if (an % 3 == 2) {
-							x += (w / 2);
+					
+					bool hasWrap = id == GRID_SPLIT_BY_WRAPS;
+					for (size_t j = 0; j < splitTable.GetCount(); j++) {
+						wxString txt;
+						dialc->GetTextStripped(&txt, splitTable[j]);
+						if (j == 0) {
+							hasWrap = true;
 						}
-						else if (an % 3 == 1) {
-							x += w;
+						if (!GetLineTextExtents(txt, style, &w, &h)) {
+							KaiLogSilent(L"Could not get split text extents of \'" + txt + "\'");
+						}
+						txt.Trim();
+
+						if (hasWrap) {
+							if (an < 4) {
+								y += h;
+							}
+							else if (an < 7) {
+								y += (h / 2);
+							}
+						}
+
+						if (!splitByWraps) {
+							if (an % 3 == 2) {
+								x += (w / 2);
+							}
+							else if (an % 3 == 0) {
+								x += w;
+							}
+						}
+						if (!txt.empty()) {
+							if (first) {
+								first = false;
+							}
+							else{
+								first = false;
+								dialc = dialc->Copy();
+								g++;
+								InsertRows(g, 1, dialc);
+							}
+						
+							TFR.FindTag(L"pos\\((.+)\\)", firstTagsBlock, 0);
+							TFR.Replace(L"\\pos(" + getfloat(x) + L"," + getfloat(y) + L")", &firstTagsBlock);
+							dialc->SetText(firstTagsBlock + txt);
+						}
+						if (hasWrap) {
+							if (an < 4) {}
+							else if (an < 7) {
+								y += (h / 2);
+							}
+							else {
+								y += h;
+							}
+							if (!splitByWraps)
+								hasWrap = false;
+						}
+						if (!splitByWraps) {
+							if (an % 3 == 2) {
+								x += (w / 2);
+							}
+							else if (an % 3 == 1) {
+								x += w;
+							}
 						}
 					}
 				}

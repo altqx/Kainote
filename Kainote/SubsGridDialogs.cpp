@@ -102,3 +102,43 @@ void TreeDialog::OkClick(wxCommandEvent &evt)
 	if (!newName.empty())
 		EndModal(wxID_OK);
 }
+
+
+SwapPropertiesDialog::SwapPropertiesDialog(wxWindow* parent)
+	:KaiDialog(parent, -1, _("Potwierdzenie"))
+{
+	DialogSizer* main = new DialogSizer(wxVERTICAL);
+	const int numFields = 6;
+	wxString fieldNames[numFields] = { _("Tytuł"), _("Autor"), _("Tłumaczenie"), _("Korekta"), _("Timing"), _("Edycja") };
+	CONFIG fieldOnValues[numFields] = { ASS_PROPERTIES_TITLE_ON, ASS_PROPERTIES_SCRIPT_ON, ASS_PROPERTIES_TRANSLATION_ON,
+		ASS_PROPERTIES_EDITING_ON, ASS_PROPERTIES_TIMING_ON, ASS_PROPERTIES_UPDATE_ON };
+	for (int i = 0; i < numFields; i++) {
+		fields[i] = new KaiCheckBox(this, -1, fieldNames[i]);
+		fields[i]->SetValue(Options.GetBool(fieldOnValues[i]));
+		main->Add(fields[i], 0, wxEXPAND | wxALL, 3);
+	}
+	wxBoxSizer* buttons = new wxBoxSizer(wxHORIZONTAL);
+	MappedButton* Ok = new MappedButton(this, wxID_OK, L"OK");
+	MappedButton* Cancel = new MappedButton(this, wxID_CANCEL, _("Anuluj"));
+	MappedButton* TurnOf = new MappedButton(this, 19921, _("Wyłącz potwierdzenie"));
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+		Options.SetBool(ASS_PROPERTIES_ASK_FOR_CHANGE, false);
+		Options.SaveOptions(true, false);
+		EndModal(19921);
+		}, 19921);
+	buttons->Add(Ok, 1, wxALL, 4);
+	buttons->Add(Cancel, 1, wxALL, 4);
+	buttons->Add(TurnOf, 0, wxALL, 4);
+	main->Add(buttons);
+	SetSizerAndFit(main);
+	CenterOnParent();
+}
+	
+void SwapPropertiesDialog::SaveValues() {
+	const int numFields = 6;
+	CONFIG fieldOnValues[numFields] = { ASS_PROPERTIES_TITLE_ON, ASS_PROPERTIES_SCRIPT_ON, ASS_PROPERTIES_TRANSLATION_ON,
+		ASS_PROPERTIES_EDITING_ON, ASS_PROPERTIES_TIMING_ON, ASS_PROPERTIES_UPDATE_ON };
+	for (int i = 0; i < numFields; i++) {
+		Options.SetBool(fieldOnValues[i], fields[i]->GetValue());
+	}
+}

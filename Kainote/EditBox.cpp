@@ -73,8 +73,6 @@ void ComboBoxCtrl::OnKillFocus(wxFocusEvent &evt)
 }
 
 
-
-
 TagButtonDialog::TagButtonDialog(wxWindow *parent, int id, const wxString &txtt, const wxString &_name, int _type)
 	:KaiDialog(parent, id, _("Wpisz tag ASS"))
 {
