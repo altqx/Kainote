@@ -323,9 +323,10 @@ void ColorPickerRecent::OnSize(wxSizeEvent &evt)
 
 
 ColorPickerScreenDropper::ColorPickerScreenDropper(wxWindow *parent, wxWindowID id, 
-	int _resx, int _resy, int _magnification, bool _integrated_dropper)
+	int _resx, int _resy, int _magnification, bool _integrated_dropper, bool ignore_window/* = false*/)
 	: wxWindow(parent, id, wxDefaultPosition, wxDefaultSize, STATIC_BORDER_FLAG), 
-	resx(_resx), resy(_resy), magnification(_magnification), integrated_dropper(_integrated_dropper)
+	resx(_resx), resy(_resy), magnification(_magnification), integrated_dropper(_integrated_dropper), 
+	ignoreWindow(ignore_window)
 {
 	SetClientSize(resx * magnification, resy * magnification);
 	SetMinSize(GetSize());
@@ -350,16 +351,47 @@ wxDEFINE_EVENT(wxDROPPER_MOUSE_UP, wxCommandEvent);
 
 void ColorPickerScreenDropper::OnMouse(wxMouseEvent &evt)
 {
+	
 	int x, y;
 	x = evt.GetX() / magnification;
 	y = evt.GetY() / magnification;
-
+	
+	if (ignoreWindow) {
+		if (evt.Leaving()) {
+			SetCursor(wxCURSOR_ARROW);
+			hasDefaultCursor = true;
+		}
+		else if (evt.Entering()) {
+			SetCursor(*wxCROSS_CURSOR);
+			hasDefaultCursor = false;
+		}
+		wxPoint position = wxGetMousePosition();
+		
+		wxRect rect(GetParent()->GetRect());
+		if (rect.Contains(position))
+		{
+			if (HasCapture())
+			{
+				ReleaseMouse();
+				SetCursor(wxCURSOR_ARROW);
+				blockColorChanges = false;
+				hasDefaultCursor = true;
+			}
+		}
+	}
+	
 	if (HasCapture() && (evt.LeftIsDown() || evt.RightIsDown())) {
 
 		wxPoint pos = ClientToScreen(evt.GetPosition());
 		DropFromScreenXY(pos.x, pos.y);
 		if (evt.RightIsDown())
 			SendGetColorEvent(resx / 2, resy / 2);
+
+		blockColorChanges = true;
+	}
+	else if (HasCapture() && evt.Moving() && !blockColorChanges && ignoreWindow) {
+		wxPoint pos = ClientToScreen(evt.GetPosition());
+		DropFromScreenXY(pos.x, pos.y);
 	}
 	else if (evt.LeftDown()) {
 
@@ -373,7 +405,9 @@ void ColorPickerScreenDropper::OnMouse(wxMouseEvent &evt)
 
 	}
 	else if (HasCapture() && evt.LeftUp()) {
-		ReleaseMouse();
+		if (!ignoreWindow) {
+			ReleaseMouse();
+		}
 		wxCommandEvent dropperevt(wxDROPPER_MOUSE_UP, GetId());
 		AddPendingEvent(dropperevt);
 	}
@@ -544,7 +578,7 @@ DialogColorPicker::DialogColorPicker(wxWindow *parent, AssColor initial_color, i
 		ProcessEvent(ctcevt);
 	}, 9766);
 
-	KaiCheckBox *SwitchClicks = new KaiCheckBox(this, 9456, _("Zamień ze sobą skróty próbnika i okna wyboru kolorów"));
+	KaiCheckBox *SwitchClicks = new KaiCheckBox(this, 9456, _("Zamień ze sobą skróty próbnika\ni okna wyboru kolorów"));
 	SwitchClicks->SetValue(Options.GetBool(COLORPICKER_SWITCH_CLICKS));
 	SwitchClicks->SetToolTip(_("Zahaczenie tej opcji uruchamia próbnik po kliknięciu lewym przyciskiem,\na okno wyboru koloru po kliknięciu prawym przyciskiem."));
 	if (colorNum == -1)
@@ -1376,8 +1410,11 @@ SimpleColorPickerDialog::SimpleColorPickerDialog(wxWindow *parent, const AssColo
 	}, 9764);
 
 	HexColor = new KaiTextCtrl(this, -1, actualColor.GetAss(false, false));
-	dropper = new ColorPickerScreenDropper(this, 9765, 7, 7, 8, false);
-	dropper->Bind(wxEVT_MOUSE_CAPTURE_LOST, [=](wxMouseCaptureLostEvent &evt){ ReleaseMouse(); });
+	dropper = new ColorPickerScreenDropper(this, 9765, 7, 7, 8, false, true);
+	dropper->Bind(wxEVT_MOUSE_CAPTURE_LOST, [=](wxMouseCaptureLostEvent &evt){ 
+		ReleaseMouse(); 
+		EndModal(0);
+		});
 	Bind(wxDROPPER_MOUSE_UP, [=](wxCommandEvent &evt){
 		if (moveWindowToMousePosition->GetValue())
 			MoveToMousePosition(this);
@@ -1405,8 +1442,9 @@ SimpleColorPickerDialog::SimpleColorPickerDialog(wxWindow *parent, const AssColo
 	SetSizerAndFit(ds);
 	MoveToMousePosition(this);
 	Colorize();
-	//dropper->CaptureMouse();
-	Bind(wxEVT_IDLE, &SimpleColorPickerDialog::OnIdle, this);
+	dropper->CaptureMouse();
+	Bind(wxEVT_LEAVE_WINDOW, &SimpleColorPickerDialog::OnLeaveWindow, this);
+	Bind(wxEVT_SHOW, &SimpleColorPickerDialog::OnShow, this);
 }
 
 int SimpleColorPickerDialog::GetColorType()
@@ -1440,32 +1478,25 @@ void SimpleColorPickerDialog::Colorize()
 	HexColor->SetBackgroundColour(color.GetWX());
 }
 
-void SimpleColorPickerDialog::OnIdle(wxIdleEvent& event)
+void SimpleColorPickerDialog::OnLeaveWindow(wxMouseEvent& event)
 {
-	event.Skip();
+	//event.Skip();
 
 	if (IsShown())
 	{
-		wxPoint pos = ScreenToClient(wxGetMousePosition());
-		wxRect rect(GetSize());
-
-		if (rect.Contains(pos))
-		{
-			if (dropper->HasCapture())
-			{
-				dropper->ReleaseMouse();
-				dropper->SetCursor(wxCURSOR_ARROW);
-			}
-		}
-		else
-		{
-			if (!dropper->HasCapture())
-			{
+		wxPoint position = wxGetMousePosition();
+		wxRect rect(GetRect());
+		if (!rect.Contains(position)) {
+			if (!dropper->HasCapture()) {
 				dropper->CaptureMouse();
 				dropper->SetCursor(wxCursor(L"eyedropper_cursor"));
 			}
 		}
 	}
+}
+
+void SimpleColorPickerDialog::OnShow(wxShowEvent& event) {
+	dropper->SetCursor(wxCursor(L"eyedropper_cursor"));
 }
 
 SimpleColorPicker::SimpleColorPicker(wxWindow *parent, const AssColor &actualColor, int colorType)
@@ -1487,3 +1518,4 @@ bool SimpleColorPicker::PickColor(AssColor *returnColor)
 	}
 	return false;
 }
+

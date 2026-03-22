@@ -106,6 +106,9 @@ private:
 	int resx, resy;
 	int magnification;
 	bool integrated_dropper;
+	bool ignoreWindow;
+	bool blockColorChanges = false;
+	bool hasDefaultCursor = false;
 
 	void OnMouse(wxMouseEvent &evt);
 	void OnPaint(wxPaintEvent &evt);
@@ -114,7 +117,8 @@ private:
 	bool AcceptsFocusRecursively() const{ return false; }
 
 public:
-	ColorPickerScreenDropper(wxWindow *parent, wxWindowID id, int _resx, int _resy, int _magnification, bool _integrated_dropper);
+	ColorPickerScreenDropper(wxWindow *parent, wxWindowID id, int _resx, int _resy, 
+		int _magnification, bool _integrated_dropper, bool ignore_window = false);
 	virtual ~ColorPickerScreenDropper(){ };
 	void DropFromScreenXY(int x, int y);
 	void SendGetColorEvent(int x, int y);
@@ -285,7 +289,8 @@ public:
 	void AddRecent();
 	void Colorize();
 private:
-	void OnIdle(wxIdleEvent& event);
+	void OnLeaveWindow(wxMouseEvent& event);
+	void OnShow(wxShowEvent& event);
 	AssColor color;
 };
 
