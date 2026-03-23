@@ -309,13 +309,13 @@ void TabPanel::ReloadSubsIfModified()
 			}
 		}
 		SetLastSaveTime();
-		KainoteFrame::Get()->Label(grid->file->GetActualHistoryIter());
+		KainoteFrame::Get()->Label(grid->GetActualHistoryIter());
 	}
 	else if(needReload == -1 && !blockRemovedFile){
 		//make file need to be saved cause was deleted
-		grid->file->RemoveLastIterSave();
+		grid->RemoveLastIterSave();
 		grid->UpdateUR(true);
-		KainoteFrame::Get()->Label(grid->file->GetActualHistoryIter());
+		KainoteFrame::Get()->Label(grid->GetActualHistoryIter());
 		blockRemovedFile = true;
 	}
 	else if(needReload != -1 && blockRemovedFile)

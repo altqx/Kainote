@@ -367,7 +367,7 @@ void StyleStore::OnAddToAssInAllTabs(wxCommandEvent& event)
 		grid->Refresh(false);
 		if (isActive)
 			ASSList->SetArray(grid->GetStyleTable());
-		Kai->Label(tab->grid->file->GetActualHistoryIter(), false, k, !isActive);
+		Kai->Label(tab->grid->GetActualHistoryIter(), false, k, !isActive);
 	}
 }
 
@@ -392,7 +392,7 @@ void StyleStore::OnAssDelete(wxCommandEvent& event)
 	if (numSelections < 1){ wxBell(); return; }
 	for (int ii = sels.GetCount() - 1; ii >= 0; ii--)
 	{
-		grid->DelStyle(sels[ii]);
+		grid->DeleteStyle(sels[ii]);
 	}
 
 	ASSList->SetSelection(0, true);
@@ -580,7 +580,7 @@ void StyleStore::OnAssSort(wxCommandEvent& event)
 	SubsGrid* grid = Notebook::GetTab()->grid;
 	std::sort(grid->GetStyleTable()->begin(), grid->GetStyleTable()->end(), sortfunc);
 	ASSList->SetSelection(0, true);
-	grid->file->edited = true;
+	grid->edited = true;
 	SetModified();
 }
 
@@ -733,8 +733,8 @@ void StyleStore::OnCleanStyles(wxCommandEvent& event)
 	SubsGrid *grid = tab->grid;
 	const wxString &tlStyle = grid->GetSInfo(L"TLMode Style");
 
-	for (size_t i = 0; i < grid->file->GetCount(); i++){
-		lineStyles[grid->file->GetDialogue(i)->Style] = true;
+	for (size_t i = 0; i < grid->GetCount(); i++){
+		lineStyles[grid->GetDialogue(i)->Style] = true;
 	}
 
 	size_t j = 0;
@@ -746,7 +746,7 @@ void StyleStore::OnCleanStyles(wxCommandEvent& event)
 		else{
 			if (styleName != tlStyle){
 				delStyles << styleName << L"\n";
-				grid->DelStyle(j);
+				grid->DeleteStyle(j);
 				continue;
 			}
 			else{ existsStyles << styleName << L"\n"; }
@@ -1013,7 +1013,7 @@ void StyleStore::OnStyleMove(wxCommandEvent& event)
 	}
 	if (action < 4){ 
 		ASSList->SetSelections(sels); 
-		Notebook::GetTab()->grid->file->edited = true; 
+		Notebook::GetTab()->grid->edited = true; 
 		SetModified(); 
 	}
 	else{ Store->SetSelections(sels); }

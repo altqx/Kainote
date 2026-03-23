@@ -27,7 +27,6 @@ SubsLoader::SubsLoader(SubsGrid *_grid, const wxString &text, wxString &ext)
 {
 	grid = _grid;
 	grid->Clearing();
-	grid->file = new SubsFile(&grid->GetMutex());
 	grid->originalFormat = 0;
 	grid->hasTLMode = false;
 	bool succeeded = false;
@@ -61,13 +60,11 @@ SubsLoader::SubsLoader(SubsGrid *_grid, const wxString &text, wxString &ext)
 		grid->SetSubsFormat();
 		if (grid->subsFormat == SRT){
 			grid->Clearing();
-			grid->file = new SubsFile(&grid->GetMutex());
 			succeeded = LoadSRT(text);
 			if (succeeded) ext = L"srt";
 		}
 		else if (grid->subsFormat == ASS){
 			grid->Clearing();
-			grid->file = new SubsFile(&grid->GetMutex());
 			succeeded = LoadASS(text);
 			ext = L"ass";
 			if (!succeeded){
@@ -157,7 +154,7 @@ bool SubsLoader::LoadASS(const wxString &text)
 		}
 	}
 	grid->hasTLMode = tlmode;
-	grid->file->SetFiltered(hasFiltering);
+	grid->SetFiltered(hasFiltering);
 	const wxString &matrix = grid->GetSInfo(L"YCbCr Matrix");
 	if (matrix == emptyString || matrix == L"None"){ grid->AddSInfo(L"YCbCr Matrix", L"TV.601"); }
 	return grid->GetCount() > 0;

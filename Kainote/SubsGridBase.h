@@ -52,31 +52,17 @@ private:
 	wxArrayInt lineCompare;
 };
 
-class SubsGridBase : public KaiScrolledWindow
+class SubsGridBase : public SubsFile, public KaiScrolledWindow
 {
 	friend class SubsGridPreview;
 public:
 
-	//wxMutex mutex;
-	void AddLine(Dialogue *line);
-	void AddStyle(Styles *nstyl);
 	void ChangeLine(unsigned char editionType, Dialogue *line1, size_t wline, long cells, bool selline = false, bool dummy = false);
 	void ChangeCell(long cells, size_t wline, Dialogue *what);
-	void ChangeStyle(Styles *nstyl, size_t i);
-	void Clearing();
+	void Clearing(bool setup = true);
 	void Convert(char type);
 
-	int FindStyle(const wxString &name, int *multiplication = nullptr);
-	void GetStyles(wxString &stylesText, bool tld = false);
-	//this function is safe, do not return nullptr, when failed returns i
-	Styles *GetStyle(size_t i, const wxString &name = emptyString);
-	std::vector<Styles*> *GetStyleTable();
-	bool IsModified();
-
 	void SaveFile(const wxString &filename, bool cstat = true, bool loadFromEditbox = false);
-
-	size_t StylesSize();
-	void DelStyle(int i);
 	void ChangeTimes(bool byFrame = false);
 
 	void SortIt(short what, bool all = true);
@@ -91,14 +77,9 @@ public:
 	//not adding it when needed cause memory leaks.
 	void InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy = true, bool Save = false);
 	void SetSubsFormat(wxString ext = emptyString);
-	void AddSInfo(const wxString &SI, wxString val = emptyString, bool save = true);
 	void SetModified(unsigned char editionType, bool redit = true, bool dummy = false, int SetEditBoxLine = -1, bool Scroll = true);
 	void UpdateUR(bool tolbar = true);
-	void GetSInfos(wxString &textSinfo, bool tld = false);
-	const wxString &GetSInfo(const wxString &key, int *ii = 0);
-	SInfo *GetSInfoP(const wxString &key, int *ii = 0);
 	void GetAssHeader(wxString* header, bool forFile = false, bool translated = false, bool normalSave = true);
-	size_t FirstSelection(size_t *firstSelectionId = nullptr);
 	void SwapRows(int frst, int scnd, bool sav = false);
 	void LoadSubtitles(const wxString &str, wxString &ext);
 	bool MoveRows(int step, bool keyStep = false);
@@ -109,8 +90,6 @@ public:
 	void GetASSRes(int *x, int *y);
 	void GetLayoutRes(int* x, int* y);
 	void SetLayoutFromSubsRes();
-	size_t SInfoSize();
-	size_t GetCount();
 	void NextLine(int dir = 1);
 	void SaveSelections(bool clear = false);
 	// no checks, check if value is unsure
@@ -124,7 +103,6 @@ public:
 
 		return NULL;
 	}
-	Dialogue *GetDialogue(size_t i);
 	// returns null when there's no visible dialogue with that offset or it is out of the table
 	Dialogue *GetDialogueWithOffset(size_t i, int offset);
 	// returns visible lines as string for Vsfilter
@@ -160,7 +138,6 @@ public:
 	bool ignoreFiltered = false;
 	std::vector<TextData> SpellErrors;
 	std::vector<compareData> *Comparison;
-	SubsFile* file = nullptr;
 	EditBox *edit = nullptr;
 	//comparison static pointers needs short name because we not use this class
 	static SubsGridBase* CG1;

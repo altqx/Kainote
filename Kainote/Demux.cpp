@@ -122,7 +122,6 @@ bool Demux::GetSubtitles(SubsGrid* target)
 				return 0;
 			}
 			target->Clearing();
-			target->file = new SubsFile(&target->GetMutex());
 
 			// Read private data if it's ASS/SSA
 			if (codecType < 2) {
@@ -160,7 +159,7 @@ bool Demux::GetSubtitles(SubsGrid* target)
 			if ((matrix == emptyString || matrix == L"None") && codecType < 1) 
 				target->AddSInfo(L"YCbCr Matrix", L"TV.601");
 
-			target->file->EndLoad(OPEN_SUBTITLES, 0, true);
+			target->EndLoad(OPEN_SUBTITLES, 0, true);
 			subtitleList.clear();
 
 			return 1;

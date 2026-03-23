@@ -114,23 +114,26 @@ private:
 	std::vector<File*> undo;
 	int iter;
 	File *subs;
-	int lastSave = 0;
+	int lastSave;
 
 public:
-	SubsFile(wxMutex * editionGuard);
-	~SubsFile();
+	SubsFile();
+	virtual ~SubsFile();
+	void Clear(bool setup = true);
+	void Create();
+	void SetMutex(wxMutex* editionGuard);
 	void SaveUndo(unsigned char editionType, int activeLine, int markerLine);
 	bool Redo();
 	bool Undo();
-	void DummyUndo();
-	void DummyUndo(int newIter);
+	void DummyUndoF();
+	void DummyUndoF(int newIter);
 	void EndLoad(unsigned char editionType, int activeLine, bool initialSave = false);
 	size_t GetCount();
 	size_t GetIdCount();
-	void AppendDialogue(Dialogue *dial);
+	void AddLine(Dialogue *dial);
 	//check if exceeds tabe or if dialogue is not visible can return null
 	Dialogue *CopyVisibleDialogue(size_t i, bool push = true, bool keepstate = false);
-	Dialogue *CopyDialogue(size_t i, bool push = true, bool keepstate = false);
+	Dialogue *CopyDialogueF(size_t i, bool push = true, bool keepstate = false);
 	//check if exceeds tabe or if dialogue is not visible can return null
 	Dialogue *GetVisibleDialogue(size_t i);
 	Dialogue *GetDialogue(size_t i);
@@ -139,11 +142,11 @@ public:
 	void DeleteSelectedDialogues();
 	//Warning!! Adding the same dialogue pointer to destroyer cause crash
 	//not adding it when needed cause memory leaks.
-	void InsertRows(int Row, const std::vector<Dialogue *> &RowsTable, bool AddToDestroy);
+	void InsertRowsF(int Row, const std::vector<Dialogue *> &RowsTable, bool AddToDestroy);
 	//Warning!! Adding the same dialogue pointer to destroyer cause crash
 	//not adding it when needed cause memory leaks.
-	void InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy);
-	void SwapRows(int frst, int scnd);
+	void InsertRowsF(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy);
+	void SwapRowsF(int frst, int scnd);
 	void SortAll(bool func(Dialogue *i, Dialogue *j));
 	void SortSelected(bool func(Dialogue *i, Dialogue *j));
 	Styles *CopyStyle(size_t i, bool push = true);
@@ -155,16 +158,17 @@ public:
 	std::vector<Styles*> *GetStyleTable();
 
 	//multiplication must be set to 0
-	size_t FindStyle(const wxString &name, int *multip);
+	size_t FindStyle(const wxString &name, int *multip = nullptr);
+	//this function is safe, do not return nullptr, when failed returns i
 	void GetStyles(wxString &stylesText, bool addTlModeStyle = false);
-	void DeleleStyle(size_t i);
+	void DeleteStyle(size_t i);
 	const wxString & GetSInfo(const wxString &key, int *ii = 0);
 	SInfo *GetSInfoP(const wxString &key, int *ii);
 	void DeleteSInfo(size_t i);
-	void AddSInfo(const wxString &SI, wxString val, bool save);
+	void AddSInfo(const wxString &SI, wxString val = emptyString, bool save = true);
 	void GetSInfos(wxString &textSinfo, bool addTlMode = false);
 	size_t SInfoSize();
-	void SaveSelections(bool clear, int currentLine, int markedLine, int scrollPos);
+	void SaveSelectionsF(bool clear, int currentLine, int markedLine, int scrollPos);
 	size_t FirstSelection(size_t *id = nullptr);
 	File *GetSubs(){ return subs; }
 	void GetSelections(wxArrayInt &selections, bool deselect=false, bool checkVisible = true);
@@ -199,7 +203,7 @@ public:
 	void SetLastSave();
 	int GetActualHistoryIter();
 	int GetLastSaveIter(){ return lastSave; }
-	bool CanSave(){ return iter != lastSave; }
+	bool IsModified(){ return iter != lastSave; }
 	void RemoveLastIterSave() { lastSave = -1; }
 	const wxString &GetUndoName();
 	const wxString &GetRedoName();

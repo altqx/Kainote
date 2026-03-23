@@ -376,7 +376,7 @@ void DrawingAndClip::SetClip(bool dummy, bool redraw, bool changeEditorText)
 		bool showOriginalOnVideo = !Options.GetBool(TL_MODE_HIDE_ORIGINAL_ON_VIDEO);
 		wxString *dtxt;
 		wxArrayInt sels;
-		grid->file->GetSelections(sels);
+		grid->GetSelections(sels);
 		bool skipInvisible = dummy && tab->video->GetState() != Playing;
 		if ((dummy && !dummytext) || selPositions.size() != sels.size()) {
 			bool visible = false;
@@ -1285,7 +1285,7 @@ void DrawingAndClip::InvertClip()
 {
 	SubsGrid* grid = tab->grid;
 	wxArrayInt sels;
-	grid->file->GetSelections(sels);
+	grid->GetSelections(sels);
 	wxRegEx re(L"\\\\(i?clip)\\(([^)]*)\\)", wxRE_ADVANCED);
 	if (!re.IsValid())
 		return;

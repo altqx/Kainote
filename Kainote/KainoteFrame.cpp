@@ -655,7 +655,6 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 			Label();
 
 			tab->grid->Clearing();
-			tab->grid->file = new SubsFile(&tab->grid->GetMutex());
 			tab->grid->LoadDefault();
 			tab->edit->RefreshStyle(true);
 			tab->grid->RefreshColumns();
@@ -675,7 +674,7 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 		tab->grid->DoUndo(true);
 	}
 	else if (id == GLOBAL_HISTORY){
-		tab->grid->file->ShowHistory(this, [=](int iter){
+		tab->grid->ShowHistory(this, [=](int iter){
 			tab->grid->DoUndo(false, iter);
 		});
 	}
@@ -885,7 +884,7 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 		tab->video->Seek(MAX(0, tab->grid->GetDialogue(curline)->End.mstime), false);
 	}
 	else if (id == GLOBAL_UNDO_TO_LAST_SAVE){
-		tab->grid->DoUndo(false, tab->grid->file->GetLastSaveIter());
+		tab->grid->DoUndo(false, tab->grid->GetLastSaveIter());
 	}
 	else if (id == GLOBAL_LOAD_LAST_SESSION){
 		Tabs->LoadLastSession();
@@ -1827,7 +1826,7 @@ void KainoteFrame::OnPageChanged(wxCommandEvent& event)
 	TabPanel *cur = Tabs->GetPage();
 	if (!cur)
 		return;
-	int iter = cur->grid->file->Iter();
+	int iter = cur->grid->Iter();
 	if (cur->grid->IsModified()){
 		whiter << iter << L"*";
 	}
@@ -2227,7 +2226,7 @@ void KainoteFrame::OnMenuOpened(MenuEvent& event)
 					if (!curMenu)
 						continue;
 
-					const wxString &undoName = tab->grid->file->GetUndoName();
+					const wxString &undoName = tab->grid->GetUndoName();
 					wxString accel = eitem->GetAccel();
 					wxString accelName = (accel.empty()) ? emptyString : L"\t" + accel;
 					accelName.Replace(L"+", L"-");
@@ -2243,7 +2242,7 @@ void KainoteFrame::OnMenuOpened(MenuEvent& event)
 					if (!curMenu)
 						continue;
 
-					const wxString &redoName = tab->grid->file->GetRedoName();
+					const wxString &redoName = tab->grid->GetRedoName();
 					wxString accel = eitem->GetAccel();
 					wxString accelName = (accel.empty()) ? emptyString : L"\t" + accel;
 					accelName.Replace(L"+", L"-");
@@ -2257,7 +2256,7 @@ void KainoteFrame::OnMenuOpened(MenuEvent& event)
 
 				}
 				else if (eid == GLOBAL_HISTORY) {
-					eitem->Enable(editor && tab->grid->file->Iter() > 0);
+					eitem->Enable(editor && tab->grid->Iter() > 0);
 				}
 				// undo last save is disabled on start and activated later
 				else if(eid != GLOBAL_UNDO_TO_LAST_SAVE){

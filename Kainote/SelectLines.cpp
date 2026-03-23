@@ -268,7 +268,7 @@ void SelectLines::OnSelectInAllTabs(wxCommandEvent& event)
 		bool refreshTabLabel = false;
 		selectionsOnAllTabs += SelectOnTab(tab, &refreshTabLabel);
 		if (refreshTabLabel)
-			Kai->Label(tab->grid->file->GetActualHistoryIter(), false, i, i != Kai->Tabs->iter);
+			Kai->Label(tab->grid->GetActualHistoryIter(), false, i, i != Kai->Tabs->iter);
 	}
 
 	wxString messagetxt = (selectOptions == 0) ? wxString::Format(_("Zaznaczono %i linijek."), selectionsOnAllTabs) :
@@ -291,7 +291,7 @@ int SelectLines::SelectOnTab(TabPanel *tab, bool *refreshTabLabel)
 	std::vector<Dialogue *> mdial;
 	if (!matchcase && !regex){ find.MakeLower(); }
 	tab->grid->SaveSelections(selectOptions == 0);
-	SubsFile *Subs = tab->grid->file;
+	SubsFile *Subs = tab->grid;
 	bool skipFiltered = !tab->grid->ignoreFiltered;
 	wxRegEx rgx;
 	if (regex){
@@ -348,18 +348,18 @@ int SelectLines::SelectOnTab(TabPanel *tab, bool *refreshTabLabel)
 			&& ((selectDialogues && !Dial->IsComment) || (selectComments && Dial->IsComment))){
 			bool select = (selectOptions == 2) ? false : true;
 			if (select){
-				tab->grid->file->InsertSelection(i);
+				tab->grid->InsertSelection(i);
 				allSelections++;
 			}
 			else{
-				if (tab->grid->file->IsSelected(i)){
-					tab->grid->file->EraseSelection(i);
+				if (tab->grid->IsSelected(i)){
+					tab->grid->EraseSelection(i);
 					allSelections++;
 				}
 			}
 		}
 
-		if (tab->grid->file->IsSelected(i) && action != 0){
+		if (tab->grid->IsSelected(i) && action != 0){
 			if (action < 3){ Dial->GetRaw(&whatcopy, tab->grid->hasTLMode && Dial->TextTl != emptyString); }
 			else if (action < 5){
 				Dialogue *copydial = Dial->Copy();
@@ -367,7 +367,7 @@ int SelectLines::SelectOnTab(TabPanel *tab, bool *refreshTabLabel)
 				mdial.push_back(copydial);
 			}
 			else if (action < 6){
-				Dialogue *dialc = tab->grid->file->CopyDialogue(i);
+				Dialogue *dialc = tab->grid->CopyDialogueF(i);
 				dialc->ChangeDialogueState(1);
 				dialc->IsComment = true;
 			}
@@ -384,7 +384,7 @@ int SelectLines::SelectOnTab(TabPanel *tab, bool *refreshTabLabel)
 		}
 	}//przenoszenie na początek / koniec
 	if (action == 2 || action == 6 || action == 3 || action == 4){
-		tab->grid->file->DeleteSelectedDialogues();
+		tab->grid->DeleteSelectedDialogues();
 		tab->grid->SaveSelections(true);
 		tab->grid->SpellErrors.clear();
 		if ((action == 3 || action == 4) && mdial.size())
@@ -393,7 +393,8 @@ int SelectLines::SelectOnTab(TabPanel *tab, bool *refreshTabLabel)
 			tab->grid->InsertRows((action == 3) ? 0 : -1, mdial, true);
 			size_t size = tab->grid->GetCount();
 			size_t mdialsize = size - mdial.size();
-			tab->grid->file->InsertSelections((action == 3) ? 0 : mdialsize, (action == 3) ? mdial.size() - 1 : size - 1);
+			tab->grid->InsertSelections((action == 3) ? 0 : mdialsize, 
+				(action == 3) ? mdial.size() - 1 : size - 1);
 
 			mdial.clear();
 		}

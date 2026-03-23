@@ -74,7 +74,6 @@ File::~File()
 }
 void File::Clear()
 {
-
 	for (std::vector<Dialogue*>::iterator it = deleteDialogues.begin(); it != deleteDialogues.end(); it++)
 	{
 		delete (*it);
@@ -107,7 +106,41 @@ File *File::Copy(bool copySelections)
 	return file;
 }
 
-SubsFile::SubsFile(wxMutex * editionGuard)
+SubsFile::SubsFile()
+{
+	Create();
+}
+
+SubsFile::~SubsFile()
+{
+	Clear(false);
+}
+
+void SubsFile::Clear(bool setup/* = true*/)
+{
+	if (subs) {
+		subs->Clear();
+		delete subs;
+		subs = nullptr;
+			for (std::vector<File*>::iterator it = undo.begin(); it != undo.end(); it++)
+			{
+				(*it)->Clear();
+				delete (*it);
+			}
+		undo.clear();
+		delete[] historyNames;
+	}
+	if (setup) {
+		Create();
+	}
+}
+
+void SubsFile::SetMutex(wxMutex* editionGuard)
+{
+	historyGuard = editionGuard;
+}
+
+void SubsFile::Create()
 {
 	historyNames = new wxString[GRID_SPLIT_LINES + 1]{
 		//first element is not used but is to secure it from number 0
@@ -173,22 +206,9 @@ SubsFile::SubsFile(wxMutex * editionGuard)
 			_("Dzielenie linii")
 	};
 	iter = 0;
+	lastSave = 0;
 	edited = false;
 	subs = new File();
-	historyGuard = editionGuard;
-}
-
-SubsFile::~SubsFile()
-{
-	subs->Clear();
-	delete subs;
-	for (std::vector<File*>::iterator it = undo.begin(); it != undo.end(); it++)
-	{
-		(*it)->Clear();
-		delete (*it);
-	}
-	undo.clear();
-	delete[] historyNames;
 }
 
 
@@ -253,7 +273,7 @@ bool SubsFile::SetHistory(int _iter)
 	return true;
 }
 
-void SubsFile::DummyUndo()
+void SubsFile::DummyUndoF()
 {
 	wxMutexLocker lock(*historyGuard);
 	subs->Clear();
@@ -261,7 +281,7 @@ void SubsFile::DummyUndo()
 	subs = undo[iter]->Copy();
 }
 
-void SubsFile::DummyUndo(int newIter)
+void SubsFile::DummyUndoF(int newIter)
 {
 	if (newIter < 0 || newIter >= undo.size()){ return; }
 	wxMutexLocker lock(*historyGuard);
@@ -316,7 +336,7 @@ size_t SubsFile::GetIdCount()
 	return idCount;
 }
 
-void SubsFile::AppendDialogue(Dialogue *dial)
+void SubsFile::AddLine(Dialogue *dial)
 {
 	subs->deleteDialogues.push_back(dial);
 	subs->dialogues.push_back(dial);
@@ -327,10 +347,10 @@ Dialogue * SubsFile::CopyVisibleDialogue(size_t i, bool push /*= true*/, bool ke
 	if (i >= subs->dialogues.size() || !subs->dialogues[i]->isVisible)
 		return nullptr;
 
-	return CopyDialogue(i, push, keepstate);
+	return CopyDialogueF(i, push, keepstate);
 }
 
-Dialogue * SubsFile::CopyDialogue(size_t i, bool push /*= true*/, bool keepstate /*= false*/)
+Dialogue * SubsFile::CopyDialogueF(size_t i, bool push /*= true*/, bool keepstate /*= false*/)
 {
 	Dialogue *dial = subs->dialogues[i]->Copy(keepstate, !push);
 	subs->deleteDialogues.push_back(dial);
@@ -796,7 +816,7 @@ void SubsFile::GetStyles(wxString &stylesText, bool tld/* = false*/)
 	}
 }
 
-void SubsFile::DeleleStyle(size_t i)
+void SubsFile::DeleteStyle(size_t i)
 {
 	edited = true;
 	subs->styles.erase(subs->styles.begin() + i);
@@ -836,7 +856,7 @@ size_t SubsFile::SInfoSize()
 	return subs->sinfo.size();
 }
 
-void SubsFile::SaveSelections(bool clear, int currentLine, int markedLine, int scrollPos)
+void SubsFile::SaveSelectionsF(bool clear, int currentLine, int markedLine, int scrollPos)
 {
 	undo[iter]->Selections = subs->Selections;
 	//tutaj muszą być przeróbki na klucze
@@ -869,7 +889,7 @@ size_t SubsFile::FirstSelection(size_t *id /*= nullptr*/)
 	return -1;
 }
 
-void SubsFile::InsertRows(int Row,
+void SubsFile::InsertRowsF(int Row,
 	const std::vector<Dialogue *> &RowsTable,
 	bool AddToDestroy)
 {
@@ -879,7 +899,7 @@ void SubsFile::InsertRows(int Row,
 	if (AddToDestroy){ subs->deleteDialogues.insert(subs->deleteDialogues.end(), RowsTable.begin(), RowsTable.end()); }
 }
 
-void SubsFile::InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy)
+void SubsFile::InsertRowsF(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy)
 {
 	size_t convertedRow = Row;
 	if (convertedRow >= subs->dialogues.size()){ convertedRow = subs->dialogues.size(); }
@@ -887,7 +907,7 @@ void SubsFile::InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDest
 	if (AddToDestroy){ subs->deleteDialogues.push_back(Dialog); }
 }
 
-void SubsFile::SwapRows(int frst, int scnd)
+void SubsFile::SwapRowsF(int frst, int scnd)
 {
 
 	Dialogue *tmp = subs->dialogues[frst];

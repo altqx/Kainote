@@ -163,6 +163,7 @@ private:
 	wxBoxSizer* BoxSizer4 = nullptr;
 	wxBoxSizer* BoxSizer5 = nullptr;
 	wxBoxSizer* BoxSizer6 = nullptr;
+	wxBoxSizer* TagButtonsSizer = nullptr;
 
 	void PutinNonass(const wxString& text, const wxString& tag);
 	void ChangeFont(Styles *retStyle, Styles *editedStyle);
@@ -208,6 +209,7 @@ private:
 	int CurrentDoubtful;
 	int CurrentUntranslated;
 	int currentLine;
+	int defaultButtonsWidth = 0;
 	SubsGrid *grid = nullptr;
 	TabPanel *tab = nullptr;
 };

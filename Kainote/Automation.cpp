@@ -900,7 +900,7 @@ namespace Auto{
 
 	static std::vector<int> selected_rows(const TabPanel *c)
 	{
-		auto const& sels = c->grid->file->GetSelectionsAsKeys();
+		auto const& sels = c->grid->GetSelectionsAsKeys();
 		int offset = c->grid->SInfoSize() + c->grid->StylesSize() + 1;
 		std::vector<int> rows;
 		rows.reserve(sels.size());
@@ -917,7 +917,7 @@ namespace Auto{
 		lua_pushcclosure(L, add_stack_trace, 0);
 
 		GetFeatureFunction("validate");
-		auto subsobj = new AutoToFile(L, c->grid->file->GetSubs(), true, c->grid->subsFormat);
+		auto subsobj = new AutoToFile(L, c->grid->GetSubs(), true, c->grid->subsFormat);
 
 		push_value(L, selected_rows(c));
 		push_value(L, c->grid->currentLine + c->grid->SInfoSize() + c->grid->StylesSize() + 1);
@@ -951,7 +951,7 @@ namespace Auto{
 		stackcheck.check_stack(0);
 
 		GetFeatureFunction("run");
-		File *subs = c->grid->file->GetSubs();
+		File *subs = c->grid->GetSubs();
 		auto subsobj = new AutoToFile(L, subs, true, c->grid->subsFormat);
 
 		int original_offset = c->grid->SInfoSize() + c->grid->StylesSize() + 1;
@@ -975,7 +975,7 @@ namespace Auto{
 
 		if (ps->lpd->cancelled || failed){
 			SAFE_DELETE(subsobj);
-			c->grid->file->DummyUndo();
+			c->grid->DummyUndoF();
 
 			delete ps;
 			return;
@@ -987,7 +987,7 @@ namespace Auto{
 		original_offset = c->grid->SInfoSize() + c->grid->StylesSize() + 1;
 		int active_idx = -1;
 
-		size_t dialsCount = c->grid->file->GetCount();
+		size_t dialsCount = c->grid->GetCount();
 
 		// Check for a new active row
 		if (lua_isnumber(L, -1)) {
@@ -997,7 +997,7 @@ namespace Auto{
 				active_idx = original_active;
 			}
 			else
-				c->grid->file->ClearSelections();
+				c->grid->ClearSelections();
 		}
 
 		//stackcheck.check_stack(2);
@@ -1005,7 +1005,7 @@ namespace Auto{
 
 		// top of stack will be selected lines array, if any was returned
 		if (lua_istable(L, -1)) {
-			c->grid->file->ClearSelections();
+			c->grid->ClearSelections();
 			lua_for_each(L, [&] {
 				if (!lua_isnumber(L, -1))
 					return;
@@ -1016,7 +1016,7 @@ namespace Auto{
 				}
 				if (active_idx == -1)
 					active_idx = cur;
-				c->grid->file->InsertSelection(cur);
+				c->grid->InsertSelection(cur);
 			});
 
 		}
@@ -1049,7 +1049,7 @@ namespace Auto{
 		stackcheck.check_stack(0);
 
 		GetFeatureFunction("isactive");
-		auto subsobj = new AutoToFile(L, c->grid->file->GetSubs(), true, c->grid->subsFormat);
+		auto subsobj = new AutoToFile(L, c->grid->GetSubs(), true, c->grid->subsFormat);
 		push_value(L, selected_rows(c));
 		push_value(L, c->grid->currentLine + c->grid->SInfoSize() + c->grid->StylesSize() + 1);
 

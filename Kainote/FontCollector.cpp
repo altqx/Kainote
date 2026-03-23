@@ -769,7 +769,7 @@ void FontCollector::CheckOrCopyFonts()
 		//HANDLE *threads = new HANDLE[tabsSize];
 
 		for (size_t i = 0; i < tabsSize; i++){
-			GetAssFonts(tabs->Page(i)->grid->file, i);
+			GetAssFonts(tabs->Page(i)->grid, i);
 			//std::tuple<FontCollector*, SubsFile*, int*> *data = 
 				//new std::tuple<FontCollector *, SubsFile *, int*>(this, tabs->Page(i)->grid->file, new int(i));
 			
@@ -780,7 +780,7 @@ void FontCollector::CheckOrCopyFonts()
 		//delete[] threads;
 	}
 	else{
-		GetAssFonts(Notebook::GetTab()->grid->file, Notebook::GetTabs()->iter);
+		GetAssFonts(Notebook::GetTab()->grid, Notebook::GetTabs()->iter);
 	}
 
 	bool allglyphs = CheckPathAndGlyphs(&found, &notFound, &notCopied);

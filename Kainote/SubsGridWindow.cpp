@@ -113,7 +113,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 		}
 	}
 	bool bg = false;
-	int size = file->GetIdCount();
+	int size = GetIdCount();
 	wxPoint previewpos;
 	wxSize previewsize;
 	if (preview){
@@ -129,7 +129,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 		bg = true;
 		scrows = size + 1;
 		scrollPositionId = (scrows - panelrows) + 2;// end of subtitles
-		scrollPosition = file->GetElementById(scrollPositionId);
+		scrollPosition = GetElementById(scrollPositionId);
 		// when all subtitles are visible do not scrolling position = 0
 		if (panelrows > size + 3){ scrollPosition = 0; scrollPositionId = 0; }
 	}
@@ -231,7 +231,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 		while (key + 1 <= KeySize && id < scrows - 1){
 			bool isHeadline = (key < scrollPosition);
 			if (!isHeadline){
-				Dial = file->GetDialogue(key);
+				Dial = GetDialogue(key);
 				if (!Dial->isVisible){ 
 					if (!Dial->NonDialogue)
 						numeration++;
@@ -354,7 +354,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 				strings.push_back((!showOriginal && isTl) ? txttl : txt);
 				if (showOriginal){ strings.push_back(txttl); }
 
-				isSelected = file->IsSelected(key);
+				isSelected = IsSelected(key);
 				comparison = (Comparison && Comparison->at(key).size() > 0);
 				bool comparisonMatch = (Comparison && !Comparison->at(key).differences);
 				bool visibleLine = (Dial->Start.mstime <= VideoPos && Dial->End.mstime > VideoPos);
@@ -369,9 +369,9 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 				visibleLines.push_back(visibleLine);
 			}
 
-			if (file->IsFiltered()){
+			if (IsFiltered()){
 				posX = 11;
-				unsigned char hasHiddenBlock = file->CheckIfHasHiddenBlock(key, isHeadline);
+				unsigned char hasHiddenBlock = CheckIfHasHiddenBlock(key, isHeadline);
 				if (hasHiddenBlock){
 					tdc.SetBrush(*wxTRANSPARENT_BRUSH);
 					tdc.SetPen(textcol);
@@ -487,7 +487,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 					tdc.DrawRectangle(posX + 1, posY, w - 1, GridHeight);
 					wxBitmap arrow = wxBITMAP_PNG(L"arrow_list");
 					// GetDialogueKey was made for loops no checks
-					Dialogue *nextDial = (key < file->GetCount() - 1) ? file->GetDialogue(key + 1) : nullptr;
+					Dialogue *nextDial = (key < GetCount() - 1) ? GetDialogue(key + 1) : nullptr;
 					if (nextDial && nextDial->treeState == TREE_CLOSED)
 						if(arrow.IsOk())
 							tdc.DrawBitmap(arrow, posX + 6, posY + 5);
@@ -523,7 +523,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 			numeration++;
 		}
 
-		posX = (file->IsFiltered()) ? 11 : 0;
+		posX = (IsFiltered()) ? 11 : 0;
 		if (bg){
 			tdc.SetPen(*wxTRANSPARENT_PEN);
 			tdc.SetBrush(wxBrush(Options.GetColour(GRID_BACKGROUND)));
@@ -626,7 +626,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 	while (key + 1 <= KeySize && id < scrows - 1){
 		bool isHeadline = (key < scrollPosition);
 		if (!isHeadline){
-			Dial = file->GetDialogue(key);
+			Dial = GetDialogue(key);
 			if (!Dial->isVisible){ 
 				if (!Dial->NonDialogue)
 					numeration++;
@@ -755,7 +755,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 			strings.push_back((!showOriginal && isTl) ? txttl : txt);
 			if (showOriginal){ strings.push_back(txttl); }
 
-			isSelected = file->IsSelected(key);
+			isSelected = IsSelected(key);
 			comparison = (Comparison && Comparison->at(key).size() > 0);
 			bool comparisonMatch = (Comparison && !Comparison->at(key).differences);
 			bool visibleLine = (Dial->Start.mstime <= VideoPos && Dial->End.mstime > VideoPos);
@@ -770,9 +770,9 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 			visibleLines.push_back(visibleLine);
 		}
 
-		if (file->IsFiltered()){
+		if (IsFiltered()){
 			posX = 11;
-			unsigned char hasHiddenBlock = file->CheckIfHasHiddenBlock(key, isHeadline);
+			unsigned char hasHiddenBlock = CheckIfHasHiddenBlock(key, isHeadline);
 			if (hasHiddenBlock){
 				gc->SetBrush(*wxTRANSPARENT_BRUSH);
 				gc->SetPen(textcol);
@@ -898,7 +898,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 					gc->SetPen(*wxTRANSPARENT_PEN);
 					gc->DrawRectangle(posX + 1, posY, w - 1, GridHeight);
 					// GetDialogueKey was made for loops no checks
-					Dialogue *nextDial = (key < file->GetCount() - 1) ? file->GetDialogue(key + 1) : nullptr;
+					Dialogue *nextDial = (key < GetCount() - 1) ? GetDialogue(key + 1) : nullptr;
 					if (nextDial && nextDial->treeState == TREE_CLOSED) {
 						wxBitmap bmpal(wxBITMAP_PNG(L"arrow_list"));
 						if (bmpal.IsOk())
@@ -920,7 +920,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 				else {
 					gc->SetBrush(*wxTRANSPARENT_BRUSH);
 					gc->SetPen(textcol);
-					Dialogue *nextDial = (key < file->GetCount() - 1) ? file->GetDialogue(key + 1) : nullptr;
+					Dialogue *nextDial = (key < GetCount() - 1) ? GetDialogue(key + 1) : nullptr;
 
 					gc->StrokeLine(posX, posY, posX, posY + GridHeight + 1);
 					gc->StrokeLine(w - 1, posY, w - 1, posY + GridHeight + 1);
@@ -957,7 +957,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 		numeration++;
 	}
 
-	posX = (file->IsFiltered()) ? 11 : 0;
+	posX = (IsFiltered()) ? 11 : 0;
 	if (bg){
 		gc->SetPen(*wxTRANSPARENT_PEN);
 		gc->SetBrush(wxBrush(Options.GetColour(GRID_BACKGROUND)));
@@ -1001,7 +1001,7 @@ void SubsGridWindow::AdjustWidthsD2D(GraphicsContext *gc, int cell)
 	double fw = 0, fh = 0;
 	bool shml = false, shmr = false, shmv = false;
 
-	int maxx = file->GetCount();
+	int maxx = GetCount();
 
 	gc->GetTextExtent(wxString::Format(L"%i", maxx), &fw, &fh);
 	GridWidth[0] = fw + 10;
@@ -1012,7 +1012,7 @@ void SubsGridWindow::AdjustWidthsD2D(GraphicsContext *gc, int cell)
 
 	Dialogue *dial;
 	for (int i = 0; i < maxx; i++){
-		dial = file->GetDialogue(i);
+		dial = GetDialogue(i);
 		if (!dial->isVisible){ continue; }
 		if (first){
 			if (dial->Format != subsFormat){ dial->Convert(subsFormat); }
@@ -1169,7 +1169,7 @@ void SubsGridWindow::AdjustWidths(int cell)
 	int law = 0, startMax = 0, endMax = 0, stw = 0, edw = 0, syw = 0, acw = 0, efw = 0, fw = 0, fh = 0;
 	bool shml = false, shmr = false, shmv = false;
 
-	int maxx = file->GetCount();
+	int maxx = GetCount();
 
 	dc.GetTextExtent(wxString::Format(L"%i", maxx), &fw, &fh);
 	GridWidth[0] = fw + 10;
@@ -1178,7 +1178,7 @@ void SubsGridWindow::AdjustWidths(int cell)
 
 	Dialogue *dial;
 	for (int i = 0; i < maxx; i++){
-		dial = file->GetDialogue(i);
+		dial = GetDialogue(i);
 		if (!dial->isVisible){ continue; }
 		if (first){
 			if (dial->Format != subsFormat){ dial->Convert(subsFormat); }
@@ -1333,7 +1333,7 @@ void SubsGridWindow::SetVideoLineTime(wxMouseEvent &evt, int mvtal)
 		int whh = 2;
 		for (int i = 0; i <= wh; i++){ whh += GridWidth[i]; }
 		whh -= scHor;
-		if (file->IsFiltered()){ whh += 11; }
+		if (IsFiltered()){ whh += 11; }
 		bool isstart;
 		int vczas;
 		bool getEndTime = evt.GetX() >= whh && evt.GetX() < whh + GridWidth[wh + 1] && subsFormat != TMP;
@@ -1395,7 +1395,7 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 	int row = GetKeyFromScrollPos(curY / (GridHeight + 1)) - 1;
 	//int rowId = curY / (GridHeight + 1) + scrollPosition - 1;
 	bool outOfPosition = (row < scrollPosition || row >= size);
-	int hideColumnWidth = (file->IsFiltered()) ? 12 : 0;
+	int hideColumnWidth = (IsFiltered()) ? 12 : 0;
 	bool isNumerizeColumn = (curX >= hideColumnWidth && curX < GridWidth[0] + hideColumnWidth);
 
 	if (left_up && !holding) {
@@ -1417,10 +1417,10 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 	}
 
 	//Check if it is tree description line
-	if (file->CheckIfIsTree(row)){
+	if (CheckIfIsTree(row)){
 		if (event.GetModifiers() == 0){
 			if (click){
-				int diff = file->OpenCloseTree(row);
+				int diff = OpenCloseTree(row);
 				RefreshColumns();
 				if (SpellErrors.size() > (row + 1))
 					SpellErrors.erase(SpellErrors.begin() + (row + 1), SpellErrors.end());
@@ -1429,7 +1429,7 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 					size_t firstSel = FirstSelection();
 					if (firstSel == -1){
 						if (currentLine < size)
-							file->InsertSelection(currentLine);
+							InsertSelection(currentLine);
 						else
 							edit->SetLine(size - 1);
 					}
@@ -1489,7 +1489,7 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 	if (left_up && holding) {
 		holding = false;
 		//Save swap lines after alt release 
-		if (event.AltDown() && file->IsNotSaved()){ 
+		if (event.AltDown() && IsNotSaved()){ 
 			SetModified(GRID_SWAP); 
 		}
 		ReleaseMouse();
@@ -1503,7 +1503,7 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 		if (filterRow < size && curY > (GridHeight / 2)) {
 			//hack for first line it's lame solution
 			if ((click || dclick)){
-				unsigned char state = file->CheckIfHasHiddenBlock(filterRow, filterRow < scrollPosition);
+				unsigned char state = CheckIfHasHiddenBlock(filterRow, filterRow < scrollPosition);
 				if (state){
 					SubsGridFiltering filter((SubsGrid*)this, currentLine);
 					//second part of hack
@@ -1511,7 +1511,7 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 						if (state == 1){
 							filterRow = GetKeyFromPosition(filterRow, -1, false);
 							scrollPosition = filterRow? filterRow + 1 : filterRow;
-							scrollPositionId = file->GetElementByKey(scrollPosition);
+							scrollPositionId = GetElementByKey(scrollPosition);
 						}
 						else{
 							scrollPositionId += 1;
@@ -1550,9 +1550,9 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 		if (holding && alt)
 		{
 			if (lastsel != -1 && lastsel != row) {	
-				if (!file->edited)
+				if (!edited)
 					SaveSelections();
-				file->edited |= MoveRows(file->GetElementByKey(row) - file->GetElementByKey(lastsel));
+				edited |= MoveRows(GetElementByKey(row) - GetElementByKey(lastsel));
 			}
 			lastsel = row;
 			if (click){
@@ -1563,9 +1563,9 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 
 		// Toggle selected
 		if (left_up && ctrl && !shift && !alt) {
-			if (!(currentLine == row && file->SelectionsSize() == 1 && file->IsSelected(row))){
-				SelectRow(row, true, !file->IsSelected(row));
-				if (file->SelectionsSize() < 1){ SelectRow(currentLine); }
+			if (!(currentLine == row && SelectionsSize() == 1 && IsSelected(row))){
+				SelectRow(row, true, !IsSelected(row));
+				if (SelectionsSize() < 1){ SelectRow(currentLine); }
 				return;
 			}
 
@@ -1649,7 +1649,7 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 			}
 
 			// Toggle each
-			file->InsertSelections(i1, i2, !ctrl, false);
+			InsertSelections(i1, i2, !ctrl, false);
 			if (changeActive){
 				lastActiveLine = currentLine;
 				edit->SetLine(row, true, true, false);
@@ -1671,7 +1671,7 @@ void SubsGridWindow::OnScroll(wxScrollWinEvent& event)
 	int newPos = event.GetPosition();
 	if (scrollPositionId != newPos) {
 		scrollPositionId = newPos;
-		scrollPosition = file->GetElementById(newPos);
+		scrollPosition = GetElementById(newPos);
 		Refresh(false);
 		Update();
 		if (Comparison)
@@ -1693,8 +1693,8 @@ void SubsGridWindow::SelectRow(int row, bool addToSelected /*= false*/, bool sel
 {
 	row = MID(0, row, GetCount() - 1);
 	if (addToSelected){
-		if (!select){ file->EraseSelection(row); }
-		else{ file->InsertSelection(row); }
+		if (!select){ EraseSelection(row); }
+		else{ InsertSelection(row); }
 		if (norefresh){ return; }
 		/*int w = 0;
 		int h = 0;
@@ -1706,8 +1706,8 @@ void SubsGridWindow::SelectRow(int row, bool addToSelected /*= false*/, bool sel
 		Refresh(false);
 	}
 	else{
-		file->ClearSelections();
-		file->InsertSelection(row);
+		ClearSelections();
+		InsertSelection(row);
 		if (norefresh){ return; }
 		Refresh(false);
 	}
@@ -1737,7 +1737,7 @@ void SubsGridWindow::ScrollTo(int y, bool center /*= false*/, int offset /*= 0*/
 
 	if (scrollPosition != nextY) {
 		scrollPosition = nextY;
-		scrollPositionId = file->GetElementByKey(nextY);
+		scrollPositionId = GetElementByKey(nextY);
 	}
 	Refresh(false);
 	if (useUpdate)
@@ -1780,7 +1780,7 @@ void SubsGridWindow::OnKeyPress(wxKeyEvent &event) {
 
 	// Select all
 	if (key == L'A' && ctrl && !alt && !shift) {
-		file->InsertSelections(0, -1, false, true);
+		InsertSelections(0, -1, false, true);
 		Refresh(false);
 	}
 
@@ -1831,7 +1831,7 @@ void SubsGridWindow::OnKeyPress(wxKeyEvent &event) {
 			if (FirstSelection() != -1){
 				SaveSelections();
 				if (MoveRows(dir)){
-					file->edited = true;
+					edited = true;
 					SetModified(GRID_SWAP);
 				}
 			}
@@ -1862,7 +1862,7 @@ void SubsGridWindow::OnKeyPress(wxKeyEvent &event) {
 				i2 = aux;
 			}
 
-			file->InsertSelections(i1, i2, true, false);
+			InsertSelections(i1, i2, true, false);
 			if (changeActive) {
 				lastActiveLine = currentLine;
 				edit->SetLine(i11, true, true, false);
@@ -1880,7 +1880,7 @@ void SubsGridWindow::RefreshIfVisible(int time)
 {
 	size_t counter = 0;
 	//make it work properly
-	for (size_t i = scrollPosition; i < file->GetCount() && counter < visibleLines.size(); i++){
+	for (size_t i = scrollPosition; i < GetCount() && counter < visibleLines.size(); i++){
 		Dialogue *dial = GetDialogue(i);
 		if (!dial->isVisible)
 			continue;
@@ -1992,7 +1992,7 @@ void SubsGridWindow::ShowSecondComparedLine(int Line, bool showPreview, bool fro
 	if (secondGridLine < 0){ return; }
 	if (setViaScroll){
 		((SubsGridWindow*)secondgrid)->scrollPosition = secondGridLine;
-		((SubsGridWindow*)secondgrid)->scrollPositionId = file->GetElementByKey(secondGridLine);
+		((SubsGridWindow*)secondgrid)->scrollPositionId = GetElementByKey(secondGridLine);
 		secondgrid->Refresh(false);
 		secondgrid->Update();
 		return;

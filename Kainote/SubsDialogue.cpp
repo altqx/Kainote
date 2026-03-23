@@ -280,15 +280,27 @@ void Dialogue::MergeTagBlocks(wxString* output, const wxString& blockToMerge)
 		wxString curToken = token.NextToken();
 		wxString tag;
 		GetTagName(curToken, &tag);
-		wxRegEx re(L"\\\\" + tag + L"([^\\}])*");
+		wxRegEx re;
+		if(tag == L"c" || tag == L"1c")
+			re.Compile(L"(\\\\1?c&[^\\\\}]*)", wxRE_ADVANCED | wxRE_ICASE);
+		else if(tag == L"fr" || tag == L"frz")
+			re.Compile(L"(\\\\frz?[^\\\\}]*)", wxRE_ADVANCED | wxRE_ICASE);
+		else
+			re.Compile(L"(\\\\" + tag + L"[^\\\\}]*)", wxRE_ADVANCED | wxRE_ICASE);
+
 		if (!re.IsValid()) {
-			KaiLogSilent("Regex tag seeking is invalid '\\\\" + tag + L"([^\\}])*'");
+			KaiLogSilent("Regex tag seeking is invalid '\\\\" + tag + L"([^\\}]*)'");
 			continue;
+		}//wxRegEx replace, replaceall sux
+		if (re.Matches(*output)) {
+			size_t start, len;
+			if (re.GetMatch(&start, &len)) {
+				output->replace(start, len, L"\\" + curToken);
+			}
 		}
-		if (re.ReplaceAll(output, L"\\\\" + curToken) < 1) {
+		else {
 			output->insert((output->Len() - 1), L"\\" + curToken);
 		}
-
 	}
 }
 
@@ -302,7 +314,7 @@ void Dialogue::GetTagName(const wxString& tagWithValue, wxString* name)
 		if (len < 1)
 			return;
 
-		wxString delims = L"0123456789-.(";
+		wxString delims = L"0123456789-.(&";
 		*name << tagWithValue[0];
 		size_t i = 1;
 		while (i < len) {

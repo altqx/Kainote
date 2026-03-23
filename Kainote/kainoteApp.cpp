@@ -98,8 +98,8 @@ void kainoteApp::OnOutofMemory()
 {
 	TabPanel *tab = Notebook::GetTab();
 
-	if (tab->grid->file->maxx() > 3){
-		tab->grid->file->RemoveFirst(2);
+	if (tab->grid->maxx() > 3){
+		tab->grid->RemoveFirst(2);
 		KaiLog(_("Zabrakło pamięci RAM, usunięto część historii"));
 		return;
 	}
@@ -107,8 +107,8 @@ void kainoteApp::OnOutofMemory()
 		for (size_t i = 0; i < Notebook::GetTabs()->Size(); i++)
 		{
 			if (i != Notebook::GetTabs()->GetSelection()){
-				if (Notebook::GetTabs()->Page(i)->grid->file->maxx()>3){
-					Notebook::GetTabs()->Page(i)->grid->file->RemoveFirst(2);
+				if (Notebook::GetTabs()->Page(i)->grid->maxx()>3){
+					Notebook::GetTabs()->Page(i)->grid->RemoveFirst(2);
 					KaiLog(_("Zabrakło pamięci RAM, usunięto część historii"));
 					return;
 				}

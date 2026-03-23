@@ -852,7 +852,7 @@ void Notebook::ContextMenu(const wxPoint &pos, int i)
 		tabsMenu.Append(MENU_CHOOSE + g, Page(g)->SubsName, emptyString, true, 0, 0, (g == iter) ? ITEM_RADIO : ITEM_NORMAL);
 	}
 	tabsMenu.AppendSeparator();
-	tabsMenu.Append(MENU_SAVE + i, _("Zapisz"), _("Zapisz"))->Enable(i >= 0 && Pages[i]->grid->file->CanSave());
+	tabsMenu.Append(MENU_SAVE + i, _("Zapisz"), _("Zapisz"))->Enable(i >= 0 && Pages[i]->grid->IsModified());
 	tabsMenu.Append(MENU_SAVE - 1, _("Zapisz wszystko"), _("Zapisz wszystko"));
 	tabsMenu.Append(MENU_CHOOSE - 1, _("Zamknij wszystkie zakładki"), _("Zamknij wszystkie zakładki"));
 	int num;
@@ -895,7 +895,7 @@ void Notebook::ContextMenu(const wxPoint &pos, int i)
 	Menu *comparisonMenu = new Menu();
 	comparisonMenu->Append(MENU_COMPARE + 1, _("Porównaj według czasów"), nullptr, emptyString, ITEM_CHECK, canCompare)->Check(compareBy & COMPARE_BY_TIMES);
 	comparisonMenu->Append(MENU_COMPARE + 2, _("Porównaj według widocznych linijek"), nullptr, emptyString, ITEM_CHECK, canCompare)->Check((compareBy & COMPARE_BY_VISIBLE)>0);
-	comparisonMenu->Append(MENU_COMPARE + 3, _("Porównaj według zaznaczeń"), nullptr, emptyString, ITEM_CHECK, canCompare && Pages[iter]->grid->file->SelectionsSize() > 0 && Pages[i]->grid->file->SelectionsSize() > 0)->Check((compareBy & COMPARE_BY_SELECTIONS) > 0);
+	comparisonMenu->Append(MENU_COMPARE + 3, _("Porównaj według zaznaczeń"), nullptr, emptyString, ITEM_CHECK, canCompare && Pages[iter]->grid->SelectionsSize() > 0 && Pages[i]->grid->SelectionsSize() > 0)->Check((compareBy & COMPARE_BY_SELECTIONS) > 0);
 	comparisonMenu->Append(MENU_COMPARE + 4, _("Porównaj według stylów"), nullptr, emptyString, ITEM_CHECK, canCompare)->Check((compareBy & COMPARE_BY_STYLES) > 0);
 	comparisonMenu->Append(MENU_COMPARE + 5, _("Porównaj według wybranych stylów"), styleComparisonMenu, emptyString, ITEM_CHECK, canCompare)->Check(SubsGridBase::compareStyles.size() > 0);
 	comparisonMenu->Append(MENU_COMPARE, _("Porównaj"))->Enable(canCompare);
@@ -1403,7 +1403,7 @@ void Notebook::LoadLastSession(bool loadCrashSession, const wxString &externalPa
 							if (orgSubtitles != subtitles) {
 								tab->SubsPath = orgSubtitles;
 								tab->SubsName = tab->SubsPath.AfterLast(L'\\');
-								tab->grid->file->RemoveLastIterSave();
+								tab->grid->RemoveLastIterSave();
 								tab->grid->UpdateUR(true);
 							}
 						}else

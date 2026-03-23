@@ -395,7 +395,7 @@ void MoveAll::ChangeInLines(bool all)
 	drawingOriginalPos = moving;
 	int _time = tab->video->Tell();
 	wxArrayInt sels;
-	tab->grid->file->GetSelections(sels);
+	tab->grid->GetSelections(sels);
 	wxString *dtxt;
 	if (!all){
 		if (!dummytext || selPositions.size() != sels.size()){

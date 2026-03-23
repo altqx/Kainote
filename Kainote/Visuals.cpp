@@ -115,8 +115,8 @@ void Visuals::GetDialoguesWithoutPosition(Dialogue* dialogue)
 		bool tlMode = tab->grid->hasTLMode;
 		int activeLineKey = tab->grid->currentLine;
 
-		for (size_t i = 0; i < grid->file->GetCount(); i++) {
-			Dialogue* dial = grid->file->GetDialogue(i);
+		for (size_t i = 0; i < grid->GetCount(); i++) {
+			Dialogue* dial = grid->GetDialogue(i);
 			if (!grid->ignoreFiltered && !dial->isVisible || dial->NonDialogue) {
 				continue;
 			}
@@ -637,7 +637,7 @@ void Visuals::SetVisual(bool dummy)
 		bool showOriginalOnVideo = !Options.GetBool(TL_MODE_HIDE_ORIGINAL_ON_VIDEO);
 		wxString *dtxt;
 		wxArrayInt sels;
-		grid->file->GetSelections(sels);
+		grid->GetSelections(sels);
 		bool skipInvisible = dummy && tab->video->GetState() != Playing;
 		size_t selsSize = sels.size();
 		if (dummy && (!dummytext || selPositions.size() != selsSize)){

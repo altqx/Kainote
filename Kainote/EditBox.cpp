@@ -208,7 +208,7 @@ EditBox::EditBox(wxWindow *parent, int idd)
 	BoxSizer4->Add(Bcol3, 0, wxALL, 2);
 	BoxSizer4->Add(Bcol4, 0, wxALL, 2);
 	BoxSizer4->Add(Ban, 0, wxALL, 2);
-
+	
 	SetTagButtons();
 
 	TlMode = new KaiCheckBox(this, ID_TLMODE, _("Tryb tłumacza"));
@@ -646,7 +646,7 @@ void EditBox::PutinNonass(const wxString &text, const wxString &tag)
 	bool match = false;
 	TextEdit->GetSelection(&from, &to);
 	wxString txt = TextEdit->GetValue();
-	bool oneline = (grid->file->SelectionsSize() < 2);
+	bool oneline = (grid->SelectionsSize() < 2);
 	if (oneline){//Changing only in editbox
 		if (grid->subsFormat == SRT){
 
@@ -707,10 +707,10 @@ void EditBox::PutinNonass(const wxString &text, const wxString &tag)
 		wxString chars = (grid->subsFormat == SRT) ? L"<" : L"{";
 		wxString chare = (grid->subsFormat == SRT) ? L">" : L"}";
 		wxArrayInt sels;
-		grid->file->GetSelections(sels);
+		grid->GetSelections(sels);
 		for (size_t i = 0; i < sels.size(); i++)
 		{
-			Dialogue *dialc = grid->file->CopyDialogue(sels[i]);
+			Dialogue *dialc = grid->CopyDialogueF(sels[i]);
 			wxString txt = dialc->Text;
 			if (txt.StartsWith(chars))
 			{
@@ -733,7 +733,7 @@ void EditBox::OnFontClick(wxCommandEvent& event)
 {
 	char form = grid->subsFormat;
 	Styles *mstyle = (form < SRT) ? grid->GetStyle(0, line->Style)->Copy() : new Styles();
-	int tmpIter = grid->file->Iter();
+	int tmpIter = grid->Iter();
 	if (form < SRT){
 		wxString tmp;
 		if (FindTag(L"b(0|1)", emptyString, 0, true)){
@@ -860,7 +860,7 @@ void EditBox::AllColorClick(int numColor, bool leftClick /*= true*/)
 
 	wxString tmptext = TextEdit->GetValue();
 	TextEditor *editor = TextEdit;
-	int tmpIter = grid->file->Iter();
+	int tmpIter = grid->Iter();
 	if (grid->hasTLMode && tmptext == emptyString){
 		tmptext = TextEditOrig->GetValue();
 		editor = TextEditOrig;
@@ -1330,6 +1330,40 @@ void EditBox::OnSize(wxSizeEvent& event)
 {
 	int w, h;
 	GetClientSize(&w, &h);
+	wxSize buttonsMinSize = BoxSizer4->GetMinSize();
+
+	if (buttonsMinSize.x > w && !TagButtonsSizer) {
+		TagButtonsSizer = new wxBoxSizer(wxHORIZONTAL);
+		size_t numItems = BoxSizer4->GetItemCount();
+		std::vector<wxWindow*> items;
+		for (size_t i = numItems - 1; i >= 10; i--) {
+			items.push_back(BoxSizer4->GetItem(i)->GetWindow());
+			BoxSizer4->Detach(i);
+		}
+		for (size_t j = items.size(); j > 0; j--) {
+			TagButtonsSizer->Add(items[j - 1], 0, wxALL, 2);
+		}
+		BoxSizer1->Insert(ABox? 3 : 1, TagButtonsSizer, 0, wxLEFT, 2);
+		SetSizer(BoxSizer1);
+	}
+	else if (TagButtonsSizer) {
+		wxSize tagButtonsMinSize = TagButtonsSizer->GetMinSize();
+		if (buttonsMinSize.x + tagButtonsMinSize.x < w) {
+			size_t numItems = TagButtonsSizer->GetItemCount();
+			BoxSizer1->Detach(TagButtonsSizer);
+			std::vector<wxWindow*> items;
+			for (size_t i = numItems; i > 0; i--) {
+				items.push_back(TagButtonsSizer->GetItem(i - 1)->GetWindow());
+				TagButtonsSizer->Detach(i - 1);
+			}
+			for (size_t j = items.size(); j > 0; j--) {
+				BoxSizer4->Add(items[j - 1], 0, wxALL, 2);
+			}
+			delete TagButtonsSizer;
+			TagButtonsSizer = nullptr;
+			SetSizer(BoxSizer1);
+		}
+	}
 	if (isdetached && w > 850){
 		BoxSizer1->Detach(BoxSizer3);
 
@@ -1542,7 +1576,7 @@ void EditBox::OnEdit(wxCommandEvent& event)
 	if (tab->video->GetState() != None){
 		//visible=true;
 		visible = grid->IsLineVisible();
-		if (!visible && (lastVisible != visible || grid->file->IsSelected(currentLine))){ 
+		if (!visible && (lastVisible != visible || grid->IsSelected(currentLine))){ 
 			visible = true; 
 			lastVisible = false; 
 		}
@@ -1648,7 +1682,7 @@ void EditBox::OnButtonTag(wxCommandEvent& event)
 		PutTagInText(tag, resetTag);
 	}
 	else{
-		bool oneline = (grid->file->SelectionsSize() < 2);
+		bool oneline = (grid->SelectionsSize() < 2);
 
 		long from, to;
 		wxString txt = TextEdit->GetValue();
@@ -1675,7 +1709,7 @@ void EditBox::OnButtonTag(wxCommandEvent& event)
 		}
 		else{
 			wxArrayInt sels;
-			grid->file->GetSelections(sels);
+			grid->GetSelections(sels);
 			for (size_t i = 0; i < sels.size(); i++){
 				long cpyfrom = from;
 				Dialogue *dialc = grid->CopyDialogue(sels[i]);
@@ -1883,7 +1917,7 @@ void EditBox::OnStyleEdit(wxCommandEvent& event)
 bool EditBox::IsCursorOnStart()
 {
 	// is it possible that some selections can be hidden?
-	if (grid->file->SelectionsSize() > 1){ return true; }
+	if (grid->SelectionsSize() > 1){ return true; }
 	/*if(Visual == CLIPRECT || Visual == MOVE){return true;}
 	wxString txt=TextEdit->GetValue();
 	MTextEditor *GLOBAL_EDITOR = TextEdit;
@@ -1909,9 +1943,9 @@ void EditBox::OnDoubtfulTl(wxCommandEvent& event)
 	if (!grid->hasTLMode){ wxBell(); return; }
 	line->ChangeState(4);
 	wxArrayInt sels;
-	grid->file->GetSelections(sels);
+	grid->GetSelections(sels);
 	for (size_t i = 0; i < sels.size(); i++){
-		Dialogue *dial = grid->file->CopyDialogue(sels[i]);
+		Dialogue *dial = grid->CopyDialogueF(sels[i]);
 		dial->ChangeState(4);
 	}
 	if (event.GetId() == EDITBOX_SET_DOUBTFUL){

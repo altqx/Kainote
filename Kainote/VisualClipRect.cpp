@@ -382,7 +382,7 @@ void ClipRect::InvertClip()
 {
 	SubsGrid* grid = tab->grid;
 	wxArrayInt sels;
-	grid->file->GetSelections(sels);
+	grid->GetSelections(sels);
 	wxRegEx re(L"\\\\(i?clip)\\(([^)]*)\\)", wxRE_ADVANCED);
 	if (!re.IsValid())
 		return;

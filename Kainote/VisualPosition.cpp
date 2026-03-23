@@ -311,7 +311,7 @@ void Position::OnMouseEvent(wxMouseEvent &evt)
 		}
 		tab->video->SetCursor(wxCURSOR_SIZING);
 		wxArrayInt sels;
-		tab->grid->file->GetSelections(sels);
+		tab->grid->GetSelections(sels);
 		if (sels.size() != data.size()){ SetCurVisual(); tab->video->Render(); }
 		firstmove.x = x;
 		firstmove.y = y;
@@ -360,7 +360,7 @@ void Position::SetCurVisual()
 	GetPosnScale(nullptr, &curLineAlingment, moveValues);
 	ClearData();
 	wxArrayInt sels;
-	tab->grid->file->GetSelections(sels);
+	tab->grid->GetSelections(sels);
 	bool putInBracket; 
 	wxPoint textPosition;
 
