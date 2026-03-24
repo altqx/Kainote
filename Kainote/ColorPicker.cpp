@@ -356,29 +356,6 @@ void ColorPickerScreenDropper::OnMouse(wxMouseEvent &evt)
 	x = evt.GetX() / magnification;
 	y = evt.GetY() / magnification;
 	
-	if (ignoreWindow) {
-		if (evt.Leaving()) {
-			SetCursor(wxCURSOR_ARROW);
-			hasDefaultCursor = true;
-		}
-		else if (evt.Entering()) {
-			SetCursor(*wxCROSS_CURSOR);
-			hasDefaultCursor = false;
-		}
-		wxPoint position = wxGetMousePosition();
-		
-		wxRect rect(GetParent()->GetRect());
-		if (rect.Contains(position))
-		{
-			if (HasCapture())
-			{
-				ReleaseMouse();
-				SetCursor(wxCURSOR_ARROW);
-				blockColorChanges = false;
-				hasDefaultCursor = true;
-			}
-		}
-	}
 	
 	if (HasCapture() && (evt.LeftIsDown() || evt.RightIsDown())) {
 
@@ -386,13 +363,11 @@ void ColorPickerScreenDropper::OnMouse(wxMouseEvent &evt)
 		DropFromScreenXY(pos.x, pos.y);
 		if (evt.RightIsDown())
 			SendGetColorEvent(resx / 2, resy / 2);
-
-		blockColorChanges = true;
 	}
-	else if (HasCapture() && evt.Moving() && !blockColorChanges && ignoreWindow) {
+	/*else if (HasCapture() && evt.Moving() && !blockColorChanges && ignoreWindow) {
 		wxPoint pos = ClientToScreen(evt.GetPosition());
 		DropFromScreenXY(pos.x, pos.y);
-	}
+	}*/
 	else if (evt.LeftDown()) {
 
 		if (x == 0 && y == 0 && integrated_dropper) {
@@ -1411,14 +1386,10 @@ SimpleColorPickerDialog::SimpleColorPickerDialog(wxWindow *parent, const AssColo
 
 	HexColor = new KaiTextCtrl(this, -1, actualColor.GetAss(false, false));
 	dropper = new ColorPickerScreenDropper(this, 9765, 7, 7, 8, false, true);
-	dropper->Bind(wxEVT_MOUSE_CAPTURE_LOST, [=](wxMouseCaptureLostEvent &evt){ 
+	Bind(wxEVT_MOUSE_CAPTURE_LOST, [=](wxMouseCaptureLostEvent &evt){ 
 		ReleaseMouse(); 
 		EndModal(0);
 		});
-	Bind(wxDROPPER_MOUSE_UP, [=](wxCommandEvent &evt){
-		if (moveWindowToMousePosition->GetValue())
-			MoveToMousePosition(this);
-	}, 9765);
 	Bind(wxDROPPER_SELECT, [=](wxCommandEvent &evt){
 		wxString stringColor = evt.GetString();
 		color.Copy(stringColor);
@@ -1442,9 +1413,15 @@ SimpleColorPickerDialog::SimpleColorPickerDialog(wxWindow *parent, const AssColo
 	SetSizerAndFit(ds);
 	MoveToMousePosition(this);
 	Colorize();
-	dropper->CaptureMouse();
 	Bind(wxEVT_LEAVE_WINDOW, &SimpleColorPickerDialog::OnLeaveWindow, this);
+	Bind(wxEVT_LEFT_DOWN, &SimpleColorPickerDialog::OnLeaveWindow, this);
+	Bind(wxEVT_LEFT_UP, &SimpleColorPickerDialog::OnLeaveWindow, this);
+	Bind(wxEVT_RIGHT_DOWN, &SimpleColorPickerDialog::OnLeaveWindow, this);
+	Bind(wxEVT_RIGHT_UP, &SimpleColorPickerDialog::OnLeaveWindow, this);
+	Bind(wxEVT_MOTION, &SimpleColorPickerDialog::OnLeaveWindow, this);
 	Bind(wxEVT_SHOW, &SimpleColorPickerDialog::OnShow, this);
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &SimpleColorPickerDialog::OnClose, this, wxID_CANCEL);
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &SimpleColorPickerDialog::OnClose, this, wxID_OK);
 }
 
 int SimpleColorPickerDialog::GetColorType()
@@ -1480,23 +1457,56 @@ void SimpleColorPickerDialog::Colorize()
 
 void SimpleColorPickerDialog::OnLeaveWindow(wxMouseEvent& event)
 {
-	//event.Skip();
-
 	if (IsShown())
 	{
 		wxPoint position = wxGetMousePosition();
-		wxRect rect(GetRect());
-		if (!rect.Contains(position)) {
-			if (!dropper->HasCapture()) {
-				dropper->CaptureMouse();
-				dropper->SetCursor(wxCursor(L"eyedropper_cursor"));
+		wxRect windowRect = GetRect();
+		if (event.Leaving()) {
+			if (!windowRect.Contains(position)) {
+				if (!HasCapture()) {
+					CaptureMouse();
+					SetCursor(wxCursor(L"eyedropper_cursor"));
+					KaiLogSilent("capture mouse");
+				}
+			}
+		}
+		
+		if (windowRect.Contains(position)){
+			if (HasCapture()){
+				ReleaseMouse();
+				SetCursor(wxCURSOR_ARROW);
+			}
+		}
+		else {
+			if (event.LeftIsDown() || event.RightIsDown()) {
+				dropper->DropFromScreenXY(position.x, position.y);
+				if (event.RightIsDown())
+					dropper->SendGetColorEvent(7 / 2, 7 / 2);
+			}
+			else if (event.LeftUp() || event.RightUp()) {
+				if (moveWindowToMousePosition->GetValue()) {
+					MoveToMousePosition(this);
+				}
 			}
 		}
 	}
+	event.Skip();
 }
 
 void SimpleColorPickerDialog::OnShow(wxShowEvent& event) {
-	dropper->SetCursor(wxCursor(L"eyedropper_cursor"));
+	if (closed)
+		return;
+	CaptureMouse();
+	SetCursor(wxCursor(L"eyedropper_cursor"));
+	KaiLogSilent("onshow");
+}
+
+void SimpleColorPickerDialog::OnClose(wxCommandEvent& event) {
+	if (HasCapture()) 
+		ReleaseMouse();
+	closed = true;
+	KaiLogSilent("onclose");
+	EndModal(event.GetId());
 }
 
 SimpleColorPicker::SimpleColorPicker(wxWindow *parent, const AssColor &actualColor, int colorType)

@@ -107,8 +107,6 @@ private:
 	int magnification;
 	bool integrated_dropper;
 	bool ignoreWindow;
-	bool blockColorChanges = false;
-	bool hasDefaultCursor = false;
 
 	void OnMouse(wxMouseEvent &evt);
 	void OnPaint(wxPaintEvent &evt);
@@ -119,7 +117,7 @@ private:
 public:
 	ColorPickerScreenDropper(wxWindow *parent, wxWindowID id, int _resx, int _resy, 
 		int _magnification, bool _integrated_dropper, bool ignore_window = false);
-	virtual ~ColorPickerScreenDropper(){ };
+	virtual ~ColorPickerScreenDropper() { };
 	void DropFromScreenXY(int x, int y);
 	void SendGetColorEvent(int x, int y);
 
@@ -279,6 +277,7 @@ class SimpleColorPickerDialog : public KaiDialog
 {
 public:
 	SimpleColorPickerDialog(wxWindow *parent, const AssColor &actualColor, int colorType = -1);
+	~SimpleColorPickerDialog(){ if (HasCapture()) ReleaseMouse(); }
 	KaiChoice *colorType;
 	KaiTextCtrl *HexColor;
 	ColorPickerScreenDropper *dropper;
@@ -291,7 +290,9 @@ public:
 private:
 	void OnLeaveWindow(wxMouseEvent& event);
 	void OnShow(wxShowEvent& event);
+	void OnClose(wxCommandEvent& event);
 	AssColor color;
+	bool closed = false;
 };
 
 class SimpleColorPicker

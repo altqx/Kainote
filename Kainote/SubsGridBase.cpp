@@ -772,7 +772,6 @@ void SubsGridBase::SortIt(short what, bool all)
 {
 	SaveSelections();
 	if (all){
-		for (size_t i = 0; i < GetCount(); i++){ GetDialogue(i)->ChangeDialogueState(1); }
 		SortAll((what == 0) ? sortstart : (what == 1) ? sortend : (what == 2) ? sortstyle :
 			(what == 3) ? sortactor : (what == 4) ? sorteffect : sortlayer);
 	}
@@ -781,7 +780,7 @@ void SubsGridBase::SortIt(short what, bool all)
 			(what == 3) ? sortactor : (what == 4) ? sorteffect : sortlayer);
 	}
 
-	edited = true;
+	//edited = true;
 	SpellErrors.clear();
 	SetModified(GRID_SORT_LINES);
 	Refresh(false);

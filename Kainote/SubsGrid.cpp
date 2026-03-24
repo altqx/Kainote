@@ -1371,7 +1371,7 @@ void SubsGrid::OnShowPreview()
 
 void SubsGrid::ConnectAcc(int id)
 {
-	Connect(id, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&SubsGrid::OnAccelerator);
+	Bind(wxEVT_COMMAND_MENU_SELECTED, &SubsGrid::OnAccelerator, this, id);
 }
 
 void SubsGrid::OnSetFPSFromVideo()

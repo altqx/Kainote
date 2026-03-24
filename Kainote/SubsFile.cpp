@@ -412,7 +412,15 @@ void SubsFile::DeleteSelectedDialogues()
 
 void SubsFile::SortAll(bool func(Dialogue *i, Dialogue *j))
 {
+	std::vector<Dialogue*> origDialogues = subs->dialogues;
 	std::stable_sort(subs->dialogues.begin(), subs->dialogues.end(), func);
+	size_t dialsSize = subs->dialogues.size();
+	for (size_t i = 0; i < dialsSize; i++) {
+		if (subs->dialogues[i] != origDialogues[i]) {
+			CopyDialogueF(i);
+		}
+	}
+	origDialogues.clear();
 }
 
 void SubsFile::SortSelected(bool func(Dialogue *i, Dialogue *j))
@@ -420,13 +428,17 @@ void SubsFile::SortSelected(bool func(Dialogue *i, Dialogue *j))
 	std::vector<Dialogue*> selected;
 	for (auto cur = subs->Selections.begin(); cur != subs->Selections.end(); cur++){
 		Dialogue *dial = subs->dialogues[*cur];
-		dial->ChangeDialogueState(1);
 		selected.push_back(dial);
 	}
 	std::stable_sort(selected.begin(), selected.end(), func);
 	int ii = 0;
 	for (auto cur = subs->Selections.begin(); cur != subs->Selections.end(); cur++){
-		subs->dialogues[*cur] = selected[ii++];
+		Dialogue* origDial = subs->dialogues[*cur];
+		Dialogue* sortedDial = selected[ii++];
+		if (origDial != sortedDial) {
+			subs->dialogues[*cur] = sortedDial;
+			CopyDialogueF(*cur);
+		}
 	}
 	selected.clear();
 }

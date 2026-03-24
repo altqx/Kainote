@@ -52,7 +52,7 @@ private:
 	wxArrayInt lineCompare;
 };
 
-class SubsGridBase : public SubsFile, public KaiScrolledWindow
+class SubsGridBase :public KaiScrolledWindow, public SubsFile
 {
 	friend class SubsGridPreview;
 public:
