@@ -154,6 +154,8 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
     </PreBuildEvent>
     <Manifest>
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -288,6 +290,7 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
     <ClCompile Include="ModificationChecker.cpp" />
     <ClCompile Include="KainoteFrame.cpp" />
     <ClCompile Include="Notebook.cpp" />
+    <ClCompile Include="AutomationDummyLoader.cpp" />
     <ClCompile Include="TagFindReplace.cpp" />
     <ClCompile Include="VisualAllTags.cpp" />
     <ClCompile Include="AudioBox.cpp" />
@@ -452,6 +455,7 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
     <ClInclude Include="AudioSpectrum.h" />
     <ClInclude Include="Automation.h" />
     <ClInclude Include="AutomationDialog.h" />
+    <ClInclude Include="AutomationDummyLoader.h" />
     <ClInclude Include="AutomationHotkeysDialog.h" />
     <ClInclude Include="AutomationLPeg.h" />
     <ClInclude Include="AutomationProgress.h" />

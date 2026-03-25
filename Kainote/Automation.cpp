@@ -510,12 +510,9 @@ namespace Auto{
 
 	LuaScript::LuaScript(wxString const& filename)
 		: filename(filename)
-		, L(NULL)
 	{
 		include_path.push_back(filename.BeforeLast(L'\\') + L"\\");
 		include_path.push_back(Options.pathfull + L"\\Automation\\automation\\Include\\");
-		//include_path[0].Replace("\\","/");
-		//include_path[1].Replace("\\","/");
 		Create();
 	}
 
@@ -652,7 +649,7 @@ namespace Auto{
 		lua_gc(L, LUA_GCCOLLECT, 0);
 	}
 
-	void LuaScript::Reload() { Create(); }
+	//void LuaScript::Reload() { Create(); }
 
 	void LuaScript::Destroy()
 	{

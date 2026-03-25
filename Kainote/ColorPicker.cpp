@@ -1466,7 +1466,6 @@ void SimpleColorPickerDialog::OnLeaveWindow(wxMouseEvent& event)
 				if (!HasCapture()) {
 					CaptureMouse();
 					SetCursor(wxCursor(L"eyedropper_cursor"));
-					KaiLogSilent("capture mouse");
 				}
 			}
 		}
@@ -1498,14 +1497,12 @@ void SimpleColorPickerDialog::OnShow(wxShowEvent& event) {
 		return;
 	CaptureMouse();
 	SetCursor(wxCursor(L"eyedropper_cursor"));
-	KaiLogSilent("onshow");
 }
 
 void SimpleColorPickerDialog::OnClose(wxCommandEvent& event) {
 	if (HasCapture()) 
 		ReleaseMouse();
 	closed = true;
-	KaiLogSilent("onclose");
 	EndModal(event.GetId());
 }
 

@@ -33,12 +33,14 @@ private:
 	LogWindow *lWindow = nullptr;
 	wxMutex mutex;
 	wxWindow *parent;
+	
 public:
 	static void Create(wxWindow *parent);
 	static LogHandler *Get(){ return sthis; }
 	static void Destroy();
 	void LogMessage(const wxString &format, bool showMessage = true);
 	static void ShowLogWindow();
+	volatile bool isShown = false;
 	//void LogMessage1(const wxString &format, ...);
 };
 

@@ -30,6 +30,7 @@
 
 #pragma once
 
+#include "AutomationDummyLoader.h"
 #include <deque>
 #include <vector>
 #include <map>
@@ -84,14 +85,14 @@ namespace Auto {
 	class LuaFeature {
 		int myid;
 	protected:
-		lua_State *L;
+		lua_State* L;
 
 		void RegisterFeature();
 		void UnregisterFeature();
 
-		void GetFeatureFunction(const char *function) const;
+		void GetFeatureFunction(const char* function) const;
 
-		LuaFeature(lua_State *L) : L(L) { }
+		LuaFeature(lua_State* L) : L(L) { }
 	};
 
 
@@ -104,7 +105,7 @@ namespace Auto {
 		int cmd_type;
 
 	public:
-		LuaCommand(lua_State *L);
+		LuaCommand(lua_State* L);
 		~LuaCommand();
 
 		//const char* name() const { return cmd_name.c_str(); }
@@ -112,26 +113,27 @@ namespace Auto {
 		wxString StrDisplay() const { return display; }
 		wxString StrHelp() const { return help; }
 		wxString StrHotkey() const { return hotkey; }
-		void SetHotkey(const wxString &_hotkey){ hotkey = _hotkey; }
+		void SetHotkey(const wxString& _hotkey) { hotkey = _hotkey; }
 
 		int Type() const { return cmd_type; }
 
-		void Run(TabPanel *c);
-		bool Validate(const TabPanel *c);
-		virtual bool IsActive(const TabPanel *c);
+		void Run(TabPanel* c);
+		bool Validate(const TabPanel* c);
+		virtual bool IsActive(const TabPanel* c);
 
-		static int LuaRegister(lua_State *L);
+		static int LuaRegister(lua_State* L);
 		void RunScript();
 	};
 
 	class LuaScript {
-		lua_State *L;
+		lua_State* L = nullptr;
 		wxString filename;
 		wxString name;
 		wxString description;
 		wxString author;
 		wxString version;
 		int LowTime, HighTime;
+		//bool loaded = false;
 		std::vector<wxString> include_path;
 		std::vector<LuaCommand*> macros;
 
@@ -140,7 +142,7 @@ namespace Auto {
 		/// destroy internal structures, unreg features and delete environment
 		void Destroy();
 
-		static int LuaInclude(lua_State *L);
+		static int LuaInclude(lua_State* L);
 
 	public:
 
@@ -152,37 +154,38 @@ namespace Auto {
 		wxString GetPrettyFilename() const { return filename.AfterLast(L'\\'); }
 		/// The script's name. Not required to be unique.
 
-		void RegisterCommand(LuaCommand *command);
-		void UnregisterCommand(LuaCommand *command);
+		void RegisterCommand(LuaCommand* command);
+		void UnregisterCommand(LuaCommand* command);
 
-		static LuaScript* GetScriptObject(lua_State *L);
+		static LuaScript* GetScriptObject(lua_State* L);
 
 		// Script implementation
-		void Reload();// { Create(); }
+		void Reload() { Create(); }
 
 		wxString GetName() const { return name; }
 		wxString GetDescription() const { return description; }
 		wxString GetAuthor() const { return author; }
 		wxString GetVersion() const { return version; }
-		bool GetLoadedState() const { 
-			return L != nullptr; 
+		bool GetLoadedState() const {
+			return L != nullptr;
 		}
 
-		LuaCommand* GetMacro(int macro) const{
-			if (macro < (int)macros.size()){
+		LuaCommand* GetMacro(int macro) const {
+			if (macro < (int)macros.size()) {
 				return macros[macro];
 			}
-			else{ return NULL; }
+			else { return NULL; }
 		}
-		std::vector<LuaCommand*> GetMacros() const{ return macros; }
+		std::vector<LuaCommand*> GetMacros() const { return macros; }
 		bool CheckLastModified(bool check = true);
 	};
+	
 	// @class Automation
 	// @brief manage lua scripts Lua
 
 
 
-	class Automation
+	class Automation : public AutomationDummyLoader
 	{
 	public:
 		Automation(bool loadSubsScripts = false, bool loadNow = false);
@@ -201,8 +204,7 @@ namespace Auto {
 		void ShowScriptHotkeysWindow(wxWindow *parent);
 		LuaScript *FindScript(const wxString &path);
 
-		std::vector<Auto::LuaScript*> Scripts;
-		std::vector<Auto::LuaScript*> ASSScripts;
+		
 		HANDLE handle;
 		HANDLE eventEndAutoload = NULL;
 	private:

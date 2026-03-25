@@ -894,7 +894,7 @@ void SubsGridWindow::PaintD2D(GraphicsContext *gc, int w, int h, int size, int s
 			int treeState = (Dial) ? Dial->treeState : 0;
 			if (j > 0 && (treeState == TREE_DESCRIPTION || treeState == TREE_OPENED)){
 				if (treeState == TREE_DESCRIPTION) {
-					gc->SetBrush(comment);
+					gc->SetBrush(col);
 					gc->SetPen(*wxTRANSPARENT_PEN);
 					gc->DrawRectangle(posX + 1, posY, w - 1, GridHeight);
 					// GetDialogueKey was made for loops no checks
@@ -1440,8 +1440,8 @@ void SubsGridWindow::OnMouseEvent(wxMouseEvent &event) {
 			else if (right){
 				ContextMenuTree(event.GetPosition(), row);
 			}
+			return;
 		}
-		return;
 	}
 
 	// Seeking video by click on numeration column
@@ -1780,7 +1780,7 @@ void SubsGridWindow::OnKeyPress(wxKeyEvent &event) {
 
 	// Select all
 	if (key == L'A' && ctrl && !alt && !shift) {
-		InsertSelections(0, -1, false, true);
+		InsertSelections(0, -1, false, false);
 		Refresh(false);
 	}
 

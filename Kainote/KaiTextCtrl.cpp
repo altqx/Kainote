@@ -187,8 +187,9 @@ void KaiTextCtrl::AppendText(const wxString &text)
 		KText.Replace(L"\n", emptyString);
 	}
 	CalcWrap(false, (len < 1) ? 0 : (KText[len - 1] == L'\n') ? len : len - 1);
-	Cursor.x = Selend.x = KText.length() - 1;
+	Cursor.x = Selend.x = KText.length();
 	Cursor.y = Selend.y = wraps.size() - 2;
+	KaiLogSilent(wxString::Format(L"cursor x %d, y %d , x1 %d, y1 %d", Cursor.x, Cursor.y, Selend.x, Selend.y));
 	MakeCursorVisible();
 }
 
@@ -986,8 +987,12 @@ void KaiTextCtrl::DrawFld(wxDC &dc, int w, int h)
 			wxString beforeCursor = KText.SubString(start, end);
 			GetTextExtent(beforeCursor, &fww, &fh);
 		}
+
 		caret->Move(positioning[cursorI + 1] + fww + tmpPosX, tmpPosY + (Fheight * cursorI));
 
+	}
+	else {
+		caret->Move(0, -50);
 	}
 	size_t k = 0;
 	bool blockSkip = false;

@@ -218,7 +218,7 @@ void SubsGridFiltering::FilteringFinalize(int id)
 {
 	bool removeFiltering = id == FILTERING_REMOVE;
 	if (grid->IsNotSaved() || removeFiltering) {
-		grid->SetFiltered(!removeFiltering);
+		grid->SetFiltered(!removeFiltering && id != TREE_ADD);
 		grid->RefreshSubsOnVideo(activeLine);
 		grid->RefreshColumns();
 		grid->SetModified(id, false, false, -1, false);

@@ -108,7 +108,7 @@ bool SubsLoader::LoadASS(const wxString &text)
 		if ((token.StartsWith(L"Dial") || token.StartsWith(L"Comm") || (token[0] == L';' && section > 2))){
 			Dialogue *dl = new Dialogue(token);
 			// put it on start cause in tlmode it releases dl
-			if (!hasFiltering && dl->isVisible != VISIBLE && !dl->NonDialogue)
+			if (!hasFiltering && dl->isVisible != VISIBLE && !dl->NonDialogue && !dl->treeState)
 				hasFiltering = true;
 
 			if (!tlmode){

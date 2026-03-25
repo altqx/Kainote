@@ -139,7 +139,7 @@ void LogHandler::LogMessage(const wxString &format, bool showMessage)
 	GetLocalTime(&st);
 	logToAppend << wxString::Format(L"%02i:%02i:%02i ", st.wHour, st.wMinute, st.wSecond);
 	logToAppend << lastLog << L"\n";
-	if (showMessage) {
+	if (showMessage || isShown) {
 		if (!lWindow) {
 			wxThreadEvent *evt = new wxThreadEvent(EVT_DO_CREATE_LOG_WINDOW, parent->GetId());
 			wxQueueEvent(parent, evt);
@@ -169,6 +169,7 @@ void LogHandler::ShowLogWindow()
 			sthis->lWindow->hiddenLastLog = true;
 		}
 		sthis->lWindow->Show(!sthis->lWindow->IsShown());
+		sthis->isShown = sthis->lWindow->IsShown();
 	}
 }
 

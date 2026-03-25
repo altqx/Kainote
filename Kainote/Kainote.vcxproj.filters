@@ -481,6 +481,9 @@
     <ClCompile Include="ModificationChecker.cpp">
       <Filter>M</Filter>
     </ClCompile>
+    <ClCompile Include="AutomationDummyLoader.cpp">
+      <Filter>A</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ContextDX9.h">
@@ -878,6 +881,9 @@
     </ClInclude>
     <ClInclude Include="ModificationChecker.h">
       <Filter>M</Filter>
+    </ClInclude>
+    <ClInclude Include="AutomationDummyLoader.h">
+      <Filter>A</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
