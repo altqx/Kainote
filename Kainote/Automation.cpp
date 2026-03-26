@@ -516,6 +516,27 @@ namespace Auto{
 		Create();
 	}
 
+	LuaScript::LuaScript(wxString const& _filename, wxString const& _name, const wxString& _description,
+		const std::vector<wxString>& _macros, unsigned long _lowTime, unsigned long _highTime)
+		: filename(_filename)
+		, name(_name)
+		, description(_description)
+		, LowTime(_lowTime)
+		, HighTime(_highTime)
+	{
+		include_path.push_back(_filename.BeforeLast(L'\\') + L"\\");
+		include_path.push_back(Options.pathfull + L"\\Automation\\automation\\Include\\");
+		size_t i = 0;
+		size_t macrosSize = _macros.size();
+		if (macrosSize) {
+			while (i < _macros.size() - 1) {
+				LuaCommand* command = new LuaCommand(_macros[i], _macros[i + 1]);
+				macros.push_back(command);
+				i += 2;
+			}
+		}
+	}
+
 	void LuaScript::Create()
 	{
 		Destroy();
@@ -653,14 +674,14 @@ namespace Auto{
 
 	void LuaScript::Destroy()
 	{
-		// Assume the script object is clean if there's no Lua state
-		if (!L) return;
-
 		// loops backwards because commands remove themselves from macros when
 		// they're unregistered
 		for (auto i = macros.begin(); i != macros.end(); i++)
 			delete (*i);
 		macros.clear();
+		// Switch these lines to allow clear dummy macros
+		// Assume the script object is clean if there's no Lua state
+		if (!L) return;
 
 		lua_close(L);
 		L = NULL;
@@ -744,7 +765,7 @@ namespace Auto{
 		GetFileTime(ffile, 0, 0, &ft);
 		CloseHandle(ffile);
 		if (check){
-			if (LowTime != (int)ft.dwLowDateTime || HighTime != ft.dwHighDateTime){
+			if (LowTime != ft.dwLowDateTime || HighTime != ft.dwHighDateTime){
 				LowTime = ft.dwLowDateTime;
 				HighTime = ft.dwHighDateTime;
 				return true;
@@ -842,10 +863,8 @@ namespace Auto{
 
 	LuaCommand::LuaCommand(lua_State *L)
 		: LuaFeature(L)
-		//, display(check_string(L, 1))
-		//, help(get_string(L, 2))
+		, isEmpty(false)
 		, cmd_type(COMMAND_NORMAL)
-		//, wxMenuItem(NULL,-1,display,help)
 	{
 
 
@@ -889,9 +908,18 @@ namespace Auto{
 
 	}
 
+	LuaCommand::LuaCommand(const wxString& description, const wxString& _help)
+		: LuaFeature(nullptr)
+		, cmd_type(COMMAND_NORMAL)
+		, display(description)
+		, help(_help)
+	{
+	}
+
 	LuaCommand::~LuaCommand()
 	{
-		UnregisterFeature();
+		if(!isEmpty)
+			UnregisterFeature();
 		//LuaScript::GetScriptObject(L)->UnregisterCommand(this);
 	}
 
@@ -1089,6 +1117,11 @@ namespace Auto{
 		initialized = false;
 		AutoloadPath = Options.pathfull + L"\\Automation\\automation\\Autoload";
 		if (loadSubsScripts){ return; }
+		if (LoadDummy()) {
+			finished = true;
+			initialized = true;
+			return;
+		}
 		int loadMethod = Options.GetInt(AUTOMATION_LOADING_METHOD);
 		if (loadMethod < 2){
 			initialized = true;
@@ -1108,6 +1141,9 @@ namespace Auto{
 		if (eventEndAutoload){
 			WaitForSingleObject(eventEndAutoload, 50000);
 		}
+		if(finished)
+			SaveDummy();
+		
 		RemoveAll(true);
 	}
 
@@ -1166,8 +1202,13 @@ namespace Auto{
 	void Automation::ReloadScripts(bool first)
 	{
 		initialized = true;
+		finished = false;
 		
-		if (!first){ RemoveAll(true); }
+		if (!first && Scripts.size() > 0) {
+			FastReloadScripts();
+			finished = true;
+			return;
+		}
 		int error_count = 0;
 
 		
@@ -1206,11 +1247,11 @@ namespace Auto{
 			}
 			catch (const wchar_t *e) {
 				error_count++;
-				KaiLog(wxString::Format(_("Błąd wczytywania skryptu Lua: %s\n%s"), fn.c_str(), e));
+				KaiLog(wxString::Format(_("Błąd wczytywania skryptu Lua: %s\n%s"), fn.wc_str(), e));
 			}
 			catch (...) {
 				error_count++;
-				KaiLog(wxString::Format(_("Nieznany błąd wczytywania skryptu Lua: %s."), fn.c_str()));
+				KaiLog(wxString::Format(_("Nieznany błąd wczytywania skryptu Lua: %s."), fn.wc_str()));
 			}
 
 			more = dir.GetNext(&fn);
@@ -1223,6 +1264,7 @@ namespace Auto{
 
 		//STime countTime(sw.Time());
 		//KaiLog("Upłynęło %sms",countTime.GetFormatted(SRT));
+		finished = true;
 	}
 
 	bool Automation::AddFromSubs()
@@ -1321,21 +1363,34 @@ namespace Auto{
 		
 		for (size_t g = 0; g < Scripts.size(); g++){
 			auto script = Scripts[g];
-			if (script->CheckLastModified(true)){ script->Reload(); }
+			if (script->CheckLastModified(true)){ 
+				script->Reload(); 
+			}
 			Menu *submenu = new Menu();
-			auto macros = script->GetMacros();
+			const std::vector<LuaCommand*> & macros = script->GetMacros();
 			for (size_t p = 0; p < macros.size(); p++){
 				auto macro = macros[p];
 				wxString text;
 				text << L"Script " << script->GetFilename() << L"-" << p;
 				MenuItem *mi = submenu->SetAccMenu(new MenuItem(start, macro->StrDisplay(), macro->StrHelp()), text);
-				mi->Enable(macro->Validate(c));
+				mi->Enable(macro->IsEmpty()? true : macro->Validate(c));
 				Kai->Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt) {
 					if (evt.GetInt() == wxMOD_SHIFT){
 						Hkeys.OnMapHkey(-1, text, Kai, GLOBAL_HOTKEY, false);
 					}
 					else{
-						macro->RunScript();
+						//after reload the script menu will be untact but, 
+						//macros will be recreated need to get loaded macro
+						auto actualMacro = script->GetMacro(p);
+						if (actualMacro->IsEmpty()) {
+							script->Reload();
+							actualMacro = script->GetMacro(p);
+							//validate it to prevent errors
+							if (!actualMacro->Validate(c))
+								return;
+						}
+					
+						actualMacro->RunScript();
 					}
 				}, start);
 				start++;

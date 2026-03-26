@@ -15,6 +15,8 @@
 // 
 // #pragma once
 
+#include <vector>
+#include <wx/string.h>
 
 
 namespace Auto {
@@ -25,18 +27,27 @@ namespace Auto {
 	class AutomationDummyLoader {
 
 	public:
-		std::vector<Auto::LuaScript*> Scripts;
-		std::vector<Auto::LuaScript*> ASSScripts;
-
-		AutomationDummyLoader();
-		void ReloadScripts();
+		std::vector<LuaScript*> Scripts;
+		wxString AutoloadPath;
+		
+		AutomationDummyLoader() {};
+		void FastReloadScripts();
 		void SaveDummy();
-		void LoadDummy();
-		void AddDummy();
+		bool LoadDummy();
+	private:
+		void AddDummy(const wxString& filename, const wxString & name, const wxString& description, const std::vector<wxString> &macros,
+			unsigned long lowTime, unsigned long highTime);
+		void GetNameValue(const wxString& input);
+		void ParseDummy(const wxString& input);
+		size_t FindFilename(const wxString& filename);
+		wxString filename;
+		wxString name;
+		wxString description;
+		unsigned long lowTime = 0;
+		unsigned long highTime = 0;
+		std::vector<wxString> macros;
+		bool parseMacro = false;
 	};
-
-
-
 
 
 }

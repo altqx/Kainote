@@ -103,9 +103,10 @@ namespace Auto {
 		wxString help;
 		wxString hotkey;
 		int cmd_type;
-
+		bool isEmpty = true;
 	public:
 		LuaCommand(lua_State* L);
+		LuaCommand(const wxString& description, const wxString& help);
 		~LuaCommand();
 
 		//const char* name() const { return cmd_name.c_str(); }
@@ -114,6 +115,7 @@ namespace Auto {
 		wxString StrHelp() const { return help; }
 		wxString StrHotkey() const { return hotkey; }
 		void SetHotkey(const wxString& _hotkey) { hotkey = _hotkey; }
+		bool IsEmpty() { return isEmpty; }
 
 		int Type() const { return cmd_type; }
 
@@ -132,7 +134,7 @@ namespace Auto {
 		wxString description;
 		wxString author;
 		wxString version;
-		int LowTime, HighTime;
+		unsigned long LowTime, HighTime;
 		//bool loaded = false;
 		std::vector<wxString> include_path;
 		std::vector<LuaCommand*> macros;
@@ -147,6 +149,8 @@ namespace Auto {
 	public:
 
 		LuaScript(wxString const& filename);
+		LuaScript(wxString const& filename, wxString const& name, const wxString& description, 
+			const std::vector<wxString>& macros, unsigned long lowTime, unsigned long highTime);
 		~LuaScript() { Destroy(); }
 
 		wxString GetFilename() const { return filename; }
@@ -169,6 +173,8 @@ namespace Auto {
 		bool GetLoadedState() const {
 			return L != nullptr;
 		}
+		unsigned long GetLowTime() { return LowTime; }
+		unsigned long GetHighTime() { return HighTime; }
 
 		LuaCommand* GetMacro(int macro) const {
 			if (macro < (int)macros.size()) {
@@ -176,7 +182,7 @@ namespace Auto {
 			}
 			else { return NULL; }
 		}
-		std::vector<LuaCommand*> GetMacros() const { return macros; }
+		const std::vector<LuaCommand*> &GetMacros() const { return macros; }
 		bool CheckLastModified(bool check = true);
 	};
 	
@@ -203,15 +209,15 @@ namespace Auto {
 		void BuildMenu(Menu **bar, bool all = false);
 		void ShowScriptHotkeysWindow(wxWindow *parent);
 		LuaScript *FindScript(const wxString &path);
-
+		std::vector<LuaScript*> ASSScripts;
 		
-		HANDLE handle;
-		HANDLE eventEndAutoload = NULL;
+		HANDLE handle = nullptr;
+		HANDLE eventEndAutoload = nullptr;
 	private:
-		wxString AutoloadPath;
 		bool HasChanges;
 		wxString scriptpaths;
 		bool initialized;
+		bool finished = false;
 		volatile bool breakLoading = false;
 	};
 

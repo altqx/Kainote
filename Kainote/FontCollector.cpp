@@ -259,6 +259,8 @@ void FontCollectorDialog::EnableControls(bool enable)
 	bok->Enable(enable);
 	bStartOnAllTabs->Enable(enable);
 	bClose->Enable(enable);
+	if(enable)
+		bClose->SetFocus();
 }
 
 void FontCollectorDialog::OnConsoleDoubleClick(wxMouseEvent &evt)
