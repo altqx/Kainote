@@ -15,7 +15,7 @@
 
 #include "SubsDialogue.h"
 #include "config.h"
-//#include "Utils.h"
+#include "UtilsWindows.h"
 #include <wx/tokenzr.h>
 #include <wx/regex.h>
 #include <wx/log.h>
@@ -326,6 +326,38 @@ void Dialogue::GetTagName(const wxString& tagWithValue, wxString* name)
 			i++;
 		}
 	}
+}
+
+bool Dialogue::GetTaggedTextExtents(Styles* lineStyle, const wxString& text)
+{
+	Styles* curStyle = lineStyle->Copy();
+	const wxString& txt = text.empty() ? GetTextNoCopy() : text;
+	wxString tags[] = { L"fscx", L"fscy", L"fsp", L"fs", L"fn", L"b", L"i" };
+	ParseTags(tags, 7, true, txt);
+	size_t parseDataSize = parseData->tags.size();
+	size_t parseDataStart = 0;
+	float fullWidth = 0, fullHeight = 0;
+	for (size_t i = 0; i < parseDataSize; i++) {
+		TagData* tdata = parseData->tags[i];
+		if (tdata->tagName == L"plain") {
+			if(i > 0)
+				curStyle->SetStyleFromParseData(parseData, parseDataStart, i - 1);
+
+			float width = 0, height = 0;
+			if (GetLineTextExtents(tdata->value, curStyle, &width, &height)) {
+				fullWidth += width;
+				if (fullWidth < height)
+					fullWidth = height;
+			}
+			else {
+				ClearParse();
+				return false;
+			}
+			parseDataStart = i + 1;
+		}
+	}
+	ClearParse();
+	return true;
 }
 
 int Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/, const wxString& textToSplit/* = L""*/)

@@ -1630,7 +1630,6 @@ void SubsGrid::Split(int id)
 								first = false;
 							}
 							else{
-								first = false;
 								dialc = dialc->Copy();
 								g++;
 								InsertRows(g, 1, dialc);

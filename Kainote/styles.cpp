@@ -190,9 +190,14 @@ double Styles::GetScaleYDouble()
 	return scaley;
 }
 
-void Styles::SetStyleFromParseData(ParseData* data)
+void Styles::SetStyleFromParseData(ParseData* data, size_t from, size_t to)
 {
-	for (size_t i = 0; i < data->tags.size(); i++) {
+	if (to == -1)
+		to = data->tags.size();
+
+	for (size_t i = from; i < to; i++) {
+		if (i >= data->tags.size())
+			break;
 		TagData* tagData = data->tags[i];
 		wxString& tag = tagData->tagName;
 		if (tag == L"fs")

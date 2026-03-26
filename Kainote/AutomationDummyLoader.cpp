@@ -14,7 +14,6 @@
 //  along with Kainote.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Automation.h"
-//#include "AutomationDummyLoader.h"
 #include "OpennWrite.h"
 #include "Config.h"
 #include <wx/filename.h>

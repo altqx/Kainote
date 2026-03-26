@@ -73,7 +73,7 @@ public:
 	int GetAlignment();
 	double GetScaleXDouble();
 	double GetScaleYDouble();
-	void SetStyleFromParseData(ParseData *data);
+	void SetStyleFromParseData(ParseData *data, size_t from = 0, size_t to = -1);
 	Styles();
 	Styles(wxString styledata, char format = 1);
 	~Styles();

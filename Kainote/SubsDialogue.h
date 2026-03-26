@@ -330,6 +330,7 @@ public:
 	//output is first bock to be merged second block
 	void MergeTagBlocks(wxString* output, const wxString & blockToMerge);
 	void GetTagName(const wxString& tagWithValue, wxString* name);
+	bool GetTaggedTextExtents(Styles* lineStyle, const wxString& text = L"");
 	Dialogue();
 	Dialogue(const wxString &ldial, const wxString &txttl = emptyString);
 	~Dialogue();
