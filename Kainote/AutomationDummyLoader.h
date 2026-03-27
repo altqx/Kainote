@@ -43,6 +43,7 @@ namespace Auto {
 		wxString filename;
 		wxString name;
 		wxString description;
+		wxString lastLabel;
 		unsigned long lowTime = 0;
 		unsigned long highTime = 0;
 		std::vector<wxString> macros;

@@ -227,19 +227,37 @@ void Dialogue::SetText(const wxString &text)
 		Text = text;
 }
 
-void Dialogue::GetTextStripped(wxString* textStripped, const wxString& text)
+void Dialogue::GetTextStripped(wxString* textStripped, const wxString& text, bool removeFirstBlock/* = false*/)
 {
 	const wxString& txt = text.empty() ? GetTextNoCopy() : text;
 	if (txt.empty())
 		return;
-
-	wxRegEx re(L"{[^}]*}", wxRE_ADVANCED | wxRE_ICASE);
-	if (!re.IsValid()) {
-		KaiLogSilent(L"Text stripped regex is not valid");
-		return;
+	if (removeFirstBlock) {
+		size_t length = txt.Len();
+		bool block = false;
+		for (size_t i = 0; i < length; i++) {
+			wxUniChar c = txt[i];
+			if (c == L'{')
+				block = true;
+			else if (block && c == L'}') {
+				block = false;
+				continue;
+			}
+			if (!block && c != L'{') {
+				*textStripped = text.substr(i);
+				break;
+			}
+		}
 	}
-	*textStripped = txt;
-	re.ReplaceAll(textStripped, L"");
+	else {
+		wxRegEx re(L"{[^}]*}", wxRE_ADVANCED | wxRE_ICASE);
+		if (!re.IsValid()) {
+			KaiLogSilent(L"Text stripped regex is not valid");
+			return;
+		}
+		*textStripped = txt;
+		re.ReplaceAll(textStripped, L"");
+	}
 }
 
 void Dialogue::GetFirstTagsBlock(wxString* tagBlock, const wxString& text/* = L""*/)
@@ -328,35 +346,65 @@ void Dialogue::GetTagName(const wxString& tagWithValue, wxString* name)
 	}
 }
 
-bool Dialogue::GetTaggedTextExtents(Styles* lineStyle, const wxString& text)
+bool Dialogue::GetTaggedTextExtents(Styles* lineStyle, const wxString& text, float* _width, float* _height, 
+	float* _descent, float* _extlead, bool copyStyle/* = true*/)
 {
-	Styles* curStyle = lineStyle->Copy();
+	Styles* curStyle = copyStyle? lineStyle->Copy() : lineStyle;
 	const wxString& txt = text.empty() ? GetTextNoCopy() : text;
 	wxString tags[] = { L"fscx", L"fscy", L"fsp", L"fs", L"fn", L"b", L"i" };
 	ParseTags(tags, 7, true, txt);
 	size_t parseDataSize = parseData->tags.size();
 	size_t parseDataStart = 0;
 	float fullWidth = 0, fullHeight = 0;
+	float fullDescent = 0, fullExtlead = 0;
 	for (size_t i = 0; i < parseDataSize; i++) {
 		TagData* tdata = parseData->tags[i];
 		if (tdata->tagName == L"plain") {
 			if(i > 0)
 				curStyle->SetStyleFromParseData(parseData, parseDataStart, i - 1);
-
+			bool succeded = false;
 			float width = 0, height = 0;
-			if (GetLineTextExtents(tdata->value, curStyle, &width, &height)) {
+			float descent = 0, extlead = 0;
+			if (_descent || _extlead) {
+				succeded = GetLineTextExtents(tdata->value, curStyle, &width, &height, &descent, &extlead);
+			}
+			else {
+				succeded = GetLineTextExtents(tdata->value, curStyle, &width, &height);
+			}
+			if (succeded) {
 				fullWidth += width;
-				if (fullWidth < height)
-					fullWidth = height;
+				if (fullHeight < height)
+					fullHeight = height;
+				if (_descent) {
+					if (fullDescent < descent)
+						fullDescent = descent;
+				}
+				if (_extlead) {
+					if (fullExtlead < extlead)
+						fullExtlead = extlead;
+				}
 			}
 			else {
 				ClearParse();
+				if (copyStyle)
+					delete curStyle;
+
 				return false;
 			}
 			parseDataStart = i + 1;
 		}
 	}
+	*_width = fullWidth;
+	*_height = fullHeight;
+	if (_descent)
+		*_descent = fullDescent;
+	if (_extlead)
+		*_extlead = fullExtlead;
+
 	ClearParse();
+	if (copyStyle)
+		delete curStyle;
+
 	return true;
 }
 
@@ -408,26 +456,26 @@ int Dialogue::SplitByChar(wxArrayString* charsTable, bool addSpaces/* = true*/, 
 
 int Dialogue::SplitByWord(wxArrayString* wordsTable, const wxString& textToSplit/* = L""*/)
 {
-	wxString txt;
+	//wxString txt;
 	const wxString& txtToSplit = textToSplit.empty() ? GetTextNoCopy() : textToSplit;
-	GetTextStripped(&txt, txtToSplit);
-	size_t len = txt.Len();
+	//GetTextStripped(&txt, txtToSplit);
+	size_t len = txtToSplit.Len();
 	bool inBrackets = false;
 	std::wstring words;
 	size_t i = 0;
 	size_t offset = 0;
 	int wraps = 0;
 	while (i < len) {
-		wxUniChar ch = txt[i];
+		wxUniChar ch = txtToSplit[i];
 		if (i == len - 1) {
 			words += ch;
-			SplitWords(wordsTable, words, offset, txt);
+			SplitWords(wordsTable, words, offset, txtToSplit);
 			break;
 		}
 		if (!inBrackets && ch == L'\\') {
-			wxUniChar nch = txt[i + 1];
+			wxUniChar nch = txtToSplit[i + 1];
 			if (nch == L'N' || nch == L'n') {
-				SplitWords(wordsTable, words, offset, txt);
+				SplitWords(wordsTable, words, offset, txtToSplit);
 				words = L"";
 				wordsTable->Add(L"\\N");
 				wraps++;
@@ -492,6 +540,7 @@ void Dialogue::SplitWords(wxArrayString* wordsTable, std::wstring& wordsText, si
 	boundary::wssegment_index::iterator p, e;
 	size_t curWordPos = 0;
 	size_t wordOffset = offset;
+	bool block = false;
 	for (p = index.begin(), e = index.end(); p != e; ++p) {
 		wxString word = wxString(*p);
 		size_t wordLen = word.length();
@@ -499,8 +548,15 @@ void Dialogue::SplitWords(wxArrayString* wordsTable, std::wstring& wordsText, si
 			curWordPos += wordLen;
 		}
 		else {
-			
-			if (iswspace(word[0])) {
+			if (word[0] == L'{') {
+				block = true;
+				curWordPos += wordLen;
+			}
+			else if (word[0] == L'}') {
+				block = false;
+				curWordPos += wordLen;
+			}
+			else if (!block && iswspace(word[0])) {
 				//add word
 				if (curWordPos) {
 					wordsTable->Add(text.substr(wordOffset, curWordPos));
@@ -1045,18 +1101,17 @@ ParseData* Dialogue::ParseTags(wxString *tags, size_t ntags, bool plainText, con
 		}
 		else if (tagsBlock && ch == L'\\'){
 			pos++;
-			//wxString tag;
-			int slashPos = txt.find(L'\\', pos);
-			int bracketPos = txt.find(L'}', pos);
-			int tagEnd = (slashPos == -1 && bracketPos == -1) ? len :
+			size_t slashPos = txt.find(L'\\', pos);
+			size_t bracketPos = txt.find(L'}', pos);
+			size_t tagEnd = (slashPos == -1 && bracketPos == -1) ? len :
 				(slashPos == -1) ? bracketPos : (bracketPos == -1) ? slashPos :
 				(bracketPos < slashPos) ? bracketPos : slashPos;
 			wxString tag = txt.SubString(pos, tagEnd - 1);
 			if (tag.EndsWith(L')')){ tag.RemoveLast(); }
 			for (size_t i = 0; i < ntags; i++){
 				wxString tagName = tags[i];
-				int tagLen = tagName.length();
-				if (tag.StartsWith(tagName) && tag.length() > tagLen){
+				size_t tagLen = tagName.Len();
+				if (tag.StartsWith(tagName) && tag.Len() > tagLen){
 					wxUniChar firstValueChar = tag[tagLen];
 					if (firstValueChar == L'(' || wxIsdigit(firstValueChar) || tagName == L"fn" ||
 						firstValueChar == L'.' || firstValueChar == L'-' || firstValueChar == L'+'){

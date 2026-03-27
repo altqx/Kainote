@@ -550,8 +550,6 @@ namespace Auto{
 			return;
 		}
 
-		//bool loaded = false;
-		//BOOST_SCOPE_EXIT_ALL(&) { if (!loaded) Destroy(); };
 		LuaStackcheck stackcheck(L);
 
 		// register standard libs
@@ -572,14 +570,13 @@ namespace Auto{
 			description = get_string_or_default(L, 1);
 			lua_pop(L, 1);
 			lua_gc(L, LUA_GCCOLLECT, 0);
-			return;
+			goto fail;
 		}
 		stackcheck.check_stack(0);
 
 		// prepare stuff in the registry
 
 		// store the script's filename
-		wxString fn = GetFilename();
 		push_value(L, GetFilename());
 		lua_setfield(L, LUA_REGISTRYINDEX, "filename");
 		stackcheck.check_stack(0);
@@ -627,7 +624,7 @@ namespace Auto{
 			description = get_string_or_default(L, 1);
 			lua_pop(L, 1);
 			lua_gc(L, LUA_GCCOLLECT, 0);
-			return;
+			goto fail;
 		}
 		stackcheck.check_stack(1);
 
@@ -643,7 +640,7 @@ namespace Auto{
 			//lua_pop(L, 1);
 			lua_pop(L, 2); // error + error handler
 			lua_gc(L, LUA_GCCOLLECT, 0);
-			return;
+			goto fail;
 		}
 		lua_pop(L, 1); // error handler
 		stackcheck.check_stack(0);
@@ -652,7 +649,7 @@ namespace Auto{
 		if (lua_isnumber(L, -1) && lua_tointeger(L, -1) == 3) {
 			lua_pop(L, 1); // just to avoid tripping the stackcheck in debug
 			description = _("Próbujesz wczytać skrypt Automatyzacji 3 jako skrypt Automatyzacji 4. Automatyzacja 3 nie jest już wspierana.");
-			return;
+			goto fail;
 		}
 
 		name = get_global_string(L, "script_name");
@@ -668,9 +665,11 @@ namespace Auto{
 
 		//loaded = true;
 		lua_gc(L, LUA_GCCOLLECT, 0);
-	}
+		return;
 
-	//void LuaScript::Reload() { Create(); }
+	fail:
+		Destroy();
+	}
 
 	void LuaScript::Destroy()
 	{
@@ -1396,8 +1395,7 @@ namespace Auto{
 				start++;
 			}
 			
-			if (macros.size() < 1 || script->GetName().EndsWith(L".lua") ||
-				script->GetName().EndsWith(L".moon")){
+			if (macros.size() < 1){
 				wxString strippedbug = script->GetDescription();
 				strippedbug.Replace(L"\n", L"");
 				if (strippedbug.Len() > 100){ strippedbug = strippedbug.SubString(0, 100) + L"..."; }

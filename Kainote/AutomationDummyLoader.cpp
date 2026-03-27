@@ -150,6 +150,11 @@ namespace Auto {
 				macros.push_back(value);
 			else if(input == L"}")
 				parseMacro = false;
+			else {
+				if ((lastLabel == L"name" || lastLabel == L"help") && macros.size()) {
+					macros[macros.size() - 1] << L"\n" << input;
+				}
+			}
 		}
 		else if (label == L"name") {
 			name = value;
@@ -170,6 +175,15 @@ namespace Auto {
 			AddDummy(filename, name, description, macros, lowTime, highTime);
 			macros.clear();
 		}
+		else {
+			if (lastLabel == L"name") 
+				name << L"\n" << input;
+			else if (lastLabel == L"description")
+				description << L"\n" << input;
+
+			return;
+		}
+		lastLabel = label;
 	}
 
 	void AutomationDummyLoader::ParseDummy(const wxString& input)

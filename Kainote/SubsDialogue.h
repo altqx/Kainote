@@ -325,12 +325,13 @@ public:
 	bool FindTag(const wxString &tag, wxString *value);
 	void GetDefaultPosition(Styles* lineStyle, int an, const wxSize &subsSize, float *posx, float *posy);
 	//when text set use the text else used dialogue text;
-	void GetTextStripped(wxString* textStripped, const wxString& text = L"");
+	void GetTextStripped(wxString* textStripped, const wxString& text = L"", bool removeFirstBlock = false);
 	void GetFirstTagsBlock(wxString* tagBlock, const wxString& text = L"");
 	//output is first bock to be merged second block
 	void MergeTagBlocks(wxString* output, const wxString & blockToMerge);
 	void GetTagName(const wxString& tagWithValue, wxString* name);
-	bool GetTaggedTextExtents(Styles* lineStyle, const wxString& text = L"");
+	bool GetTaggedTextExtents(Styles* lineStyle, const wxString& text, 
+		float* width, float* height, float* descent = nullptr, float* extlead = nullptr, bool copyStyle = true);
 	Dialogue();
 	Dialogue(const wxString &ldial, const wxString &txttl = emptyString);
 	~Dialogue();

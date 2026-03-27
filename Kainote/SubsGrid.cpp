@@ -1517,7 +1517,7 @@ void SubsGrid::Split(int id)
 				dialc->GetFirstTagsBlock(&firstTagsBlock);
 				
 				Styles* style = GetStyle(0, dialc->Style);
-				style = style->Copy();
+				
 				//style->SetStyleFromParseData(tagsData);
 				wxString posval;
 				int an = 0;
@@ -1542,28 +1542,41 @@ void SubsGrid::Split(int id)
 				wraps = dialc->SplitByWrap(&wrapsTable);
 				float y = posy;
 				bool first = true;
+				std::vector<D3DXVECTOR2> sizes;
+				float fullHeight = 0;
+				Styles* stylec = style->Copy();
+				for (size_t m = 0; m < wrapsTable.GetCount(); m++) {
+					D3DXVECTOR2 size;
+					wxString wrapText = wrapsTable[m];
+					wrapText.Trim();
+					if (!dialc->GetTaggedTextExtents(stylec, wrapText, &size.x, &size.y, nullptr, nullptr, false)) {
+						KaiLogSilent(L"Could not get split text extents of \'" + wrapText + "\'");
+					}
+					sizes.push_back(size);
+					fullHeight += size.y;
+				}
+				delete stylec;
+				stylec = style->Copy();
 				for (size_t k = 0; k < wrapsTable.GetCount(); k++) {
 
 					wxArrayString splitTable;
-					wxString wrapText;
+					//wxString wrapText;
 					const wxString& wrapTextFull = wrapsTable[k];
-					dialc->GetTextStripped(&wrapText, wrapTextFull);
-					ParseData* tagsData = dialc->ParseTags(tags, 9, false, wrapTextFull);
-					if (k > 0) {
+					//dialc->GetTextStripped(&wrapText, wrapTextFull);
+					//ParseData* tagsData = dialc->ParseTags(tags, 9, false, wrapTextFull);
+					/*if (k > 0) {
 						wxString wrapTagsBlock;
 						dialc->GetFirstTagsBlock(&wrapTagsBlock, wrapTextFull);
 						dialc->MergeTagBlocks(&firstTagsBlock, wrapTagsBlock);
 						TFR.FindTag(L"an([0-9]*)", firstTagsBlock, 0);
 						TFR.Replace(L"\\an" + std::to_wstring(an), &firstTagsBlock);
-					}
-					style->SetStyleFromParseData(tagsData);
-					dialc->ClearParse();
-					wrapText.Trim();
+					}*/
+					//stylec->SetStyleFromParseData(tagsData);
+					//dialc->ClearParse();
+					
 					float x = posx;
-					float w = 0, h = 0;
-					if (!GetLineTextExtents(wrapText, style, &w, &h)) {
-						KaiLogSilent(L"Could not get split text extents of \'" + wrapText + "\'");
-					}
+					float w = sizes[k].x, h = sizes[k].y;
+					
 
 
 					if (id == GRID_SPLIT_BY_CHARS)
@@ -1587,24 +1600,27 @@ void SubsGrid::Split(int id)
 						if (!wraps)
 							continue;
 
-						int hoffset = wraps * h;
 						if (an < 4) {
-							y -= (h + hoffset);
+							y -= (fullHeight);
 						}
 						else if (an < 7) {
-							y -= ((h + hoffset) / 2);
+							y -= ((fullHeight) / 2);
 						}
 					}
 					
 					bool hasWrap = id == GRID_SPLIT_BY_WRAPS;
 					for (size_t j = 0; j < splitTable.GetCount(); j++) {
 						wxString txt;
-						dialc->GetTextStripped(&txt, splitTable[j]);
+						wxString wrapTagsBlock;
+						dialc->GetTextStripped(&txt, splitTable[j], true);
+						dialc->GetFirstTagsBlock(&wrapTagsBlock, splitTable[j]);
+						if(!wrapTagsBlock.empty())
+							dialc->MergeTagBlocks(&firstTagsBlock, wrapTagsBlock);
 						if (j == 0) {
 							hasWrap = true;
 						}
-						if (!GetLineTextExtents(txt, style, &w, &h)) {
-							KaiLogSilent(L"Could not get split text extents of \'" + txt + "\'");
+						if (!dialc->GetTaggedTextExtents(stylec, splitTable[j], &w, &h, nullptr, nullptr, false)) {
+							KaiLogSilent(L"Could not get split text extents of \'" + splitTable[j] + "\'");
 						}
 						txt.Trim();
 
@@ -1660,7 +1676,7 @@ void SubsGrid::Split(int id)
 						}
 					}
 				}
-				delete style;
+				delete stylec;
 				break;
 			}
 			default:

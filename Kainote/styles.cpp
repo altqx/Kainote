@@ -193,9 +193,9 @@ double Styles::GetScaleYDouble()
 void Styles::SetStyleFromParseData(ParseData* data, size_t from, size_t to)
 {
 	if (to == -1)
-		to = data->tags.size();
+		to = data->tags.size() - 1;
 
-	for (size_t i = from; i < to; i++) {
+	for (size_t i = from; i <= to; i++) {
 		if (i >= data->tags.size())
 			break;
 		TagData* tagData = data->tags[i];
