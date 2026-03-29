@@ -85,7 +85,7 @@ public:
 	bool MoveRows(int step, bool keyStep = false);
 	void SetStartTime(int stime);
 	void SetEndTime(int etime);
-	bool SetTlMode(bool mode);
+	bool SetTlMode(bool turnOn, bool dontShowDialog = false);
 	void LoadDefault(bool line = true, bool sav = true, bool endload = true);
 	void GetASSRes(int *x, int *y);
 	void GetLayoutRes(int* x, int* y);

@@ -540,11 +540,32 @@ void SubsGrid::OnPaste(int id)
 	wxStringTokenizer wpaste(whatpaste, L"\n\r", wxTOKEN_STRTOK);
 	int cttkns = wpaste.CountTokens();
 	int rws = (id == GRID_PASTE_COLUMNS) ? 0 : row;
+	char treeState = 0;
+	char isVisible = VISIBLE;
+	if (id == GRID_PASTE) {
+		char treeAfter = 0;
+		char treeBefore = 0;
+		char visibleAfter = VISIBLE;
+		char visibleBefore = VISIBLE;
+		Dialogue* diala = GetDialogue(row);
+		if (diala) {
+			treeAfter = diala->treeState;
+			visibleAfter = diala->isVisible;
+		}
+		Dialogue* dialb = GetDialogue(row - 1);
+		if (dialb) {
+			treeBefore = dialb->treeState;
+			visibleBefore = isVisible;
+		}
+		treeState = treeAfter > TREE_DESCRIPTION ? treeAfter :
+			treeBefore > TREE_DESCRIPTION ? treeBefore : 0;
+		isVisible = visibleAfter != VISIBLE ? visibleAfter :
+			visibleBefore != VISIBLE ? visibleBefore : VISIBLE;
+	}
 	std::vector<Dialogue*> tmpdial;
 	wxString token;
 	wxString tmptoken;
 	int startline = rws;
-	bool hasTree = false;
 	while (wpaste.HasMoreTokens())
 	{
 		Dialogue *newdial = nullptr;
@@ -568,15 +589,8 @@ void SubsGrid::OnPaste(int id)
 		if (newdial->Format != subsFormat){ newdial->Convert(subsFormat); }
 		if (newdial->NonDialogue){ newdial->NonDialogue = false; newdial->IsComment = false; }
 		if (id == GRID_PASTE){
-			if (newdial->treeState == TREE_DESCRIPTION)
-				hasTree = true;
-			else if (!hasTree && newdial->treeState > TREE_DESCRIPTION){
-				newdial->treeState = 0;
-				newdial->isVisible = VISIBLE;
-			}
-			else if (hasTree)
-				hasTree = true;
-
+			newdial->treeState = treeState;
+			newdial->isVisible = isVisible;
 			tmpdial.push_back(newdial);
 		}
 		else{

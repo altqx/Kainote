@@ -1302,7 +1302,7 @@ void SubsGridBase::SetEndTime(int etime)
 	}
 }
 
-bool SubsGridBase::SetTlMode(bool mode)
+bool SubsGridBase::SetTlMode(bool mode, bool dontShowDialog/* = false*/)
 {
 	if (mode){
 		if (GetSInfo(L"TLMode") == emptyString){
@@ -1327,7 +1327,7 @@ bool SubsGridBase::SetTlMode(bool mode)
 
 	}
 	else{
-		if (KaiMessageBox(_("Czy na pewno chcesz wyłączyć tryb tłumacza?\nObcojęzyczny tekst przetłumaczonych linijek zostanie usunięty."), 
+		if (!dontShowDialog && KaiMessageBox(_("Czy na pewno chcesz wyłączyć tryb tłumacza?\nObcojęzyczny tekst przetłumaczonych linijek zostanie usunięty."),
 			_("Potwierdzenie"), wxYES_NO, nullptr, wxDefaultPosition, wxNO) == wxNO){
 			return true;
 		}

@@ -643,9 +643,9 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 		SaveAll();
 	}
 	else if (id == GLOBAL_SAVE_TRANSLATION){
-		GetTab()->grid->AddSInfo(L"TLMode", L"Translated", false);
-		Save(true, -1, false);
-		GetTab()->grid->AddSInfo(L"TLMode", L"Yes", false);
+		GetTab()->grid->SetTlMode(false, true);
+		GetTab()->edit->SetTlMode(false);
+		Save(true, -1, true);
 	}
 	else if (id == GLOBAL_REMOVE_SUBS){
 		if (SavePrompt(3)){ event.SetInt(-1); return; }
@@ -2528,7 +2528,7 @@ void KainoteFrame::OnRunScript(wxCommandEvent& event)
 		script = Auto->ASSScripts[Auto->ASSScripts.size() - 1];
 	}
 	else{
-		if (script->CheckLastModified(true)){ script->Reload(); }
+		if (script->CheckLastModified(true) || !script->GetLoadedState()){ script->Reload(); }
 	}
 	auto macro = script->GetMacro(wmacro);
 	if (macro){
