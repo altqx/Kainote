@@ -344,7 +344,7 @@ namespace Auto{
 				GETINT(margt, "margin_t", "dialogue")
 				GETSTRING(Effect, "effect", "dialogue")
 				GETSTRING(Text, "text", "dialogue")
-
+				
 			bool IsTranslation = false;
 			lua_getfield(L, -1, "is_translation");
 			if (lua_isboolean(L, -1)) {
@@ -869,7 +869,7 @@ namespace Auto{
 
 		int start = int(lua_tonumber(L, 1) - 1);
 
-		if (start<0 || start>(int)(Subs->sinfo.size() + Subs->styles.size() + Subs->dialogues.size()))
+		if (start < 0 || start > (int)(Subs->sinfo.size() + Subs->styles.size() + Subs->dialogues.size()))
 		{
 			lua_pushstring(L, "Out of range line index");
 			lua_error(L);
@@ -909,7 +909,37 @@ namespace Auto{
 				if (newStart < 0) { newStart = 0; }
 				Dialogue *dial = e->adial->Copy(false, newStart >= dialsize);
 				if (newStart >= dialsize){ Subs->dialogues.push_back(dial); }
-				else{ Subs->dialogues.insert(Subs->dialogues.begin() + newStart, dial); }
+				else{
+					//set treeState and isVisible
+					char treeState = 0;
+					char isVisible = VISIBLE;
+
+					char treeAfter = 0;
+					char treeBefore = 0;
+					char visibleAfter = VISIBLE;
+					char visibleBefore = VISIBLE;
+					Dialogue* diala = Subs->dialogues[newStart];
+					treeAfter = diala->treeState;
+					visibleAfter = diala->isVisible;
+					Dialogue* dialb = nullptr;
+					if (newStart > 0) {
+						dialb = Subs->dialogues[newStart - 1];
+						treeBefore = dialb->treeState;
+						visibleBefore = dialb->isVisible;
+					}
+					
+					treeState = (treeBefore > TREE_DESCRIPTION && treeAfter > TREE_DESCRIPTION) ? treeBefore :
+						treeAfter > TREE_DESCRIPTION ? treeAfter : 0;
+					isVisible = visibleAfter != VISIBLE ? visibleAfter :
+						visibleBefore != VISIBLE ? visibleBefore : VISIBLE;
+
+					if (treeState)
+						dial->treeState = treeState;
+					if (isVisible != VISIBLE)
+						dial->isVisible = isVisible;
+
+					Subs->dialogues.insert(Subs->dialogues.begin() + newStart, dial); 
+				}
 				Subs->deleteDialogues.push_back(dial);
 			}
 			else{

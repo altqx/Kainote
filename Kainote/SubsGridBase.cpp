@@ -1538,12 +1538,12 @@ wxString *SubsGridBase::GetVisible(bool *visible, wxPoint *point, wxArrayInt *se
 	for (size_t i = 0; i < GetCount(); i++)
 	{
 		Dialogue *dial = GetDialogue(i);
-		if (!ignoreFiltered && !dial->isVisible || dial->NonDialogue){ continue; }
+		if (dial->NonDialogue){ continue; }
 		if (i == currentLine){
 			dial = edit->line;
 		}
 		if (selected && IsSelected(i)){
-			selected->Add(txt->length());
+			selected->Add(txt->Len());
 			continue;
 		}
 		
@@ -1577,7 +1577,7 @@ wxString *SubsGridBase::GetVisible(bool *visible, wxPoint *point, wxArrayInt *se
 				if (!len) {
 					dial->GetRaw(txt);
 				}
-				int all = txt->length();
+				int all = txt->Len();
 				point->x = all - 2;
 				point->y = len;
 				point->x -= len;

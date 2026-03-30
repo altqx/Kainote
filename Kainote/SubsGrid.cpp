@@ -557,8 +557,8 @@ void SubsGrid::OnPaste(int id)
 			treeBefore = dialb->treeState;
 			visibleBefore = isVisible;
 		}
-		treeState = treeAfter > TREE_DESCRIPTION ? treeAfter :
-			treeBefore > TREE_DESCRIPTION ? treeBefore : 0;
+		treeState = (treeBefore > TREE_DESCRIPTION && treeAfter > TREE_DESCRIPTION) ? treeBefore :
+			treeAfter > TREE_DESCRIPTION ? treeAfter : 0;
 		isVisible = visibleAfter != VISIBLE ? visibleAfter :
 			visibleBefore != VISIBLE ? visibleBefore : VISIBLE;
 	}
@@ -589,8 +589,10 @@ void SubsGrid::OnPaste(int id)
 		if (newdial->Format != subsFormat){ newdial->Convert(subsFormat); }
 		if (newdial->NonDialogue){ newdial->NonDialogue = false; newdial->IsComment = false; }
 		if (id == GRID_PASTE){
-			newdial->treeState = treeState;
-			newdial->isVisible = isVisible;
+			if(treeState)
+				newdial->treeState = treeState;
+			if(isVisible != VISIBLE)
+				newdial->isVisible = isVisible;
 			tmpdial.push_back(newdial);
 		}
 		else{
