@@ -23,6 +23,7 @@
 #include "SubsGrid.h"
 #include "VideoBox.h"
 #include "EditBox.h"
+#include "UtilsWindows.h"
 #include <wx/regex.h>
 
 enum {
@@ -41,7 +42,6 @@ PosData::PosData(int _numpos, D3DXVECTOR2 _pos, wxPoint _TextPos, bool _putinBra
 	TextPos = _TextPos;
 	if (_moveTable) {
 		moveTable = new double[5];
-		//memcpy(moveTable, _moveTable, 5);
 		moveTable[0] = _moveTable[0];
 		moveTable[1] = _moveTable[1];
 		moveTable[2] = _moveTable[2];
@@ -700,22 +700,6 @@ void Position::GetPositioningData()
 	else if (curLineAlingment <= 9) {
 		curLinePosition.y -= textSize.y;
 	}
-}
-
-void Position::CalcMovePosition(D3DXVECTOR2* point, double* moveTable, int time)
-{
-	float tmpt = time - moveTable[2];
-	float tmpt1 = moveTable[3] - moveTable[2];
-	float actime = tmpt / tmpt1;
-	float distx, disty;
-	if (time < moveTable[2]) { distx = point->x, disty = point->y; }
-	else if (time > moveTable[3]) { distx = moveTable[0], disty = moveTable[1]; }
-	else {
-		distx = point->x - ((point->x - moveTable[0]) * actime);
-		disty = point->y - ((point->y - moveTable[1]) * actime);
-	}
-	point->x = distx;
-	point->y = disty;
 }
 
 void Position::SetMovePosition(PosData* data)

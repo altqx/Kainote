@@ -1196,25 +1196,6 @@ size_t FindFromEnd(const wxString& text, const wxString& whatToFind, bool ignore
 	return -1;
 }
 
-bool GetTwoValueFloat(const wxString & valuetext, float* retval, float* retval2)
-{
-	wxString valtext = valuetext;
-	bool bracketS = valtext.StartsWith(L"(");
-	bool bracketE = valtext.EndsWith(L")");
-	if (bracketS || bracketE) {
-		valtext = valtext.Mid(bracketS ? 1 : 0, bracketE ? valtext.length() - 2 : -1);
-	}
-	wxString sval;
-	wxString fval = valtext.BeforeFirst(L',', &sval);
-	double firstVal, secondVal;
-	if (fval.ToCDouble(&firstVal) && sval.ToCDouble(&secondVal)) {
-		*retval = firstVal;
-		*retval2 = secondVal;
-		return true;
-	}
-	return false;
-}
-
 DEFINE_ENUM(CONFIG, CFG);
 
 DEFINE_ENUM(COLOR, CLR);

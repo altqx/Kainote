@@ -1493,7 +1493,8 @@ void SubsGrid::Split(int id)
 	else {
 		wxSize subsSize;
 		GetASSRes(&subsSize.x, &subsSize.y);
-		wxString tags[] = { L"pos", L"an", L"fscx", L"fscy", L"fsp", L"fs", L"fn", L"b", L"i" };
+		wxString tags[] = { L"pos", L"move", L"an", L"fscx", L"fscy", L"fsp", L"fs", L"fn", L"b", L"i" };
+		wxString tags2[] = { L"move", L"t"};
 		TagFindReplace TFR;
 		for (size_t i = selections.GetCount(); i > 0; i--) {
 			size_t g = selections[i - 1];
@@ -1505,14 +1506,39 @@ void SubsGrid::Split(int id)
 				if (tab->video->HasFFMS2()) {
 					int frameStart = tab->video->GetFFMS2()->GetFramefromMS(dialc->Start.mstime);
 					int frameEnd = tab->video->GetFFMS2()->GetFramefromMS(dialc->End.mstime);
+					ParseData* tagsData = dialc->ParseTags(tags2, 2, false);
+					wxString retval;
+					float moveTable[6];
+					bool hasMove = false;
+					if (dialc->FindTag(L"move", &retval)) {
+						if (GetMultiValueFloat(retval, moveTable, 6)) {
+							hasMove = true;
+							if (!moveTable[4] && !moveTable[5]) {
+								moveTable[4] = dialc->Start.mstime;
+								moveTable[5] = dialc->End.mstime;
+							}
+							else {
+								moveTable[4] += dialc->Start.mstime;
+								moveTable[5] += dialc->Start.mstime;
+							}
+						}
+					}
 				
-					for (int j = frameStart; j <= frameEnd; j++) {
+					for (int j = frameStart; j < frameEnd; j++) {
 						int lineStart = tab->video->GetFrameTimeFromFrame(j);
 						int lineEnd = tab->video->GetFrameTimeFromFrame(j, false);
 						if (j != frameStart) {
 							dialc = dialc->Copy();
 							g++;
 							InsertRows(g, 1, dialc);
+						}
+						if (hasMove) {
+							int frameTime = tab->video->GetFFMS2()->GetMSfromFrame(j);
+							D3DXVECTOR2 point(moveTable[0], moveTable[1]);
+							double points[4] = { moveTable[2], moveTable[3], moveTable[4], moveTable[5] };
+							CalcMovePosition(&point, points, frameTime);
+							TFR.FindTag(L"move|pos\\((.+)\\)", dialc->GetTextNoCopy(), 0);
+							TFR.Replace(L"\\pos(" + getfloat(point.x) + L"," + getfloat(point.y) + L")", &dialc->GetText());
 						}
 						dialc->Start.NewTime(ZEROIT(lineStart));
 						dialc->End.NewTime(ZEROIT(lineEnd));
@@ -1533,11 +1559,9 @@ void SubsGrid::Split(int id)
 				dialc->GetFirstTagsBlock(&firstTagsBlock);
 				
 				Styles* style = GetStyle(0, dialc->Style);
-				
-				//style->SetStyleFromParseData(tagsData);
 				wxString posval;
 				int an = 0;
-				ParseData* tagsData = dialc->ParseTags(tags, 9, false);
+				ParseData* tagsData = dialc->ParseTags(tags, 10, false);
 				if (dialc->FindTag(L"an", &posval)) {
 					an = wxAtoi(posval);
 				}
@@ -1545,7 +1569,19 @@ void SubsGrid::Split(int id)
 					an = wxAtoi(style->Alignment);
 				}
 				float posx = 0, posy = 0;
-				if (dialc->FindTag(L"pos", &posval)) {
+				bool hasMove = false;
+				float distx = 0, disty = 0;
+				wxString times;
+				if (dialc->FindTag(L"move", &posval)) {
+					float values[4];
+					GetMultiValueFloat(posval, values, 4, &times);
+					posx = values[0];
+					posy = values[1];
+					distx = values[2] - posx;
+					disty = values[3] - posy;
+					hasMove = true;
+				}
+				else if (dialc->FindTag(L"pos", &posval)) {
 					GetTwoValueFloat(posval, &posx, &posy);
 				}
 				else {
@@ -1576,25 +1612,11 @@ void SubsGrid::Split(int id)
 				for (size_t k = 0; k < wrapsTable.GetCount(); k++) {
 
 					wxArrayString splitTable;
-					//wxString wrapText;
 					const wxString& wrapTextFull = wrapsTable[k];
-					//dialc->GetTextStripped(&wrapText, wrapTextFull);
-					//ParseData* tagsData = dialc->ParseTags(tags, 9, false, wrapTextFull);
-					/*if (k > 0) {
-						wxString wrapTagsBlock;
-						dialc->GetFirstTagsBlock(&wrapTagsBlock, wrapTextFull);
-						dialc->MergeTagBlocks(&firstTagsBlock, wrapTagsBlock);
-						TFR.FindTag(L"an([0-9]*)", firstTagsBlock, 0);
-						TFR.Replace(L"\\an" + std::to_wstring(an), &firstTagsBlock);
-					}*/
-					//stylec->SetStyleFromParseData(tagsData);
-					//dialc->ClearParse();
 					
 					float x = posx;
 					float w = sizes[k].x, h = sizes[k].y;
 					
-
-
 					if (id == GRID_SPLIT_BY_CHARS)
 						dialc->SplitByChar(&splitTable, true, wrapTextFull);
 					else if (id == GRID_SPLIT_BY_WORDS)
@@ -1617,22 +1639,23 @@ void SubsGrid::Split(int id)
 							continue;
 
 						if (an < 4) {
-							y -= (fullHeight);
+							y -= (fullHeight - h);
 						}
 						else if (an < 7) {
-							y -= ((fullHeight) / 2);
+							y -= ((fullHeight - h) / 2);
 						}
 					}
 					
-					bool hasWrap = id == GRID_SPLIT_BY_WRAPS;
+					bool hasWrap = false;//id == GRID_SPLIT_BY_WRAPS;
 					for (size_t j = 0; j < splitTable.GetCount(); j++) {
 						wxString txt;
 						wxString wrapTagsBlock;
 						dialc->GetTextStripped(&txt, splitTable[j], true);
-						dialc->GetFirstTagsBlock(&wrapTagsBlock, splitTable[j]);
-						if(!wrapTagsBlock.empty())
+						if (k > 0) {
+							dialc->GetFirstTagsBlock(&wrapTagsBlock, splitTable[j]);
 							dialc->MergeTagBlocks(&firstTagsBlock, wrapTagsBlock);
-						if (j == 0) {
+						}
+						if (j == 0 && k > 0) {
 							hasWrap = true;
 						}
 						if (!dialc->GetTaggedTextExtents(stylec, splitTable[j], &w, &h, nullptr, nullptr, false)) {
@@ -1641,12 +1664,9 @@ void SubsGrid::Split(int id)
 						txt.Trim();
 
 						if (hasWrap) {
-							if (an < 4) {
-								y += h;
-							}
-							else if (an < 7) {
-								y += (h / 2);
-							}
+							y += h;
+							if (!splitByWraps)
+								hasWrap = false;
 						}
 
 						if (!splitByWraps) {
@@ -1666,21 +1686,16 @@ void SubsGrid::Split(int id)
 								g++;
 								InsertRows(g, 1, dialc);
 							}
-						
-							TFR.FindTag(L"pos\\((.+)\\)", firstTagsBlock, 0);
-							TFR.Replace(L"\\pos(" + getfloat(x) + L"," + getfloat(y) + L")", &firstTagsBlock);
-							dialc->SetText(firstTagsBlock + txt);
-						}
-						if (hasWrap) {
-							if (an < 4) {}
-							else if (an < 7) {
-								y += (h / 2);
+							if (hasMove) {
+								TFR.FindTag(L"move\\((.+)\\)", firstTagsBlock, 0);
+								TFR.Replace(L"\\move(" + getfloat(x) + L"," + getfloat(y) + L"," + 
+									getfloat(x + distx) + L"," + getfloat(y + disty) + L"," + times + L")", &firstTagsBlock);
 							}
 							else {
-								y += h;
+								TFR.FindTag(L"pos\\((.+)\\)", firstTagsBlock, 0);
+								TFR.Replace(L"\\pos(" + getfloat(x) + L"," + getfloat(y) + L")", &firstTagsBlock);
 							}
-							if (!splitByWraps)
-								hasWrap = false;
+							dialc->SetText(firstTagsBlock + txt);
 						}
 						if (!splitByWraps) {
 							if (an % 3 == 2) {

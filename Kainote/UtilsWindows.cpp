@@ -218,6 +218,22 @@ bool GetLineTextExtents(const wxString& text, Styles* style, float* width, float
 	return true;
 }
 
+void CalcMovePosition(D3DXVECTOR2* point, double* moveTable, int time)
+{
+	float tmpt = time - moveTable[2];
+	float tmpt1 = moveTable[3] - moveTable[2];
+	float actime = tmpt / tmpt1;
+	float distx, disty;
+	if (time < moveTable[2]) { distx = point->x, disty = point->y; }
+	else if (time > moveTable[3]) { distx = moveTable[0], disty = moveTable[1]; }
+	else {
+		distx = point->x - ((point->x - moveTable[0]) * actime);
+		disty = point->y - ((point->y - moveTable[1]) * actime);
+	}
+	point->x = distx;
+	point->y = disty;
+}
+
 
 #ifdef _M_IX86
 

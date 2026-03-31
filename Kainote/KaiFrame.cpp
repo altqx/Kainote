@@ -292,11 +292,13 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 	}
 
 	if (uMsg == WM_MOVE) {
-		int x = (int)(short)LOWORD(lParam);
-		int y = (int)(short)HIWORD(lParam);
-		
-		Options.GetCoords(WINDOW_POSITION, &lastPosition.x, &lastPosition.y);
-		Options.SetCoords(WINDOW_POSITION, x, y);
+		if (!IsIconized()) {
+			int x = (int)(short)LOWORD(lParam);
+			int y = (int)(short)HIWORD(lParam);
+
+			Options.GetCoords(WINDOW_POSITION, &lastPosition.x, &lastPosition.y);
+			Options.SetCoords(WINDOW_POSITION, x, y);
+		}
 	}
 
 	if (uMsg == WM_SIZE)
@@ -317,9 +319,10 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		//Cannot use update here cause window blinking even when video is paused
 		//and there is some trash on left top border
 		//Update();
-		
-		Options.GetCoords(WINDOW_SIZE, &lastSize.x, &lastSize.y);
-		Options.SetCoords(WINDOW_SIZE, w, h);
+		if (!IsIconized()) {
+			Options.GetCoords(WINDOW_SIZE, &lastSize.x, &lastSize.y);
+			Options.SetCoords(WINDOW_SIZE, w, h);
+		}
 	}
 	if (uMsg == WM_ERASEBKGND){
 		return 0;

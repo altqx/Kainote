@@ -19,6 +19,7 @@
 #include <wx/tokenzr.h>
 #include <wx/regex.h>
 #include <wx/log.h>
+#include <wx/tokenzr.h>
 #include <map>
 #include <iostream>
 #include <boost/locale/boundary/index.hpp>
@@ -313,7 +314,11 @@ void Dialogue::MergeTagBlocks(wxString* output, const wxString& blockToMerge)
 		if (re.Matches(*output)) {
 			size_t start, len;
 			if (re.GetMatch(&start, &len)) {
-				output->replace(start, len, L"\\" + curToken);
+				wxString tagvalue = output->substr(start, len);
+				wxString foundTag;
+				GetTagName(tagvalue, &foundTag);
+				if(tag == foundTag)
+					output->replace(start, len, L"\\" + curToken);
 			}
 		}
 		else {
@@ -1196,4 +1201,59 @@ void Dialogue::ChangeTimes(int start, int end)
 			break;
 		}
 	}
+}
+
+bool GetTwoValueFloat(const wxString& valuetext, float* retval, float* retval2)
+{
+	wxString valtext = valuetext;
+	bool bracketS = valtext.StartsWith(L"(");
+	bool bracketE = valtext.EndsWith(L")");
+	if (bracketS || bracketE) {
+		valtext = valtext.Mid(bracketS ? 1 : 0, bracketE ? valtext.length() - 2 : -1);
+	}
+	wxString sval;
+	wxString fval = valtext.BeforeFirst(L',', &sval);
+	double firstVal, secondVal;
+	if (fval.ToCDouble(&firstVal) && sval.ToCDouble(&secondVal)) {
+		*retval = firstVal;
+		*retval2 = secondVal;
+		return true;
+	}
+	return false;
+}
+
+bool GetMultiValueFloat(const wxString& valuetext, float* returnValuesTable, int sizeOfReturnTable, wxString* rest)
+{
+	if(!sizeOfReturnTable)
+		return false;
+
+	wxString valtext = valuetext;
+	bool bracketS = valtext.StartsWith(L"(");
+	bool bracketE = valtext.EndsWith(L")");
+	if (bracketS || bracketE) {
+		valtext = valtext.Mid(bracketS ? 1 : 0, bracketE ? valtext.length() - 2 : -1);
+	}
+	wxStringTokenizer tokenzr(valtext, L",", wxTOKEN_STRTOK);
+	int counter = 0;
+	while (tokenzr.HasMoreTokens()) {
+		if (counter < sizeOfReturnTable) {
+			double retval = 0;
+			tokenzr.GetNextToken().ToCDouble(&retval);
+			returnValuesTable[counter] = retval;
+		}
+		else {
+			if (rest && tokenzr.HasMoreTokens()) {
+				size_t pos = tokenzr.GetPosition();
+				*rest = valtext.substr(pos);
+			}
+			break;
+		}
+		counter++;
+	}
+	if (counter < sizeOfReturnTable - 1) {
+		for (int i = counter; i < sizeOfReturnTable; i++) {
+			returnValuesTable[counter] = 0.f;
+		}
+	}
+	return true;
 }

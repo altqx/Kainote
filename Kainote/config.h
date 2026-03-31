@@ -31,11 +31,6 @@
 #include <vector>
 #include <algorithm>
 
-#
-
-
-
-
 const wxString emptyString;
 
 //Dont change enumeration config and colors from 1 to last, zero for non exist trash
@@ -578,11 +573,11 @@ wxImage CreateImageFromPngResource(const wxString& t_name);
 #define PTR_BITMAP_PNG(x) CreateBitmapPointerFromPngResource(x)
 void MoveToMousePosition(wxWindow* win);
 wxString MakePolishPlural(int num, const wxString& normal, const wxString& plural24, const wxString& pluralRest);
-bool GetTwoValueFloat(const wxString& valtext, float* retval, float* retval2);
 
 bool IsNumber(const wxString& txt);
 void DrawDashedLine(wxDC* dc, wxPoint* vector, size_t vectorSize, int dashLen, const wxColour& color);
 size_t FindFromEnd(const wxString& text, const wxString& whatToFind, bool ignoreCase = false);
+
 
 extern config Options;
 

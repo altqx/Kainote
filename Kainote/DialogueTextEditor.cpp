@@ -500,6 +500,7 @@ void TextEditor::OnKeyPress(wxKeyEvent& event)
 	bool ctrl = event.ControlDown();
 	bool alt = event.AltDown();
 	bool shift = event.ShiftDown();
+	
 	if (ctrl && key == L'0'){
 		font.SetPointSize(10);
 		int fw, fh;
@@ -520,7 +521,8 @@ void TextEditor::OnKeyPress(wxKeyEvent& event)
 			selectionWords.clear();
 		MakeCursorVisible();
 	}
-	if (key == WXK_PAGEDOWN || key == WXK_PAGEUP || key == WXK_INSERT){
+	if (key == WXK_PAGEDOWN || key == WXK_PAGEUP || key == WXK_INSERT || 
+		(shift && key == WXK_NUMPAD_ENTER)){
 		return;
 	}
 	if (tagList){

@@ -337,3 +337,6 @@ public:
 	~Dialogue();
 };
 
+bool GetTwoValueFloat(const wxString& valtext, float* retval, float* retval2);
+bool GetMultiValueFloat(const wxString& valtext, float* returnValuesTable, 
+	int sizeOfReturnTable, wxString *rest = nullptr);

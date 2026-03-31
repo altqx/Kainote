@@ -17,8 +17,10 @@
 #include <vector>
 #include <wx\window.h>
 #include "Styles.h"
-#undef GetClientRect
+//#undef GetClientRect
 #include <windows.h>
+#include <d3dx9math.h>
+#include <wx\msw\winundef.h>
 
 
 struct tagRECT;
@@ -30,7 +32,7 @@ bool IsMonitorRect(std::vector<tagRECT>* MonitorRects, const wxRect& rect);
 //put rect with seeking size
 bool GetMonitorWithSize(std::vector<tagRECT>* MonitorRects, wxRect *monrect);
 bool GetLineTextExtents(const wxString& text, Styles* style, float* width, float* height, float* descent = nullptr, float* extlead = nullptr);
-
+void CalcMovePosition(D3DXVECTOR2* point, double* moveTable, int time);
 #ifdef _M_IX86
 void SetThreadName(DWORD id, LPCSTR szThreadName);
 #else
