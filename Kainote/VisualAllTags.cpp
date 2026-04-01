@@ -515,7 +515,7 @@ void AllTags::ChangeVisual(wxString* txt, Dialogue *dial, size_t numOfSelections
 		Replace(L"\\" + actualTag.tag + strValue, txt);
 		if (mode == GRADIENT_LINE_INCREASE)
 			multiplyCounter += (1.f / (numOfSelections - 1));
-		if (mode == GRADIENT_LINE_DECREASE)
+		else if (mode == GRADIENT_LINE_DECREASE)
 			multiplyCounter -= (1.f / (numOfSelections - 1));
 		else if (mode >= MULTIPLY)
 			multiplyCounter++;
