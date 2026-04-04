@@ -317,7 +317,8 @@ void Dialogue::MergeTagBlocks(wxString* output, const wxString& blockToMerge)
 				wxString tagvalue = output->substr(start, len);
 				wxString foundTag;
 				GetTagName(tagvalue, &foundTag);
-				if(tag == foundTag)
+				wxString slashTag = L"\\" + tag;
+				if(slashTag == foundTag)
 					output->replace(start, len, L"\\" + curToken);
 			}
 		}
@@ -331,6 +332,9 @@ void Dialogue::GetTagName(const wxString& tagWithValue, wxString* name)
 {
 	if (tagWithValue.StartsWith(L"fn")) {
 		*name = L"fn";
+	}
+	else if (tagWithValue.StartsWith(L"\\fn")) {
+		*name = L"\\fn";
 	}
 	else {
 		size_t len = tagWithValue.Len();

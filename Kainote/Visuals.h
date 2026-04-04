@@ -236,7 +236,6 @@ private:
 	void SavePosition();
 	D3DXVECTOR2 PositionToVideo(D3DXVECTOR2 point, bool changeX = true, bool changeY = true);
 	void GetPositioningData();
-	void CalcMovePosition(D3DXVECTOR2 *point, double *moveTable, int time);
 	void SetMovePosition(PosData* data);
 	void ClearData();
 	std::vector<PosData *> data;

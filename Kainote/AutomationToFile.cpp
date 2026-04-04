@@ -931,7 +931,7 @@ namespace Auto{
 					treeState = (treeBefore > TREE_DESCRIPTION && treeAfter > TREE_DESCRIPTION) ? treeBefore :
 						treeAfter > TREE_DESCRIPTION ? treeAfter : 0;
 					isVisible = visibleAfter != VISIBLE ? visibleAfter :
-						visibleBefore != VISIBLE ? visibleBefore : VISIBLE;
+						visibleBefore != VISIBLE && visibleAfter != VISIBLE ? visibleBefore : VISIBLE;
 
 					if (treeState)
 						dial->treeState = treeState;
