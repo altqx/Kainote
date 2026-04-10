@@ -304,10 +304,7 @@ bool AudioDisplay::InitDX(const wxSize &size)
 	HR(D3DXCreateFontW(d3dDevice, sizeTahoma13.y, sizeTahoma13.x, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma"), &d3dFontTahoma13), _("Nie można stworzyć czcionki D3DX"));
 	HR(D3DXCreateFontW(d3dDevice, sizeTahoma8.y, sizeTahoma8.x, FW_NORMAL, 0, FALSE, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma"), &d3dFontTahoma8), _("Nie można stworzyć czcionki D3DX"));
 	HR(D3DXCreateFontW(d3dDevice, sizeVerdana11.y, sizeVerdana11.x, FW_BOLD, 0, FALSE, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Verdana"), &d3dFontVerdana11), _("Nie można stworzyć czcionki D3DX"));
-	//HR(d3dLine->SetAntialias(TRUE), _("Linia nie ustawi AA"));
 	HR(d3dDevice->CreateOffscreenPlainSurface(size.x, size.y, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &spectrumSurface, 0), _("Nie można stworzyć plain surface"));
-	//HR(d3dDevice->CreateTexture(size.x, size.y, 1, D3DUSAGE_RENDERTARGET,
-	//D3DFMT_R8G8B8,D3DPOOL_DEFAULT,&texture, nullptr), "Nie można utworzyć tekstury" );
 	HR(d3dDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE), L"FVF failed");
 
 	return true;
@@ -392,6 +389,7 @@ void AudioDisplay::DoUpdateImage(bool weak) {
 		drawSelStart = lineStart;
 		drawSelEnd = lineEnd;
 
+		// Draw spectrum
 		if (spectrum) {
 			DrawSpectrum(weak);
 		}
@@ -412,9 +410,7 @@ void AudioDisplay::DoUpdateImage(bool weak) {
 
 		HRN(d3dLine->SetWidth(1.0f), L"line set width failed");
 
-		// Draw spectrum
-
-
+		
 		if (!spectrum){
 			//// Waveform
 			if (provider) {

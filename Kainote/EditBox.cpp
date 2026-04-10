@@ -559,12 +559,12 @@ void EditBox::Send(unsigned char editionType, bool gotoNextLine, bool dummy, boo
 		LayerEdit->SetModified(dummy);
 	}
 
-	if (StartEdit->IsModified() || StartEdit->HasFocus()){
+	if (StartEdit->IsModified()/* || StartEdit->HasFocus()*/){
 		line->Start = StartEdit->GetTime(1);
 		cellm |= START;
 		StartEdit->SetModified(dummy);
 	}
-	if (EndEdit->IsModified() || EndEdit->HasFocus()){
+	if (EndEdit->IsModified()/* || EndEdit->HasFocus()*/){
 		line->End = EndEdit->GetTime(2);
 		cellm |= END;
 		EndEdit->SetModified(dummy);
