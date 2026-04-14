@@ -115,21 +115,23 @@ AutomationHotkeysDialog::AutomationHotkeysDialog(wxWindow *parent, Auto::Automat
 			hotkeysList->SetItem(pos, 2, new AutomationHotkeyItem(accel, scriptHotkeyName, id));
 		}
 	}
-	hotkeysList->AppendItem(new ItemText(_("Z napisów")));
-	for (int i = 0; i < automation->ASSScripts.size(); i++){
-		Auto::LuaScript * script = automation->ASSScripts[i];
-		auto macros = script->GetMacros();
+	if (automation->ASSScripts.size()) {
+		hotkeysList->AppendItem(new ItemText(_("Z napisów")));
+		for (int i = 0; i < automation->ASSScripts.size(); i++) {
+			Auto::LuaScript* script = automation->ASSScripts[i];
+			auto macros = script->GetMacros();
 
-		for (int k = 0; k < macros.size(); k++){
-			auto macro = macros[k];
-			long pos = hotkeysList->AppendItem(new ItemText(script->GetFilename()));
-			hotkeysList->SetItem(pos, 1, new ItemText(macro->StrDisplay()));
-			int id = -1;
-			wxString accel;
-			wxString scriptHotkeyName;
-			scriptHotkeyName << L"Script " << script->GetFilename() << L"-" << k;
-			findHotkey(scriptHotkeyName, &accel, &id);
-			hotkeysList->SetItem(pos, 2, new AutomationHotkeyItem(accel, scriptHotkeyName, id));
+			for (int k = 0; k < macros.size(); k++) {
+				auto macro = macros[k];
+				long pos = hotkeysList->AppendItem(new ItemText(script->GetFilename()));
+				hotkeysList->SetItem(pos, 1, new ItemText(macro->StrDisplay()));
+				int id = -1;
+				wxString accel;
+				wxString scriptHotkeyName;
+				scriptHotkeyName << L"Script " << script->GetFilename() << L"-" << k;
+				findHotkey(scriptHotkeyName, &accel, &id);
+				hotkeysList->SetItem(pos, 2, new AutomationHotkeyItem(accel, scriptHotkeyName, id));
+			}
 		}
 	}
 	hotkeysList->StartEdition();
