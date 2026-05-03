@@ -64,7 +64,14 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& label, cons
 	int fw;
 	CalculateSize(&fw, &textHeight);
 	bool makeSquare = (style & MAKE_SQUARE_BUTTON) != 0;
+#ifdef _WIN32
 	int controlHeight = textHeight + 10;
+#else
+	// Keep Linux custom buttons the same compact height as Windows.  wxGTK text
+	// extents are taller, so the old +10 padding inflated Time shift text boxes
+	// and the neighbouring buttons/grid cells.
+	int controlHeight = textHeight + 6;
+#endif
 	if (makeSquare){
 		newSize.x = controlHeight;
 	}
@@ -121,7 +128,14 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& label, int 
 	int fw;
 	CalculateSize(&fw, &textHeight);
 	bool makeSquare = (style & MAKE_SQUARE_BUTTON) != 0;
+#ifdef _WIN32
 	int controlHeight = textHeight + 10;
+#else
+	// Keep Linux custom buttons the same compact height as Windows.  wxGTK text
+	// extents are taller, so the old +10 padding inflated Time shift text boxes
+	// and the neighbouring buttons/grid cells.
+	int controlHeight = textHeight + 6;
+#endif
 	if (makeSquare){
 		newSize.x = controlHeight;
 	}
@@ -387,15 +401,15 @@ void MappedButton::PaintGDI(wxDC &tdc, int w, int h){
 			(enabled) ? Options.GetColour(WINDOW_TEXT) :
 			Options.GetColour(WINDOW_TEXT_INACTIVE));
 		if (name != emptyString){
+			wxRect cur(3, 0, w - 6, h);
+			tdc.SetClippingRegion(cur);
 			if (iw){
-				tdc.DrawText(name, ((w - fw) / 2) + iw + 5, ((h - textHeight) / 2));
+				tdc.DrawLabel(name, cur, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
 			}
 			else{
-				wxRect cur(5, ((h - textHeight) / 2), w - 10, textHeight);
-				tdc.SetClippingRegion(cur);
-				tdc.DrawLabel(name, cur, iw ? wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL : wxALIGN_CENTER);
-				tdc.DestroyClippingRegion();
+				tdc.DrawLabel(name, cur, wxALIGN_CENTER);
 			}
+			tdc.DestroyClippingRegion();
 		}
 
 	}

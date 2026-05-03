@@ -54,7 +54,14 @@ inline void KaiChoice::CalcMaxWidth(wxSize *result, bool changex, bool changey){
 	}
 	if (changey){
 		GetTextExtent(L"TEX{}", &tx, &ty);
+#ifdef _WIN32
 		result->y = ty + 10;
+#else
+		// Match the compact height of the custom Windows-drawn choice controls.
+		// wxGTK font extents are already taller, so +10 makes Time shift choices
+		// and combo text fields too high compared with Windows.
+		result->y = ty + 6;
+#endif
 	}
 }
 

@@ -22,6 +22,7 @@
 #include <wx/dir.h>
 #include <wx/string.h>
 #include <wx/log.h>
+#include <wx/filename.h>
 #include "CsriMod.h"
 #include "Notebook.h"
 #include "gitparams.h"
@@ -36,6 +37,13 @@
 #include "UtilsWindows.h"
 #include <locale>
 #include <algorithm>
+#ifndef _WIN32
+#include <cctype>
+#include <fstream>
+#include <unordered_map>
+#include <filesystem>
+#include <unistd.h>
+#endif
 
 #define ADD_QUOTES_HELPER(s) #s
 #define ADD_QUOTES(s) ADD_QUOTES_HELPER(s)
@@ -318,7 +326,7 @@ void config::SaveOptions(bool cfg, bool style, bool crashed)
 			textfile << L"___Program Crashed___";
 
 		wxString path;
-		path << configPath << L"\\Config.txt";
+		path << configPath << wxFileName::GetPathSeparator() << L"Config.txt";
 		ow.FileWrite(path, textfile);
 	}
 
@@ -328,7 +336,7 @@ void config::SaveOptions(bool cfg, bool style, bool crashed)
 			stylefile << GetStyle(j)->GetRaw();
 		}
 		wxString path;
-		path << pathfull << L"\\Catalog\\" << actualStyleDir << L".sty";
+		path << pathfull << wxFileName::GetPathSeparator() << L"Catalog" << wxFileName::GetPathSeparator() << actualStyleDir << L".sty";
 		ow.FileWrite(path, stylefile);
 	}
 }
@@ -526,10 +534,11 @@ void config::LoadDefaultColors(bool dark, wxColour *table)
 int config::LoadOptions()
 {
 	wxStandardPathsBase &paths = wxStandardPaths::Get();
-	pathfull = paths.GetExecutablePath().BeforeLast(L'\\');
-	configPath = pathfull + L"\\Config";
+	pathfull = paths.GetExecutablePath().BeforeLast(wxFileName::GetPathSeparator());
+	configPath = pathfull + wxFileName::GetPathSeparator() + L"Config";
+	wxFileName::Mkdir(configPath, wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL);
 	wxString path;
-	path << configPath << L"\\Config.txt";
+	path << configPath << wxFileName::GetPathSeparator() << L"Config.txt";
 	OpenWrite ow;
 	wxString txt;
 	int isgood = 0;
@@ -554,19 +563,20 @@ int config::LoadOptions()
 
 	actualStyleDir = L"Default";
 	path = emptyString;
-	path << pathfull << L"\\Catalog\\";
+	path << pathfull << wxFileName::GetPathSeparator() << L"Catalog" << wxFileName::GetPathSeparator();
+	wxFileName::Mkdir(path, wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL);
 	wxDir kat(path);
-	if (!kat.IsOpened()){
+	if (kat.IsOpened()){
+		wxArrayString tmp; kat.GetAllFiles(path, &tmp, emptyString, wxDIR_FILES);
+		for (size_t i = 0; i < tmp.GetCount(); i++){
+			wxString fullpath = tmp[i].AfterLast(wxFileName::GetPathSeparator());
+			if (fullpath.EndsWith(L".sty")){ dirs.Add(fullpath.BeforeLast(L'.')); }
+		}
+	}
+	if (dirs.IsEmpty()){
 		ow.FileWrite(path << actualStyleDir << L".sty",
 			L"Style: Default,Garamond,30,&H00FFFFFF,&H000000FF,&H00FF0000,&H00000000,0,0,0,0,100,100,0,0,0,2,2,2,10,10,10,1");
 		AddStyle(new Styles()); dirs.Add(actualStyleDir);
-	}
-	else{
-		wxArrayString tmp; kat.GetAllFiles(path, &tmp, emptyString, wxDIR_FILES);
-		for (size_t i = 0; i < tmp.GetCount(); i++){
-			wxString fullpath = tmp[i].AfterLast(L'\\');
-			if (fullpath.EndsWith(L".sty")){ dirs.Add(fullpath.BeforeLast(L'.')); }
-		}
 	}
 	LoadStyles(actualStyleDir);
 	LoadColors();
@@ -584,7 +594,7 @@ void config::LoadColors(const wxString &_themeName){
 	}
 	bool failed = false;
 	if (themeName != L"DarkSentro" && themeName != L"LightSentro"){
-		wxString path = pathfull + L"\\Themes\\" + themeName + L".txt";
+		wxString path = pathfull + wxFileName::GetPathSeparator() + L"Themes" + wxFileName::GetPathSeparator() + themeName + L".txt";
 		OpenWrite ow;
 		wxString txtColors;
 		if (ow.FileOpen(path, &txtColors, false)){
@@ -634,7 +644,7 @@ void config::LoadStyles(const wxString &katalog)
 {
 	actualStyleDir = katalog;
 	wxString path;
-	path << pathfull << L"\\Catalog\\" << katalog << L".sty";
+	path << pathfull << wxFileName::GetPathSeparator() << L"Catalog" << wxFileName::GetPathSeparator() << katalog << L".sty";
 	OpenWrite ow;
 	for (std::vector<Styles*>::iterator it = assstore.begin(); it != assstore.end(); it++){
 		delete (*it);
@@ -850,7 +860,7 @@ bool config::LoadAudioOpts()
 {
 	OpenWrite ow;
 	wxString txt;
-	if (!ow.FileOpen(configPath + L"\\AudioConfig.txt", &txt, false)){
+	if (!ow.FileOpen(configPath + wxFileName::GetPathSeparator() + L"AudioConfig.txt", &txt, false)){
 		LoadDefaultAudioConfig();
 		return true;
 	}
@@ -861,7 +871,7 @@ bool config::LoadAudioOpts()
 		
 		if (ConfigNeedToConvert(ver)){
 			ConfigConverter::Get()->ConvertConfig(&txt);
-			ow.FileWrite(configPath + L"\\AudioConfig.txt", txt);
+			ow.FileWrite(configPath + wxFileName::GetPathSeparator() + L"AudioConfig.txt", txt);
 		}
 	}
 	return (AudioOpts = SetRawOptions(txt));
@@ -872,7 +882,7 @@ void config::SaveAudioOpts()
 	OpenWrite ow;
 	wxString audioOpts;
 	GetRawOptions(audioOpts, true);
-	ow.FileWrite(configPath + L"\\AudioConfig.txt", audioOpts);
+	ow.FileWrite(configPath + wxFileName::GetPathSeparator() + L"AudioConfig.txt", audioOpts);
 }
 
 void config::SetHexColor(const wxString &nameAndColor)
@@ -906,7 +916,7 @@ wxString config::GetStringColor(size_t optionName)
 void config::SaveColors(const wxString &path){
 	wxString finalpath = path;
 	if (path.IsEmpty()){
-		finalpath = pathfull + L"\\Themes\\" + GetString(PROGRAM_THEME) + L".txt";
+		finalpath = pathfull + wxFileName::GetPathSeparator() + L"Themes" + wxFileName::GetPathSeparator() + GetString(PROGRAM_THEME) + L".txt";
 	}
 	OpenWrite ow(finalpath, true);
 	//ow.PartFileWrite(L"[" + progname + L"]\n");
@@ -1058,6 +1068,170 @@ wxBitmap GetBitmapFromMemory(const char* t_data, const DWORD t_size)
 	return wxBitmap(wxImage(a_is, wxBITMAP_TYPE_PNG, -1), -1);
 }
 
+#ifndef _WIN32
+namespace
+{
+	std::string UpperAscii(wxString value)
+	{
+		std::string text = value.ToStdString();
+		for (char& ch : text)
+			ch = (char)std::toupper((unsigned char)ch);
+		return text;
+	}
+
+	std::filesystem::path ReadExePath()
+	{
+		char buffer[4096] = {};
+		ssize_t len = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
+		if (len > 0)
+			return std::filesystem::path(std::string(buffer, (size_t)len));
+		return {};
+	}
+
+	bool TryResourceRoot(const std::filesystem::path& candidate, std::filesystem::path* root)
+	{
+		if (candidate.empty())
+			return false;
+		std::error_code ec;
+		if (std::filesystem::exists(candidate / "resource.rc", ec) && std::filesystem::exists(candidate / "Bitmaps", ec))
+		{
+			*root = candidate;
+			return true;
+		}
+		if (std::filesystem::exists(candidate / "Kainote" / "resource.rc", ec) && std::filesystem::exists(candidate / "Kainote" / "Bitmaps", ec))
+		{
+			*root = candidate / "Kainote";
+			return true;
+		}
+		return false;
+	}
+
+	std::filesystem::path FindResourceRoot()
+	{
+		std::filesystem::path root;
+		std::error_code ec;
+		std::filesystem::path cwd = std::filesystem::current_path(ec);
+		for (std::filesystem::path probe = cwd; !probe.empty(); probe = probe.parent_path())
+		{
+			if (TryResourceRoot(probe, &root))
+				return root;
+			if (probe == probe.parent_path())
+				break;
+		}
+		std::filesystem::path exe = ReadExePath().parent_path();
+		for (std::filesystem::path probe = exe; !probe.empty(); probe = probe.parent_path())
+		{
+			if (TryResourceRoot(probe, &root))
+				return root;
+			if (probe == probe.parent_path())
+				break;
+		}
+		return {};
+	}
+
+	std::filesystem::path ResolveExistingPathCaseInsensitive(const std::filesystem::path& path)
+	{
+		std::error_code ec;
+		if (std::filesystem::exists(path, ec))
+			return path;
+
+		std::filesystem::path resolved;
+		std::filesystem::path remaining = path;
+		if (path.is_absolute())
+		{
+			resolved = path.root_path();
+			remaining = path.relative_path();
+		}
+
+		for (const auto& part : remaining)
+		{
+			if (part.empty() || part == ".")
+				continue;
+			std::filesystem::path direct = resolved / part;
+			if (std::filesystem::exists(direct, ec))
+			{
+				resolved = direct;
+				continue;
+			}
+
+			std::string wanted = part.string();
+			for (char& ch : wanted)
+				ch = (char)std::tolower((unsigned char)ch);
+
+			bool found = false;
+			if (std::filesystem::is_directory(resolved, ec))
+			{
+				for (const auto& entry : std::filesystem::directory_iterator(resolved, ec))
+				{
+					std::string current = entry.path().filename().string();
+					for (char& ch : current)
+						ch = (char)std::tolower((unsigned char)ch);
+					if (current == wanted)
+					{
+						resolved = entry.path();
+						found = true;
+						break;
+					}
+				}
+			}
+			if (!found)
+				return path;
+		}
+		return resolved;
+	}
+
+	const std::unordered_map<std::string, std::filesystem::path>& LinuxResourceMap()
+	{
+		static std::unordered_map<std::string, std::filesystem::path> resources = [] {
+			std::unordered_map<std::string, std::filesystem::path> result;
+			std::filesystem::path root = FindResourceRoot();
+			if (root.empty())
+				return result;
+			std::ifstream rc(root / "resource.rc");
+			std::string line;
+			while (std::getline(rc, line))
+			{
+				size_t rdata = line.find("RCDATA");
+				if (rdata == std::string::npos)
+					continue;
+				size_t nameStart = line.find_first_not_of(" \t");
+				if (nameStart == std::string::npos || nameStart >= rdata)
+					continue;
+				size_t nameEnd = line.find_first_of(" \t", nameStart);
+				std::string name = line.substr(nameStart, nameEnd - nameStart);
+				for (char& ch : name)
+					ch = (char)std::toupper((unsigned char)ch);
+				size_t quoteStart = line.find('"', rdata);
+				size_t quoteEnd = quoteStart == std::string::npos ? std::string::npos : line.find('"', quoteStart + 1);
+				if (quoteStart == std::string::npos || quoteEnd == std::string::npos)
+					continue;
+				std::string relative = line.substr(quoteStart + 1, quoteEnd - quoteStart - 1);
+				for (char& ch : relative)
+					if (ch == '\\') ch = '/';
+				result[name] = root / std::filesystem::path(relative);
+			}
+			return result;
+		}();
+		return resources;
+	}
+
+	wxImage LoadLinuxPngResourceImage(const wxString& name)
+	{
+		auto it = LinuxResourceMap().find(UpperAscii(name));
+		if (it == LinuxResourceMap().end())
+			return wxImage();
+		std::filesystem::path pngPath = ResolveExistingPathCaseInsensitive(it->second);
+		// Some bundled PNGs contain ancillary chunks (e.g. iCCP/gAMA) that libpng reports
+		// through wxLogWarning. On Linux wxGTK shows those as modal "Kainote Warning"
+		// windows, which leaves black dialog artifacts during startup/video smoke tests.
+		// The images still load correctly, so keep the warning local to this resource load.
+		wxLogNull suppressPngChunkWarnings;
+		wxImage image(wxString::FromUTF8(pngPath.string()), wxBITMAP_TYPE_PNG);
+		return image.IsOk() ? image : wxImage();
+	}
+}
+#endif
+
 wxBitmap CreateBitmapFromPngResource(const wxString& t_name)
 {
 	wxBitmap   r_bitmapPtr;
@@ -1069,6 +1243,14 @@ wxBitmap CreateBitmapFromPngResource(const wxString& t_name)
 	{
 		r_bitmapPtr = GetBitmapFromMemory(a_data, a_dataSize);
 	}
+#ifndef _WIN32
+	if (!r_bitmapPtr.IsOk())
+	{
+		wxImage image = LoadLinuxPngResourceImage(t_name);
+		if (image.IsOk())
+			r_bitmapPtr = wxBitmap(image, -1);
+	}
+#endif
 
 	return r_bitmapPtr;
 }
@@ -1085,6 +1267,14 @@ wxBitmap* CreateBitmapPointerFromPngResource(const wxString& t_name)
 		wxMemoryInputStream a_is(a_data, a_dataSize);
 		r_bitmapPtr = new wxBitmap(wxImage(a_is, wxBITMAP_TYPE_PNG, -1), -1);
 	}
+#ifndef _WIN32
+	if (!r_bitmapPtr)
+	{
+		wxImage image = LoadLinuxPngResourceImage(t_name);
+		if (image.IsOk())
+			r_bitmapPtr = new wxBitmap(image, -1);
+	}
+#endif
 
 	return r_bitmapPtr;
 }
@@ -1101,6 +1291,10 @@ wxImage CreateImageFromPngResource(const wxString& t_name)
 		wxMemoryInputStream a_is(a_data, a_dataSize);
 		image = wxImage(a_is, wxBITMAP_TYPE_PNG, -1);
 	}
+#ifndef _WIN32
+	if (!image.IsOk())
+		image = LoadLinuxPngResourceImage(t_name);
+#endif
 
 	return image;
 }

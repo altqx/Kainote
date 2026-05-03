@@ -15,6 +15,11 @@ pkg_check_modules(LIBCURL REQUIRED IMPORTED_TARGET libcurl)
 pkg_check_modules(ICU_UC REQUIRED IMPORTED_TARGET icu-uc)
 pkg_check_modules(ICU_I18N REQUIRED IMPORTED_TARGET icu-i18n)
 pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET libavformat libavcodec libavutil)
+
+# Link Boost statically on Linux so the built binary does not depend on the
+# exact distro Boost shared-library SONAME, e.g. libboost_filesystem.so.1.83.0.
+# Other system libraries remain dynamically linked through pkg-config/wxWidgets.
+set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS filesystem locale regex system)
 add_compile_definitions(_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING _CRT_SECURE_NO_WARNINGS HAVE_DLL_EXPORT LINUX_BUILD KAINOTE_LINUX_BUILD)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-include> $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/Kainote/platform.h> -Wno-deprecated-declarations -Wno-narrowing -Wno-unused-result $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>)
@@ -176,3 +181,23 @@ target_include_directories(kainote PRIVATE
     ${CMAKE_SOURCE_DIR}/Thirdparty/ffms2/src
 )
 target_link_libraries(kainote PRIVATE ${wxWidgets_LIBRARIES} PkgConfig::LIBASS PkgConfig::FFMS2 PkgConfig::LUA PkgConfig::HUNSPELL PkgConfig::UCHARDET PkgConfig::LIBCURL PkgConfig::ICU_UC PkgConfig::ICU_I18N PkgConfig::FFMPEG Boost::filesystem Boost::locale Boost::regex Boost::system GL ${CMAKE_DL_LIBS})
+
+set(KAINOTE_RUNTIME_DIR $<TARGET_FILE_DIR:kainote>)
+
+# Keep the build tree runnable by copying runtime data next to the executable.
+# Windows embeds PNG RCDATA through resource.rc, but the Linux build loads those
+# resources from files, and wxLocale expects .mo catalogs beside the binary.
+add_custom_command(TARGET kainote POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${KAINOTE_RUNTIME_DIR}/Locale"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/Locale"
+            "${KAINOTE_RUNTIME_DIR}/Locale"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${KAINOTE_RUNTIME_DIR}/Kainote"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_SOURCE_DIR}/Kainote/resource.rc"
+            "${KAINOTE_RUNTIME_DIR}/Kainote/resource.rc"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/Kainote/Bitmaps"
+            "${KAINOTE_RUNTIME_DIR}/Kainote/Bitmaps"
+    COMMENT "Copying Kainote runtime resources"
+)

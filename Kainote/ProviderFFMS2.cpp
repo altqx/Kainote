@@ -171,7 +171,7 @@ int ProviderFFMS2::Init()
 
 	FFMS_Indexer* Indexer = FFMS_CreateIndexer(m_filename.utf8_str(), &m_errInfo);
 	if (!Indexer) {
-		KaiLogDebug(wxString::Format(_("Wystąpił błąd indeksowania: %s"), m_errInfo.Buffer)); return 0;
+		KaiLogDebug(wxString::Format(_("Wystąpił błąd indeksowania: %s"), wxString::FromUTF8(m_errInfo.Buffer))); return 0;
 	}
 
 	int NumTracks = FFMS_GetNumTracksI(Indexer);
@@ -278,7 +278,9 @@ int ProviderFFMS2::Init()
 	}
 done:
 
-	m_indexPath = Options.pathfull + L"\\Indices\\" + m_filename.AfterLast(L'\\').BeforeLast(L'.') +
+	wxString sep = wxFileName::GetPathSeparator();
+	wxString baseName = wxFileName(m_filename).GetName();
+	m_indexPath = Options.pathfull + sep + L"Indices" + sep + baseName +
 		wxString::Format(L"_%i.ffindex", audiotrack);
 
 	if (wxFileExists(m_indexPath)) {
@@ -301,23 +303,24 @@ done:
 		m_index = FFMS_DoIndexing2(Indexer, FFMS_IEH_IGNORE, &m_errInfo);
 		//in this moment indexer was released, there no need to release it
 		if (m_index == nullptr) {
-			if (wxString(m_errInfo.Buffer).StartsWith(L"Cancelled")) {
+			if (wxString::FromUTF8(m_errInfo.Buffer).StartsWith(L"Cancelled")) {
 				//No need spam user that he clicked cancel button
 				//KaiLog(_("Indeksowanie anulowane przez użytkownika"));
 			}
 			else {
-				KaiLog(wxString::Format(_("Wystąpił błąd indeksowania: %s"), m_errInfo.Buffer));
+				KaiLog(wxString::Format(_("Wystąpił błąd indeksowania: %s"), wxString::FromUTF8(m_errInfo.Buffer)));
 			}
 			//FFMS_CancelIndexing(Indexer);
 			return 0;
 		}
-		if (!wxDir::Exists(m_indexPath.BeforeLast(L'\\')))
+		wxFileName indexFile(m_indexPath);
+		if (!indexFile.DirExists())
 		{
-			wxDir::Make(m_indexPath.BeforeLast(L'\\'));
+			indexFile.Mkdir(wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL);
 		}
 		if (FFMS_WriteIndex(m_indexPath.utf8_str(), m_index, &m_errInfo))
 		{
-			KaiLogDebug(wxString::Format(_("Nie można zapisać indeksu, wystąpił błąd %s"), m_errInfo.Buffer));
+			KaiLogDebug(wxString::Format(_("Nie można zapisać indeksu, wystąpił błąd %s"), wxString::FromUTF8(m_errInfo.Buffer)));
 			//FFMS_DestroyIndex(index);
 			//FFMS_CancelIndexing(Indexer);
 			//return 0;
@@ -448,7 +451,7 @@ audio:
 	if (audiotrack != -1) {
 		m_audioSource = FFMS_CreateAudioSource(m_filename.utf8_str(), audiotrack, m_index, FFMS_DELAY_FIRST_VIDEO_TRACK, &m_errInfo);
 		if (m_audioSource == nullptr) {
-			KaiLog(wxString::Format(_("Wystąpił błąd tworzenia źródła audio: %s"), m_errInfo.Buffer));
+			KaiLog(wxString::Format(_("Wystąpił błąd tworzenia źródła audio: %s"), wxString::FromUTF8(m_errInfo.Buffer)));
 			return 0;
 		}
 
@@ -457,7 +460,7 @@ audio:
 		resopts->SampleFormat = FFMS_FMT_S16;
 
 		if (FFMS_SetOutputFormatA(m_audioSource, resopts, &m_errInfo)) {
-			KaiLog(wxString::Format(_("Wystąpił błąd konwertowania audio: %s"), m_errInfo.Buffer));
+			KaiLog(wxString::Format(_("Wystąpił błąd konwertowania audio: %s"), wxString::FromUTF8(m_errInfo.Buffer)));
 			return 1;
 		}
 		FFMS_DestroyResampleOptions(resopts);
@@ -524,9 +527,10 @@ int FFMS_CC ProviderFFMS2::UpdateProgress(long long Current, long long Total, vo
 void ProviderFFMS2::AudioLoad(ProviderFFMS2* vf, bool newIndex, int audiotrack)
 {
 	if (vf->m_discCache) {
-		vf->m_diskCacheFilename = emptyString;
-		vf->m_diskCacheFilename << Options.pathfull << L"\\AudioCache\\" <<
-			vf->m_filename.AfterLast(L'\\').BeforeLast(L'.') << L"_track" << audiotrack << L".w64";
+		wxString sep = wxFileName::GetPathSeparator();
+		wxString baseName = wxFileName(vf->m_filename).GetName();
+		vf->m_diskCacheFilename << Options.pathfull << sep << L"AudioCache" << sep <<
+			baseName << L"_track" << audiotrack << L".w64";
 		if (!vf->DiskCache(newIndex)) { goto done; }
 	}
 	else {
@@ -575,7 +579,7 @@ void ProviderFFMS2::GetAudio(void* buf, long long start, long long count)
 	}
 	wxCriticalSectionLocker lock(m_blockAudio);
 	if (FFMS_GetAudio(m_audioSource, buf, start, count, &m_errInfo)) {
-		KaiLogDebug(L"error audio" + wxString(m_errInfo.Buffer));
+		KaiLogDebug(L"error audio" + wxString::FromUTF8(m_errInfo.Buffer));
 	}
 
 }
@@ -705,7 +709,7 @@ bool ProviderFFMS2::DiskCache(bool newIndex)
 	bool good = true;
 	wxFileName discCacheFile;
 	discCacheFile.Assign(m_diskCacheFilename);
-	if (!discCacheFile.DirExists()) { wxMkdir(m_diskCacheFilename.BeforeLast(L'\\')); }
+	if (!discCacheFile.DirExists()) { discCacheFile.Mkdir(wxS_DIR_DEFAULT, wxPATH_MKDIR_FULL); }
 	bool fileExists = discCacheFile.FileExists();
 	if (!newIndex && fileExists) {
 		m_fp = _wfopen(m_diskCacheFilename.wc_str(), L"rb");
@@ -767,7 +771,7 @@ void ProviderFFMS2::ClearDiskCache()
 
 void ProviderFFMS2::DeleteOldAudioCache()
 {
-	wxString path = Options.pathfull + L"\\AudioCache";
+	wxString path = Options.pathfull + wxFileName::GetPathSeparator() + L"AudioCache";
 	size_t maxAudio = Options.GetInt(AUDIO_CACHE_FILES_LIMIT);
 	if (maxAudio < 1)
 		return;

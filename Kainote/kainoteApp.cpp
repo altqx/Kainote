@@ -34,6 +34,8 @@
 #include <wx/utils.h>
 #include <wx/intl.h>
 #include <wx/stdpaths.h>
+#include <wx/filename.h>
+#include <wx/filefn.h>
 #include "loghandler.h"
 
 #include "UtilsWindows.h"
@@ -172,9 +174,19 @@ bool kainoteApp::OnInit()
 					KaiMessageBox(L"wxLocale cannot initialize, language change failed");
 				}
 				else{
-					locale->AddCatalogLookupPathPrefix(Options.pathfull + L"\\Locale\\");
+					wxString localePath = Options.pathfull + wxFileName::GetPathSeparator() + L"Locale" + wxFileName::GetPathSeparator();
+#ifndef _WIN32
+					if (!wxDirExists(localePath)){
+						wxString sourceLocalePath = Options.pathfull.BeforeLast(wxFileName::GetPathSeparator()) + wxFileName::GetPathSeparator() + L"Locale" + wxFileName::GetPathSeparator();
+						if (wxDirExists(sourceLocalePath))
+							localePath = sourceLocalePath;
+					}
+#endif
+					locale->AddCatalogLookupPathPrefix(localePath);
 					if (!locale->AddCatalog(lang, wxLANGUAGE_POLISH, L"UTF-8")){
+#ifdef _WIN32
 						KaiMessageBox(L"Cannot find translation, language change failed");
+#endif
 					}
 				}
 			}
@@ -202,7 +214,14 @@ bool kainoteApp::OnInit()
 		Options.GetCoords(MONITOR_SIZE, &msizex, &msizey);
 		Options.GetCoords(STYLE_MANAGER_POSITION, &sposx, &sposy);
 		//wxRect(posx, posy, sizex, sizey)
+#ifdef _WIN32
 		wxPoint posOnScreen = wxGetMousePosition();
+#else
+		// wxGTK 3.2 can crash in wxGetMousePosition() on pure Wayland sessions
+		// when no keyboard-capable GdkSeat is available yet (e.g. headless Weston).
+		// Use the saved window position as a safe monitor-selection point instead.
+		wxPoint posOnScreen(posx, posy);
+#endif
 		if (msizex && msizey) {
 			if (IsWindows8OrGreater()) {
 #ifdef _WIN32

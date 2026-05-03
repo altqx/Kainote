@@ -208,12 +208,14 @@ DWORD FontEnumerator::CheckFontsProc(int *threadNum)
 	hDir = FindFirstChangeNotification( fontrealpath.wc_str(), TRUE, FILE_NOTIFY_CHANGE_FILE_NAME);// | FILE_NOTIFY_CHANGE_LAST_WRITE
 
 	if (hDir == INVALID_HANDLE_VALUE){ 
+#ifdef _WIN32
 		if (*threadNum == 0){
 			//do not inform on system older than Windows 10 1909 that 
 			//cannot create notification of folder that they do not have
 			//without checking of system version it's impossible to check when it should be shown
 			KaiLog(_("Nie można stworzyć uchwytu notyfikacji zmian folderu czcionek."));
 		}
+#endif
 		//delete num threads to not make memory leaks
 		delete threadNum;
 		return 0; 

@@ -36,6 +36,7 @@
 #include <wx/gdicmn.h>
 #include <wx/regex.h>
 #include <wx/dir.h>
+#include <wx/filename.h>
 #include <wx/dc.h>
 #include <wx/dcclient.h>
 #include <wx/filedlg.h>
@@ -658,7 +659,8 @@ void VideoBox::NextFile(bool next)
 	}
 	
 	else{ path = Kai->videorec[Kai->videorec.size() - 1]; }
-	wxString pathwn = path.BeforeLast(L'\\');
+	wxFileName videoFileName(path);
+	wxString pathwn = videoFileName.GetPath();
 	wxDir kat(pathwn);
 	if (kat.IsOpened()){
 		files.Clear();

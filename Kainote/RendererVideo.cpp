@@ -150,6 +150,19 @@ void RendererVideo::UpdateVideoWindow()
 	wxCriticalSectionLocker lock(m_MutexRendering);
 	if (!UpdateRects()){ return; }
 
+#ifndef _WIN32
+	m_VideoResized = true;
+	if (m_Visual){
+		m_Visual->SizeChanged(wxRect(m_BackBufferRect.left, m_BackBufferRect.top, m_BackBufferRect.right,
+			m_BackBufferRect.bottom), nullptr, nullptr, nullptr);
+		SAFE_DELETE(m_Visual->dummytext);
+		m_Visual->SetCurVisual();
+		m_HasVisualEdition = true;
+	}
+	videoControl->SetScaleAndZoom();
+	return;
+#endif
+
 	if (!InitDX()){
 		//need tests, if lost device return any error when reseting or not
 		Clear();

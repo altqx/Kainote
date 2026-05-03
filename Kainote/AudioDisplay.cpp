@@ -38,7 +38,9 @@
 #include <vector>
 #include "UtilsWindows.h"
 
-
+#ifndef _WIN32
+#include <wx/dcbuffer.h>
+#endif
 
 wxDEFINE_EVENT(EVENT_UPDATE_SCROLLBAR, wxThreadEvent);
 
@@ -46,6 +48,13 @@ wxDEFINE_EVENT(EVENT_UPDATE_SCROLLBAR, wxThreadEvent);
 inline D3DCOLOR D3DCOLOR_FROM_WX(const wxColour &col){
 	return (D3DCOLOR)((((col.Alpha()) & 0xff) << 24) | (((col.Red()) & 0xff) << 16) | (((col.Green()) & 0xff) << 8) | ((col.Blue()) & 0xff));
 }
+
+#ifndef _WIN32
+static wxColour WX_FROM_D3DCOLOR(D3DCOLOR col)
+{
+	return wxColour((col >> 16) & 0xff, (col >> 8) & 0xff, col & 0xff, (col >> 24) & 0xff);
+}
+#endif
 
 
 long long abs64(long long input) {
@@ -114,6 +123,9 @@ AudioDisplay::AudioDisplay(wxWindow *parent)
 		}
 	}, 7654);
 	ChangeOptions();
+#ifndef _WIN32
+	SetBackgroundStyle(wxBG_STYLE_PAINT);
+#endif
 	Bind(EVENT_UPDATE_SCROLLBAR, [=](wxThreadEvent &evt) {
 		UpdateScrollbar();
 	});
@@ -1636,14 +1648,172 @@ void AudioDisplay::AddLead(bool in, bool out) {
 	Update();
 }
 
+#ifndef _WIN32
+void AudioDisplay::DrawWithWx(wxDC& dc, bool weak)
+{
+	int displayH = h + timelineHeight;
+	if (w < 1 || displayH < 1 || isHidden)
+		return;
+
+	dc.SetPen(*wxTRANSPARENT_PEN);
+	dc.SetBrush(wxBrush(WX_FROM_D3DCOLOR(background)));
+	dc.DrawRectangle(0, 0, w, displayH);
+
+	if (!loaded || !provider)
+		return;
+
+	if (provider->AudioNotInitialized()) {
+		int halfY = (h + 20) / 2;
+		int left = 20;
+		int right = w - 20;
+		dc.SetPen(wxPen(*wxWHITE, 1));
+		dc.SetBrush(*wxTRANSPARENT_BRUSH);
+		dc.DrawRectangle(left, halfY - 20, right - left, 40);
+		dc.SetPen(wxPen(*wxWHITE, 37));
+		int progressRight = left + int(provider->GetAudioProgress() * (right - left));
+		dc.DrawLine(left + 2, halfY, progressRight, halfY);
+		dc.SetFont(tahoma13);
+		dc.SetTextForeground(*wxWHITE);
+		dc.DrawLabel(std::to_string((int)(provider->GetAudioProgress() * 100.f)) + L"%",
+			wxRect(left, halfY - 20, right - left, 40), wxALIGN_CENTER);
+		return;
+	}
+
+	selStart = selEnd = lineStart = lineEnd = selStartCap = selEndCap = 0;
+	long long drawSelStart = 0;
+	long long drawSelEnd = 0;
+	GetDialoguePos(lineStart, lineEnd, false);
+	hasSel = true;
+	GetDialoguePos(selStartCap, selEndCap, true);
+	selStart = lineStart;
+	selEnd = lineEnd;
+	drawSelStart = lineStart;
+	drawSelEnd = lineEnd;
+
+	if (hasSel && drawSelStart < drawSelEnd && drawSelectionBackground) {
+		dc.SetPen(*wxTRANSPARENT_PEN);
+		dc.SetBrush(wxBrush(WX_FROM_D3DCOLOR(NeedCommit ? selectionBackgroundModified : selectionBackground)));
+		dc.DrawRectangle((int)drawSelStart, 0, (int)(drawSelEnd - drawSelStart + 1), h);
+	}
+
+	if (!weak || peak == nullptr || min == nullptr) {
+		delete[] peak;
+		delete[] min;
+		peak = new int[w];
+		min = new int[w];
+		provider->GetWaveForm(min, peak, Position * samples, w, h, samples, scale);
+	}
+
+	if (peak && min) {
+		if (!hasSel)
+			selStartCap = w;
+		auto drawRange = [&](int x1, int x2, D3DCOLOR color) {
+			x1 = std::max(0, x1);
+			x2 = std::min(w, x2);
+			dc.SetPen(wxPen(WX_FROM_D3DCOLOR(color), 1));
+			for (int x = x1; x < x2; ++x)
+				dc.DrawLine(x, peak[x], x, min[x] - 1);
+		};
+
+		drawRange(0, (int)selStartCap, waveform);
+		if (hasSel) {
+			D3DCOLOR waveformSel = waveform;
+			if (drawSelectionBackground)
+				waveformSel = NeedCommit ? waveformModified : waveformSelected;
+			drawRange((int)selStartCap, (int)selEndCap, waveformSel);
+			drawRange((int)selEndCap, w, waveform);
+		}
+	}
+
+	if (drawBoundaryLines && samples > 0) {
+		long long start = Position * samples;
+		int rate = provider->GetSampleRate();
+		int pixBounds = rate / samples;
+		if (pixBounds >= 8) {
+			dc.SetPen(wxPen(WX_FROM_D3DCOLOR(secondBondariesColor), 1, wxPENSTYLE_SHORT_DASH));
+			for (int x = 0; x < w; ++x) {
+				if (((x * samples) + start) % rate < samples)
+					dc.DrawLine(x, 0, x, h);
+			}
+		}
+	}
+
+	if (hasSel) {
+		dc.SetPen(wxPen(WX_FROM_D3DCOLOR(lineStartBondaryColor), selWidth));
+		dc.DrawLine((int)lineStart, 0, (int)lineStart, h);
+		dc.SetPen(wxPen(WX_FROM_D3DCOLOR(lineEndBondaryColor), selWidth));
+		dc.DrawLine((int)lineEnd, 0, (int)lineEnd, h);
+	}
+
+	if (drawVideoPos && tab && tab->video && tab->video->GetState() == Paused) {
+		dc.SetPen(wxPen(WX_FROM_D3DCOLOR(AudioCursor), 2, wxPENSTYLE_SHORT_DASH));
+		float x = GetXAtMS(tab->video->Tell());
+		dc.DrawLine((int)x, 0, (int)x, h);
+	}
+
+	dc.SetPen(*wxTRANSPARENT_PEN);
+	dc.SetBrush(wxBrush(WX_FROM_D3DCOLOR(timescaleBackground)));
+	dc.DrawRectangle(0, h, w, timelineHeight);
+	dc.SetTextForeground(WX_FROM_D3DCOLOR(timescaleText));
+	dc.SetFont(tahoma8);
+	if (samples > 0) {
+		int rate = provider->GetSampleRate();
+		long long start = Position * samples;
+		int lastTextRight = -1000;
+		for (int x = 0; x < w; ++x) {
+			long long sample = (x * samples) + start;
+			if (rate > 0 && sample % rate < samples) {
+				dc.SetPen(wxPen(WX_FROM_D3DCOLOR(timescaleText), 1));
+				dc.DrawLine(x, h, x, h + 5);
+
+				int totalSeconds = sample / rate;
+				int hours = totalSeconds / 3600;
+				int minutes = (totalSeconds / 60) % 60;
+				int seconds = totalSeconds % 60;
+				wxString text;
+				if (hours)
+					text = wxString::Format(_T("%i:%02i:%02i"), hours, minutes, seconds);
+				else if (minutes)
+					text = wxString::Format(_T("%i:%02i"), minutes, seconds);
+				else
+					text = wxString::Format(_T("%i"), seconds);
+
+				wxCoord textW = 0;
+				wxCoord textH = 0;
+				dc.GetTextExtent(text, &textW, &textH);
+				int textX = x - (textW / 2);
+				if (textX > lastTextRight + 6) {
+					dc.SetClippingRegion(0, h, w, timelineHeight);
+					dc.DrawText(text, textX, h + 6);
+					dc.DestroyClippingRegion();
+					lastTextRight = textX + textW;
+				}
+			}
+		}
+	}
+
+	if (hasFocus) {
+		dc.SetPen(wxPen(WX_FROM_D3DCOLOR(waveform), 1));
+		dc.SetBrush(*wxTRANSPARENT_BRUSH);
+		dc.DrawRectangle(0, 0, w - 1, h - 1);
+	}
+
+	if (!weak)
+		needImageUpdateWeak = true;
+}
+#endif
 
 
-
-/////////
+//////////
 // Paint
 void AudioDisplay::OnPaint(wxPaintEvent& event) {
 	//if (w == 0 || h == 0) return;
 	wxCriticalSectionLocker lock(mutex);
+#ifndef _WIN32
+	wxAutoBufferedPaintDC dc(this);
+	DrawWithWx(dc, needImageUpdateWeak);
+	return;
+#endif
 	DoUpdateImage(needImageUpdateWeak);
 }
 

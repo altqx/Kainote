@@ -27,6 +27,7 @@ KaiStaticText::KaiStaticText(wxWindow *parent, int id, const wxString& _text, co
 	, textScroll(nullptr)
 	, scPos(0)
 {
+	SetFont(parent->GetFont());
 	int fullw = size.x;
 	int windowHeight = size.y;
 	wxSize newSize = originalSize = size;
@@ -206,7 +207,9 @@ void KaiStaticText::OnPaint(wxPaintEvent &evt)
 	tdc.DrawRectangle(0, 0, w, h);
 	tdc.SetTextForeground(Options.GetColour(textColour));
 	int center = (textHeight < h) ? (h - textHeight) / 2 : 0;
+	tdc.SetClippingRegion(0, 0, w, h);
 	tdc.DrawText(text, 0, -scPos + center);
+	tdc.DestroyClippingRegion();
 	//}
 	//	else{
 	//		gc->SetFont(GetFont(), Options.GetColour(textColour));

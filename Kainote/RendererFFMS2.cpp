@@ -25,6 +25,47 @@
 #include "Visuals.h"
 #include "VideoFullscreen.h"
 #include "SubtitlesProviderManager.h"
+#ifndef _WIN32
+#include <wx/bitmap.h>
+#include <wx/dcclient.h>
+#include <wx/image.h>
+#endif
+
+#ifndef _WIN32
+namespace
+{
+	void DrawBgraFrameWithWx(wxWindow* window, const unsigned char* frame, int width, int height,
+		int pitch, const RECT& targetRect)
+	{
+		if (!window || !frame || width <= 0 || height <= 0 || pitch < width * 4)
+			return;
+
+		unsigned char* rgb = new unsigned char[width * height * 3];
+		for (int y = 0; y < height; ++y) {
+			const unsigned char* src = frame + (y * pitch);
+			unsigned char* dst = rgb + (y * width * 3);
+			for (int x = 0; x < width; ++x) {
+				// FFMS2 output is requested as BGRA. wxImage expects RGB.
+				dst[(x * 3) + 0] = src[(x * 4) + 2];
+				dst[(x * 3) + 1] = src[(x * 4) + 1];
+				dst[(x * 3) + 2] = src[(x * 4) + 0];
+			}
+		}
+
+		wxImage image(width, height, rgb, false);
+		int targetWidth = targetRect.right - targetRect.left;
+		int targetHeight = targetRect.bottom - targetRect.top;
+		if (targetWidth <= 0 || targetHeight <= 0)
+			return;
+
+		if (targetWidth != width || targetHeight != height)
+			image.Rescale(targetWidth, targetHeight, wxIMAGE_QUALITY_BILINEAR);
+
+		wxClientDC dc(window);
+		dc.DrawBitmap(wxBitmap(image), targetRect.left, targetRect.top, false);
+	}
+}
+#endif
 
 RendererFFMS2::RendererFFMS2(VideoBox *control, bool visualDisabled)
 	: RendererVideo(control, visualDisabled)
@@ -49,6 +90,30 @@ void RendererFFMS2::DestroyFFMS2()
 bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 {
 	wxCriticalSectionLocker lock(m_MutexRendering);
+
+#ifndef _WIN32
+	{
+		unsigned char* fdata = nullptr;
+		if (nframe) {
+			fdata = nframe;
+			if (copy && m_FrameBuffer) {
+				memcpy(m_FrameBuffer, fdata, m_Height * m_Pitch);
+			}
+		}
+		else {
+			fdata = m_FrameBuffer;
+			if (m_FFMS2)
+				m_FFMS2->GetFrameBuffer(&fdata);
+			if (!fdata)
+				return false;
+		}
+
+		m_SubsProvider->Draw(fdata, m_Time);
+		DrawBgraFrameWithWx(videoControl, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+		return true;
+	}
+#endif
+
 	if (!m_MainSurface)
 		return false;
 
@@ -74,8 +139,6 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 
 
 	m_SubsProvider->Draw(fdata, m_Time);
-
-
 #ifdef byvertices
 	HR(m_MainSurface->LockRect(&d3dlr, 0, 0), _("Nie można zablokować bufora tekstury"));//D3DLOCK_NOSYSLOCK
 #else
@@ -117,6 +180,20 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 
 void RendererFFMS2::Render(bool redrawSubsOnFrame, bool wait)
 {
+#ifndef _WIN32
+	{
+		if (redrawSubsOnFrame){
+			DrawTexture();
+			return;
+		}
+		wxCriticalSectionLocker lock(m_MutexRendering);
+		if (m_FrameBuffer)
+			DrawBgraFrameWithWx(videoControl, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+		m_VideoResized = false;
+		return;
+	}
+#endif
+
 	if (redrawSubsOnFrame && !m_DeviceLost){
 		//no need to return cause of render do not send an event and need to be safe from start.
 		if (!DrawTexture())
@@ -284,9 +361,11 @@ bool RendererFFMS2::OpenFile(const wxString &fname, int subsFlag, bool vobsub, b
 
 	UpdateRects();
 
-	if (!InitDX()){ 
-		return false; 
+#ifdef _WIN32
+	if (!InitDX()){
+		return false;
 	}
+#endif
 	
 	m_SubsProvider->SetVideoParameters(wxSize(m_Width, m_Height), RGB32, false);
 

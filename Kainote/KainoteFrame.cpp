@@ -64,6 +64,7 @@
 #include <wx/dir.h>
 #include <wx/sysopt.h>
 #include <wx/filedlg.h>
+#include <wx/filename.h>
 #include <wx/msw/private.h>
 #include "UtilsWindows.h"
 
@@ -112,6 +113,7 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 	Options.GetTable(KEYFRAMES_RECENT, keyframesRecent);
 
 	SetFont(*Options.GetFont());
+#ifdef _WIN32
 	wxIcon KaiIcon(L"KAI_SMALL_ICON", wxBITMAP_TYPE_ICO_RESOURCE);
 	//::SendMessage(GetHwnd(), WM_SETICON, ICON_SMALL, (LPARAM)GetHiconOf(KaiIcon));
 	SetIcon(KaiIcon);
@@ -123,6 +125,14 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 	else{
 		::SendMessage(GetHwnd(), WM_SETICON, ICON_BIG, (LPARAM)GetHiconOf(KaiIcon));
 	}
+#else
+	wxString iconPath = Options.pathfull + wxFileName::GetPathSeparator() + L"Kainote" +
+		wxFileName::GetPathSeparator() + L"Bitmaps" + wxFileName::GetPathSeparator() + L"KaiSmallIcon.ico";
+	wxIcon KaiIcon(iconPath, wxBITMAP_TYPE_ICO);
+	if (KaiIcon.IsOk()){
+		SetIcon(KaiIcon);
+	}
+#endif
 
 	Menubar = new MenuBar(this);
 
@@ -1597,8 +1607,9 @@ void KainoteFrame::OnSize(wxSizeEvent& event)
 
 bool KainoteFrame::FindFile(const wxString &fn, wxString &foundFile, bool video)
 {
-	wxString filespec;
-	wxString path = fn.BeforeLast(L'\\', &filespec);
+	wxFileName fileName(fn);
+	wxString path = fileName.GetPath();
+	wxString filespec = fileName.GetFullName();
 	wxArrayString files;
 
 	wxDir kat(path);

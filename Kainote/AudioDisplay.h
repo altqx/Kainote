@@ -166,6 +166,9 @@ private:
 	void DrawWaveform(bool weak);
 	void DrawSpectrum(bool weak);
 	void DrawProgress();
+#ifndef _WIN32
+	void DrawWithWx(wxDC& dc, bool weak);
+#endif
 	void GetDialoguePos(long long &start, long long &end, bool cap);
 	//void GetKaraokePos(long long &start, long long &end, bool cap);
 	void UpdatePosition(int pos, bool IsSample = false);
