@@ -559,6 +559,13 @@ int config::LoadOptions()
 			ow.FileWrite(path, txt);
 		}
 		isgood = SetRawOptions(txt);
+		if (!isgood) {
+			LoadDefaultConfig();
+			isgood = 2;
+			wxString defaultOptions;
+			GetRawOptions(defaultOptions);
+			ow.FileWrite(path, defaultOptions);
+		}
 	}
 
 	actualStyleDir = L"Default";

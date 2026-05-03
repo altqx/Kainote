@@ -17,6 +17,7 @@
 #include <wx/dcmemory.h>
 #include <wx/dcclient.h>
 #include <wx/sizer.h>
+#include <wx/settings.h>
 //#include "GraphicsD2D.h"
 
 KaiStaticText::KaiStaticText(wxWindow *parent, int id, const wxString& _text, const wxPoint &pos, const wxSize &size, int style)
@@ -202,10 +203,22 @@ void KaiStaticText::OnPaint(wxPaintEvent &evt)
 	GraphicsContext *gc = renderer->CreateContext(tdc);
 	if (!gc){*/
 	tdc.SetFont(GetFont());
-	tdc.SetBrush(Options.GetColour(WINDOW_BACKGROUND));
+	wxColour backgroundColour = Options.GetColour(WINDOW_BACKGROUND);
+	if (!backgroundColour.IsOk()) {
+		backgroundColour = GetParent() ? GetParent()->GetBackgroundColour() : wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+	}
+	if (!backgroundColour.IsOk()) {
+		backgroundColour = wxColour(47, 49, 54);
+	}
+	wxColour foregroundColour = Options.GetColour(textColour);
+	if (!foregroundColour.IsOk() || foregroundColour == backgroundColour) {
+		int luminance = (backgroundColour.Red() * 299 + backgroundColour.Green() * 587 + backgroundColour.Blue() * 114) / 1000;
+		foregroundColour = (luminance < 128) ? wxColour(236, 239, 244) : wxColour(0, 0, 0);
+	}
+	tdc.SetBrush(backgroundColour);
 	tdc.SetPen(*wxTRANSPARENT_PEN);
 	tdc.DrawRectangle(0, 0, w, h);
-	tdc.SetTextForeground(Options.GetColour(textColour));
+	tdc.SetTextForeground(foregroundColour);
 	int center = (textHeight < h) ? (h - textHeight) / 2 : 0;
 	tdc.SetClippingRegion(0, 0, w, h);
 	tdc.DrawText(text, 0, -scPos + center);
