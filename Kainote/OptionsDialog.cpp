@@ -312,7 +312,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 			GRID_DUPLICATION_DONT_CHANGE_SELECTION, GRID_DONT_CENTER_ACTIVE_LINE,
 			TEXT_FIELD_ALLOW_NUMPAD_HOTKEYS, VIDEO_VISUAL_WARNINGS_OFF,
 			DONT_ASK_FOR_BAD_RESOLUTION, AUTOMATION_OLD_SCRIPTS_COMPATIBILITY };
-		wxString localePath = Options.pathfull + L"\\Locale";
+		wxString localePath = Options.pathfull + L"/Locale";
 		wxDir kat(localePath);
 		wxArrayString langs;
 		if (kat.IsOpened()) {
@@ -830,7 +830,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		wxBoxSizer *sizer1 = new wxBoxSizer(wxHORIZONTAL);
 		wxArrayString choices;
 		wxArrayString files;
-		wxString pathwn = Options.pathfull + L"\\Themes\\";
+		wxString pathwn = Options.pathfull + L"/Themes/";
 		const wxString & programTheme = Options.GetString(PROGRAM_THEME);
 		wxDir kat(pathwn);
 		if (kat.IsOpened()){
@@ -882,7 +882,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 			wxString themeName = newTheme->GetValue();
 			if (themeName.IsEmpty() || choices.Index(themeName, false) != -1){ wxBell(); return; }
 			wxString originalName = themeList->GetString(themeList->GetSelection());
-			wxString dir = Options.pathfull + L"\\Themes\\";
+			wxString dir = Options.pathfull + L"/Themes/";
 			wxString copyPath = dir + themeName + L".txt";
 			if (originalName == L"DarkSentro" || originalName == L"LightSentro"){
 				Options.SaveColors(copyPath);

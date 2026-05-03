@@ -208,14 +208,14 @@ namespace Auto{
 		wxString path = check_string(L, 1);
 		TabPanel *tab = Notebook::GetTab();
 		path.Replace(L'/', L'\\');
-		wxString firstAutomation = Options.pathfull + "\\Automation";
+		wxString firstAutomation = Options.pathfull + "/Automation";
 		if (path[0] == L'?'){
 			if (path[1] == L'a' && path[4] == L'i') path.replace(0, 6, (tab) ? tab->AudioPath.BeforeLast(L'\\') : wxString(L""));
 			else if (path[1] == L'd' && path[4] == L'a') path.replace(0, 5, firstAutomation);
-			else if (path[1] == L'd' && path[4] == L't') path.replace(0, 11, Options.pathfull + wxString(L"\\Dictionary"));
+			else if (path[1] == L'd' && path[4] == L't') path.replace(0, 11, Options.pathfull + wxString(L"/Dictionary"));
 			else if (path[1] == L'l' && path[4] == L'a') path.replace(0, 6, firstAutomation);
 			else if (path[1] == L's' && path[4] == L'i') path.replace(0, 7, (tab) ? tab->SubsPath.BeforeLast(L'\\') : wxString(L""));
-			else if (path[1] == L't' && path[4] == L'p') path.replace(0, 5, firstAutomation + wxString(L"\\temp"));
+			else if (path[1] == L't' && path[4] == L'p') path.replace(0, 5, firstAutomation + wxString(L"/temp"));
 			else if (path[1] == L'u' && path[4] == L'r') path.replace(0, 5, firstAutomation);
 			else if (path[1] == L'v' && path[4] == L'e') path.replace(0, 6, (tab) ? tab->VideoPath.BeforeLast(L'\\') : wxString(L""));
 		}
@@ -515,7 +515,7 @@ namespace Auto{
 		: filename(filename)
 	{
 		include_path.push_back(filename.BeforeLast(L'\\') + L"\\");
-		include_path.push_back(Options.pathfull + L"\\Automation\\automation\\Include\\");
+		include_path.push_back(Options.pathfull + L"/Automation/automation/Include/");
 		Create();
 	}
 
@@ -528,7 +528,7 @@ namespace Auto{
 		, HighTime(_highTime)
 	{
 		include_path.push_back(_filename.BeforeLast(L'\\') + L"\\");
-		include_path.push_back(Options.pathfull + L"\\Automation\\automation\\Include\\");
+		include_path.push_back(Options.pathfull + L"/Automation/automation/Include/");
 		size_t i = 0;
 		size_t macrosSize = _macros.size();
 		if (macrosSize) {
@@ -1118,7 +1118,7 @@ namespace Auto{
 	Automation::Automation(bool loadSubsScripts, bool loadNow)
 	{
 		initialized = false;
-		AutoloadPath = Options.pathfull + L"\\Automation\\automation\\Autoload";
+		AutoloadPath = Options.pathfull + L"/Automation/automation/Autoload";
 		if (loadSubsScripts){ return; }
 		if (LoadDummy()) {
 			finished = true;

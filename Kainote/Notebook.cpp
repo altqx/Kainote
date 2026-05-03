@@ -1287,7 +1287,7 @@ void Notebook::SaveLastSession(bool beforeClose, bool recovery, const wxString &
 	if (beforeClose)
 		result << L"[Close session]\r\n";
 	int numtab = 0;
-	wxString recoveryPath = Options.pathfull + L"\\Recovery\\";
+	wxString recoveryPath = Options.pathfull + L"/Recovery/";
 	
 	for (std::vector<TabPanel*>::iterator it = sthis->Pages.begin(); it != sthis->Pages.end(); it++){
 		TabPanel *tab = *it;
@@ -1319,7 +1319,7 @@ void Notebook::SaveLastSession(bool beforeClose, bool recovery, const wxString &
 		numtab++;
 	}
 	OpenWrite op;
-	wxString sessionPath = externalPath.empty() ? Options.configPath + L"\\LastSession.txt" : externalPath;
+	wxString sessionPath = externalPath.empty() ? Options.configPath + L"/LastSession.txt" : externalPath;
 	op.FileWrite(sessionPath, result);
 
 }
@@ -1327,7 +1327,7 @@ void Notebook::SaveLastSession(bool beforeClose, bool recovery, const wxString &
 void Notebook::LoadLastSession(bool loadCrashSession, const wxString &externalPath)
 {
 	wxString riddenSession;
-	wxString sessionPath = externalPath.empty() ? Options.configPath + L"\\LastSession.txt" : externalPath;
+	wxString sessionPath = externalPath.empty() ? Options.configPath + L"/LastSession.txt" : externalPath;
 	OpenWrite op;
 	if (op.FileOpen(sessionPath, &riddenSession, false) && !riddenSession.empty()){
 		wxStringTokenizer tokenizer(riddenSession, L"\n", wxTOKEN_STRTOK);
@@ -1461,7 +1461,7 @@ void Notebook::FindAutoSaveSubstitute(wxString* path, int tab)
 	if (seekPathWithoutExt.empty())
 		seekPathWithoutExt = seekpath;
 
-	wxString autosavePath = Options.pathfull + L"\\Subs\\" + 
+	wxString autosavePath = Options.pathfull + L"/Subs/" +
 		seekPathWithoutExt + L"_" + std::to_wstring(tab) + L"*";
 
 	WIN32_FIND_DATAW data;
@@ -1494,7 +1494,7 @@ void Notebook::FindAutoSaveSubstitute(wxString* path, int tab)
 		SYSTEMTIME accessSystemTime;
 		FileTimeToSystemTime(&ft, &accessSystemTime);
 		if (ModifChecker.CheckDate(&accessSystemTime, &highiestTime)) {
-			*path = Options.pathfull + L"\\Subs\\" + latestFile;
+			*path = Options.pathfull + L"/Subs/" + latestFile;
 			sthis->loadedRecoverySubs = true;
 		}
 		else {
@@ -1508,7 +1508,7 @@ int Notebook::CheckLastSession()
 {
 	wxString riddenSession;
 	OpenWrite op;
-	if (op.FileOpen(Options.configPath + L"\\LastSession.txt", &riddenSession, false)){
+	if (op.FileOpen(Options.configPath + L"/LastSession.txt", &riddenSession, false)){
 		size_t CloseSession = riddenSession.find(L"]\n[Close session]\n");
 		if (CloseSession != -1)
 			return 1;

@@ -47,7 +47,7 @@ SpellChecker::SpellChecker()
 	hunspell = nullptr;
 	conv = nullptr;
 	SC = nullptr;
-	dictionaryPath = Options.pathfull + L"\\Dictionary\\";
+	dictionaryPath = Options.pathfull + L"/Dictionary/";
 	userDictionaryPath = dictionaryPath + L"UserDic.udic";
 
 }
@@ -82,7 +82,7 @@ void SpellChecker::AvailableDics(wxArrayString &dics, wxArrayString &symbols)
 {
 	wxArrayString dic;
 	wxArrayString aff;
-	wxString dictionaryPath = Options.pathfull + L"\\Dictionary";
+	wxString dictionaryPath = Options.pathfull + L"/Dictionary";
 	wxDir kat(dictionaryPath);
 	if (kat.IsOpened()){
 
@@ -104,7 +104,7 @@ bool SpellChecker::Initialize()
 {
 	Cleaning();
 
-	//wxString pathhh = Options.pathfull + L"\\Dictionary\\";
+	//wxString pathhh = Options.pathfull + L"/Dictionary/";
 	wxString name = Options.GetString(DICTIONARY_LANGUAGE);
 	if (name == emptyString){ name = L"pl"; }
 	wxString dic = dictionaryPath + name + L".dic";
@@ -115,7 +115,7 @@ bool SpellChecker::Initialize()
 	if (!wxFileExists(dic) || !wxFileExists(aff))
 	{
 		Options.SetBool(SPELLCHECKER_ON, false);
-		KaiMessageBox(wxString::Format(_("Brak plików słownika w folderze \"%s\\Dictionary\".\nSprawdzanie pisowni zostanie wyłączone"), Options.pathfull));
+		KaiMessageBox(wxString::Format(_("Brak plików słownika w folderze \"%s/Dictionary\".\nSprawdzanie pisowni zostanie wyłączone"), Options.pathfull));
 		return false;
 	}
 	// Load

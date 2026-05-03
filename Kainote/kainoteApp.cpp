@@ -66,7 +66,7 @@ STDAPI GetDpiForMonitor(
 LONG __stdcall MyCustomFilter(EXCEPTION_POINTERS* pep)
 {
 	wxStandardPathsBase& paths = wxStandardPaths::Get();
-	wxString exePath = paths.GetExecutablePath().BeforeLast(L'\\') + L"\\MiniDump.dmp";
+	wxString exePath = wxFileName(paths.GetExecutablePath()).GetPath() + L"/MiniDump.dmp";
 	HANDLE hFile = CreateFileW(exePath.wc_str(), GENERIC_READ | GENERIC_WRITE,
 		0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 

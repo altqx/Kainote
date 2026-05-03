@@ -263,7 +263,7 @@ void MisspellReplacer::FillRulesList()
 {
 	wxString rulesText;
 	OpenWrite ow;
-	ow.FileOpen(Options.configPath + L"\\Rules.txt", &rulesText);
+	ow.FileOpen(Options.configPath + L"/Rules.txt", &rulesText);
 	if (rulesText.empty()){
 		FillWithDefaultRules(rulesText);
 	}
@@ -664,7 +664,7 @@ void MisspellReplacer::SaveRules()
 		rulesText << rule.description << L"\f" << rule.findRule << L"\f" << rule.replaceRule << L"\f" << rule.options << L"\r\n";
 	}
 	OpenWrite ow;
-	ow.FileWrite(Options.configPath + L"\\Rules.txt", rulesText);
+	ow.FileWrite(Options.configPath + L"/Rules.txt", rulesText);
 }
 
 void MisspellReplacer::MoveCase(const wxString &originalCase, wxString *result, int options)

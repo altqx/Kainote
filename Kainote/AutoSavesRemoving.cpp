@@ -169,8 +169,8 @@ AutoSavesRemoving::AutoSavesRemoving(wxWindow* parent)
 
 void AutoSavesRemoving::ClearSelected(int id)
 {
-	wxString folder = (id == ID_REMOVE_SELECTED_AUTO_SAVES) ? L"\\Subs\\" :
-		(id == ID_REMOVE_SELECTED_INDICES) ? L"\\Indices\\" : L"\\AudioCache\\";
+	wxString folder = (id == ID_REMOVE_SELECTED_AUTO_SAVES) ? L"/Subs/" :
+		(id == ID_REMOVE_SELECTED_INDICES) ? L"/Indices/" : L"/AudioCache/";
 
 	wxString path = Options.pathfull + folder;
 	wxString description = (id == ID_REMOVE_SELECTED_AUTO_SAVES) ?
@@ -194,8 +194,8 @@ void AutoSavesRemoving::ClearSelected(int id)
 
 void AutoSavesRemoving::ClearAll(int id)
 {
-	wxString folder = (id == ID_REMOVE_ALL_AUTO_SAVES) ? L"\\Subs\\" :
-		(id == ID_REMOVE_ALL_INDICES) ? L"\\Indices\\" : L"\\AudioCache\\";
+	wxString folder = (id == ID_REMOVE_ALL_AUTO_SAVES) ? L"/Subs/" :
+		(id == ID_REMOVE_ALL_INDICES) ? L"/Indices/" : L"/AudioCache/";
 
 	wxString path = Options.pathfull + folder;
 	wxDir dir(path);
@@ -212,8 +212,8 @@ void AutoSavesRemoving::ClearAll(int id)
 
 void AutoSavesRemoving::ClearByDate(int id)
 {
-	wxString folder = (id == ID_REMOVE_AUTO_SAVES_BY_DATE) ? L"\\Subs\\" :
-		(id == ID_REMOVE_INDICES_BY_DATE) ? L"\\Indices\\" : L"\\AudioCache\\";
+	wxString folder = (id == ID_REMOVE_AUTO_SAVES_BY_DATE) ? L"/Subs/" :
+		(id == ID_REMOVE_INDICES_BY_DATE) ? L"/Indices/" : L"/AudioCache/";
 
 	wxString path = Options.pathfull + folder;
 	wxString findPath = path + L"*";
