@@ -12,17 +12,21 @@ if(unresolved_deps)
     message(WARNING "Unresolved runtime dependencies: ${unresolved_deps}")
 endif()
 
-# Bundle version-sensitive libraries that are commonly absent or have different
-# SONAMEs on other Linux installations.  Leave core libc/desktop/driver stacks
-# to the host system to avoid overriding system GTK/OpenGL/X11 components.
-set(bundle_dep_regex
-    "^(lib(lua5\\.1|icu.*|hunspell.*|uchardet.*|ffms2.*|ass.*|av(format|codec|util|filter|device).*|sw(resample|scale).*|postproc.*|wx_.*3\\.2.*|wx_base.*3\\.2.*|curl.*|ssl.*|crypto.*|nghttp2.*|idn2.*|ssh2.*|psl.*|unistring.*|zstd.*|lzma.*|bz2.*|xml2.*|fontconfig.*|freetype.*|harfbuzz.*|fribidi.*|png16.*|jpeg.*|openjp2.*|webp.*|vpx.*|x264.*|x265.*|dav1d.*|aom.*|Svt.*|jxl.*|brotli.*|ogg.*|vorbis.*|opus.*|mp3lame.*|soxr.*|theora.*|speex.*|gsm.*|bluray.*|udfread.*))\\.so"
+# Build a self-contained Linux runtime directory.  Earlier allowlist-based
+# bundling fixed direct deps such as Lua/ICU but missed transitive deps such as
+# libass -> libunibreak and FFmpeg codec/network helpers.  Copy every resolved
+# shared library except the fundamental glibc/ELF loader set that must come from
+# the target system.  The executable is linked with $ORIGIN RPATH, so these
+# copied libraries are preferred when launching ./kainote from the build/package
+# directory.
+set(system_dep_regex
+    "^(ld-linux.*|linux-vdso.*|lib(c|m|dl|pthread|rt|resolv|nsl|util|anl)\\.so.*)$"
 )
 
 set(copied_count 0)
 foreach(dep IN LISTS resolved_deps)
     get_filename_component(dep_name "${dep}" NAME)
-    if(dep_name MATCHES "${bundle_dep_regex}")
+    if(NOT dep_name MATCHES "${system_dep_regex}")
         execute_process(
             COMMAND "${CMAKE_COMMAND}" -E copy_if_different
                     "${dep}" "${RUNTIME_DIR}/${dep_name}"
