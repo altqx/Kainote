@@ -16,6 +16,12 @@ pkg_check_modules(ICU_UC REQUIRED IMPORTED_TARGET icu-uc)
 pkg_check_modules(ICU_I18N REQUIRED IMPORTED_TARGET icu-i18n)
 pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET libavformat libavcodec libavutil)
 
+find_library(LUA_RUNTIME_LIBRARY
+    NAMES liblua5.1.so.0 lua5.1
+    HINTS ${LUA_LIBRARY_DIRS}
+    REQUIRED
+)
+
 # Link Boost statically on Linux so the built binary does not depend on the
 # exact distro Boost shared-library SONAME, e.g. libboost_filesystem.so.1.83.0.
 # Other system libraries remain dynamically linked through pkg-config/wxWidgets.
@@ -181,6 +187,10 @@ target_include_directories(kainote PRIVATE
     ${CMAKE_SOURCE_DIR}/Thirdparty/ffms2/src
 )
 target_link_libraries(kainote PRIVATE ${wxWidgets_LIBRARIES} PkgConfig::LIBASS PkgConfig::FFMS2 PkgConfig::LUA PkgConfig::HUNSPELL PkgConfig::UCHARDET PkgConfig::LIBCURL PkgConfig::ICU_UC PkgConfig::ICU_I18N PkgConfig::FFMPEG Boost::filesystem Boost::locale Boost::regex Boost::system GL ${CMAKE_DL_LIBS})
+set_target_properties(kainote PROPERTIES
+    BUILD_RPATH "$ORIGIN"
+    INSTALL_RPATH "$ORIGIN"
+)
 
 set(KAINOTE_RUNTIME_DIR $<TARGET_FILE_DIR:kainote>)
 
@@ -189,6 +199,9 @@ set(KAINOTE_RUNTIME_DIR $<TARGET_FILE_DIR:kainote>)
 # resources from files, and wxLocale expects .mo catalogs beside the binary.
 add_custom_command(TARGET kainote POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory "${KAINOTE_RUNTIME_DIR}/Locale"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${LUA_RUNTIME_LIBRARY}"
+            "${KAINOTE_RUNTIME_DIR}/liblua5.1.so.0"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_SOURCE_DIR}/Locale"
             "${KAINOTE_RUNTIME_DIR}/Locale"
