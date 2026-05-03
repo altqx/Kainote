@@ -207,9 +207,8 @@ bool OpenWrite::CheckCharSet(char* buf, size_t size, wxString* result)
 
 	int intresult = uchardet_handle_data(detector, buf, size);
 	uchardet_data_end(detector);
-	size_t ncandidates = uchardet_get_n_candidates(detector);
-	const char* encoding = uchardet_get_encoding(detector, 0);
-	if (ncandidates && encoding)
+	const char* encoding = uchardet_get_charset(detector);
+	if (encoding && *encoding)
 		*result = wxString(encoding);
 	else
 		return false;

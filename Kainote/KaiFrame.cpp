@@ -27,9 +27,11 @@
 #include <wx/dc.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
-#include "wx/msw/private.h"
 #include "UtilsWindows.h"
+#ifdef __WXMSW__
+#include "wx/msw/private.h"
 #include <Dwmapi.h>
+#endif
 
 #define GET_X_LPARAM(lp)                        ((int)(short)LOWORD(lp))
 #define GET_Y_LPARAM(lp)                        ((int)(short)HIWORD(lp))
@@ -54,6 +56,7 @@ KaiFrame::KaiFrame(wxWindow *parent, wxWindowID id, const wxString& title/*=""*/
 	// notice that we should append this window to wxTopLevelWindows list
 	// before calling CreateBase() as it behaves differently for TLW and
 	// non-TLW windows
+#ifdef __WXMSW__
 	wxTopLevelWindows.Append(this);
 
 	bool ret = CreateBase(parent, id, pos, sizeReal, style, name);
@@ -77,6 +80,11 @@ KaiFrame::KaiFrame(wxWindow *parent, wxWindowID id, const wxString& title/*=""*/
 
 	MARGINS borderless = { 0, 0, 0, 0 };
 	DwmExtendFrameIntoClientArea(m_hWnd, &borderless);
+#else
+	bool ret = wxTopLevelWindow::Create(parent, id, title, pos, sizeReal, style, name);
+	if (!ret)
+		return;
+#endif
 	wxWindow::SetFont(*Options.GetFont());
 
 	SetForegroundColour(Options.GetColour(WINDOW_TEXT));
@@ -262,7 +270,11 @@ void KaiFrame::OnMouseEvent(wxMouseEvent &evt)
 			if (evt.LeftUp()){
 				pushedMinimize = enterMinimize = false;
 				Refresh(false, &rc);
+#ifdef __WXMSW__
 				ShowWindow(GetHWND(), SW_SHOWMINNOACTIVE);
+#else
+				Iconize(true);
+#endif
 			}
 			return;
 	}
@@ -274,6 +286,7 @@ void KaiFrame::OnMouseEvent(wxMouseEvent &evt)
 }
 
 
+#ifdef __WXMSW__
 WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 {
 	if (uMsg == WM_COPYDATA){
@@ -588,13 +601,13 @@ WXLRESULT KaiFrame::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 		}
 		
 		KainoteFrame::Get()->Thaw();
-		Options.SetCoords(VIDEO_WINDOW_SIZE, vsizex, vsizey);
+	Options.SetCoords(VIDEO_WINDOW_SIZE, vsizex, vsizey);
 		//LastMonitorRect = rt;
 	}
 	
 	return wxTopLevelWindow::MSWWindowProc(uMsg, wParam, lParam);
 }
-
+#endif
 
 
 

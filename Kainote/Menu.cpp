@@ -467,7 +467,7 @@ MenuDialog::~MenuDialog()
 	if (loop && loop->IsRunning()){
 		//-5 is safe retcode for destroyed windows, it's will not destroy again
 		loop->Exit(-5);
-		//pod ¿adnym pozorem nie niszcz loop bo to gówno przestaje dzia³aæ dopiero gdy wszystkie funkcje siê wykonaj¹
+		//pod ï¿½adnym pozorem nie niszcz loop bo to gï¿½wno przestaje dziaï¿½aï¿½ dopiero gdy wszystkie funkcje siï¿½ wykonajï¿½
 	}
 	wxDELETE(bmp);
 }
@@ -794,7 +794,7 @@ void MenuDialog::HideMenus(int id)
 //	
 //	if(ParentMenu){HideMenus();}
 //}
-//Pokazuje okno menu dodaj¹c pêtlê czekaj¹c¹ do odwo³ania
+//Pokazuje okno menu dodajï¿½c pï¿½tlï¿½ czekajï¿½cï¿½ do odwoï¿½ania
 int MenuDialog::ShowPartialModal()
 {
 	isPartialModal = true;
@@ -810,7 +810,7 @@ int MenuDialog::ShowPartialModal()
 	}
 	return resid;
 }
-//Odwo³uje pêtlê czekaj¹c¹
+//Odwoï¿½uje pï¿½tlï¿½ czekajï¿½cï¿½
 void MenuDialog::EndPartialModal(int ReturnId)
 {
 	if (loop){
@@ -831,7 +831,11 @@ WXLRESULT MenuDialog::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lP
 		}
 		return 0;
 	}
+#ifdef _WIN32
 	return wxPopupWindow::MSWWindowProc(message, wParam, lParam);
+#else
+	return 0;
+#endif
 }
 
 
@@ -945,7 +949,7 @@ void MenuBar::OnMouseEvent(wxMouseEvent &evt)
 			return; 
 		}
 	}
-	//poprawiæ to nieszczêsne menu by nie odpala³o siê wiele razy ani te¿ obwódka z helpa nie znika³a.
+	//poprawiï¿½ to nieszczï¿½sne menu by nie odpalaï¿½o siï¿½ wiele razy ani teï¿½ obwï¿½dka z helpa nie znikaï¿½a.
 	if (elem != oldelem){
 		
 		oldelem = elem;
@@ -1103,7 +1107,7 @@ LRESULT CALLBACK MenuBar::OnKey(int code, WPARAM wParam, LPARAM lParam){
 		return 0;
 	}
 
-	if (wParam == VK_MENU && !(lParam & 1073741824)){//536870912 1073741824 lparam mówi nam o altup, który ma specjalny bajt 
+	if (wParam == VK_MENU && !(lParam & 1073741824)){//536870912 1073741824 lparam mï¿½wi nam o altup, ktï¿½ry ma specjalny bajt
 		//close menu after alt up
 		if (Menubar->md) {
 			Menubar->md->HideMenu();
@@ -1134,7 +1138,7 @@ LRESULT CALLBACK MenuBar::OnKey(int code, WPARAM wParam, LPARAM lParam){
 		Menubar->blockMenu = false;
 	}
 	else if (showMnemonics){
-		if ((wParam >= 0x41 && wParam <= 0x5A) && !(lParam & 2147483648)){//lparam mówi o keyup
+		if ((wParam >= 0x41 && wParam <= 0x5A) && !(lParam & 2147483648)){//lparam mï¿½wi o keyup
 			auto mn = (Menubar->md) ? Menubar->md->mnemonics : Menubar->mnemonics;
 			auto foundmnemonics = mn.find(wParam);
 

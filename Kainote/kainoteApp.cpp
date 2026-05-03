@@ -39,9 +39,12 @@
 #include "UtilsWindows.h"
 #include <versionhelpers.h>
 //#include <boost/stacktrace.hpp>
+#ifdef _WIN32
 #include <dbghelp.h>
+#endif
 
 
+#ifdef _WIN32
 typedef enum MONITOR_DPI_TYPE {
 	MDT_EFFECTIVE_DPI = 0,
 	MDT_ANGULAR_DPI = 1,
@@ -54,9 +57,10 @@ STDAPI GetDpiForMonitor(
 	_In_ MONITOR_DPI_TYPE dpiType,
 	_Out_ UINT* dpiX,
 	_Out_ UINT* dpiY);
+#endif
 
 
-
+#ifdef _WIN32
 LONG __stdcall MyCustomFilter(EXCEPTION_POINTERS* pep)
 {
 	wxStandardPathsBase& paths = wxStandardPaths::Get();
@@ -91,6 +95,7 @@ LONG __stdcall MyCustomFilter(EXCEPTION_POINTERS* pep)
 	}
 	return EXCEPTION_EXECUTE_HANDLER;
 }
+#endif
 
 
 
@@ -175,7 +180,9 @@ bool kainoteApp::OnInit()
 			}
 		}
 		
+#ifdef _WIN32
 		SetUnhandledExceptionFilter(MyCustomFilter);
+#endif
 
 		//on x64 it makes not working unicode toupper tolower conversion
 		//setlocale(LC_CTYPE, "C");
@@ -198,11 +205,13 @@ bool kainoteApp::OnInit()
 		wxPoint posOnScreen = wxGetMousePosition();
 		if (msizex && msizey) {
 			if (IsWindows8OrGreater()) {
+#ifdef _WIN32
 				HMONITOR hmon = MonitorFromPoint(POINT(posOnScreen.x, posOnScreen.y), MONITOR_DEFAULTTONEAREST);
 				unsigned int dpiy = 96, dpix = 96;
 				HRESULT hr = GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &dpix, &dpiy);
 				if (hr == S_OK)
 					Options.FontsRescale(dpiy);
+#endif
 			}
 			wxRect rt = GetMonitorRect1(0/*-1*/, nullptr, wxRect(posOnScreen.x, posOnScreen.y, 1, 1));
 			if (rt.width != msizex || rt.height != msizey) {
@@ -340,6 +349,10 @@ bool kainoteApp::OnInit()
 		m_checker = nullptr;
 		if (subs.empty())
 			return false;
+#ifndef _WIN32
+		KaiLogSilent(wxString::Format(L"Cannot pass files to an already running instance on this platform: %s", subs));
+		return false;
+#else
 		//damn wxwidgets, why class name is not customizable?    
 		int count = 0;
 		HWND hWnd = nullptr;
@@ -363,6 +376,7 @@ bool kainoteApp::OnInit()
 		SendMessage(hWnd, WM_COPYDATA, 0, (LPARAM)&cds);
 		
 		return false;
+#endif
 	}
 
 	return true;

@@ -19,7 +19,7 @@
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
 #include <wx/event.h>
-#include <wx/Window.h>
+#include <wx/window.h>
 #include <wx/event.h>
 #include "config.h"
 

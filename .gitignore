@@ -23,6 +23,7 @@ gitparams.h
 *.userprefs
 
 # Build results
+build-linux/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

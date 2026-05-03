@@ -1195,7 +1195,7 @@ void AudioDisplay::SetSamplesPercent(int percent, bool update, float pivot) {
 		// Center scroll
 		int oldSamples = samples;
 		UpdateSamples();
-		PositionSample += long long((oldSamples - samples)*w1*pivot);
+		PositionSample += static_cast<long long>((oldSamples - samples)*w1*pivot);
 		if (PositionSample < 0) PositionSample = 0;
 
 		// Update

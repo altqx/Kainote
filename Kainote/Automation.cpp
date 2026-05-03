@@ -59,6 +59,9 @@
 #include <wx/stdpaths.h>
 
 #include "UtilsWindows.h"
+#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM < 502 && !defined(luaL_setfuncs)
+#define luaL_setfuncs(L, funcs, nup) luaL_register((L), nullptr, (funcs))
+#endif
 //#include <thread>
 //#include <tuple>
 
@@ -368,7 +371,7 @@ namespace Auto{
 			lua_pushvalue(L, -2);
 			lua_settable(L, -3);
 
-			luaL_register(L, NULL, FrameTableDefinition);
+			luaL_setfuncs(L, FrameTableDefinition, 0);
 		}
 
 		if (tab && tab->video->HasFFMS2()) {
@@ -616,7 +619,8 @@ namespace Auto{
 		lua_setfield(L, -2, "gui");
 
 		// store aegisub table to globals
-		lua_settable(L, LUA_GLOBALSINDEX);
+		lua_setglobal(L, "aegisub");
+		lua_pop(L, 1);
 		stackcheck.check_stack(0);
 
 		// load user script

@@ -247,6 +247,11 @@ typedef struct tagTHREADNAME_INFO
 
 void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
 {
+#ifndef _WIN32
+	(void)dwThreadID;
+	(void)szThreadName;
+#else
+
 	THREADNAME_INFO info;
 	info.dwType = 0x1000;
 	info.szName = szThreadName;
@@ -260,6 +265,8 @@ void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
 	__except (EXCEPTION_CONTINUE_EXECUTION)
 	{
 	}
+
+#endif
 }
 #else
 typedef struct tagTHREADNAME_INFO
@@ -272,6 +279,11 @@ typedef struct tagTHREADNAME_INFO
 
 void SetThreadName(size_t dwThreadID, LPCSTR szThreadName)
 {
+#ifndef _WIN32
+	(void)dwThreadID;
+	(void)szThreadName;
+#else
+
 	THREADNAME_INFO info;
 	info.dwType = 0x1000;
 	info.szName = szThreadName;
@@ -285,5 +297,7 @@ void SetThreadName(size_t dwThreadID, LPCSTR szThreadName)
 	__except (EXCEPTION_CONTINUE_EXECUTION)
 	{
 	}
+
+#endif
 }
 #endif

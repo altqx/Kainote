@@ -19,7 +19,9 @@
 #include "Menu.h"
 #include "KaiMessageBox.h"
 #include "KaiStaticText.h"
+#ifdef _WIN32
 #include "RendererDirectShow.h"
+#endif
 #include "RendererFFMS2.h"
 #include "Notebook.h"
 #include "KaiSlider.h"
@@ -274,8 +276,14 @@ bool VideoBox::LoadVideo(const wxString& fileName, int subsFlag, bool fulls /*= 
 	bool byFFMS2;
 	KainoteFrame* Kai = (KainoteFrame*)Notebook::GetTabs()->GetParent();
 	if (customFFMS2 == -1){
+#ifdef _WIN32
 		MenuItem *index = Kai->Menubar->FindItem(GLOBAL_VIDEO_INDEXING);
 		byFFMS2 = index->IsChecked() && index->IsEnabled() && !fulls/* && !isFullscreen*/;
+#else
+		// DirectShow is Windows-only.  On Linux use the FFMS2/FFmpeg path for
+		// video decoding/playback instead of trying to instantiate DirectShow.
+		byFFMS2 = true;
+#endif
 	}
 	else
 		byFFMS2 = customFFMS2 == 1;
@@ -289,8 +297,13 @@ bool VideoBox::LoadVideo(const wxString& fileName, int subsFlag, bool fulls /*= 
 	if (!renderer){
 		if (byFFMS2)
 			renderer = new RendererFFMS2(this, m_VideoToolbar->IsVisualsDisabled());
+#ifdef _WIN32
 		else
 			renderer = new RendererDirectShow(this, m_VideoToolbar->IsVisualsDisabled());
+#else
+		else
+			renderer = new RendererFFMS2(this, m_VideoToolbar->IsVisualsDisabled());
+#endif
 	}
 
 

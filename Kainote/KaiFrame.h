@@ -48,7 +48,9 @@ private:
 	//void PaintD2D(GraphicsContext *gc, int w, int h);
 	/*void OnSize(wxSizeEvent &evt);*/
 	void OnMouseEvent(wxMouseEvent &evt);
+#ifdef __WXMSW__
 	WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+#endif
 	void OnEraseBackground(wxEraseEvent()){}
 	
 	long style;

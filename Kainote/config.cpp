@@ -35,6 +35,7 @@
 #include "Config.h"
 #include "UtilsWindows.h"
 #include <locale>
+#include <algorithm>
 
 #define ADD_QUOTES_HELPER(s) #s
 #define ADD_QUOTES(s) ADD_QUOTES_HELPER(s)
@@ -937,7 +938,11 @@ wxFont *config::GetFont(int offset, const wxString& name, bool bold)
 	else if (fontName.empty())
 		fontName = L"Tahoma";
 
+#ifdef _WIN32
 	int newPixelSize = -(int)(((double)fontSize * ((double)fontDPI) / 72.0) + 0.5);
+#else
+	int newPixelSize = std::max(1, (int)(((double)fontSize * ((double)fontDPI) / 72.0) + 0.5));
+#endif
 
 	wxFont *newFont = new wxFont(wxSize(0, newPixelSize), wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, bold? wxFONTWEIGHT_BOLD : wxFONTWEIGHT_NORMAL, false, fontName);
 	programFonts.insert(std::pair<int, wxFont*>(10 + offset, newFont));
@@ -969,6 +974,11 @@ bool config::CheckLastKeyEvent(int id, int timeInterval)
 
 void SelectInFolder(const wxString& filename)
 {
+#ifndef _WIN32
+	wxString target = wxFileName(filename).GetPath();
+	if (target.empty()) target = filename;
+	OpenInBrowser(target);
+#else
 	CoInitialize(0);
 	ITEMIDLIST* pidl = ILCreateFromPathW(filename.wc_str());
 	if (pidl) {
@@ -976,6 +986,7 @@ void SelectInFolder(const wxString& filename)
 		ILFree(pidl);
 	}
 	CoUninitialize();
+#endif
 }
 
 void OpenInBrowser(const wxString& adress)

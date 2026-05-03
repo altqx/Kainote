@@ -116,7 +116,7 @@ bool Demux::GetSubtitles(SubsGrid* target)
 
 		progress = new ProgressSink(target->GetParent(), _("Odczyt napisów z pliku Matroska."));
 		progress->SetAndRunTask([=]() {
-			FFMS_GetSubtitles(indexer, trackToRead, GetSubtitles, (void*)this);
+			FFMS_GetSubtitles(indexer, trackToRead, &Demux::GetSubtitles, (void*)this);
 			if (progress->WasCancelled()) {
 				subtitleList.clear();
 				return 0;
@@ -225,7 +225,7 @@ bool Demux::SaveFont(int i, const wxString& path, wxZipOutputStream* zip)
 	return isgood;
 }
 
-int __stdcall Demux::GetSubtitles(long long Start, long long Duration, long long Total, const char* Line, void* ICPrivate)
+int __stdcall Demux::GetSubtitles(int64_t Start, int64_t Duration, int64_t Total, const char* Line, void* ICPrivate)
 {
 	Demux* demux = (Demux*)ICPrivate;
 	wxString blockString(Line, wxConvUTF8);

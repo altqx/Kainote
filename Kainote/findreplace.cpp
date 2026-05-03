@@ -137,7 +137,7 @@ void FindReplace::ReplaceChecked()
 		wxString copyPath = Options.pathfull + L"\\ReplaceBackup\\";
 		DWORD ftyp = GetFileAttributesW(copyPath.wc_str());
 		if (ftyp == INVALID_FILE_ATTRIBUTES){
-			wxMkDir(copyPath);
+			wxMkDir(copyPath, 0777);
 		}
 		int numChanges = 0;
 		std::vector<SeekResults*> results;
@@ -568,7 +568,7 @@ void FindReplace::FindInSubs(TabWindow *window)
 	FindReplaceInSubs(window);
 }
 
-DWORD FindReplace::FindReplaceInFiles(void *data)
+unsigned long FindReplace::FindReplaceInFiles(void *data)
 {
 	std::tuple<FindReplace*, wxArrayString*, int> *actualData = (std::tuple<FindReplace*, wxArrayString*, int>*)data;
 	FindReplace* fr = std::get<0>(*actualData);
@@ -767,7 +767,7 @@ void FindReplace::FindReplaceInSubs(TabWindow *window)
 	if (!find){
 		DWORD ftyp = GetFileAttributesW(CopyPath.wc_str());
 		if (ftyp == INVALID_FILE_ATTRIBUTES){
-			wxMkDir(CopyPath);
+			wxMkDir(CopyPath, 0777);
 		}
 	}
 	//bool plainText = false;//(window->CollumnTextOriginal->GetValue());

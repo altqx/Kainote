@@ -543,7 +543,7 @@ void Notebook::OnMouseEvent(wxMouseEvent& event)
 	//can make other bugs
 	if (event.Moving() || click){
 
-		if (x > start + TabHeight - 4 && HasToolTips()){ UnsetToolTip(); }
+		if (x > start + TabHeight - 4 && true){ UnsetToolTip(); }
 
 
 		if (!allTabsVisible && x < 20){

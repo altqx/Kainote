@@ -1,0 +1,178 @@
+cmake_minimum_required(VERSION 3.20)
+project(KainoteLinux LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOMOC OFF)
+find_package(PkgConfig REQUIRED)
+find_package(wxWidgets REQUIRED COMPONENTS core base adv aui html xml gl stc)
+include(${wxWidgets_USE_FILE})
+pkg_check_modules(LIBASS REQUIRED IMPORTED_TARGET libass)
+pkg_check_modules(FFMS2 REQUIRED IMPORTED_TARGET ffms2)
+pkg_check_modules(LUA REQUIRED IMPORTED_TARGET lua5.1)
+pkg_check_modules(HUNSPELL REQUIRED IMPORTED_TARGET hunspell)
+pkg_check_modules(UCHARDET REQUIRED IMPORTED_TARGET uchardet)
+pkg_check_modules(LIBCURL REQUIRED IMPORTED_TARGET libcurl)
+pkg_check_modules(ICU_UC REQUIRED IMPORTED_TARGET icu-uc)
+pkg_check_modules(ICU_I18N REQUIRED IMPORTED_TARGET icu-i18n)
+pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET libavformat libavcodec libavutil)
+find_package(Boost REQUIRED COMPONENTS filesystem locale regex system)
+add_compile_definitions(_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING _CRT_SECURE_NO_WARNINGS HAVE_DLL_EXPORT LINUX_BUILD KAINOTE_LINUX_BUILD)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-include> $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/Kainote/platform.h> -Wno-deprecated-declarations -Wno-narrowing -Wno-unused-result $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>)
+add_executable(kainote
+    Kainote/Demux.cpp
+    Kainote/DialogueTextEditor.cpp
+    Kainote/ModificationChecker.cpp
+    Kainote/KainoteFrame.cpp
+    Kainote/Notebook.cpp
+    Kainote/AutomationDummyLoader.cpp
+    Kainote/TagFindReplace.cpp
+    Kainote/VisualAllTags.cpp
+    Kainote/AudioBox.cpp
+    Kainote/AudioDisplay.cpp
+    Kainote/AudioDeviceEnumeration.cpp
+    Kainote/AudioPlayerDSound.cpp
+    Kainote/AudioSpectrum.cpp
+    Kainote/Automation.cpp
+    Kainote/AutomationDialog.cpp
+    Kainote/AutomationFileSystem.cpp
+    Kainote/AutomationHotkeysDialog.cpp
+    Kainote/AutomationLPeg.c
+    Thirdparty/luabins/src/fwrite.c
+    Thirdparty/luabins/src/load.c
+    Thirdparty/luabins/src/luabins.c
+    Thirdparty/luabins/src/luainternals.c
+    Thirdparty/luabins/src/save.c
+    Thirdparty/luabins/src/savebuffer.c
+    Thirdparty/luabins/src/write.c
+    Kainote/AutomationProgress.cpp
+    Kainote/AutomationScriptReader.cpp
+    Kainote/AutomationToFile.cpp
+    Kainote/AutomationUtils.cpp
+    Kainote/AutoSavesRemoving.cpp
+    Kainote/BidiConversion.cpp
+    Kainote/BitmapButton.cpp
+    Kainote/CsriMod.cpp
+    Kainote/ConfigConverter.cpp
+    Kainote/Context.cpp
+    Kainote/ContextVulkan.cpp
+    Kainote/ContextDX9.cpp
+    Kainote/DshowRenderer.cpp
+    Kainote/DummyVideo.cpp
+    Kainote/FontCatalogList.cpp
+    Kainote/KaiGauge.cpp
+    Kainote/KaiPanel.cpp
+    Kainote/Languages.cpp
+    Kainote/LineParse.cpp
+    Kainote/Provider.cpp
+    Kainote/ProviderDummy.cpp
+    Kainote/ProviderFFMS2.cpp
+    Kainote/RendererFFMS2.cpp
+    Kainote/Registry.cpp
+    Kainote/RendererDirectShow.cpp
+    Kainote/RendererVideo.cpp
+    Kainote/AutoSaveOpen.cpp
+    Kainote/ShiftTimes.cpp
+    Kainote/colorspace.cpp
+    Kainote/config.cpp
+    Kainote/findreplace.cpp
+    Kainote/FindReplaceDialog.cpp
+    Kainote/FindReplaceResultsDialog.cpp
+    Kainote/FontEnumerator.cpp
+    Kainote/GFFT/GFFT.cpp
+    Kainote/GraphicsD2D.cpp
+    Kainote/HotkeysNaming.cpp
+    Kainote/KaiCheckBox.cpp
+    Kainote/KaiDialog.cpp
+    Kainote/KaiFrame.cpp
+    Kainote/KaiListCtrl.cpp
+    Kainote/KaiMessageBox.cpp
+    Kainote/kainoteApp.cpp
+    Kainote/KaiRadioButton.cpp
+    Kainote/KaiScrollbar.cpp
+    Kainote/KaiSlider.cpp
+    Kainote/KaiStaticBoxSizer.cpp
+    Kainote/KaiStaticText.cpp
+    Kainote/KaiStatusBar.cpp
+    Kainote/KaiTabBar.cpp
+    Kainote/KaiTextCtrl.cpp
+    Kainote/KaiTextValidator.cpp
+    Kainote/KaiTreeBook.cpp
+    Kainote/KaiWindowResizer.cpp
+    Kainote/KeyframesLoader.cpp
+    Kainote/ListControls.cpp
+    Kainote/LogHandler.cpp
+    Kainote/MappedButton.cpp
+    Kainote/Menu.cpp
+    Kainote/MenuButton.cpp
+    Kainote/MispellReplacerDialog.cpp
+    Kainote/OptionsPanels.cpp
+    Kainote/SelectLines.cpp
+    Kainote/SpellCheckerDialog.cpp
+    Kainote/MisspellReplacer.cpp
+    Kainote/styles.cpp
+    Kainote/stylestore.cpp
+    Kainote/SubsGridDialogs.cpp
+    Kainote/SubsGridFiltering.cpp
+    Kainote/SubsGridPreview.cpp
+    Kainote/SubsGridWindow.cpp
+    Kainote/SubsLoader.cpp
+    Kainote/SubsResampleDialog.cpp
+    Kainote/SubtitlesLibass.cpp
+    Kainote/SubtitlesProviderManager.cpp
+    Kainote/SubtitlesVSFilter.cpp
+    Kainote/TextEditorTagList.cpp
+    Kainote/VideoToolbar.cpp
+    Kainote/VisualAllTagsControls.cpp
+    Kainote/VisualAllTagsEdition.cpp
+    Kainote/VisualCross.cpp
+    Kainote/VisualDrawingShapes.cpp
+    Kainote/VisualMoveAll.cpp
+    Kainote/VisualClipRect.cpp
+    Kainote/StyleChange.cpp
+    Kainote/ColorPicker.cpp
+    Kainote/DropFiles.cpp
+    Kainote/EditBox.cpp
+    Kainote/FontCollector.cpp
+    Kainote/FontDialog.cpp
+    Kainote/SubsGrid.cpp
+    Kainote/Hotkeys.cpp
+    Kainote/KaraokeSplitting.cpp
+    Kainote/NewCatalog.cpp
+    Kainote/NumCtrl.cpp
+    Kainote/OpennWrite.cpp
+    Kainote/OptionsDialog.cpp
+    Kainote/ProgressDialog.cpp
+    Kainote/ScriptInfo.cpp
+    Kainote/SpellChecker.cpp
+    Kainote/StyleList.cpp
+    Kainote/Stylelistbox.cpp
+    Kainote/StylePreview.cpp
+    Kainote/SubsDialogue.cpp
+    Kainote/SubsFile.cpp
+    Kainote/SubsGridBase.cpp
+    Kainote/TabPanel.cpp
+    Kainote/SubsTime.cpp
+    Kainote/TimeCtrl.cpp
+    Kainote/TLDialog.cpp
+    Kainote/Toolbar.cpp
+    Kainote/VideoBox.cpp
+    Kainote/VideoFullscreen.cpp
+    Kainote/VideoSlider.cpp
+    Kainote/VisualClips.cpp
+    Kainote/VisualMove.cpp
+    Kainote/VisualPosition.cpp
+    Kainote/VisualRotationXY.cpp
+    Kainote/VisualRotationZ.cpp
+    Kainote/Visuals.cpp
+    Kainote/VisualScale.cpp
+    Kainote/UtilsWindows.cpp
+    Thirdparty/Build/FFMS2/indexing_additional.cpp
+)
+target_include_directories(kainote PRIVATE
+    ${CMAKE_SOURCE_DIR}/Kainote
+    ${CMAKE_SOURCE_DIR}/Kainote/GFFT
+    ${CMAKE_SOURCE_DIR}/Thirdparty/luabins/include
+    ${CMAKE_SOURCE_DIR}/Thirdparty/DependencyControl/include
+    ${CMAKE_SOURCE_DIR}/Thirdparty/ffms2/src
+)
+target_link_libraries(kainote PRIVATE ${wxWidgets_LIBRARIES} PkgConfig::LIBASS PkgConfig::FFMS2 PkgConfig::LUA PkgConfig::HUNSPELL PkgConfig::UCHARDET PkgConfig::LIBCURL PkgConfig::ICU_UC PkgConfig::ICU_I18N PkgConfig::FFMPEG Boost::filesystem Boost::locale Boost::regex Boost::system GL ${CMAKE_DL_LIBS})

@@ -73,7 +73,9 @@ private:
 	void OnNavigation(wxNavigationKeyEvent &evt);
 	void OnEnter(wxCommandEvent &evt);
 	void OnEscape(wxCommandEvent &evt);
+#ifdef __WXMSW__
 	WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+#endif
 
 	int escapeId;
 	int enterId;

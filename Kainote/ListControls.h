@@ -23,7 +23,7 @@
 
 class KaiTextCtrl;
 class KaiScrollbar;
-enum COLOR;
+enum COLOR : int;
 
 class PopupList : public wxPopupWindow{
 	friend class KaiChoice;

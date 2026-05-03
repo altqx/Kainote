@@ -15,11 +15,11 @@
 
 //#include "Utils.h"
 #include "KaiSlider.h"
-#include <wx\bitmap.h>
-#include <wx\slider.h>
-#include <wx\dc.h>
-#include <wx\dcclient.h>
-#include <wx\dcmemory.h>
+#include <wx/bitmap.h>
+#include <wx/slider.h>
+#include <wx/dc.h>
+#include <wx/dcclient.h>
+#include <wx/dcmemory.h>
 #include "config.h"
 //#include <wx\log.h>
 

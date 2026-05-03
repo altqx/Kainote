@@ -23,8 +23,16 @@
 #include "TabPanel.h"
 #include <vector>
 #include <thread>
-#include "..\Thirdparty\ffms2\include\ffms.h"
-
+#include "../Thirdparty/ffms2/include/ffms.h"
+#ifndef FFMS_CS_UNSPECIFIED
+#define FFMS_CS_UNSPECIFIED 0
+#define FFMS_CS_RGB 0
+#define FFMS_CS_BT709 1
+#define FFMS_CS_FCC 4
+#define FFMS_CS_BT470BG 5
+#define FFMS_CS_SMPTE170M 6
+#define FFMS_CS_SMPTE240M 7
+#endif
 class chapter;
 class RendererVideo;
 

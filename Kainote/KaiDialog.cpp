@@ -22,10 +22,12 @@
 #include "config.h"
 #include <wx/dcmemory.h>
 #include <wx/dcclient.h>
+#ifdef __WXMSW__
 #include <wx/msw/private.h>
-#include <wx/wx.h>
 #include <Dwmapi.h>
 #include <Windowsx.h>
+#endif
+#include <wx/wx.h>
 
 
 //#define GET_X_LPARAM(lp)                        ((int)(short)LOWORD(lp))
@@ -564,6 +566,7 @@ void KaiDialog::SetLabel(const wxString &text)
 	wxRect rc(0, 0, w, topBorder);
 	Refresh(false, &rc);
 }
+#ifdef __WXMSW__
 WXLRESULT KaiDialog::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam)
 {
 	//if(uMsg == WM_SIZING){
@@ -628,6 +631,7 @@ WXLRESULT KaiDialog::MSWWindowProc(WXUINT uMsg, WXWPARAM wParam, WXLPARAM lParam
 
 	return wxTopLevelWindow::MSWWindowProc(uMsg, wParam, lParam);
 }
+#endif
 
 bool KaiDialog::SetFont(const wxFont &font)
 {

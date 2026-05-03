@@ -45,7 +45,7 @@ void ItemText::OnMouseEvent(wxMouseEvent &event, bool enter, bool leave, KaiList
 			else
 				theList->SetToolTip(name);
 
-		else if (theList->HasToolTips())
+		else
 			theList->UnsetToolTip();
 	}
 }
@@ -733,8 +733,7 @@ void KaiListCtrl::OnMouseEvent(wxMouseEvent &evt)
 			}
 
 		}
-		if (HasToolTips())
-			UnsetToolTip();
+		UnsetToolTip();
 		if (lastSelX != -1 && lastSelY != -1 && lastSelY < filteredList.size() && lastSelX < filteredList[lastSelY]->row.size()) {
 			filteredList[lastSelY]->row[lastSelX]->OnMouseEvent(evt, false, true, this, &copy);
 			lastSelX = -1; lastSelY = -1;

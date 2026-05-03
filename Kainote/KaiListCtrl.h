@@ -211,6 +211,7 @@ public:
 	}
 	void SetHeaderHeight(int height);
 	bool SetFont(const wxFont& font);
+	bool HasToolTips() const { return GetToolTip() != nullptr; }
 private:
 	void OnSize(wxSizeEvent& evt);
 	void OnPaint(wxPaintEvent& evt);
