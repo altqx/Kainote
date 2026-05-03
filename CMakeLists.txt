@@ -191,6 +191,10 @@ set_target_properties(kainote PROPERTIES
     BUILD_RPATH "$ORIGIN"
     INSTALL_RPATH "$ORIGIN"
 )
+# Prefer old-style DT_RPATH over DT_RUNPATH for the portable build tree.  RPATH
+# is applied transitively, so bundled libraries such as libicuuc can resolve
+# their own versioned dependencies (for example libicudata) from $ORIGIN too.
+target_link_options(kainote PRIVATE "-Wl,--disable-new-dtags")
 
 set(KAINOTE_RUNTIME_DIR $<TARGET_FILE_DIR:kainote>)
 
@@ -212,5 +216,9 @@ add_custom_command(TARGET kainote POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_SOURCE_DIR}/Kainote/Bitmaps"
             "${KAINOTE_RUNTIME_DIR}/Kainote/Bitmaps"
-    COMMENT "Copying Kainote runtime resources"
+    COMMAND ${CMAKE_COMMAND}
+            -D KAINOTE_EXE=$<TARGET_FILE:kainote>
+            -D RUNTIME_DIR=${KAINOTE_RUNTIME_DIR}
+            -P "${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDependencies.cmake"
+    COMMENT "Copying Kainote runtime resources and bundled libraries"
 )
