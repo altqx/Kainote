@@ -45,6 +45,7 @@ class kainoteApp : public wxApp
 public:
 	bool OnInit();
 	int OnExit();
+	int FilterEvent(wxEvent& event);
 	void OnFatalException();
 	void OnOpen(wxTimerEvent &evt);
 	bool IsBusy();

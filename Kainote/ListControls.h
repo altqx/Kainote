@@ -127,7 +127,7 @@ private:
 	void SendEvent(int choice);
 	void SetSelectionByPartialName(const wxString &partialName, bool setText = false, bool selectOnList = false);
 	void SelectChoice(int sel, bool select = true, bool sendEvent = true);
-	inline void CalcMaxWidth(wxSize *result, bool changex, bool changey);
+	void CalcMaxWidth(wxSize *result, bool changex, bool changey);
 	void OnArrow(wxCommandEvent &evt);
 	void OnActivate(wxFocusEvent &evt);
 	bool enter;

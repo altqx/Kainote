@@ -38,7 +38,7 @@
 //	return wxBitmap(img);
 //}
 
-inline void KaiChoice::CalcMaxWidth(wxSize *result, bool changex, bool changey){
+void KaiChoice::CalcMaxWidth(wxSize *result, bool changex, bool changey){
 	int tx = 0, ty = 0;
 	size_t isize = list->size();
 	for (size_t i = 0; i < isize; i++){

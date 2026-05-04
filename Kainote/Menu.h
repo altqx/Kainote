@@ -125,6 +125,8 @@ class MenuDialog : public wxPopupWindow{
 public:
 	MenuDialog(Menu *parent, wxWindow *DialogParent, const wxPoint &pos, const wxSize &size, bool sendEvent = true);
 	~MenuDialog();
+	static bool IsMenuWindow(wxWindow *win);
+	static bool DismissOnExternalClick(wxWindow *eventWindow);
 
 private:
 	void OnMouseEvent(wxMouseEvent &evt);

@@ -472,6 +472,23 @@ MenuDialog::~MenuDialog()
 	wxDELETE(bmp);
 }
 
+bool MenuDialog::IsMenuWindow(wxWindow *win)
+{
+	while (win){
+		if (dynamic_cast<MenuDialog*>(win) || win->IsKindOf(wxCLASSINFO(wxPopupWindow))){ return true; }
+		win = win->GetParent();
+	}
+	return false;
+}
+
+bool MenuDialog::DismissOnExternalClick(wxWindow *eventWindow)
+{
+	if (!ParentMenu || IsMenuWindow(eventWindow)){ return false; }
+	ParentMenu->HideMenus();
+	if (MenuBar::Menubar){ MenuBar::Menubar->HideMnemonics(); }
+	return true;
+}
+
 void MenuDialog::OnShowSubmenu(wxTimerEvent &evt)
 {
 	if (submenuShown == -1 || sel == -1 || sel != submenuShown || submenuShown == submenuToHide){ return; }//
@@ -482,7 +499,7 @@ void MenuDialog::OnShowSubmenu(wxTimerEvent &evt)
 	wxPopupWindowBase::DoGetPosition(&x, &y);
 	x += size.x;
 	y += scrollPos * height;
-	parent->items[submenuShown]->submenu->PopupMenu(wxPoint(x, y), GetParent(), false);
+	parent->items[submenuShown]->submenu->PopupMenu(wxPoint(x, y), this, false);
 	submenuToHide = submenuShown;
 	subMenuIsShown = true;
 	selectOnStart = -1;
@@ -535,6 +552,13 @@ void MenuDialog::OnMouseEvent(wxMouseEvent &evt)
 	bool leftdown = evt.LeftDown();
 	int x = evt.GetX();
 	int y = evt.GetY();
+	if (x < 0 || x >= w || y < 0 || y >= h){
+		if (evt.LeftDown() || evt.LeftUp() || evt.RightDown() || evt.RightUp() || evt.MiddleDown() || evt.MiddleUp()){
+			HideMenus();
+			if (MenuBar::Menubar){ MenuBar::Menubar->HideMnemonics(); }
+		}
+		return;
+	}
 	int elem = y / height;
 
 	if (evt.Leaving() || y >= h - 4){
@@ -970,6 +994,7 @@ void MenuBar::OnMouseEvent(wxMouseEvent &evt)
 		clicked = true;
 		Refresh(false);
 		if (shownMenu == elem){
+			if (Menus[elem]->dialog){ Menus[elem]->dialog->HideMenus(); }
 			shownMenu = -1;
 			return;
 		}

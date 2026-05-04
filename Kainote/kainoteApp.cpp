@@ -22,6 +22,7 @@
 
  
 #include "KainoteApp.h"
+#include "Menu.h"
 #include "OpennWrite.h"
 #include "Hotkeys.h"
 #include "KaiMessageBox.h"
@@ -462,6 +463,18 @@ int kainoteApp::OnExit()
 	if (m_checker){ delete m_checker; }
 	wxDELETE(locale);
 	return 0;
+}
+
+int kainoteApp::FilterEvent(wxEvent& event)
+{
+#ifndef _WIN32
+	const wxEventType type = event.GetEventType();
+	if (type == wxEVT_LEFT_DOWN || type == wxEVT_RIGHT_DOWN || type == wxEVT_MIDDLE_DOWN ||
+		type == wxEVT_LEFT_UP || type == wxEVT_RIGHT_UP || type == wxEVT_MIDDLE_UP){
+		if (MenuDialog::DismissOnExternalClick(wxDynamicCast(event.GetEventObject(), wxWindow))){ return 1; }
+	}
+#endif
+	return wxApp::FilterEvent(event);
 }
 
 //void kainoteApp::OnUnhandledException()
