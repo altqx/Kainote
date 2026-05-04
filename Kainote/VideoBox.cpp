@@ -355,14 +355,14 @@ bool VideoBox::LoadVideo(const wxString& fileName, int subsFlag, bool fulls /*= 
 		if ((tab->editor && !m_IsFullscreen) || dontPlayOnStart){ Pause(); }
 		if (!m_VolumeSlider->IsShown()){ 
 			m_VolumeSlider->Show(); 
-			m_TimesTextField->SetSize(m_VideoWindowLastSize.x - 290, -1); 
+			m_TimesTextField->SetSize(wxMax(0, m_VideoWindowLastSize.x - 290), -1);
 		}
 	}
 	else{
 		renderer->m_BlockResize = false;
 		if (m_VolumeSlider->IsShown()){
 			m_VolumeSlider->Show(false);
-			m_TimesTextField->SetSize(m_VideoWindowLastSize.x - 185, -1);
+			m_TimesTextField->SetSize(wxMax(0, m_VideoWindowLastSize.x - 185), -1);
 		}
 		renderer->m_State = Paused;
 		renderer->Render(true, false);

@@ -291,7 +291,7 @@ void VideoToolbar::OnSize(wxSizeEvent &evt)
 	wxSize playMinSize = videoPlayAfter->GetBestSize();
 	int seekMinWidth = seekMinSize.GetWidth();
 	int playMinWidth = playMinSize.GetWidth();
-	int height = size.y - 2;
+	int height = wxMax(0, size.y - 2);
 	int allToolsSize = 20 * size.y;
 	//one square for spacing
 	int spaceForLists = (size.x - allToolsSize - 6);
@@ -308,8 +308,8 @@ void VideoToolbar::OnSize(wxSizeEvent &evt)
 	}
 	/*videoSeekAfter->SetSize(seekMinWidth, height);
 	videoPlayAfter->SetSize(seekMinWidth + 2, 1, playMinWidth, height);*/
-	videoSeekAfter->SetSize(size.x - 1 - seekMinWidth, 1, seekMinWidth, height);
-	videoPlayAfter->SetSize(size.x - (seekMinWidth + playMinWidth + 3), 1, playMinWidth, height);
+	videoSeekAfter->SetSize(wxMax(0, size.x - 1 - seekMinWidth), 1, seekMinWidth, height);
+	videoPlayAfter->SetSize(wxMax(0, size.x - (seekMinWidth + playMinWidth + 3)), 1, playMinWidth, height);
 	startDrawPos = 2;//playMinWidth + seekMinWidth + 6;
 	endDrawPos = insufficentPlace? size.x : size.x - (seekMinWidth + playMinWidth + 3);
 	if (visualItems[Toggled])

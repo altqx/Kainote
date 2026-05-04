@@ -39,6 +39,7 @@
 #include "FontEnumerator.h"
 #include <wx/dir.h>
 #include <wx/dirdlg.h>
+#include <wx/filename.h>
 //config have Windows trash
 #include "config.h"
 
@@ -320,7 +321,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		}
 		programLanguages.push_back(L"pl");
 		for (size_t i = 0; i < langs.GetCount(); i++) {
-			wxString fulllang = langs[i].AfterLast(L'\\').BeforeLast(L'.');
+			wxString fulllang = wxFileName(langs[i]).GetName();
 			programLanguages.push_back(fulllang);
 			const wxString& fullName = Options.FindLanguage(fulllang);
 			langs[i] = fullName;
@@ -383,7 +384,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		ConOpt(sc1, GRID_INSERT_END_OFFSET);
 		ConOpt(sc2, GRID_TAGS_SWAP_CHARACTER);
 		wxBoxSizer* MainSizer2 = new wxBoxSizer(wxHORIZONTAL);
-		MainSizer2->Add(new KaiStaticText(EditorAdvanced, -1, _("Ilość edycji do zapisu")/*, wxDefaultPosition, wxSize(256, -1)*/), 5, wxALIGN_CENTRE_VERTICAL | wxEXPAND);
+		MainSizer2->Add(new KaiStaticText(EditorAdvanced, -1, _("Ilość edycji do zapisu")/*, wxDefaultPosition, wxSize(256, -1)*/), 5, wxEXPAND);
 		MainSizer2->Add(gridSaveAfter, 0, wxEXPAND);
 		wxBoxSizer* MainSizer3 = new wxBoxSizer(wxHORIZONTAL);
 		MainSizer3->Add(new KaiStaticText(EditorAdvanced, -1, _("Maksymalna ilość plików autozapisu")/*, wxDefaultPosition, wxSize(256, -1)*/), 5, /*wxALIGN_CENTRE_VERTICAL | */wxEXPAND);
@@ -1026,7 +1027,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 	ButtonsSizer->Add(resetDefaults, 1, wxRIGHT, 2);
 
 	DialogSizer *TreeSizer = new DialogSizer(wxVERTICAL);
-	TreeSizer->Add(OptionsTree, 1, wxALL | wxALIGN_CENTER | wxEXPAND, 2);
+	TreeSizer->Add(OptionsTree, 1, wxALL | wxEXPAND, 2);
 	TreeSizer->Add(ButtonsSizer, 0, wxBOTTOM | wxALIGN_CENTER, 4);
 	SetSizerAndFit(TreeSizer);
 

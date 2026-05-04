@@ -52,8 +52,8 @@ TabPanel::TabPanel(wxWindow *parent, KainoteFrame *kai, const wxPoint &pos, cons
 	shiftTimes->Show(Options.GetBool(SHIFT_TIMES_ON));
 	GridShiftTimesSizer->Add(grid, 1, wxEXPAND, 0);
 	GridShiftTimesSizer->Add(shiftTimes, 0, wxEXPAND, 0);
-	VideoEditboxSizer->Add(video, 0, wxEXPAND | wxALIGN_TOP, 0);
-	VideoEditboxSizer->Add(edit, 1, wxEXPAND | wxALIGN_TOP, 0);
+	VideoEditboxSizer->Add(video, 0, wxEXPAND, 0);
+	VideoEditboxSizer->Add(edit, 1, wxEXPAND, 0);
 
 	//check if there is nothing in constructor that crash or get something wrong when construct
 	edit->StartEdit->SetVideoBox(video);
@@ -74,7 +74,7 @@ TabPanel::TabPanel(wxWindow *parent, KainoteFrame *kai, const wxPoint &pos, cons
 	});
 
 	MainSizer = new wxBoxSizer(wxVERTICAL);
-	MainSizer->Add(VideoEditboxSizer, 0, wxEXPAND | wxALIGN_TOP, 0);
+	MainSizer->Add(VideoEditboxSizer, 0, wxEXPAND, 0);
 	MainSizer->Add(windowResizer, 0, wxEXPAND, 0);//AddSpacer(3);
 	MainSizer->Add(GridShiftTimesSizer, 1, wxEXPAND, 0);
 	SetSizerAndFit(MainSizer);

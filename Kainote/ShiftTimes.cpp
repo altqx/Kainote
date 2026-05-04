@@ -484,7 +484,7 @@ void ShiftTimes::OnSize(wxSizeEvent& event)
 		int thickness = scroll->GetThickness();
 		SetMinSize(wxSize(w + thickness, h));
 		tab->GridShiftTimesSizer->Layout();
-		scroll->SetSize(w - 1, 0, thickness, gh);
+		scroll->SetSize(wxMax(0, w - 1), 0, thickness, wxMax(0, gh));
 		scroll->SetScrollbar(scPos, gh, h, gh - 10);
 		scroll->Show();
 
@@ -506,7 +506,7 @@ void ShiftTimes::OnSize(wxSizeEvent& event)
 			tab->GridShiftTimesSizer->Layout();
 			scPos = 0;
 		}
-		scroll->SetSize(ctw - thickness - 1, 0, thickness, gh);
+		scroll->SetSize(wxMax(0, ctw - thickness - 1), 0, thickness, wxMax(0, gh));
 		scroll->SetScrollbar(scPos, gh, h, gh - 10);
 		if (scPos != scroll->GetScrollPos()){
 			scPos = scroll->GetScrollPos();

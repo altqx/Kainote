@@ -167,7 +167,7 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 	status->SetFieldsCount(2, fields);
 	status->SetLabelText(1, _("Lista katalogów ma opcję autozapisu, pliki znajdują się w folderze \"Config\"."));
 
-	buttonsSizer->Add(new KaiStaticText(this, -1, _("Katalogi:")), 1, wxALL | wxEXPAND | wxALIGN_RIGHT, 2);
+	buttonsSizer->Add(new KaiStaticText(this, -1, _("Katalogi:")), 1, wxALL | wxEXPAND, 2);
 	buttonsSizer->Add(catalog, 3, wxALL | wxEXPAND, 2); 
 	buttonsSizer->Add(addCatalog, 1, wxALL, 2);
 	buttonsSizer->Add(editCatalog, 1, wxALL, 2);
@@ -175,7 +175,7 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 	buttonsSizer->Add(loadCatalogs, 1, wxALL, 2);
 	//buttonsSizer->Add(replaceChecked, 1, wxALL, 2);
 	wxBoxSizer* textCtrlsSizer = new wxBoxSizer(wxHORIZONTAL);
-	textCtrlsSizer->Add(new KaiStaticText(this, -1, _("Szukaj:")), 1, wxEXPAND | wxALL | wxALIGN_RIGHT, 2);
+	textCtrlsSizer->Add(new KaiStaticText(this, -1, _("Szukaj:")), 1, wxEXPAND | wxALL, 2);
 	textCtrlsSizer->Add(fontSeek, 3, wxEXPAND | wxALL, 2);
 	textCtrlsSizer->Add(fontFilter, 3, wxEXPAND | wxALL, 2);
 	textCtrlsSizer->Add(saveFilter, 1, wxEXPAND | wxALL, 2);
@@ -856,7 +856,7 @@ public:
 			}
 			}, 2998);
 
-		bsizer->Add(new KaiStaticText(this, -1, _("Katalogi:")), 1, wxALL | wxEXPAND | wxALIGN_RIGHT, 2);
+		bsizer->Add(new KaiStaticText(this, -1, _("Katalogi:")), 1, wxALL | wxEXPAND, 2);
 		bsizer->Add(catalog, 4, wxALL | wxEXPAND, 4);
 		bsizer->Add(add, 1, wxALL, 4);
 

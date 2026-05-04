@@ -31,6 +31,7 @@
 #include "Config.h"
 #include "SpellChecker.h"
 #include <wx/dir.h>
+#include <wx/filename.h>
 #include <wx/log.h>
 #include "OpennWrite.h"
 #include "KaiMessageBox.h"
@@ -92,7 +93,7 @@ void SpellChecker::AvailableDics(wxArrayString &dics, wxArrayString &symbols)
 
 	for (size_t i = 0; i < dic.size(); i++){
 		if (dic[i].BeforeLast(L'.') == aff[i].BeforeLast(L'.')){
-			wxString symbolName = dic[i].AfterLast(L'\\').BeforeFirst(L'.');
+			wxString symbolName = wxFileName(dic[i]).GetName();
 			symbols.Add(symbolName);
 			const wxString &fullName = Options.FindLanguage(symbolName);
 			dics.Add(fullName);

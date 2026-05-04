@@ -36,6 +36,12 @@
 #include <wx/stdpaths.h>
 #include <wx/filename.h>
 #include <wx/filefn.h>
+#include <wx/log.h>
+#ifndef _WIN32
+#include <clocale>
+#include <cstdlib>
+#include <cstring>
+#endif
 #include "loghandler.h"
 
 #include "UtilsWindows.h"
@@ -138,6 +144,44 @@ bool kainoteApp::OnInit()
 	if (!m_checker->IsAnotherRunning())
 	{
 
+#ifndef _WIN32
+		// Keep the C character locale UTF-8 on Unix.  Some wx helpers still
+		// convert narrow source literals through the current C locale; if the
+		// process is left in the default "C" locale after wxLocale::Init() fails
+		// for an ungenerated language such as th_TH.UTF-8, non-ASCII Polish
+		// source strings can convert to empty wxStrings and option labels vanish.
+		setlocale(LC_CTYPE, "");
+		const char* ctypeLocale = setlocale(LC_CTYPE, nullptr);
+		if (!ctypeLocale || (!std::strstr(ctypeLocale, "UTF-8") && !std::strstr(ctypeLocale, "utf8"))) {
+			if (!setlocale(LC_CTYPE, "C.UTF-8"))
+				setlocale(LC_CTYPE, "en_US.UTF-8");
+		}
+
+		// Some portable/bundled Linux runs do not inherit the gdk-pixbuf loader
+		// cache location. GTK then warns when opening controls that use Adwaita
+		// SVG assets (for example check-symbolic.svg in the options dialog). Point
+		// gdk-pixbuf at the system cache when it exists and the user did not set a
+		// custom cache explicitly.
+		if (!std::getenv("GDK_PIXBUF_MODULE_FILE")){
+			const wxString pixbufCaches[] = {
+				L"/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache",
+				L"/usr/lib64/gdk-pixbuf-2.0/2.10.0/loaders.cache",
+				L"/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"
+			};
+			for (const auto& pixbufCache : pixbufCaches){
+				if (wxFileExists(pixbufCache)){
+					setenv("GDK_PIXBUF_MODULE_FILE", pixbufCache.mb_str().data(), 0);
+					wxString pixbufModuleDir = pixbufCache.BeforeLast(wxFileName::GetPathSeparator()) + wxFileName::GetPathSeparator() + L"loaders";
+					if (!std::getenv("GDK_PIXBUF_MODULEDIR") && wxDirExists(pixbufModuleDir))
+						setenv("GDK_PIXBUF_MODULEDIR", pixbufModuleDir.mb_str().data(), 0);
+					break;
+				}
+			}
+		}
+		if (!std::getenv("XDG_DATA_DIRS"))
+			setenv("XDG_DATA_DIRS", "/usr/local/share:/usr/share", 0);
+#endif
+
 		wxImage::AddHandler(new wxPNGHandler);
 		wxImage::AddHandler(new wxICOHandler);
 		wxImage::AddHandler(new wxCURHandler);
@@ -167,27 +211,38 @@ bool kainoteApp::OnInit()
 		if (lang != emptyString && lang != L"pl"){
 			locale = new wxLocale();
 			const  wxLanguageInfo * li = locale->FindLanguageInfo(lang);
-			if (!li)
+			if (!li){
 				KaiMessageBox(L"Cannot find language, language change failed");
+			}
 			else{
+#ifdef _WIN32
 				if (!locale->Init(li->Language, wxLOCALE_DONT_LOAD_DEFAULT)){
 					KaiMessageBox(L"wxLocale cannot initialize, language change failed");
 				}
-				else{
-					wxString localePath = Options.pathfull + wxFileName::GetPathSeparator() + L"Locale" + wxFileName::GetPathSeparator();
+#else
+				{
+					// On Unix, wxLocale::Init() may fail when the requested OS locale
+					// (for example th_TH.UTF-8) has not been generated.  The message
+					// catalogs can still be loaded after Init() sets wxLocale's internal
+					// language state, so silence wxWidgets' warning dialog and continue.
+					wxLogNull suppressLocaleWarning;
+					locale->Init(li->Language, wxLOCALE_DONT_LOAD_DEFAULT);
+				}
+#endif
+				wxString localePath = Options.pathfull + wxFileName::GetPathSeparator() + L"Locale" + wxFileName::GetPathSeparator();
 #ifndef _WIN32
-					if (!wxDirExists(localePath)){
-						wxString sourceLocalePath = Options.pathfull.BeforeLast(wxFileName::GetPathSeparator()) + wxFileName::GetPathSeparator() + L"Locale" + wxFileName::GetPathSeparator();
-						if (wxDirExists(sourceLocalePath))
-							localePath = sourceLocalePath;
-					}
+				if (!wxDirExists(localePath)){
+					wxString sourceLocalePath = Options.pathfull.BeforeLast(wxFileName::GetPathSeparator()) + wxFileName::GetPathSeparator() + L"Locale" + wxFileName::GetPathSeparator();
+					if (wxDirExists(sourceLocalePath))
+						localePath = sourceLocalePath;
+				}
 #endif
-					locale->AddCatalogLookupPathPrefix(localePath);
-					if (!locale->AddCatalog(lang, wxLANGUAGE_POLISH, L"UTF-8")){
+				locale->AddCatalogLookupPathPrefix(localePath);
+				if (!locale->AddCatalog(lang, wxLANGUAGE_POLISH, L"UTF-8") &&
+					!locale->AddCatalog(li->CanonicalName, wxLANGUAGE_POLISH, L"UTF-8")){
 #ifdef _WIN32
-						KaiMessageBox(L"Cannot find translation, language change failed");
+					KaiMessageBox(L"Cannot find translation, language change failed");
 #endif
-					}
 				}
 			}
 		}

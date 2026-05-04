@@ -17,6 +17,7 @@
 #include <wx/dc.h>
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
+#include <wx/settings.h>
 
 #include "config.h"
 //#include "Utils.h"
@@ -114,7 +115,22 @@ void KaiCheckBox::OnPaint(wxPaintEvent& event)
 	GraphicsContext *gc = renderer->CreateContext(tdc);
 	if (!gc){*/
 	tdc.SetFont(GetFont());
-	const wxColour & background = Options.GetColour(this->background);
+	wxColour background = Options.GetColour(this->background);
+	if (!background.IsOk()) {
+		background = GetParent() ? GetParent()->GetBackgroundColour() : wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+	}
+	if (!background.IsOk()) {
+		background = wxColour(47, 49, 54);
+	}
+	wxColour foregroundColour = Options.GetColour(foreground);
+	if (!foregroundColour.IsOk() || foregroundColour == background) {
+		int luminance = (background.Red() * 299 + background.Green() * 587 + background.Blue() * 114) / 1000;
+		foregroundColour = (luminance < 128) ? wxColour(236, 239, 244) : wxColour(0, 0, 0);
+	}
+	wxColour inactiveForeground = Options.GetColour(WINDOW_TEXT_INACTIVE);
+	if (!inactiveForeground.IsOk() || inactiveForeground == background) {
+		inactiveForeground = foregroundColour;
+	}
 	tdc.SetBrush(wxBrush(background));
 	tdc.SetPen(wxPen(background));
 	tdc.DrawRectangle(0, 0, w, h);
@@ -125,13 +141,20 @@ void KaiCheckBox::OnPaint(wxPaintEvent& event)
 		wxPoint frame[5] = { wxPoint(0, 0), wxPoint(w - 1, 0), wxPoint(w - 1, h - 1), wxPoint(0, h - 1), wxPoint(0, 0) };
 		DrawDashedLine(&tdc, frame, 5, 1, Options.GetColour(WINDOW_TEXT_INACTIVE));
 	}
-	if (w > 18){
-		tdc.SetTextForeground((enabled) ? Options.GetColour(foreground) : Options.GetColour(WINDOW_TEXT_INACTIVE));
-		tdc.DrawText(label, 18, (h - fontHeight) / 2);
-	}
+	int textY = (h - fontHeight) / 2;
 
 	wxPaintDC dc(this);
 	dc.Blit(0, 0, w, h, &tdc, 0, 0);
+	if (w > 18){
+		// Draw text on the window DC on wxGTK.  Rendering complex-script labels
+		// (Thai, etc.) via a wxMemoryDC can silently fail on some GTK/Pango
+		// stacks, leaving only the checkbox glyph visible in the options dialog.
+		dc.SetFont(GetFont());
+		dc.SetTextForeground((enabled) ? foregroundColour : inactiveForeground);
+		dc.SetClippingRegion(18, 0, w - 18, h);
+		dc.DrawText(label, 18, textY);
+		dc.DestroyClippingRegion();
+	}
 }
 
 void KaiCheckBox::OnMouseEvent(wxMouseEvent &event)

@@ -62,7 +62,7 @@ void PopupWindow::Popup(const wxPoint &pos, const wxSize &size, int selectedItem
 	
 	if (scroll){
 		int thickness = scroll->GetThickness();
-		scroll->SetSize(size.x - thickness - 1, 1, thickness, size.y - 2);
+		scroll->SetSize(wxMax(0, size.x - thickness - 1), 1, thickness, wxMax(0, size.y - 2));
 	}
 }
 

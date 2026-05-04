@@ -412,8 +412,8 @@ void Notebook::OnMouseEvent(wxMouseEvent& event)
 			bool leftTab = (Pages[iter]->GetPosition().x == 1);
 			int tmpiter = (leftTab) ? iter : splititer;
 			int tmpsplititer = (!leftTab) ? iter : splititer;
-			Pages[tmpiter]->SetSize(splitline - 3, hh - 2);
-			Pages[tmpsplititer]->SetSize(splitline + 2, 1, w - (splitline + 3), hh - 2);
+			Pages[tmpiter]->SetSize(wxMax(0, splitline - 3), wxMax(0, hh - 2));
+			Pages[tmpsplititer]->SetSize(splitline + 2, 1, wxMax(0, w - (splitline + 3)), wxMax(0, hh - 2));
 			Refresh(false);
 			SetTimer(GetHWND(), 9876, 500, (TIMERPROC)OnResized);
 			splitLineHolding = false;
@@ -614,15 +614,15 @@ void Notebook::OnSize(wxSizeEvent& event)
 	//sizetimer.Start(500,true);
 	int w, h;
 	GetClientSize(&w, &h);
-	h -= TabHeight;
+	h = wxMax(0, h - TabHeight);
 	bool alvistmp = allTabsVisible;
 	CalcSizes();
 	if (split){
 		bool aciter = (Pages[iter]->GetPosition().x == 1);
 		int tmpsplititer = (!aciter) ? iter : splititer;
 		int tmpiter = (aciter) ? iter : splititer;
-		Pages[tmpsplititer]->SetSize(w - (splitline + 3), h - 2);
-		Pages[tmpiter]->SetSize((splitline - 3), h - 2);
+		Pages[tmpsplititer]->SetSize(wxMax(0, w - (splitline + 3)), wxMax(0, h - 2));
+		Pages[tmpiter]->SetSize(wxMax(0, splitline - 3), wxMax(0, h - 2));
 	}
 	else{
 		Pages[iter]->SetSize(w, h);
@@ -1509,6 +1509,8 @@ int Notebook::CheckLastSession()
 	wxString riddenSession;
 	OpenWrite op;
 	if (op.FileOpen(Options.configPath + L"/LastSession.txt", &riddenSession, false)){
+		riddenSession.Replace(L"\r\n", L"\n");
+		riddenSession.Replace(L"\r", L"\n");
 		size_t CloseSession = riddenSession.find(L"]\n[Close session]\n");
 		if (CloseSession != -1)
 			return 1;

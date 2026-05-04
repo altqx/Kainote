@@ -1923,7 +1923,7 @@ void KainoteFrame::HideEditor(bool save)
 	if (cur->editor){//Turn on of editor
 
 		cur->MainSizer->Detach(cur->video);
-		cur->VideoEditboxSizer->Prepend(cur->video, 0, wxEXPAND | wxALIGN_TOP, 0);
+		cur->VideoEditboxSizer->Prepend(cur->video, 0, wxEXPAND, 0);
 
 		cur->video->ShowVideoToolbar();
 		cur->video->RemoveVisual(false);
@@ -1954,7 +1954,7 @@ void KainoteFrame::HideEditor(bool save)
 
 		cur->VideoEditboxSizer->Detach(cur->video);
 
-		cur->MainSizer->Add(cur->video, 1, wxEXPAND | wxALIGN_TOP, 0);
+		cur->MainSizer->Add(cur->video, 1, wxEXPAND, 0);
 
 		cur->video->HideVideoToolbar();
 

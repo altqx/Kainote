@@ -253,7 +253,11 @@ void KaiChoice::OnSize(wxSizeEvent& event)
 {
 	wxSize newSize = GetClientSize();
 	if (choiceText){
-		choiceText->SetSize(wxSize(newSize.x - 22, newSize.y - 2));
+		// wxGTK may send an initial size event before the sizer has assigned the
+		// control its final width.  The old subtraction produced sizes such as
+		// -22x-2, which GTK rejects and which can leave the embedded text control
+		// invisible after language/layout changes.
+		choiceText->SetSize(wxSize(wxMax(0, newSize.x - 22), wxMax(0, newSize.y - 2)));
 	}
 	Refresh(false);
 }
@@ -807,7 +811,7 @@ void PopupList::Popup(const wxPoint &pos, const wxSize &controlSize, int selecte
 	Bind(wxEVT_IDLE, &PopupList::OnIdle, this);
 	if (scroll){
 		int thickness = scroll->GetThickness();
-		scroll->SetSize(size.x - thickness -1, 1, thickness, size.y - 2);
+		scroll->SetSize(wxMax(0, size.x - thickness - 1), 1, thickness, wxMax(0, size.y - 2));
 	}
 }
 
@@ -902,7 +906,7 @@ void PopupList::OnPaint(wxPaintEvent &event)
 		maxsize = maxVisible;
 		if (!scroll){
 			int thickness = KaiScrollbar::CalculateThickness(this);
-			scroll = new KaiScrollbar(this, -1, wxPoint(w - thickness - 1, 1), wxSize(thickness, h - 2), wxVERTICAL);
+			scroll = new KaiScrollbar(this, -1, wxPoint(wxMax(0, w - thickness - 1), 1), wxSize(thickness, wxMax(0, h - 2)), wxVERTICAL);
 			scroll->SetScrollRate(3);
 		}
 		scroll->SetScrollbar(scPos, maxVisible, itemsize, maxVisible - 1);
@@ -986,7 +990,7 @@ void PopupList::OnPaint(wxPaintEvent &event)
 		
 		if (scroll) {
 			int thickness = scroll->GetThickness();
-			scroll->SetSize(newWidth - thickness - 1, 1, thickness, h - 2);
+			scroll->SetSize(wxMax(0, newWidth - thickness - 1), 1, thickness, wxMax(0, h - 2));
 		}
 		return;
 	}

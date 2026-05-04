@@ -144,7 +144,7 @@ void Fullscreen::OnSize()
 			vToolbar->SetSize(0, buttonSection, asize.x, toolBarHeight);
 		}
 		int posx = 180 + toolbarSize.x + 25 + (13 * toolBarHeight);
-		Videolabel->SetSize(posx, toolBarHeight - 4, asize.x - posx - 115, toolBarHeight - 6);
+		Videolabel->SetSize(posx, toolBarHeight - 4, wxMax(0, asize.x - posx - 115), wxMax(0, toolBarHeight - 6));
 	//}
 	//else{
 	//	//mstimes->SetSize(asize.x - difSize, -1);
@@ -154,7 +154,7 @@ void Fullscreen::OnSize()
 	//	Videolabel->SetSize(asize.x - 758, toolBarHeight - 6);
 	//}
 	//
-	vslider->SetSize(wxSize(asize.x, toolBarHeight - 8));
+	vslider->SetSize(wxSize(wxMax(0, asize.x), wxMax(0, toolBarHeight - 8)));
 	if(vc->IsDirectShow()){
 		volslider->Show(); 
 		volslider->SetPosition(wxPoint(asize.x - 110, toolBarHeight - 5));

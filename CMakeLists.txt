@@ -200,7 +200,8 @@ set(KAINOTE_RUNTIME_DIR $<TARGET_FILE_DIR:kainote>)
 
 # Keep the build tree runnable by copying runtime data next to the executable.
 # Windows embeds PNG RCDATA through resource.rc, but the Linux build loads those
-# resources from files, and wxLocale expects .mo catalogs beside the binary.
+# resources from files. Keep flat Locale/*.mo for the options list and also copy
+# GNU gettext-style Locale/<lang>/LC_MESSAGES/<lang>.mo paths for wxLocale.
 add_custom_command(TARGET kainote POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory "${KAINOTE_RUNTIME_DIR}/Locale"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -209,6 +210,10 @@ add_custom_command(TARGET kainote POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_SOURCE_DIR}/Locale"
             "${KAINOTE_RUNTIME_DIR}/Locale"
+    COMMAND ${CMAKE_COMMAND}
+            -D SOURCE_LOCALE_DIR="${CMAKE_SOURCE_DIR}/Locale"
+            -D RUNTIME_LOCALE_DIR="${KAINOTE_RUNTIME_DIR}/Locale"
+            -P "${CMAKE_SOURCE_DIR}/cmake/CopyLocaleCatalogs.cmake"
     COMMAND ${CMAKE_COMMAND} -E make_directory "${KAINOTE_RUNTIME_DIR}/Kainote"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${CMAKE_SOURCE_DIR}/Kainote/resource.rc"
