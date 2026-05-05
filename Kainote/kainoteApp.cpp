@@ -470,6 +470,22 @@ int kainoteApp::FilterEvent(wxEvent& event)
 {
 #ifndef _WIN32
 	const wxEventType type = event.GetEventType();
+	if (type == wxEVT_ENTER_WINDOW || type == wxEVT_MOTION || type == wxEVT_LEAVE_WINDOW){
+		wxWindow *eventWindow = wxDynamicCast(event.GetEventObject(), wxWindow);
+		KainoteFrame *frame = KainoteFrame::Get();
+		if (eventWindow && frame){
+			wxString tip = eventWindow->GetToolTipText();
+			if (tip != emptyString){
+				if (type == wxEVT_LEAVE_WINDOW){
+					frame->SetStatusText(emptyString, 0);
+				}
+				else{
+					tip = tip.BeforeFirst(L'\n');
+					frame->SetStatusText(tip, 0);
+				}
+			}
+		}
+	}
 	if (type == wxEVT_LEFT_DOWN || type == wxEVT_RIGHT_DOWN || type == wxEVT_MIDDLE_DOWN ||
 		type == wxEVT_LEFT_UP || type == wxEVT_RIGHT_UP || type == wxEVT_MIDDLE_UP){
 		wxWindow *eventWindow = wxDynamicCast(event.GetEventObject(), wxWindow);

@@ -158,6 +158,7 @@ void KaiToolbar::OnMouseEvent(wxMouseEvent &event)
 	int elem = elems.x;
 
 	if (elem < 0 || event.Leaving()){/*if(HasCapture()){ReleaseMouse();}*/if (HasToolTips()){ UnsetToolTip(); }
+	if (KainoteFrame::Get()){ KainoteFrame::Get()->SetStatusText(emptyString, 0); }
 	int tmpsel = sel;
 	sel = -1;
 	oldelem = -1;
@@ -166,7 +167,9 @@ void KaiToolbar::OnMouseEvent(wxMouseEvent &event)
 	return;
 	}
 	if (elem == tools.size() - 1){
-		SetToolTip(_("Wybierz ikony paska narzędzi"));
+		wxString tip = _("Wybierz ikony paska narzędzi");
+		SetToolTip(tip);
+		if (KainoteFrame::Get()){ KainoteFrame::Get()->SetStatusText(tip, 0); }
 		sel = elem; oldelem = elem;
 		Refresh(false);
 	}
@@ -174,7 +177,9 @@ void KaiToolbar::OnMouseEvent(wxMouseEvent &event)
 		wxString shkeyadd;
 		wxString shkey = Hkeys.GetStringHotkey(tools[elem]->id);
 		if (shkey != emptyString){ shkeyadd << L" (" << shkey << L")"; }
-		SetToolTip(tools[elem]->label + shkeyadd);
+		wxString tip = tools[elem]->label + shkeyadd;
+		SetToolTip(tip);
+		if (KainoteFrame::Get()){ KainoteFrame::Get()->SetStatusText(tip, 0); }
 		sel = elem;
 		//RefreshRect(wxRect(0,elem*iconsize,iconsize,(elem+1)*iconsize),false);
 		Refresh(false);
