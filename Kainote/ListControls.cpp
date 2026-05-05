@@ -801,10 +801,10 @@ PopupList::~PopupList()
 void PopupList::Popup(const wxPoint &pos, const wxSize &controlSize, int selectedItem)
 {
 	SetSelection(selectedItem);
-	originalPosition = pos;//Parent->ClientToScreen(pos);
+	originalPosition = pos;
 	wxSize size;
 	CalcPosAndSize(&originalPosition, &size, controlSize);
-	SetPosition(originalPosition);
+	SetPosition(Parent->ClientToScreen(originalPosition));
 	SetSize(size);
 	orgY = size.y;
 	Show();

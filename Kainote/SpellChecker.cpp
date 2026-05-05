@@ -57,8 +57,10 @@ SpellChecker *SpellChecker::Get()
 {
 	if (!SC){
 		SC = new SpellChecker();
-		bool isgood = SC->Initialize();
-		if (!isgood) { Options.SetBool(SPELLCHECKER_ON, false); }
+		if (Options.GetBool(SPELLCHECKER_ON)){
+			bool isgood = SC->Initialize();
+			if (!isgood) { Options.SetBool(SPELLCHECKER_ON, false); }
+		}
 	}
 	return SC;
 }
@@ -116,7 +118,9 @@ bool SpellChecker::Initialize()
 	if (!wxFileExists(dic) || !wxFileExists(aff))
 	{
 		Options.SetBool(SPELLCHECKER_ON, false);
-		KaiMessageBox(wxString::Format(_("Brak plików słownika w folderze \"%s/Dictionary\".\nSprawdzanie pisowni zostanie wyłączone"), Options.pathfull));
+		// Missing dictionaries are common in portable/Linux test builds.  Do not
+		// block startup or media loading with a modal warning; disable the checker
+		// and leave the options dialog to report/install available dictionaries.
 		return false;
 	}
 	// Load

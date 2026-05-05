@@ -766,9 +766,15 @@ void VideoBox::SetFullscreen(int monitor)
 		m_FullScreenWindow->vToolbar->Synchronize(m_VideoToolbar);
 		if (!m_PanelOnFullscreen){ m_FullScreenWindow->panel->Hide(); }
 		m_FullScreenWindow->Show();
+		// wxGTK can report a transient client size before a borderless top-level
+		// window is mapped. Re-run fullscreen layout after Show() so the control
+		// panel is placed at the bottom and does not cover the video surface.
+		m_FullScreenWindow->OnSize();
+		m_FullScreenWindow->Raise();
 		renderer->m_BlockResize = true;
 		renderer->UpdateVideoWindow();
 		renderer->m_BlockResize = false;
+		renderer->Render(true, false);
 		RefreshTime();
 		if (GetState() == Playing && !m_FullScreenWindow->panel->IsShown()){ m_VideoTimeTimer.Start(1000); }
 		if (!tab->editor)
@@ -778,7 +784,7 @@ void VideoBox::SetFullscreen(int monitor)
 			GetParent()->Layout();
 			m_IsOnAnotherMonitor = true;
 		}
-		SetFocus();
+		m_FullScreenWindow->SetFocus();
 		if (renderer->HasVisual(true)) {
 			SetCursor(wxCURSOR_ARROW);
 		}
@@ -1158,7 +1164,7 @@ void VideoBox::OnSPlus()
 
 void VideoBox::OnPaint(wxPaintEvent& event)
 {
-	if (renderer && !renderer->m_BlockResize && renderer->m_State == Paused){
+	if (renderer && !renderer->m_BlockResize && renderer->m_State != None && renderer->m_State != Playing){
 		renderer->Render(true, false);
 	}
 	else if (GetState() == None){

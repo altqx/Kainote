@@ -28,6 +28,13 @@ SubtitlesProvider *SubtitlesProviderManager::GetProvider()
 {
 	if (!SP){
 		wxString provider = Options.GetString(VSFILTER_INSTANCE);
+#ifndef _WIN32
+		// The Windows VSFilter/CSRI path is not a reliable subtitle renderer on
+		// wxGTK.  If an old or freshly-created config has no provider selected,
+		// use the Linux libass backend so ASS preview is visible by default.
+		if (provider.empty())
+			provider = L"libass";
+#endif
 		if (provider == L"libass")
 			SP = new SubtitlesLibass();
 		else

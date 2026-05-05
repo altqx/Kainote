@@ -473,6 +473,19 @@ int kainoteApp::FilterEvent(wxEvent& event)
 		type == wxEVT_LEFT_UP || type == wxEVT_RIGHT_UP || type == wxEVT_MIDDLE_UP){
 		if (MenuDialog::DismissOnExternalClick(wxDynamicCast(event.GetEventObject(), wxWindow))){ return 1; }
 	}
+	if (type == wxEVT_KEY_DOWN || type == wxEVT_CHAR_HOOK) {
+		wxKeyEvent* keyEvent = dynamic_cast<wxKeyEvent*>(&event);
+		if (keyEvent) {
+			int key = keyEvent->GetKeyCode();
+			if (key == WXK_ESCAPE || key == L'B' || key == L'b') {
+				TabPanel* tab = Notebook::GetTab();
+				if (tab && tab->video && tab->video->IsFullScreen()) {
+					tab->video->SetFullscreen(false);
+					return 1;
+				}
+			}
+		}
+	}
 #endif
 	return wxApp::FilterEvent(event);
 }

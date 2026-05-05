@@ -109,7 +109,17 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 		}
 
 		m_SubsProvider->Draw(fdata, m_Time);
-		DrawBgraFrameWithWx(videoControl, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+		if (nframe && m_FrameBuffer) {
+			// ProviderFFMS2 calls DrawTexture(frame) and then Render(false).
+			// On Windows the rendered pixels live on the D3D surface, but on the
+			// wxGTK fallback Render(false) redraws m_FrameBuffer. Keep that buffer
+			// in sync after ASS rendering so playback does not immediately repaint
+			// a raw frame without subtitles.
+			memcpy(m_FrameBuffer, fdata, m_Height * m_Pitch);
+		}
+		wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
+			static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
+		DrawBgraFrameWithWx(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect);
 		return true;
 	}
 #endif
@@ -187,8 +197,11 @@ void RendererFFMS2::Render(bool redrawSubsOnFrame, bool wait)
 			return;
 		}
 		wxCriticalSectionLocker lock(m_MutexRendering);
-		if (m_FrameBuffer)
-			DrawBgraFrameWithWx(videoControl, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+		if (m_FrameBuffer) {
+			wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
+				static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
+			DrawBgraFrameWithWx(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+		}
 		m_VideoResized = false;
 		return;
 	}
@@ -373,6 +386,14 @@ bool RendererFFMS2::OpenFile(const wxString &fname, int subsFlag, bool vobsub, b
 	
 	m_State = Stopped;
 	m_FFMS2->GetChapters(&m_Chapters);
+#ifndef _WIN32
+	// Prime the wxGTK software backbuffer with the first decoded frame.
+	// Otherwise entering fullscreen before playback/seek can render the
+	// freshly-created fullscreen window over an uninitialized/empty buffer.
+	if (m_FrameBuffer && m_FFMS2 && m_FFMS2->m_numFrames > 0) {
+		m_FFMS2->GetFrame(m_Frame, m_FrameBuffer);
+	}
+#endif
 
 	if (m_Visual){
 		m_Visual->SizeChanged(wxRect(m_BackBufferRect.left, m_BackBufferRect.top,

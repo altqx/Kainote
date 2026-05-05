@@ -20,6 +20,7 @@
 #include "VideoBox.h"
 #include "KainoteApp.h"
 #include "Config.h"
+#include <wx/dcclient.h>
 
 
 Fullscreen::Fullscreen(wxWindow* parent, const wxPoint& pos, const wxSize &size)
@@ -99,6 +100,7 @@ Fullscreen::Fullscreen(wxWindow* parent, const wxPoint& pos, const wxSize &size)
 		panel->SetForegroundColour(Options.GetColour(WINDOW_TEXT));
 		panel->SetBackgroundColour(Options.GetColour(WINDOW_BACKGROUND));
 	});
+	Bind(wxEVT_CHAR_HOOK, &Fullscreen::OnKeyPress, this);
 	SetAccels();
 }
 
@@ -186,6 +188,13 @@ void Fullscreen::OnMouseEvent(wxMouseEvent& evt)
 void Fullscreen::OnKeyPress(wxKeyEvent& evt)
 {
 	VideoBox* vc = (VideoBox*)vb;
+	int key = evt.GetKeyCode();
+	if (key == WXK_ESCAPE || key == L'B' || key == L'b') {
+		if (vc->m_IsFullscreen) {
+			vc->SetFullscreen(false);
+			return;
+		}
+	}
 	vc->OnKeyPress(evt);
 }
 
@@ -237,8 +246,11 @@ void Fullscreen::OnUseWindowHotkey(wxCommandEvent& event)
 
 void Fullscreen::OnPaint(wxPaintEvent& evt)
 {
+	wxPaintDC dc(this);
 	VideoBox* vc = (VideoBox*)vb;
-	vc->OnPaint(evt);
+	if (vc->renderer && !vc->renderer->m_BlockResize && vc->renderer->m_State != Playing && vc->renderer->m_State != None) {
+		vc->renderer->Render(true, false);
+	}
 }
 
 BEGIN_EVENT_TABLE(Fullscreen, wxFrame)

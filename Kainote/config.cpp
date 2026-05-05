@@ -43,6 +43,7 @@
 #include <unordered_map>
 #include <filesystem>
 #include <unistd.h>
+#include <wx/display.h>
 #endif
 
 #define ADD_QUOTES_HELPER(s) #s
@@ -1310,8 +1311,14 @@ void MoveToMousePosition(wxWindow* win)
 {
 	wxPoint mst = wxGetMousePosition();
 	wxSize siz = win->GetSize();
-	siz.x;
+#ifndef _WIN32
+	int displayIndex = wxDisplay::GetFromPoint(mst);
+	if (displayIndex == wxNOT_FOUND && win)
+		displayIndex = wxDisplay::GetFromWindow(win);
+	wxRect rc = (displayIndex != wxNOT_FOUND) ? wxDisplay(displayIndex).GetClientArea() : wxGetClientDisplayRect();
+#else
 	wxRect rc = GetMonitorWorkArea(0, nullptr, mst, true);
+#endif
 	mst.x -= (siz.x / 2);
 	mst.x = MID(rc.x, mst.x, (rc.width + rc.x) - siz.x);
 	mst.y += 15;
