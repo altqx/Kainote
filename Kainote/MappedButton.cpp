@@ -67,10 +67,7 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& label, cons
 #ifdef _WIN32
 	int controlHeight = textHeight + 10;
 #else
-	// Keep Linux custom buttons the same compact height as Windows.  wxGTK text
-	// extents are taller, so the old +10 padding inflated Time shift text boxes
-	// and the neighbouring buttons/grid cells.
-	int controlHeight = textHeight + 6;
+	int controlHeight = textHeight + 2;
 #endif
 	if (makeSquare){
 		newSize.x = controlHeight;
@@ -131,10 +128,7 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& label, int 
 #ifdef _WIN32
 	int controlHeight = textHeight + 10;
 #else
-	// Keep Linux custom buttons the same compact height as Windows.  wxGTK text
-	// extents are taller, so the old +10 padding inflated Time shift text boxes
-	// and the neighbouring buttons/grid cells.
-	int controlHeight = textHeight + 6;
+	int controlHeight = textHeight + 2;
 #endif
 	if (makeSquare){
 		newSize.x = controlHeight;
@@ -195,8 +189,13 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& tooltip, co
 	int fw = 0;
 	if (style & MAKE_SQUARE_BUTTON){
 		GetTextExtent(L"TEXT", &fw, &textHeight);
-		newSize.x = textHeight + 10;
-		newSize.y = textHeight + 10;
+#ifdef _WIN32
+		const int iconPadding = 10;
+#else
+		const int iconPadding = 2;
+#endif
+		newSize.x = textHeight + iconPadding;
+		newSize.y = textHeight + iconPadding;
 	}
 	else{
 		if (text != emptyString){
@@ -210,7 +209,11 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& tooltip, co
 		}
 		if (size.y < 1){
 			textHeight = (textHeight > icon.GetHeight()) ? textHeight : icon.GetHeight();
+#ifdef _WIN32
 			newSize.y = textHeight + 10;
+#else
+			newSize.y = textHeight + 2;
+#endif
 		}
 	}
 	SetMinSize(newSize);

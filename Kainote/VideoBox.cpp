@@ -375,7 +375,7 @@ bool VideoBox::LoadVideo(const wxString& fileName, int subsFlag, bool fulls /*= 
 	}
 	//SetFocus();
 	tab->VideoPath = fileName;
-	tab->VideoName = fileName.AfterLast(L'\\');
+	tab->VideoName = KaiPathName(fileName);
 	Kai->SetStatusText(tab->VideoName, 8);
 	if (m_FullScreenWindow){ m_FullScreenWindow->Videolabel->SetLabelText(tab->VideoName); }
 	if (!tab->editor){ Kai->Label(0, true); }
@@ -891,11 +891,11 @@ void VideoBox::ContextMenu(const wxPoint &pos)
 	{
 		if (i < Kai->subsrec.size()){
 			if (!wxFileExists(Kai->subsrec[i])){ continue; }
-			menu1->Append(30000 + i, Kai->subsrec[i].AfterLast(L'\\'));
+			menu1->Append(30000 + i, KaiPathName(Kai->subsrec[i]));
 		}
 		if (i < Kai->videorec.size()){
 			if (!wxFileExists(Kai->videorec[i])){ continue; }
-			menu2->Append(30020 + i, Kai->videorec[i].AfterLast(L'\\'));
+			menu2->Append(30020 + i, KaiPathName(Kai->videorec[i]));
 		}
 
 	}
@@ -1016,8 +1016,8 @@ void VideoBox::OnOpVideo()
 	KainoteFrame* Kai = (KainoteFrame*)Notebook::GetTabs()->GetParent();
 	wxFileDialog* FileDialog2 = new wxFileDialog(m_IsFullscreen ? m_FullScreenWindow : 
 		(wxWindow *)Kai, _("Wybierz plik wideo"),
-		(tab->SubsPath != emptyString) ? tab->SubsPath.BeforeLast(L'\\') :
-		(Kai->videorec.size() > 0) ? Kai->videorec[Kai->videorec.size() - 1].BeforeLast(L'\\') : emptyString,
+		(tab->SubsPath != emptyString) ? KaiPathDir(tab->SubsPath) :
+		(Kai->videorec.size() > 0) ? KaiPathDir(Kai->videorec[Kai->videorec.size() - 1]) : emptyString,
 		emptyString, _("Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|Wszystkie pliki (*.*)|*.*"),
 		wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 	if (FileDialog2->ShowModal() == wxID_OK){
@@ -1031,8 +1031,8 @@ void VideoBox::OnOpSubs()
 	KainoteFrame* Kai = (KainoteFrame*)Notebook::GetTabs()->GetParent();
 	if (Kai->SavePrompt(2)){ return; }
 	wxFileDialog* FileDialog = new wxFileDialog(m_IsFullscreen ? m_FullScreenWindow : (wxWindow *)Kai, _("Wybierz plik napisów"),
-		(tab->VideoPath != emptyString) ? tab->VideoPath.BeforeLast(L'\\') :
-		(Kai->subsrec.size() > 0) ? Kai->subsrec[Kai->subsrec.size() - 1].BeforeLast(L'\\') : emptyString, emptyString,
+		(tab->VideoPath != emptyString) ? KaiPathDir(tab->VideoPath) :
+		(Kai->subsrec.size() > 0) ? KaiPathDir(Kai->subsrec[Kai->subsrec.size() - 1]) : emptyString, emptyString,
 		_("Pliki napisów (*.ass),(*.sub),(*.txt)|*.ass;*.sub;*.txt"),
 		wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 

@@ -27,11 +27,40 @@
 #include <wx/string.h>
 #include <wx/window.h>
 #include <wx/bitmap.h>
+#include <wx/filename.h>
 #include <map>
 #include <vector>
 #include <algorithm>
 
 const wxString emptyString;
+
+inline wxString KaiNormalizePath(const wxString& path)
+{
+	wxString normalized(path);
+#ifndef _WIN32
+	normalized.Replace(L"\\", L"/");
+#endif
+	return normalized;
+}
+
+inline wxString KaiPathDir(const wxString& path, int flags = wxPATH_GET_VOLUME)
+{
+	wxFileName filename(KaiNormalizePath(path));
+	return filename.GetPath(flags);
+}
+
+inline wxString KaiPathName(const wxString& path)
+{
+	wxFileName filename(KaiNormalizePath(path));
+	wxString name = filename.GetFullName();
+	return name.empty() ? KaiNormalizePath(path) : name;
+}
+
+inline wxString KaiPathJoin(const wxString& dir, const wxString& name)
+{
+	wxFileName filename(KaiNormalizePath(dir), name);
+	return filename.GetFullPath();
+}
 
 //Dont change enumeration config and colors from 1 to last, zero for non exist trash
 #define CFG(CG) \

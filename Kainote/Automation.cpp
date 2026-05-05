@@ -207,17 +207,17 @@ namespace Auto{
 	{
 		wxString path = check_string(L, 1);
 		TabPanel *tab = Notebook::GetTab();
-		path.Replace(L'/', L'\\');
-		wxString firstAutomation = Options.pathfull + "/Automation";
+		path = KaiNormalizePath(path);
+		wxString firstAutomation = KaiPathJoin(Options.pathfull, L"Automation");
 		if (path[0] == L'?'){
-			if (path[1] == L'a' && path[4] == L'i') path.replace(0, 6, (tab) ? tab->AudioPath.BeforeLast(L'\\') : wxString(L""));
+			if (path[1] == L'a' && path[4] == L'i') path.replace(0, 6, (tab) ? KaiPathDir(tab->AudioPath) : wxString(L""));
 			else if (path[1] == L'd' && path[4] == L'a') path.replace(0, 5, firstAutomation);
-			else if (path[1] == L'd' && path[4] == L't') path.replace(0, 11, Options.pathfull + wxString(L"/Dictionary"));
+			else if (path[1] == L'd' && path[4] == L't') path.replace(0, 11, KaiPathJoin(Options.pathfull, L"Dictionary"));
 			else if (path[1] == L'l' && path[4] == L'a') path.replace(0, 6, firstAutomation);
-			else if (path[1] == L's' && path[4] == L'i') path.replace(0, 7, (tab) ? tab->SubsPath.BeforeLast(L'\\') : wxString(L""));
-			else if (path[1] == L't' && path[4] == L'p') path.replace(0, 5, firstAutomation + wxString(L"/temp"));
+			else if (path[1] == L's' && path[4] == L'i') path.replace(0, 7, (tab) ? KaiPathDir(tab->SubsPath) : wxString(L""));
+			else if (path[1] == L't' && path[4] == L'p') path.replace(0, 5, KaiPathJoin(firstAutomation, L"temp"));
 			else if (path[1] == L'u' && path[4] == L'r') path.replace(0, 5, firstAutomation);
-			else if (path[1] == L'v' && path[4] == L'e') path.replace(0, 6, (tab) ? tab->VideoPath.BeforeLast(L'\\') : wxString(L""));
+			else if (path[1] == L'v' && path[4] == L'e') path.replace(0, 6, (tab) ? KaiPathDir(tab->VideoPath) : wxString(L""));
 		}
 		push_value(L, path);
 		return 1;
@@ -514,8 +514,8 @@ namespace Auto{
 	LuaScript::LuaScript(wxString const& filename)
 		: filename(filename)
 	{
-		include_path.push_back(filename.BeforeLast(L'\\') + L"\\");
-		include_path.push_back(Options.pathfull + L"/Automation/automation/Include/");
+		include_path.push_back(KaiPathDir(filename, wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR));
+		include_path.push_back(KaiPathJoin(KaiPathJoin(KaiPathJoin(Options.pathfull, L"Automation"), L"automation"), L"Include") + wxFileName::GetPathSeparator());
 		Create();
 	}
 
@@ -527,8 +527,8 @@ namespace Auto{
 		, LowTime(_lowTime)
 		, HighTime(_highTime)
 	{
-		include_path.push_back(_filename.BeforeLast(L'\\') + L"\\");
-		include_path.push_back(Options.pathfull + L"/Automation/automation/Include/");
+		include_path.push_back(KaiPathDir(_filename, wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR));
+		include_path.push_back(KaiPathJoin(KaiPathJoin(KaiPathJoin(Options.pathfull, L"Automation"), L"automation"), L"Include") + wxFileName::GetPathSeparator());
 		size_t i = 0;
 		size_t macrosSize = _macros.size();
 		if (macrosSize) {
@@ -731,9 +731,9 @@ namespace Auto{
 			fullpath = true;
 		}
 		if (!wxFileExists(*filepath)) { // Plain filename
-			if (fullpath){ *filepath = filepath->AfterLast(L'\\'); }
+			if (fullpath){ *filepath = KaiPathName(*filepath); }
 			for (auto const& dir : s->include_path) {
-				*filepath = dir + *filename;
+				*filepath = KaiPathJoin(dir, *filename);
 				if (wxFileExists(*filepath))
 					break;
 			}

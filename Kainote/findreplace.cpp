@@ -15,6 +15,7 @@
 
 
 #include "FindReplace.h"
+#include "config.h"
 #include "KainoteFrame.h"
 #include "KaiMessageBox.h"
 #include "FindReplaceDialog.h"
@@ -724,7 +725,7 @@ unsigned long FindReplace::FindReplaceInFiles(void *data)
 			token.clear();
 		}//while
 		if (SubsAllReplacements){
-			wxCopyFile(subsPath, fr->CopyPath + subsPath.AfterLast(L'\\'));
+			wxCopyFile(subsPath, KaiPathJoin(fr->CopyPath, KaiPathName(subsPath)));
 			ow.FileWrite(subsPath, replacedText);
 			fr->AllReplacements.fetch_add(SubsAllReplacements);
 		}
@@ -1607,7 +1608,7 @@ int FindReplace::ReplaceCheckedInSubs(std::vector<SeekResults *> &results, const
 	}
 
 	if (numOfChanges){
-		wxCopyFile(path, copyPath + path.AfterLast(L'\\'));
+		wxCopyFile(path, KaiPathJoin(copyPath, KaiPathName(path)));
 		ow.FileWrite(path, replacedText);
 	}
 

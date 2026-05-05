@@ -599,7 +599,7 @@ void StyleStore::LoadStylesS(bool isass)
 {
 	SubsGrid* grid = Notebook::GetTab()->grid;
 	wxFileDialog *openFileDialog = new wxFileDialog(this, _("Wybierz plik ASS"),
-		Notebook::GetTab()->SubsPath.BeforeLast(L'\\'), L"*.ass", _("Pliki napisów ASS(*.ass)|*.ass"),
+		KaiPathDir(Notebook::GetTab()->SubsPath), L"*.ass", _("Pliki napisów ASS(*.ass)|*.ass"),
 		wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 	if (openFileDialog->ShowModal() == wxID_OK){
 		OpenWrite op;

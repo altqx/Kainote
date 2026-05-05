@@ -201,7 +201,7 @@ bool Demux::SaveFont(int i, const wxString& path, wxZipOutputStream* zip)
 	bool isgood = true;
 
 	if (zip) {
-		wxString fn = path.AfterLast(L'\\');
+		wxString fn = KaiPathName(path);
 		try {
 			isgood = zip->PutNextEntry(fn);
 			zip->Write((void*)attachment->Data, attachment->DataSize);

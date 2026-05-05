@@ -843,7 +843,7 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 			emptyString, _("Pliki skryptów (*.lua),(*.moon)|*.lua;*.moon;"), wxFD_OPEN);
 		if (FileDialog1->ShowModal() == wxID_OK){
 			wxString file = FileDialog1->GetPath();
-			Options.SetString(AUTOMATION_RECENT_FILES, file.AfterLast(L'\\'));
+			Options.SetString(AUTOMATION_RECENT_FILES, KaiPathName(file));
 			//if(Auto->Add(file)){Auto->BuildMenu(&m_AutoMenu);}
 			Auto->Add(file);
 		}
@@ -946,8 +946,8 @@ void KainoteFrame::OnMenuSelected1(wxCommandEvent& event)
 	if (id == GLOBAL_OPEN_SUBS){
 
 		wxFileDialog *FileDialog1 = new wxFileDialog(this, _("Wybierz plik napisów"),
-			(tab->VideoPath != emptyString) ? tab->VideoPath.BeforeLast(L'\\') :
-			(subsrec.size() > 0) ? subsrec[0].BeforeLast(L'\\') : emptyString,
+			(tab->VideoPath != emptyString) ? KaiPathDir(tab->VideoPath) :
+			(subsrec.size() > 0) ? KaiPathDir(subsrec[0]) : emptyString,
 			emptyString, _("Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt|Pliki wideo z wbudowanymi napisami (*.mkv),(*.ogm)|*.mkv;*.ogm"),
 			wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE);
 		if (FileDialog1->ShowModal() == wxID_OK){
@@ -976,8 +976,8 @@ void KainoteFrame::OnMenuSelected1(wxCommandEvent& event)
 	}
 	else if (id == GLOBAL_OPEN_VIDEO){
 		wxFileDialog* FileDialog2 = new wxFileDialog(this, _("Wybierz plik wideo"),
-			(tab->SubsPath != emptyString) ? tab->SubsPath.BeforeLast(L'\\') :
-			(videorec.size() > 0) ? videorec[0].BeforeLast(L'\\') : emptyString,
+			(tab->SubsPath != emptyString) ? KaiPathDir(tab->SubsPath) :
+			(videorec.size() > 0) ? KaiPathDir(videorec[0]) : emptyString,
 			emptyString, _("Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|Wszystkie pliki (*.*)|*.*"),
 			wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE);
 		if (FileDialog2->ShowModal() == wxID_OK){
@@ -992,8 +992,8 @@ void KainoteFrame::OnMenuSelected1(wxCommandEvent& event)
 	}
 	else if (id == GLOBAL_OPEN_KEYFRAMES){
 		wxFileDialog* FileDialog2 = new wxFileDialog(this, _("Wybierz plik wideo"),
-			tab->VideoPath != emptyString ? tab->VideoPath.BeforeLast(L'\\') :
-			(keyframesRecent.size() > 0) ? keyframesRecent[0].BeforeLast(L'\\') : emptyString,
+			tab->VideoPath != emptyString ? KaiPathDir(tab->VideoPath) :
+			(keyframesRecent.size() > 0) ? KaiPathDir(keyframesRecent[0]) : emptyString,
 			emptyString, _("Pliki klatek kluczowych (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|Wszystkie pliki (*.*)|*.*"),
 			wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 		if (FileDialog2->ShowModal() == wxID_OK){
@@ -1210,7 +1210,7 @@ void KainoteFrame::Save(bool showDialog, int tabToSave, bool changeLabel)
 
 		wxString path = (atab->VideoPath != emptyString && Options.GetBool(SUBS_AUTONAMING)) ? atab->VideoPath : atab->SubsPath;
 		wxString name = path.BeforeLast(L'.');
-		path = path.BeforeLast(L'\\');
+		path = KaiPathDir(path);
 
 		wxFileDialog saveFileDialog(atab->video->GetMessageWindowParent(), _("Zapisz plik napisów"),
 			path, name, extens, wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
@@ -1226,7 +1226,7 @@ void KainoteFrame::Save(bool showDialog, int tabToSave, bool changeLabel)
 			atab->SubsPath = path;
 			wxString ext = (atab->grid->subsFormat < SRT) ? L"ass" : (atab->grid->subsFormat == SRT) ? L"srt" : L"txt";
 			if (!atab->SubsPath.EndsWith(ext)){ atab->SubsPath << L"." << ext; }
-			atab->SubsName = atab->SubsPath.AfterLast(L'\\');
+			atab->SubsName = KaiPathName(atab->SubsPath);
 			nameWasChanged = true;
 			SetRecent(0, tabToSave);
 		}
@@ -1285,7 +1285,7 @@ bool KainoteFrame::OpenFile(const wxString &filename, bool fulls/*=false*/, bool
 		found = FindFile(filename, secondFileName, issubs);
 		if (!issubs && found && !fulls && !tab->video->IsFullScreen()){
 			if (tab->SubsPath == secondFileName || 
-				KaiMessageBox(wxString::Format(_("Wczytać napisy o nazwie \"%s\"?"), secondFileName.AfterLast(L'\\')),
+				KaiMessageBox(wxString::Format(_("Wczytać napisy o nazwie \"%s\"?"), KaiPathName(secondFileName)),
 				_("Potwierdzenie"), wxICON_QUESTION | wxYES_NO, this) == wxNO){
 				found = false;
 			}
@@ -1488,7 +1488,7 @@ void KainoteFrame::AppendRecent(short what, Menu *_Menu)
 			changedRecent = true;
 			continue;
 		}
-		MenuItem* MI = new MenuItem(idd + i, std::to_string(i + 1) + L" " + recs[i].AfterLast(L'\\'), _("Otwórz") + L" " + recs[i]);
+		MenuItem* MI = new MenuItem(idd + i, std::to_string(i + 1) + L" " + KaiPathName(recs[i]), _("Otwórz") + L" " + recs[i]);
 		wmenu->Append(MI);
 		i++;
 	}
@@ -2080,8 +2080,8 @@ void KainoteFrame::OpenAudioInTab(TabPanel *tab, int id, const wxString &path)
 		wxString audioPath;
 		if (id == GLOBAL_OPEN_AUDIO){
 			wxFileDialog *FileDialog1 = new wxFileDialog(this, _("Wybierz plik audio"),
-				(tab->VideoPath != emptyString) ? tab->VideoPath.BeforeLast(L'\\') :
-				(videorec.size() > 0) ? videorec[0].BeforeLast(L'\\') : emptyString, emptyString,
+				(tab->VideoPath != emptyString) ? KaiPathDir(tab->VideoPath) :
+				(videorec.size() > 0) ? KaiPathDir(videorec[0]) : emptyString, emptyString,
 				_("Pliki audio i wideo") +
 				L" (*.wav),(*.w64),(*.flac),(*.ac3),(*.aac),(*.ogg),(*.mp3),(*.mp4),(*.m4a),(*.mkv),(*.avi)|*.wav;*.w64;*.flac;*.ac3;*.aac;*.ogg;*.mp3;*.mp4;*.m4a;*.mkv;*.avi|" +
 				_("Wszystkie pliki") + L" |*.*", wxFD_OPEN);

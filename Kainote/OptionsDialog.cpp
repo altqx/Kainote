@@ -838,7 +838,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 			kat.GetAllFiles(pathwn, &files, L"*.txt", wxDIR_FILES);
 		}
 		for (size_t i = 0; i < files.size(); i++){
-			choices.Add(files[i].AfterLast(L'\\').BeforeLast(L'.'));
+			choices.Add(KaiPathName(files[i]).BeforeLast(L'.'));
 		}
 		if (choices.Index(L"DarkSentro", false) == -1){
 			choices.Insert(L"DarkSentro", 0);
@@ -1176,8 +1176,10 @@ void OptionsDialog::SetOptions(bool saveall)
 					//we need to call function before set a new path
 					//to remove loaded fonts from last folder
 					if (OB.option == EXTERNAL_FONTS_DIRECTORY) {
-						if (!str.empty() && !str.EndsWith(L"\\"))
-							str << L"\\";
+						wxString separator(wxFileName::GetPathSeparator());
+						str = KaiNormalizePath(str);
+						if (!str.empty() && !str.EndsWith(separator))
+							str << separator;
 
 						FontEnum.ReloadExternalFontsToProcess(str, this);
 					}

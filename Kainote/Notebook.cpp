@@ -1102,7 +1102,7 @@ bool Notebook::LoadSubtitles(TabPanel *tab, const wxString & path, int active /*
 
 	tab->SubsPath = path;
 	if (ext == L"ssa"){ ext = L"ass"; }
-	tab->SubsName = tab->SubsPath.AfterLast(L'\\');
+	tab->SubsName = KaiPathName(tab->SubsPath);
 	tab->video->DisableVisuals(ext != L"ass");
 	if (active != -1 && active != tab->grid->currentLine && active < tab->grid->GetCount()){
 		tab->grid->SetActive(active);
@@ -1126,7 +1126,7 @@ int Notebook::LoadVideo(TabPanel *tab, const wxString & path,
 
 	if (hasEditor) {
 		wxString subsPath = (path.empty()) ?
-			tab->SubsPath.BeforeLast(L'\\') + L"\\" : path.BeforeLast(L'\\') + L"\\";
+			KaiPathDir(tab->SubsPath, wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) : KaiPathDir(path, wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
 		audiopath = tab->grid->GetSInfo(L"Audio File");
 		keyframespath = tab->grid->GetSInfo(L"Keyframes File");
 
@@ -1164,7 +1164,7 @@ int Notebook::LoadVideo(TabPanel *tab, const wxString & path,
 				if (!path.empty()) {
 					if (tab->VideoPath != path) {
 						if (!prompt.empty()) { prompt += L"\n"; }
-						prompt += _("Wideo z folderu:\n") + path.AfterLast(L'\\'); flags |= wxYES;
+						prompt += _("Wideo z folderu:\n") + KaiPathName(path); flags |= wxYES;
 					}
 					else
 						return -1;
@@ -1189,7 +1189,7 @@ int Notebook::LoadVideo(TabPanel *tab, const wxString & path,
 			else if (result & wxOK) {
 				if (!audiopath.empty()) {
 					if (hasAudioPath && !sameAudioPath) {
-						audiopath.Replace(L"/", L"\\");
+						audiopath = KaiNormalizePath(audiopath);
 					}
 					if (hasVideoPath) {
 						MenuItem *item = Kai->Menubar->FindItem(GLOBAL_VIDEO_INDEXING);
@@ -1207,7 +1207,7 @@ int Notebook::LoadVideo(TabPanel *tab, const wxString & path,
 					}
 				}
 				if (hasVideoPath) {
-					videopath.Replace(L"/", L"\\");
+					videopath = KaiNormalizePath(videopath);
 					found = true;
 				}
 			}
@@ -1230,7 +1230,7 @@ int Notebook::LoadVideo(TabPanel *tab, const wxString & path,
 	}
 	if (hasEditor) {
 		if (hasAudioPath) {
-			audiopath.Replace(L"/", L"\\");
+			audiopath = KaiNormalizePath(audiopath);
 			Kai->OpenAudioInTab(tab, 30040, audiopath);
 		}
 
@@ -1402,7 +1402,7 @@ void Notebook::LoadLastSession(bool loadCrashSession, const wxString &externalPa
 							sthis->LoadSubtitles(tab, subtitles);
 							if (orgSubtitles != subtitles) {
 								tab->SubsPath = orgSubtitles;
-								tab->SubsName = tab->SubsPath.AfterLast(L'\\');
+								tab->SubsName = KaiPathName(tab->SubsPath);
 								tab->grid->RemoveLastIterSave();
 								tab->grid->UpdateUR(true);
 							}
@@ -1456,7 +1456,7 @@ void Notebook::LoadLastSession(bool loadCrashSession, const wxString &externalPa
 
 void Notebook::FindAutoSaveSubstitute(wxString* path, int tab)
 {
-	wxString seekpath = path->AfterLast(L'\\');
+	wxString seekpath = KaiPathName(*path);
 	wxString seekPathWithoutExt = seekpath. BeforeLast(L'.');
 	if (seekPathWithoutExt.empty())
 		seekPathWithoutExt = seekpath;

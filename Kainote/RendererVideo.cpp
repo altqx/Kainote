@@ -806,8 +806,8 @@ void RendererVideo::SaveFrame(int id)
 		wxString path;
 		int num = 1;
 		wxArrayString paths;
-		wxString filespec;
-		wxString dirpath = tab->VideoPath.BeforeLast(L'\\', &filespec);
+		wxString filespec = KaiPathName(tab->VideoPath);
+		wxString dirpath = KaiPathDir(tab->VideoPath);
 		wxDir kat(dirpath);
 		path = tab->VideoPath;
 		if (kat.IsOpened()) {

@@ -904,7 +904,7 @@ void SubsGrid::OnAccelerator(wxCommandEvent &event)
 void SubsGrid::OnPasteTextTl()
 {
 	wxFileDialog *FileDialog1 = new wxFileDialog(this, _("Wybierz plik napisów"), 
-		tab->SubsPath.BeforeLast(L'\\'), emptyString, 
+		KaiPathDir(tab->SubsPath), emptyString,
 		_("Pliki napisów (*.ass),(*.srt),(*.sub),(*.txt)|*.ass;*.srt;*.sub;*.txt"), 
 		wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 	if (FileDialog1->ShowModal() == wxID_OK){
@@ -1127,7 +1127,7 @@ void SubsGrid::OnMkvSubs(wxCommandEvent &event)
 		}
 
 		tab->SubsPath = mkvpath.BeforeLast(L'.') + L"." + ext;
-		tab->SubsName = tab->SubsPath.AfterLast(L'\\');
+		tab->SubsName = KaiPathName(tab->SubsPath);
 		//Kai->SetRecent();
 		Kai->UpdateToolbar();
 		edit->RefreshStyle(true);
