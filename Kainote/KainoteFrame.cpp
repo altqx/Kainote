@@ -1556,50 +1556,55 @@ void KainoteFrame::OnRecent(wxCommandEvent& event)
 void KainoteFrame::OnSize(wxSizeEvent& event)
 {
 	wxSize size = GetSize();
+	if (size.x < 1 || size.y < 1){
+		return;
+	}
 	int fborder, ftopBorder;
 	GetBorders(&fborder, &ftopBorder);
+	fborder = wxMax(0, fborder);
+	ftopBorder = wxMax(0, ftopBorder);
 	borders.x = borders.width = borders.height = fborder;
 	borders.y = ftopBorder;
 
-	int menuHeight = Menubar->GetSize().GetHeight();
-	int toolbarWidth = Toolbar->GetThickness();
-	int statusbarHeight = StatusBar->GetSize().GetHeight();
+	int menuHeight = wxMax(0, Menubar->GetSize().GetHeight());
+	int toolbarWidth = wxMax(0, Toolbar->GetThickness());
+	int statusbarHeight = wxMax(0, StatusBar->GetSize().GetHeight());
 	//0 left, 1 top, 2 right, 3 bottom
 	int toolbarAlignment = Options.GetInt(TOOLBAR_ALIGNMENT);
 	borders.y += menuHeight;
 	borders.height += statusbarHeight;
-	Menubar->SetSize(fborder, ftopBorder, size.x - (fborder * 2), menuHeight);
+	Menubar->SetSize(fborder, ftopBorder, wxMax(0, size.x - (fborder * 2)), menuHeight);
 	switch (toolbarAlignment){
 	case 0://left
-		Toolbar->SetSize(borders.GetX(), borders.y, toolbarWidth, 
-			size.y - borders.y - borders.height);
+		Toolbar->SetSize(borders.GetX(), borders.y, toolbarWidth,
+			wxMax(0, size.y - borders.y - borders.height));
 		borders.x += toolbarWidth;
 		break;
 	case 1://top
-		Toolbar->SetSize(borders.GetX(), borders.y, 
-			size.x - borders.height, toolbarWidth);
+		Toolbar->SetSize(borders.GetX(), borders.y,
+			wxMax(0, size.x - borders.GetX() - borders.width), toolbarWidth);
 		borders.y += toolbarWidth;
 		break;
 	case 2://right
 		borders.width += toolbarWidth;
-		Toolbar->SetSize(size.x - borders.width, borders.y, 
-			toolbarWidth, size.y - borders.y - borders.height);
+		Toolbar->SetSize(wxMax(0, size.x - borders.width), borders.y,
+			toolbarWidth, wxMax(0, size.y - borders.y - borders.height));
 		break;
 	case 3://bottom
 		borders.height += toolbarWidth;
-		Toolbar->SetSize(borders.GetX(), size.y - borders.height, 
-			size.x - borders.GetX() - borders.width, toolbarWidth);
+		Toolbar->SetSize(borders.GetX(), wxMax(0, size.y - borders.height),
+			wxMax(0, size.x - borders.GetX() - borders.width), toolbarWidth);
 		break;
 	default:
-		Toolbar->SetSize(borders.GetX(), borders.y, toolbarWidth, 
-			size.y - borders.y - borders.height);
+		Toolbar->SetSize(borders.GetX(), borders.y, toolbarWidth,
+			wxMax(0, size.y - borders.y - borders.height));
 		borders.x += toolbarWidth;
 		break;
 	}
-	Tabs->SetSize(borders.GetX(), borders.y, 
-		size.x - borders.GetX() - borders.width, size.y - borders.y - borders.height);
-	StatusBar->SetSize(fborder, size.y - statusbarHeight - fborder,
-		size.x - (fborder * 2), statusbarHeight);
+	Tabs->SetSize(borders.GetX(), borders.y,
+		wxMax(0, size.x - borders.GetX() - borders.width), wxMax(0, size.y - borders.y - borders.height));
+	StatusBar->SetSize(fborder, wxMax(0, size.y - statusbarHeight - fborder),
+		wxMax(0, size.x - (fborder * 2)), statusbarHeight);
 	borders.height += Tabs->GetHeight();
 	event.Skip();
 }

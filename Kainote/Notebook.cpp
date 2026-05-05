@@ -625,7 +625,7 @@ void Notebook::OnSize(wxSizeEvent& event)
 		Pages[tmpiter]->SetSize(wxMax(0, splitline - 3), wxMax(0, h - 2));
 	}
 	else{
-		Pages[iter]->SetSize(w, h);
+		Pages[iter]->SetSize(wxMax(0, w), wxMax(0, h));
 	}
 	if (alvistmp != allTabsVisible){ RefreshRect(wxRect(0, h - TabHeight, w, TabHeight), false); }
 	SetTimer(GetHWND(), 9876, 500, (TIMERPROC)OnResized);
@@ -636,6 +636,7 @@ void Notebook::OnPaint(wxPaintEvent& event)
 	if (block){ return; }
 	int w, h;
 	GetClientSize(&w, &h);
+	if (w < 1 || TabHeight < 1){ return; }
 	//h-=TabHeight;
 	wxClientDC cdc(this);
 	wxMemoryDC dc;

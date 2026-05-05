@@ -110,6 +110,7 @@ ShiftTimes::ShiftTimes(wxWindow* parent, KainoteFrame* kfparent, wxWindowID id, 
 	scroll->Hide();
 	scroll->SetScrollRate(30);
 	isscrollbar = false;
+	resizing = false;
 	//SetScrollRate(0,5);
 	scPos = 0;
 
@@ -472,20 +473,32 @@ void ShiftTimes::OnOKClick(wxCommandEvent& event)
 
 void ShiftTimes::OnSize(wxSizeEvent& event)
 {
+	if (resizing){
+		return;
+	}
+	resizing = true;
 	int h, gw, gh;
 	tab->grid->GetClientSize(&gw, &gh);
 	int w;
 	panel->GetBestSize(&w, &h);
 	int ctw, cth;
 	GetSize(&ctw, &cth);
+	if (w < 1 || h < 1){
+		resizing = false;
+		return;
+	}
+	const int safeGh = wxMax(0, gh);
+	const int scrollRange = wxMax(h, safeGh);
+	const int scrollPage = wxMax(0, safeGh);
+	const int scrollThumb = wxMax(0, safeGh - 10);
 	if (!isscrollbar && gh < h)//showing scrollbar
 	{
 		isscrollbar = true;
 		int thickness = scroll->GetThickness();
-		SetMinSize(wxSize(w + thickness, h));
+		SetMinSize(wxSize(wxMax(1, w + thickness), h));
 		tab->GridShiftTimesSizer->Layout();
-		scroll->SetSize(wxMax(0, w - 1), 0, thickness, wxMax(0, gh));
-		scroll->SetScrollbar(scPos, gh, h, gh - 10);
+		scroll->SetSize(wxMax(0, w - 1), 0, wxMax(0, thickness), safeGh);
+		scroll->SetScrollbar(scPos, scrollPage, scrollRange, scrollThumb);
 		scroll->Show();
 
 	}
@@ -494,7 +507,7 @@ void ShiftTimes::OnSize(wxSizeEvent& event)
 		isscrollbar = false;
 		scPos = 0;
 		scroll->Hide();
-		scroll->SetScrollbar(scPos, gh, h, gh - 10);
+		scroll->SetScrollbar(scPos, scrollPage, scrollRange, scrollThumb);
 		SetMinSize(wxSize(w, h));
 		panel->SetPosition(wxPoint(0, scPos));
 		tab->GridShiftTimesSizer->Layout();
@@ -502,12 +515,12 @@ void ShiftTimes::OnSize(wxSizeEvent& event)
 	else if (scroll->IsShown()){
 		int thickness = scroll->GetThickness();
 		if (ctw != w + thickness) {
-			SetMinSize(wxSize(w + thickness, h));
+			SetMinSize(wxSize(wxMax(1, w + thickness), h));
 			tab->GridShiftTimesSizer->Layout();
 			scPos = 0;
 		}
-		scroll->SetSize(wxMax(0, ctw - thickness - 1), 0, thickness, wxMax(0, gh));
-		scroll->SetScrollbar(scPos, gh, h, gh - 10);
+		scroll->SetSize(wxMax(0, ctw - thickness - 1), 0, wxMax(0, thickness), safeGh);
+		scroll->SetScrollbar(scPos, scrollPage, scrollRange, scrollThumb);
 		if (scPos != scroll->GetScrollPos()){
 			scPos = scroll->GetScrollPos();
 			panel->SetPosition(wxPoint(0, -scPos));
@@ -518,6 +531,7 @@ void ShiftTimes::OnSize(wxSizeEvent& event)
 		SetMinSize(wxSize(w, h));
 		tab->GridShiftTimesSizer->Layout();
 	}
+	resizing = false;
 
 }
 
