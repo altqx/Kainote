@@ -23,6 +23,7 @@
  
 #include "KainoteApp.h"
 #include "Menu.h"
+#include "ListControls.h"
 #include "OpennWrite.h"
 #include "Hotkeys.h"
 #include "KaiMessageBox.h"
@@ -471,7 +472,9 @@ int kainoteApp::FilterEvent(wxEvent& event)
 	const wxEventType type = event.GetEventType();
 	if (type == wxEVT_LEFT_DOWN || type == wxEVT_RIGHT_DOWN || type == wxEVT_MIDDLE_DOWN ||
 		type == wxEVT_LEFT_UP || type == wxEVT_RIGHT_UP || type == wxEVT_MIDDLE_UP){
-		if (MenuDialog::DismissOnExternalClick(wxDynamicCast(event.GetEventObject(), wxWindow))){ return 1; }
+		wxWindow *eventWindow = wxDynamicCast(event.GetEventObject(), wxWindow);
+		if (PopupList::DismissOnExternalClick(eventWindow)){ return 1; }
+		if (MenuDialog::DismissOnExternalClick(eventWindow)){ return 1; }
 	}
 	if (type == wxEVT_KEY_DOWN || type == wxEVT_CHAR_HOOK) {
 		wxKeyEvent* keyEvent = dynamic_cast<wxKeyEvent*>(&event);

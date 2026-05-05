@@ -158,7 +158,11 @@ void KaiStaticBox::PaintForeground(wxDC& tdc, const tagRECT& rc)
 
 wxSize KaiStaticBox::CalcBorders()
 {
+#ifdef _WIN32
 	return wxSize(8, heightText + 5);
+#else
+	return wxSize(6, heightText + 3);
+#endif
 }
 
 bool KaiStaticBox::Enable(bool enable)

@@ -126,6 +126,8 @@ public:
 	MenuDialog(Menu *parent, wxWindow *DialogParent, const wxPoint &pos, const wxSize &size, bool sendEvent = true);
 	~MenuDialog();
 	static bool IsMenuWindow(wxWindow *win);
+	static bool IsMenuBarWindow(wxWindow *win);
+	static bool IsPointInMenuTree(MenuDialog *dialog, const wxPoint &screenPoint);
 	static bool DismissOnExternalClick(wxWindow *eventWindow);
 
 private:

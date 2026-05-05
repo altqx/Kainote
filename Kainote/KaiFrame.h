@@ -62,8 +62,13 @@ private:
 	bool enterMinimize;
 	bool pushedMinimize;
 	bool isActive;
+#ifdef __WXMSW__
 	int frameBorder = 7;
 	int frameTopBorder = 26;
+#else
+	int frameBorder = 5;
+	int frameTopBorder = 30;
+#endif
 	//wxRect LastMonitorRect = { -1, -1, -1, -1 };
 	bool wasWindowsSize = false;
 	wxPoint lastPosition = { 0, 0 };

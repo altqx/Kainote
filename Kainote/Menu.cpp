@@ -29,7 +29,11 @@
 #include <locale>
 
 //cannot use font outside class cause it create before it can get font scale from system
+#ifdef _WIN32
 static int height = 22;
+#else
+static int height = 24;
+#endif
 static bool showMnemonics = false;
 static bool secondAlt = false;
 static bool showIcons = true;
@@ -481,9 +485,35 @@ bool MenuDialog::IsMenuWindow(wxWindow *win)
 	return false;
 }
 
+bool MenuDialog::IsMenuBarWindow(wxWindow *win)
+{
+	while (win){
+		if (win == MenuBar::Menubar){ return true; }
+		win = win->GetParent();
+	}
+	return false;
+}
+
+bool MenuDialog::IsPointInMenuTree(MenuDialog *dialog, const wxPoint &screenPoint)
+{
+	if (!dialog){ return false; }
+	if (dialog->IsShown() && dialog->GetScreenRect().Contains(screenPoint)){ return true; }
+	for (auto item : dialog->parent->items){
+		if (item->submenu && item->submenu->dialog && IsPointInMenuTree(item->submenu->dialog, screenPoint)){
+			return true;
+		}
+	}
+	return false;
+}
+
 bool MenuDialog::DismissOnExternalClick(wxWindow *eventWindow)
 {
-	if (!ParentMenu || IsMenuWindow(eventWindow)){ return false; }
+	if (!ParentMenu || IsMenuBarWindow(eventWindow)){
+		return false;
+	}
+	if (IsMenuWindow(eventWindow) && IsPointInMenuTree(ParentMenu, wxGetMousePosition())){
+		return false;
+	}
 	ParentMenu->HideMenus();
 	if (MenuBar::Menubar){ MenuBar::Menubar->HideMnemonics(); }
 	return true;
@@ -888,7 +918,11 @@ MenuBar::MenuBar(wxWindow *_parent)
 	font = *Options.GetFont();//wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, L"Tahoma");
 	wxWindow::SetFont(font);
 	GetTextExtent(L"#TWFfGHj", &x, &y);
+#ifdef _WIN32
 	y += 6;
+#else
+	y += 8;
+#endif
 	if (y > height){
 		SetMinSize(wxSize(200, y));
 		SetSize(wxSize(-1, y));
@@ -1358,7 +1392,11 @@ bool MenuBar::SetFont(const wxFont &_font)
 	wxWindow::SetFont(font);
 	int x, y;
 	GetTextExtent(L"#TWFfGHj", &x, &y);
+#ifdef _WIN32
 	y += 6;
+#else
+	y += 8;
+#endif
 	if (y != height){
 		SetMinSize(wxSize(200, y));
 		SetSize(wxSize(-1, y));

@@ -58,9 +58,10 @@ void KaiChoice::CalcMaxWidth(wxSize *result, bool changex, bool changey){
 		result->y = ty + 10;
 #else
 		// wxGTK/Pango reports taller text extents than the Windows renderer used
-		// for the original custom controls. Keep only a small paint margin so
-		// Linux choices/combos do not balloon relative to the Windows layout.
-		result->y = ty + 2;
+		// for the original custom controls. Use moderate padding: compact enough
+		// to avoid ballooned GTK choices, but not so tight that the whole UI looks
+		// shrunken next to the Windows build.
+		result->y = ty + 4;
 #endif
 	}
 }
@@ -768,17 +769,19 @@ EVT_MENU_RANGE(7865, 7866, KaiChoice::OnArrow)
 END_EVENT_TABLE()
 
 static int maxVisible = 20;
+PopupList *PopupList::activePopup = nullptr;
 
 PopupList::PopupList(wxWindow *DialogParent, wxArrayString *list, std::map<int, bool> *disabled)
 : wxPopupWindow(DialogParent/*, wxBORDER_NONE | wxWANTS_CHARS*/)
 , sel(0)
 , scPos(0)
-, scroll(nullptr)
-, orgY(0)
 , bmp(nullptr)
-, Parent(DialogParent)
 , itemsList(list)
 , disabledItems(disabled)
+, Parent(DialogParent)
+, orgY(0)
+, scroll(nullptr)
+, dismissTimer(this, 27798)
 {
 	int fw = 0;
 	bool isFontList = (Parent->GetWindowStyle() & KAI_FONT_LIST) != 0;
@@ -791,11 +794,36 @@ PopupList::PopupList(wxWindow *DialogParent, wxArrayString *list, std::map<int, 
 		SetFont(DialogParent->GetFont());
 	GetTextExtent(L"#TWFfGH", &fw, &height);
 	height += 6;
+	Bind(wxEVT_TIMER, &PopupList::OnDismissTimer, this, 27798);
 }
 
 PopupList::~PopupList()
 {
+	dismissTimer.Stop();
+	if (activePopup == this){ activePopup = nullptr; }
 	wxDELETE(bmp);
+}
+
+bool PopupList::IsPopupListWindow(wxWindow *win)
+{
+	while (win){
+		if (dynamic_cast<PopupList*>(win)){ return true; }
+		win = win->GetParent();
+	}
+	return false;
+}
+
+bool PopupList::DismissOnExternalClick(wxWindow *eventWindow)
+{
+	PopupList *popup = activePopup;
+	if (!popup || !popup->IsShown()){ return false; }
+	wxPoint mousePos = wxGetMousePosition();
+	if (IsPopupListWindow(eventWindow) && popup->GetScreenRect().Contains(mousePos)){ return false; }
+	for (wxWindow *win = eventWindow; win; win = win->GetParent()){
+		if (win == popup->Parent && popup->Parent->GetScreenRect().Contains(mousePos)){ return false; }
+	}
+	popup->EndPartialModal(-3);
+	return true;
 }
 
 void PopupList::Popup(const wxPoint &pos, const wxSize &controlSize, int selectedItem)
@@ -807,8 +835,16 @@ void PopupList::Popup(const wxPoint &pos, const wxSize &controlSize, int selecte
 	SetPosition(Parent->ClientToScreen(originalPosition));
 	SetSize(size);
 	orgY = size.y;
+	if (activePopup && activePopup != this && activePopup->IsShown()){
+		activePopup->EndPartialModal(-3);
+	}
+	activePopup = this;
 	Show();
+#ifdef _WIN32
 	Bind(wxEVT_IDLE, &PopupList::OnIdle, this);
+#else
+	dismissTimer.Start(50);
+#endif
 	if (scroll){
 		int thickness = scroll->GetThickness();
 		scroll->SetSize(wxMax(0, size.x - thickness - 1), 1, thickness, wxMax(0, size.y - 2));
@@ -848,17 +884,12 @@ void PopupList::OnMouseEvent(wxMouseEvent &evt)
 	int x = evt.GetX();
 	int y = evt.GetY();
 	wxSize sz = GetClientSize();
-	if (leftdown){
-		wxPoint posOnScreen = wxGetMousePosition();
-		bool contains = false;
-		int x, y;
-		wxPopupWindowBase::DoGetPosition(&x, &y);
-		wxRect rc = GetRect();
-		rc.x = x; rc.y = y;
-		if (!rc.Contains(posOnScreen)){
+	if (leftdown || evt.LeftUp()){
+		if (!GetScreenRect().Contains(wxGetMousePosition())){
 			EndPartialModal(-3);
+			return;
 		}
-		return;
+		if (leftdown){ return; }
 	}
 
 	if (evt.GetWheelRotation() != 0) {
@@ -1022,11 +1053,27 @@ void PopupList::OnScroll(wxScrollEvent& event)
 //end of wait loop
 void PopupList::EndPartialModal(int ReturnId)
 {
+	dismissTimer.Stop();
 	Unbind(wxEVT_IDLE, &PopupList::OnIdle, this);
 	if (HasCapture()){ ReleaseMouse(); }
+	if (activePopup == this){ activePopup = nullptr; }
 	Hide();
 	((KaiChoice*)Parent)->SetFocus();
 	((KaiChoice*)Parent)->SendEvent(ReturnId);
+}
+
+void PopupList::OnDismissTimer(wxTimerEvent& event)
+{
+#ifndef _WIN32
+	if (!IsShown()){
+		dismissTimer.Stop();
+		return;
+	}
+	wxPoint mousePos = wxGetMousePosition();
+	if (GetScreenRect().Contains(mousePos)){ return; }
+	if (Parent && Parent->GetScreenRect().Contains(mousePos)){ return; }
+	EndPartialModal(-3);
+#endif
 }
 
 void PopupList::OnKeyPress(wxKeyEvent &event)
@@ -1073,6 +1120,7 @@ void PopupList::OnIdle(wxIdleEvent& event)
 
 	if (IsShown())
 	{
+#ifdef _WIN32
 		wxPoint pos = ScreenToClient(wxGetMousePosition());
 		wxRect rect(GetSize());
 
@@ -1090,6 +1138,7 @@ void PopupList::OnIdle(wxIdleEvent& event)
 				CaptureMouse();
 			}
 		}
+#endif
 	}
 }
 
@@ -1098,6 +1147,7 @@ BEGIN_EVENT_TABLE(PopupList, wxPopupWindow)
 EVT_MOUSE_EVENTS(PopupList::OnMouseEvent)
 EVT_PAINT(PopupList::OnPaint)
 EVT_SCROLL(PopupList::OnScroll)
+EVT_TIMER(27798, PopupList::OnDismissTimer)
 EVT_MOUSE_CAPTURE_LOST(PopupList::OnLostCapture)
 END_EVENT_TABLE()
 

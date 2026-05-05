@@ -50,7 +50,7 @@ KaiTextCtrl::KaiTextCtrl(wxWindow *parent, int id, const wxString &text, const w
 #ifdef _WIN32
 	const int verticalPadding = 10;
 #else
-	const int verticalPadding = 2;
+	const int verticalPadding = 4;
 #endif
 	wxSize newSize((size.x < 1) ? 100 : size.x, (size.y < 1) ? fh + verticalPadding : size.y);
 
