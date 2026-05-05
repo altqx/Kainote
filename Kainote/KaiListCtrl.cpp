@@ -461,7 +461,7 @@ void KaiListCtrl::OnPaint(wxPaintEvent& evt)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	
 	int maxWidth = GetMaxWidth();
 	if (isFiltered)
@@ -483,6 +483,7 @@ void KaiListCtrl::OnPaint(wxPaintEvent& evt)
 
 	if (SetScrollBar(wxHORIZONTAL, scPosH, w, maxWidth, w - 2)){
 		GetClientSize(&w, &h);
+		if (w < 1 || h < 1){ return; }
 		if (maxWidth <= w){ scPosH = 0; SetScrollPos(wxHORIZONTAL, 0); }
 	}
 
@@ -498,12 +499,14 @@ void KaiListCtrl::OnPaint(wxPaintEvent& evt)
 		maxsize = MIN(maxVisible + scPosV, itemsize - 1);
 		if (SetScrollBar(wxVERTICAL, scPosV, maxVisible, itemsize, maxVisible - 2)){
 			GetClientSize(&w, &h);
+			if (w < 1 || h < 1){ return; }
 		}
 	}
 	else{
 		scPosV = 0;
 		if (SetScrollBar(wxVERTICAL, scPosV, maxVisible, itemsize, maxVisible - 2)){
 			GetClientSize(&w, &h);
+			if (w < 1 || h < 1){ return; }
 		}
 	}
 
@@ -511,6 +514,7 @@ void KaiListCtrl::OnPaint(wxPaintEvent& evt)
 		//w -= 12;
 
 	int bitmapw = w;
+	if (bitmapw < 1 || h < 1){ return; }
 	wxMemoryDC tdc;
 	if (bmp && (bmp->GetWidth() < bitmapw || bmp->GetHeight() < h)) {
 		delete bmp;

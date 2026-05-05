@@ -86,6 +86,7 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
+	if (w < 1 || h < 1){ return; }
 	int firstCol = GridWidth[0] + 1;
 	wxRegionIterator upd(GetUpdateRegion());
 	while (upd) {
@@ -141,12 +142,14 @@ void SubsGridWindow::OnPaint(wxPaintEvent& event)
 	
 	if (SetScrollBar(wxVERTICAL, scrollPositionId, panelrows, size + 3, panelrows - 3)){
 		GetClientSize(&w, &h);
+		if (w < 1 || h < 1){ return; }
 	}
 
 	lastWidth = w;
 	lastHeight = h;
 
 	// Prepare bitmap
+	if (w + scHor < 1 || h < 1){ return; }
 	if (bmp) {
 		if (bmp->GetWidth() < w + scHor || bmp->GetHeight() < h) {
 			delete bmp;

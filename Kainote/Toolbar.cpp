@@ -233,7 +233,7 @@ void KaiToolbar::OnPaint(wxPaintEvent &event)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	wxMemoryDC tdc;
 	if (bmp && (bmp->GetWidth() < w || bmp->GetHeight() < h)) {
 		delete bmp;
@@ -304,7 +304,7 @@ void KaiToolbar::OnSize(wxSizeEvent &evt)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	bool vertical = alignment % 2 == 0;
 	float maxx = (vertical) ? h : w;
 	int toolbarrows = ((tools.size() * thickness) - 2) / maxx;
@@ -561,7 +561,7 @@ void ToolbarMenu::OnPaint(wxPaintEvent &event)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	int ow = w;
 	int thickness = scroll->GetThickness();
 	w -= (thickness + 1);

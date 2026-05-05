@@ -107,6 +107,7 @@ void KaiWindowResizer::OnPaint(wxPaintEvent& evt)
 	const wxColour & backgroundColor = Options.GetColour(WINDOW_BACKGROUND);
 
 	wxSize size = GetClientSize();
+	if (size.x < 1 || size.y < 1){ return; }
 	if (bmp && (bmp->GetWidth() < size.x || bmp->GetHeight() < size.y)) {
 		delete bmp;
 		bmp = nullptr;

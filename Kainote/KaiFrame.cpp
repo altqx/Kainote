@@ -110,6 +110,10 @@ void KaiFrame::OnPaint(wxPaintEvent &evt)
 	int w, h;
 	GetSize(&w, &h);
 	if (w < 1 || h < 1){ return; }
+	const int titleHeight = wxMin(frameTopBorder, h);
+	const int sideHeight = h - titleHeight - frameBorder;
+	const int rightX = w - frameBorder;
+	const int bottomY = h - frameBorder;
 	
 	wxMemoryDC mdc;
 	wxBitmap KaiFrameBitmap(w, h);
@@ -202,10 +206,10 @@ void KaiFrame::OnPaint(wxPaintEvent &evt)
 	//}
 
 	wxPaintDC dc(this);
-	dc.Blit(0, 0, w, frameTopBorder, &mdc, 0, 0);
-	dc.Blit(0, frameTopBorder, frameBorder, h - frameTopBorder - frameBorder, &mdc, 0, frameTopBorder);
-	dc.Blit(w - frameBorder, frameTopBorder, frameBorder, h - frameTopBorder - frameBorder, &mdc, w - frameBorder, frameTopBorder);
-	dc.Blit(0, h - frameBorder, w, frameBorder, &mdc, 0, h - frameBorder);
+	if (titleHeight > 0){ dc.Blit(0, 0, w, titleHeight, &mdc, 0, 0); }
+	if (frameBorder > 0 && sideHeight > 0){ dc.Blit(0, titleHeight, frameBorder, sideHeight, &mdc, 0, titleHeight); }
+	if (frameBorder > 0 && rightX >= 0 && sideHeight > 0){ dc.Blit(rightX, titleHeight, frameBorder, sideHeight, &mdc, rightX, titleHeight); }
+	if (frameBorder > 0 && bottomY >= 0){ dc.Blit(0, bottomY, w, frameBorder, &mdc, 0, bottomY); }
 }
 
 

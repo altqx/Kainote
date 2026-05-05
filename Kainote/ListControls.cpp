@@ -269,7 +269,7 @@ void KaiChoice::OnPaint(wxPaintEvent& event)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	wxMemoryDC tdc;
 	if (bmp && (bmp->GetWidth() < w || bmp->GetHeight() < h)) {
 		delete bmp;
@@ -927,7 +927,7 @@ void PopupList::OnPaint(wxPaintEvent &event)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	int itemsize = itemsList->size();
 	if (scPos >= itemsize - maxVisible){ scPos = itemsize - maxVisible; }
 	if (scPos < 0){ scPos = 0; }

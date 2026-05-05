@@ -1313,7 +1313,7 @@ void ButtonColorPicker::OnClick(wxCommandEvent &event)
 //	int w = 0;
 //	int h = 0;
 //	GetClientSize(&w, &h);
-//	if (w == 0 || h == 0){ return; }
+//	if (w < 1 || h < 1){ return; }
 //	wxMemoryDC tdc;
 //	tdc.SelectObject(wxBitmap(w, h));
 //	tdc.SetFont(GetFont());

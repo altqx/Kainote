@@ -683,7 +683,7 @@ void MenuDialog::OnPaint(wxPaintEvent &event)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	int ow = w;
 	int itemsize = parent->items.size();
 	if (scPos >= itemsize - parent->maxVisible){ scPos = itemsize - parent->maxVisible; }
@@ -1043,7 +1043,7 @@ void MenuBar::OnPaint(wxPaintEvent &event)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 
 	wxMemoryDC tdc;
 	if (bmp && (bmp->GetWidth() < w || bmp->GetHeight() < h)) {

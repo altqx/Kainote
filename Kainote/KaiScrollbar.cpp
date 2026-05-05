@@ -221,12 +221,13 @@ void KaiScrollbar::OnPaint(wxPaintEvent& evt)
 	int arrowPos1 = (thickness - 11) / 2;//2
 	int doubleThumbSize = thumbSize1 * 2;//26
 	GetClientSize(&ow, &oh);
-	if (ow == 0 || oh == 0){ return; }
+	if (ow < 1 || oh < 1){ return; }
 	if (twoScrollbars){
 		if (isVertical){ h = oh - thickness; w = ow; }
 		else{ w = ow - thickness; h = oh; }
 	}
 	else{ w = ow; h = oh; }
+	if (w < 1 || h < 1){ return; }
 	wxMemoryDC tdc;
 	if (bmp && (bmp->GetWidth() < ow || bmp->GetHeight() < oh)) {
 		delete bmp;
@@ -326,7 +327,7 @@ void KaiScrollbar::OnMouseEvent(wxMouseEvent &evt)
 	}
 	if ((evt.RightDown() || evt.RightDClick() || //prawy przycisk
 		(evt.ShiftDown() && (evt.LeftDown() || evt.LeftDClick()))) && //lewy + shift
-		(coord < size - thickness && coord > thickness)){ //blokada by nie dzia³a³o na przyciskach
+		(coord < size - thickness && coord > thickness)){ //blokada by nie dziaï¿½aï¿½o na przyciskach
 		thumbPos = coord - (thumbSize / 2);
 		thumbPos = MID(thickness, thumbPos, thumbRange + thickness);
 		unitPos = ((thumbPos - thickness) / (float)thumbRange) * allVisibleSize;

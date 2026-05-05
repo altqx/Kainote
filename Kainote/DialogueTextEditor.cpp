@@ -1104,7 +1104,8 @@ void TextEditor::OnPaint(wxPaintEvent& event)
 		bitmaph = h;
 		scrollPositionV = 0;
 	}
-
+	// Prepare bitmap
+	if (w < 1 || h < 1){ return; }
 	if (bmp) {
 		if (bmp->GetWidth() < w || bmp->GetHeight() < h) {
 			delete bmp;

@@ -62,8 +62,10 @@ void FontList::OnPaint(wxPaintEvent& event)
 	int sw = 0;
 	int sh = 0;
 	GetClientSize(&w, &h);
+	if (w < 1 || h < 1){ return; }
 	scrollBar->GetSize(&sw, &sh);
-	scrollBar->SetSize(w - sw, 0, sw, h);
+	if (w - sw < 1){ return; }
+	scrollBar->SetSize(wxMax(0, w - sw), 0, sw, h);
 	w -= sw;
 
 	if (bmp) {

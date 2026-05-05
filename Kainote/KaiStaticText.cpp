@@ -175,13 +175,14 @@ void KaiStaticText::OnPaint(wxPaintEvent &evt)
 	int w = 0;
 	int h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	if (textHeight > 400){
 		if (!textScroll){
 			textScroll = new KaiScrollbar(this, 9999, wxDefaultPosition, wxDefaultSize, wxVERTICAL);
 			textScroll->SetScrollRate(10);
 			int sw = 0, sh = 0;
 			textScroll->GetSize(&sw, &sh);
+			if (w - sw < 1){ return; }
 			textScroll->SetSize(w - sw, 0, sw, h);
 			w -= sw;
 		}

@@ -854,7 +854,7 @@ void KaiTextCtrl::OnPaint(wxPaintEvent& event)
 	wxMutexLocker lock(mutex);
 	int w = 0, h = 0;
 	GetClientSize(&w, &h);
-	if (w == 0 || h == 0){ return; }
+	if (w < 1 || h < 1){ return; }
 	wxPaintDC dc(this);
 	int bitmaph;
 	int bitmapw;
@@ -892,6 +892,7 @@ void KaiTextCtrl::OnPaint(wxPaintEvent& event)
 
 	}
 	// Prepare bitmap
+	if (w < 1 || h < 1){ return; }
 	if (bmp) {
 		if (bmp->GetWidth() < w || bmp->GetHeight() < h) {
 			delete bmp;
