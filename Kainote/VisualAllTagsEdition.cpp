@@ -103,8 +103,8 @@ AllTagsEdition::AllTagsEdition(wxWindow* parent, const wxPoint& pos,
 		values[i]->Enable(currentTag.numOfValues > i);
 	}
 
-	Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, [=](wxCommandEvent& evt) {
-		int numAdditionalValues = numOfValues->GetSelection();
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent& evt) {
+		int numAdditionalValues = numOfValues->GetSelection() + 1;
 		for (int i = 1; i < 4; i++) {
 			values[i]->Enable(numAdditionalValues > i);
 		}
@@ -302,6 +302,10 @@ void AllTagsEdition::Save(int id)
 	}
 	if (currentTag.rangeMax <= currentTag.rangeMin) {
 		KaiMessageBox(_("Pole \"Maksymalna wartość\" musi zawierać wartość\nwiększą od pola \"Minimalna wartość\"."), _("Błąd"), wxOK, this);
+		return;
+	}
+	if (currentTag.step <= 0) {
+		KaiMessageBox(_("Pole \"Przeskok\" musi zawierać wartość większą od zera."), _("Błąd"), wxOK, this);
 		return;
 	}
 	if (((currentTag.rangeMax - currentTag.rangeMin) / currentTag.step) < 2) {

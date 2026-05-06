@@ -258,8 +258,15 @@ void Visuals::SetVisual(Dialogue* dial, int tool, bool noRefresh)
 	end = dial->End.mstime;
 	notDialogue = dial->IsComment;
 
-	coeffW = ((float)SubsSize.x / (float)(VideoSize.width - VideoSize.x));
-	coeffH = ((float)SubsSize.y / (float)(VideoSize.height - VideoSize.y));
+	int videoWidth = VideoSize.width - VideoSize.x;
+	int videoHeight = VideoSize.height - VideoSize.y;
+	if (videoWidth <= 0 || videoHeight <= 0 || SubsSize.x <= 0 || SubsSize.y <= 0) {
+		coeffW = 1.f;
+		coeffH = 1.f;
+		return;
+	}
+	coeffW = ((float)SubsSize.x / (float)videoWidth);
+	coeffH = ((float)SubsSize.y / (float)videoHeight);
 	tab->video->SetVisualEdition(true);
 
 	//set copy of editbox text that every dummy edition have the same text
@@ -277,10 +284,19 @@ void Visuals::SizeChanged(wxRect wsize, LPD3DXLINE _line, LPD3DXFONT _font, LPDI
 	font = _font;
 	device = _device;
 	VideoSize = wsize;
-	coeffW = ((float)SubsSize.x / (float)(wsize.width - wsize.x));
-	coeffH = ((float)SubsSize.y / (float)(wsize.height - wsize.y));
+	int videoWidth = wsize.width - wsize.x;
+	int videoHeight = wsize.height - wsize.y;
+	if (videoWidth <= 0 || videoHeight <= 0 || SubsSize.x <= 0 || SubsSize.y <= 0) {
+		coeffW = 1.f;
+		coeffH = 1.f;
+		return;
+	}
+	coeffW = ((float)SubsSize.x / (float)videoWidth);
+	coeffH = ((float)SubsSize.y / (float)videoHeight);
 
-	HRN(device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE), L"FVF failed");
+	if (device) {
+		HRN(device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE), L"FVF failed");
+	}
 }
 //DrawArrow moves point "to" to end before arrow
 //from and to are line coordinates
@@ -419,6 +435,9 @@ void Visuals::Draw(int time)
 	}
 	else if (blockevents){ blockevents = false; }
 	wxMutexLocker lock(clipmutex);
+	if (!line || !device) {
+		return;
+	}
 	line->SetAntialias(TRUE);
 	line->SetWidth(2.0);
 
@@ -430,6 +449,8 @@ void Visuals::Draw(int time)
 void Visuals::DrawWarning(bool comment)
 {
 	if (Options.GetBool(VIDEO_VISUAL_WARNINGS_OFF))
+		return;
+	if (!device)
 		return;
 
 	LPD3DXFONT warningFont;

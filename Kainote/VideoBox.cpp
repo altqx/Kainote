@@ -1539,7 +1539,7 @@ void VideoBox::GetFPSAndAspectRatio(float *FPS, float *AspectRatio, int *AspectR
 			*AspectRatio = m_AspectRatio;
 		if (AspectRatioX)
 			*AspectRatioX = m_AspectRatioX;
-		if (AspectRatioX)
+		if (AspectRatioY)
 			*AspectRatioY = m_AspectRatioY;
 	}
 }
