@@ -66,7 +66,12 @@ TabPanel::TabPanel(wxWindow *parent, KainoteFrame *kai, const wxPoint &pos, cons
 		int mw, mh;
 		GetClientSize(&mw, &mh);
 		int limit = (video->GetState() != None && video->IsShown()) ? 350 : 150;
-		return newpos > limit && newpos < mh - 5;
+#ifndef _WIN32
+		int bottomLimit = 180;
+#else
+		int bottomLimit = 5;
+#endif
+		return newpos > limit && newpos < mh - bottomLimit;
 	}, [=](int newpos, bool shiftDown){
 		int w, h;
 		edit->GetClientSize(&w, &h);
