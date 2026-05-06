@@ -114,12 +114,7 @@ void KaiStaticBox::PaintForeground(wxDC& tdc, const tagRECT& rc)
 	int posx = 8;
 	int cellWidth = (w - 16) / labels.size();
 #else
-	// On wxGTK the labels passed to KaiStaticBoxSizer are internal section/help
-	// descriptions.  After suppressing those captions, keeping an unlabeled
-	// custom outline leaves stray-looking frames at the upper-left of many
-	// panels (for example Style manager and Options).  Make the GTK helper box
-	// layout-only: child controls keep their spacing, but no floating caption or
-	// empty frame is painted over the themed panel.
+	// On wxGTK these labels are help text; make the helper box layout-only.
 	return;
 #endif
 #ifdef _WIN32
@@ -133,10 +128,7 @@ void KaiStaticBox::PaintForeground(wxDC& tdc, const tagRECT& rc)
 		if (labelWidth > 0){
 			int clearX = wxMax(0, posx - 2);
 			int clearWidth = wxMin(labelWidth + 4, w - clearX - 6);
-			// Clear a solid caption strip before drawing the text.  On wxGTK the
-			// text background alone doesn't fully cover the custom top border, so
-			// long captions in the Time shift panel looked like broken/stacked
-			// chrome over the neighbouring button/textbox.
+			// Clear the caption strip before drawing over the custom top border.
 			wxPen oldPen = tdc.GetPen();
 			wxBrush oldBrush = tdc.GetBrush();
 			tdc.SetPen(wxPen(background));

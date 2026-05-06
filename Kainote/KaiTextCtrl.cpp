@@ -42,11 +42,7 @@ KaiTextCtrl::KaiTextCtrl(wxWindow *parent, int id, const wxString &text, const w
 	int fw, fh;
 	GetTextExtent(L"#TWFfGH", &fw, &fh);
 	Fheight = fh;
-	// The custom controls were originally sized against the Windows text
-	// metrics.  wxGTK reports a taller font extent for the same theme font, and
-	// the old +10 padding made one-line text boxes in compact panels (notably
-	// Time shift) visibly taller than the Windows layout.  Keep Windows unchanged
-	// and use tighter vertical padding on non-Windows custom painted controls.
+	// wxGTK text metrics are taller; keep Windows padding unchanged.
 #ifdef _WIN32
 	const int verticalPadding = 10;
 #else

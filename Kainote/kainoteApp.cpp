@@ -160,11 +160,7 @@ bool kainoteApp::OnInit()
 				setlocale(LC_CTYPE, "en_US.UTF-8");
 		}
 
-		// Some portable/bundled Linux runs do not inherit the gdk-pixbuf loader
-		// cache location. GTK then warns when opening controls that use Adwaita
-		// SVG assets (for example check-symbolic.svg in the options dialog). Point
-		// gdk-pixbuf at the system cache when it exists and the user did not set a
-		// custom cache explicitly.
+		// Point portable Linux runs at a usable gdk-pixbuf loader cache.
 		if (!std::getenv("GDK_PIXBUF_MODULE_FILE")){
 			const wxString pixbufCaches[] = {
 				L"/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders.cache",
@@ -184,11 +180,7 @@ bool kainoteApp::OnInit()
 		if (!std::getenv("XDG_DATA_DIRS"))
 			setenv("XDG_DATA_DIRS", "/usr/local/share:/usr/share", 0);
 
-		// Kainote uses tooltip strings as status/help text.  On wxGTK the native
-		// floating tooltip popups can be mapped for controls that should only
-		// expose bottom/status help (and can remain visible after opening dialogs).
-		// Keep the stored tooltip text for GetToolTipText(), but suppress the
-		// native popup windows so descriptions don't appear over the UI.
+		// Disable native wxGTK tooltip popups; Kainote uses tooltip text for status help.
 		wxToolTip::Enable(false);
 #endif
 
@@ -282,9 +274,7 @@ bool kainoteApp::OnInit()
 #ifdef _WIN32
 		wxPoint posOnScreen = wxGetMousePosition();
 #else
-		// wxGTK 3.2 can crash in wxGetMousePosition() on pure Wayland sessions
-		// when no keyboard-capable GdkSeat is available yet (e.g. headless Weston).
-		// Use the saved window position as a safe monitor-selection point instead.
+		// Avoid wxGetMousePosition() on Wayland before a keyboard-capable seat exists.
 		wxPoint posOnScreen(posx, posy);
 #endif
 		if (msizex && msizey) {
@@ -488,10 +478,7 @@ int kainoteApp::FilterEvent(wxEvent& event)
 				if (type == wxEVT_LEAVE_WINDOW){
 					if (lastTooltipWindow == eventWindow){ lastTooltipWindow = nullptr; }
 					frame->SetStatusText(emptyString, 0);
-					// wxGTK native tooltip windows can stay mapped after the pointer
-					// leaves owner-drawn controls that update SetToolTip() dynamically.
-					// Keep native tooltip popups disabled; status-bar help still reads
-					// the stored tooltip text through GetToolTipText().
+					// Keep wxGTK native tooltip popups disabled for owner-drawn controls.
 					wxToolTip::Enable(false);
 				}
 				else{

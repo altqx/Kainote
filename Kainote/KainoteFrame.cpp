@@ -799,6 +799,7 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 		tab->grid->SortIt(id - difid, all);
 	}
 	else if (id >= GLOBAL_VIEW_ALL && id <= GLOBAL_VIEW_SUBS){
+		Freeze();
 		bool vidshow = (id == GLOBAL_VIEW_ALL || id == GLOBAL_VIEW_VIDEO || id == GLOBAL_VIEW_ONLY_VIDEO) && tab->video->GetState() != None;
 		bool vidvis = tab->video->IsShown();
 		if (!vidshow && tab->video->GetState() == Playing){ tab->video->Pause(); }
@@ -809,6 +810,7 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 		if (tab->edit->ABox){
 			tab->edit->ABox->Show((id == GLOBAL_VIEW_ALL || id == GLOBAL_VIEW_AUDIO));
 			if (id == GLOBAL_VIEW_AUDIO){ tab->edit->SetMinSize(wxSize(500, 350)); }
+			else{ tab->edit->SetMinSize(wxSize(-1, 200)); }
 			if (id != GLOBAL_VIEW_AUDIO && id != GLOBAL_VIEW_ALL){
 				tab->edit->windowResizer->Show(false);
 			}
@@ -822,17 +824,27 @@ void KainoteFrame::OnMenuSelected(wxCommandEvent& event)
 			tab->windowResizer->Show(false);
 			wxSize tabSize = tab->GetClientSize();
 			tab->video->SetMinSize(tabSize);
+			tab->video->InvalidateBestSize();
 		}
-		else if (!tab->edit->IsShown()){
+		else{
 			tab->edit->Show();
 			tab->grid->Show();
-			tab->shiftTimes->Show();
+			tab->shiftTimes->Show(Options.GetBool(SHIFT_TIMES_ON));
 			tab->windowResizer->Show();
 			int x = 0, y = 0;
 			Options.GetCoords(VIDEO_WINDOW_SIZE, &x, &y);
-			tab->video->SetMinSize(wxSize(x, y));
+			if (x > 0 && y > 0){
+				tab->video->SetMinSize(wxSize(x, y));
+				tab->video->InvalidateBestSize();
+			}
 		}
+		tab->VideoEditboxSizer->Layout();
+		tab->GridShiftTimesSizer->Layout();
+		tab->MainSizer->Layout();
 		tab->Layout();
+		tab->SendSizeEvent(wxSEND_EVENT_POST);
+		tab->Refresh(false);
+		Thaw();
 	}
 	else if (id == GLOBAL_AUTOMATION_LOAD_SCRIPT){
 		//if (!Auto){ Auto = new Automation(); }
@@ -2331,14 +2343,17 @@ void KainoteFrame::OnMenuOpened(MenuEvent& event)
 				switch (viitem->GetId())
 				{
 				case GLOBAL_VIEW_ALL:
-				case GLOBAL_VIEW_VIDEO://subs with video
+				case GLOBAL_VIEW_SUBS:
+					viitem->Enable(editor);
+					break;
+				case GLOBAL_VIEW_VIDEO:
 				case GLOBAL_VIEW_ONLY_VIDEO:
 					viitem->Enable(editor && hasVideoLoaded && !isOnAnotherMonitor);
 					break;
 				case GLOBAL_VIEW_AUDIO:
 					viitem->Enable(editor && tab->edit->ABox != nullptr);
 					break;
-				default://only subs
+				default:
 					viitem->Enable(editor);
 					break;
 				}

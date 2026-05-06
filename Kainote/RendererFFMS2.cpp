@@ -110,11 +110,7 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 
 		m_SubsProvider->Draw(fdata, m_Time);
 		if (nframe && m_FrameBuffer) {
-			// ProviderFFMS2 calls DrawTexture(frame) and then Render(false).
-			// On Windows the rendered pixels live on the D3D surface, but on the
-			// wxGTK fallback Render(false) redraws m_FrameBuffer. Keep that buffer
-			// in sync after ASS rendering so playback does not immediately repaint
-			// a raw frame without subtitles.
+			// Keep the software backbuffer in sync for wxGTK redraws after ASS rendering.
 			memcpy(m_FrameBuffer, fdata, m_Height * m_Pitch);
 		}
 		wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
@@ -387,9 +383,7 @@ bool RendererFFMS2::OpenFile(const wxString &fname, int subsFlag, bool vobsub, b
 	m_State = Stopped;
 	m_FFMS2->GetChapters(&m_Chapters);
 #ifndef _WIN32
-	// Prime the wxGTK software backbuffer with the first decoded frame.
-	// Otherwise entering fullscreen before playback/seek can render the
-	// freshly-created fullscreen window over an uninitialized/empty buffer.
+	// Prime wxGTK software backbuffer before fullscreen/first render.
 	if (m_FrameBuffer && m_FFMS2 && m_FFMS2->m_numFrames > 0) {
 		m_FFMS2->GetFrame(m_Frame, m_FrameBuffer);
 	}

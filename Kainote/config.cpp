@@ -1229,10 +1229,7 @@ namespace
 		if (it == LinuxResourceMap().end())
 			return wxImage();
 		std::filesystem::path pngPath = ResolveExistingPathCaseInsensitive(it->second);
-		// Some bundled PNGs contain ancillary chunks (e.g. iCCP/gAMA) that libpng reports
-		// through wxLogWarning. On Linux wxGTK shows those as modal "Kainote Warning"
-		// windows, which leaves black dialog artifacts during startup/video smoke tests.
-		// The images still load correctly, so keep the warning local to this resource load.
+		// Suppress harmless libpng ancillary-chunk warnings during bundled PNG loads.
 		wxLogNull suppressPngChunkWarnings;
 		wxImage image(wxString::FromUTF8(pngPath.string()), wxBITMAP_TYPE_PNG);
 		return image.IsOk() ? image : wxImage();

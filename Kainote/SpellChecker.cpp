@@ -118,9 +118,7 @@ bool SpellChecker::Initialize()
 	if (!wxFileExists(dic) || !wxFileExists(aff))
 	{
 		Options.SetBool(SPELLCHECKER_ON, false);
-		// Missing dictionaries are common in portable/Linux test builds.  Do not
-		// block startup or media loading with a modal warning; disable the checker
-		// and leave the options dialog to report/install available dictionaries.
+		// Missing dictionaries are common in portable/Linux builds; disable without warning.
 		return false;
 	}
 	// Load

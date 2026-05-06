@@ -766,9 +766,7 @@ void VideoBox::SetFullscreen(int monitor)
 		m_FullScreenWindow->vToolbar->Synchronize(m_VideoToolbar);
 		if (!m_PanelOnFullscreen){ m_FullScreenWindow->panel->Hide(); }
 		m_FullScreenWindow->Show();
-		// wxGTK can report a transient client size before a borderless top-level
-		// window is mapped. Re-run fullscreen layout after Show() so the control
-		// panel is placed at the bottom and does not cover the video surface.
+		// wxGTK may report a transient size before mapping; relayout after Show().
 		m_FullScreenWindow->OnSize();
 		m_FullScreenWindow->Raise();
 		renderer->m_BlockResize = true;

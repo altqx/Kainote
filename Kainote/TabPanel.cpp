@@ -220,10 +220,20 @@ void TabPanel::SetVideoWindowSizes(int w, int h, bool allTabs)
 		if (ww < 450)
 			ww = 450;
 		video->SetMinSize(wxSize(ww, hh + panelHeight));
+		video->InvalidateBestSize();
 		Options.SetCoords(VIDEO_WINDOW_SIZE, ww, hh + panelHeight);
 	}
 	edit->SetMinSize(wxSize(-1, h));
+	edit->InvalidateBestSize();
+	if (wxSizerItem *item = MainSizer->GetItem(VideoEditboxSizer)){
+		item->SetMinSize(wxSize(-1, h));
+	}
+	VideoEditboxSizer->Layout();
+	GridShiftTimesSizer->Layout();
 	MainSizer->Layout();
+	Layout();
+	SendSizeEvent(wxSEND_EVENT_POST);
+	Refresh(false);
 	if (!allTabs)
 		return;
 
@@ -236,9 +246,19 @@ void TabPanel::SetVideoWindowSizes(int w, int h, bool allTabs)
 			if (ww < 450)
 				ww = 450;
 			tab->video->SetMinSize(wxSize(ww, hh + tab->video->GetPanelHeight()));
+			tab->video->InvalidateBestSize();
 		}
 		tab->edit->SetMinSize(wxSize(-1, h));
+		tab->edit->InvalidateBestSize();
+		if (wxSizerItem *item = tab->MainSizer->GetItem(tab->VideoEditboxSizer)){
+			item->SetMinSize(wxSize(-1, h));
+		}
+		tab->VideoEditboxSizer->Layout();
+		tab->GridShiftTimesSizer->Layout();
 		tab->MainSizer->Layout();
+		tab->Layout();
+		tab->SendSizeEvent(wxSEND_EVENT_POST);
+		tab->Refresh(false);
 	}
 }
 

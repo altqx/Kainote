@@ -151,9 +151,7 @@ void KaiCheckBox::OnPaint(wxPaintEvent& event)
 	wxPaintDC dc(this);
 	dc.Blit(0, 0, w, h, &tdc, 0, 0);
 	if (w > 18){
-		// Draw text on the window DC on wxGTK.  Rendering complex-script labels
-		// (Thai, etc.) via a wxMemoryDC can silently fail on some GTK/Pango
-		// stacks, leaving only the checkbox glyph visible in the options dialog.
+		// Draw text on the window DC; wxGTK/Pango can drop complex-script text via wxMemoryDC.
 		dc.SetFont(GetFont());
 		dc.SetTextForeground((enabled) ? foregroundColour : inactiveForeground);
 		dc.SetClippingRegion(18, 0, w - 18, h);
