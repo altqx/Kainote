@@ -751,7 +751,11 @@ void FontPickerButton::ChangeFont(const wxFont &font)
 		isChanged = true;
 	}
 	if (newSize.y < fh + 10){
+#ifdef _WIN32
 		newSize.y = fh + 10;
+#else
+		newSize.y = fh + 2;
+#endif
 		isChanged = true;
 	}
 	//if (isChanged){

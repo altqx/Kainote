@@ -66,8 +66,13 @@ KaiCheckBox::KaiCheckBox(wxWindow *parent, int id, const wxString& _label,
 		newSize.x = fullw + 20;
 	}
 	if (size.y < 1){
+#ifdef _WIN32
 		newSize.y = fontHeight + 2;
 		if (fontHeight < 17){ newSize.y = 17; }
+#else
+		newSize.y = fontHeight;
+		if (fontHeight < 15){ newSize.y = 15; }
+#endif
 	}
 	SetMinSize(newSize);
 
@@ -240,8 +245,13 @@ bool KaiCheckBox::SetFont(const wxFont &font)
 		if (fullw < fw){ fullw = fw; }
 	}
 	newSize.x = fullw + 20;
+#ifdef _WIN32
 	newSize.y = fontHeight + 2;
 	if (fontHeight < 17){ newSize.y = 17; }
+#else
+	newSize.y = fontHeight;
+	if (fontHeight < 15){ newSize.y = 15; }
+#endif
 
 	SetMinSize(newSize);
 	Refresh(false);

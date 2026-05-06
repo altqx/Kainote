@@ -38,8 +38,13 @@ KaiStaticText::KaiStaticText(wxWindow *parent, int id, const wxString& _text, co
 		newSize.x = fullw;
 	}
 	if (size.y < 1){
+#ifdef _WIN32
 		newSize.y = windowHeight + 2;
 		if (windowHeight < 17){ newSize.y = 17; }
+#else
+		newSize.y = windowHeight;
+		if (windowHeight < 15){ newSize.y = 15; }
+#endif
 	}
 	SetMinSize(newSize);
 	Bind(wxEVT_ERASE_BACKGROUND, [=](wxEraseEvent &evt){});
