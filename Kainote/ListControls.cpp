@@ -58,10 +58,11 @@ void KaiChoice::CalcMaxWidth(wxSize *result, bool changex, bool changey){
 		result->y = ty + 10;
 #else
 		// wxGTK/Pango reports taller text extents than the Windows renderer used
-		// for the original custom controls. Keep only the border inset here; using
-		// Windows' extra padding makes subtitle edit boxes and side-panel choices
-		// visibly taller than the Windows layout.
-		result->y = ty + 2;
+		// for the original custom controls, but a 2px inset leaves KaiChoice
+		// dropdowns cramped in Options and the time-shifting side panel. Keep GTK
+		// more compact than Windows while preserving enough vertical padding for
+		// readable text and a properly centred arrow.
+		result->y = wxMax(18, ty + 6);
 #endif
 	}
 }
