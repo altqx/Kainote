@@ -392,6 +392,9 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 	Bind(wxEVT_ACTIVATE, &KainoteFrame::OnActivate, this);
 	Connect(GLOBAL_SNAP_WITH_START, GLOBAL_SNAP_WITH_END, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&KainoteFrame::OnAudioSnap);
 	Tabs->SetDropTarget(new DragnDrop(this));
+#ifndef _WIN32
+	SetMinSize(wxSize(1000, 650));
+#endif
 	Bind(wxEVT_SIZE, &KainoteFrame::OnSize, this);
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &KainoteFrame::OnMenuSelected, this, 
 		GLOBAL_ASK_FOR_LOAD_LAST_SESSION, GLOBAL_LOAD_LAST_SESSION_ON_START);
@@ -1568,6 +1571,13 @@ void KainoteFrame::OnRecent(wxCommandEvent& event)
 void KainoteFrame::OnSize(wxSizeEvent& event)
 {
 	wxSize size = GetSize();
+#ifndef _WIN32
+	wxSize minSize = GetMinSize();
+	if ((minSize.x > 0 && size.x < minSize.x) || (minSize.y > 0 && size.y < minSize.y)){
+		SetSize(wxMax(size.x, minSize.x), wxMax(size.y, minSize.y));
+		return;
+	}
+#endif
 	if (size.x < 1 || size.y < 1){
 		return;
 	}
