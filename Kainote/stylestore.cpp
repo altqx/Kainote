@@ -219,6 +219,17 @@ StyleStore::StyleStore(wxWindow* parent, const wxPoint& pos)
 	Connect(ID_CONFIRM, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&StyleStore::OnConfirm);
 	Connect(ID_CLOSE_STYLE_MANAGER, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&StyleStore::OnClose);
 	Connect(ID_DETACH, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, (wxObjectEventFunction)&StyleStore::OnDetachEdit);
+	Bind(wxEVT_CLOSE_WINDOW, [this](wxCloseEvent& event){
+		Options.SaveOptions(false);
+		int ww, hh;
+		GetPosition(&ww, &hh);
+		Options.SetCoords(STYLE_MANAGER_POSITION, ww, hh);
+		Hide();
+		if (detachedEtit && cc){ cc->Show(false); }
+		if (event.CanVeto()){
+			event.Veto();
+		}
+	});
 	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &StyleStore::OnStyleMove, this, ID_ASS_MOVE_TO_START, ID_STORE_MOVE_TO_END);
 
 	DoTooltips();
