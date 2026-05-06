@@ -327,7 +327,7 @@ void KaiScrollbar::OnMouseEvent(wxMouseEvent &evt)
 	}
 	if ((evt.RightDown() || evt.RightDClick() || //prawy przycisk
 		(evt.ShiftDown() && (evt.LeftDown() || evt.LeftDClick()))) && //lewy + shift
-		(coord < size - thickness && coord > thickness)){ //blokada by nie dzia�a�o na przyciskach
+		(coord < size - thickness && coord > thickness)){ //blokada by nie dzia³a³o na przyciskach
 		thumbPos = coord - (thumbSize / 2);
 		thumbPos = MID(thickness, thumbPos, thumbRange + thickness);
 		unitPos = ((thumbPos - thickness) / (float)thumbRange) * allVisibleSize;

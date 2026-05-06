@@ -471,7 +471,7 @@ MenuDialog::~MenuDialog()
 	if (loop && loop->IsRunning()){
 		//-5 is safe retcode for destroyed windows, it's will not destroy again
 		loop->Exit(-5);
-		//pod �adnym pozorem nie niszcz loop bo to g�wno przestaje dzia�a� dopiero gdy wszystkie funkcje si� wykonaj�
+		//pod ¿adnym pozorem nie niszcz loop bo to gówno przestaje dzia³aæ dopiero gdy wszystkie funkcje siê wykonaj¹
 	}
 	wxDELETE(bmp);
 }
@@ -848,7 +848,7 @@ void MenuDialog::HideMenus(int id)
 //	
 //	if(ParentMenu){HideMenus();}
 //}
-//Pokazuje okno menu dodaj�c p�tl� czekaj�c� do odwo�ania
+//Pokazuje okno menu dodaj¹c pêtlê czekaj¹c¹ do odwo³ania
 int MenuDialog::ShowPartialModal()
 {
 	isPartialModal = true;
@@ -864,7 +864,7 @@ int MenuDialog::ShowPartialModal()
 	}
 	return resid;
 }
-//Odwo�uje p�tl� czekaj�c�
+//Odwo³uje pêtlê czekaj¹c¹
 void MenuDialog::EndPartialModal(int ReturnId)
 {
 	if (loop){
@@ -1007,7 +1007,7 @@ void MenuBar::OnMouseEvent(wxMouseEvent &evt)
 			return; 
 		}
 	}
-	//poprawi� to nieszcz�sne menu by nie odpala�o si� wiele razy ani te� obw�dka z helpa nie znika�a.
+	//poprawiæ to nieszczêsne menu by nie odpala³o siê wiele razy ani te¿ obwódka z helpa nie znika³a.
 	if (elem != oldelem){
 		
 		oldelem = elem;
@@ -1166,7 +1166,7 @@ LRESULT CALLBACK MenuBar::OnKey(int code, WPARAM wParam, LPARAM lParam){
 		return 0;
 	}
 
-	if (wParam == VK_MENU && !(lParam & 1073741824)){//536870912 1073741824 lparam m�wi nam o altup, kt�ry ma specjalny bajt
+	if (wParam == VK_MENU && !(lParam & 1073741824)){//536870912 1073741824 lparam mówi nam o altup, który ma specjalny bajt
 		//close menu after alt up
 		if (Menubar->md) {
 			Menubar->md->HideMenu();
@@ -1197,7 +1197,7 @@ LRESULT CALLBACK MenuBar::OnKey(int code, WPARAM wParam, LPARAM lParam){
 		Menubar->blockMenu = false;
 	}
 	else if (showMnemonics){
-		if ((wParam >= 0x41 && wParam <= 0x5A) && !(lParam & 2147483648)){//lparam m�wi o keyup
+		if ((wParam >= 0x41 && wParam <= 0x5A) && !(lParam & 2147483648)){//lparam mówi o keyup
 			auto mn = (Menubar->md) ? Menubar->md->mnemonics : Menubar->mnemonics;
 			auto foundmnemonics = mn.find(wParam);
 

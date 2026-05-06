@@ -50,19 +50,13 @@ For questions, help, or to join the community, find us on Discord!
 Kainote currently has two supported source-build paths:
 
 - **Windows**: the upstream Visual Studio solution (`Kainote.sln`). This is the full-featured build that uses DirectShow, DirectSound, Direct3D 9/D3DX9, and the Windows COM/Shell APIs.
-- **Linux**: the CMake build on the `master` branch. This build uses wxGTK and system packages where possible. Some Windows-only runtime backends are still compatibility layers or partial ports, but the project can be configured, compiled, linked, and smoke-tested on Linux.
+- **Linux**: This build uses wxGTK and system packages where possible. Some Windows-only runtime backends are still compatibility layers or partial ports, but the project can be configured, compiled, linked, and smoke-tested on Linux.
 
 The commands below assume a fresh clone:
 
 ```bash
 git clone https://github.com/bjakja/Kainote.git
 cd Kainote
-```
-
-If you are building the Linux port, make sure you are on the master branch:
-
-```bash
-git checkout master
 ```
 
 ---
@@ -479,8 +473,6 @@ If any command fails, install the missing `-dev`/`-devel` package or adjust `PKG
 
 #### 4. Configure and build
 
-From the repository root on the `master` branch:
-
 ```bash
 cmake -S . -B build-linux -DCMAKE_BUILD_TYPE=Release
 cmake --build build-linux -j$(nproc)
@@ -526,7 +518,7 @@ cmake --build build-linux -j$(nproc)
 
 #### 7. Current Linux runtime notes
 
-The Linux build is compile/link-capable and can start under wxGTK from the `master` branch. Current smoke coverage includes launching the GUI under Xvfb and verifying that the main window, subtitle grid, options controls, and time-shifting side panel render without wxSizer consistency asserts or GTK runtime warnings.
+The Linux build is compile/link-capable and can start under wxGTK. Current smoke coverage includes launching the GUI under Xvfb and verifying that the main window, subtitle grid, options controls, and time-shifting side panel render without wxSizer consistency asserts or GTK runtime warnings.
 
 Some Windows-only subsystems are still compatibility layers or partial ports:
 

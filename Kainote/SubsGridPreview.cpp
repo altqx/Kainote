@@ -735,7 +735,7 @@ void SubsGridPreview::OnMouseEvent(wxMouseEvent &event)
 		if (!shift && !alt) {
 
 
-			//jakbym chcia� zn�w da� zmian� edytowanej linii z ctrl to musz� dorobi� mu refresh
+			//jakbym chcia³ znów daæ zmianê edytowanej linii z ctrl to muszê dorobiæ mu refresh
 			if (click && (changeActive || !ctrl) || (dclick && ctrl)) {
 				previewGrid->lastActiveLine = previewGrid->currentLine;
 				tabp->edit->SetLine(row, true, true, true, !ctrl);
@@ -757,9 +757,9 @@ void SubsGridPreview::OnMouseEvent(wxMouseEvent &event)
 				}
 			}
 
-			//1-klikni�cie lewym
-			//2-klikni�cie lewym i edycja na pauzie
-			//3-klikni�cie lewym i edycja na pauzie i odtwarzaniu
+			//1-klikniêcie lewym
+			//2-klikniêcie lewym i edycja na pauzie
+			//3-klikniêcie lewym i edycja na pauzie i odtwarzaniu
 
 			//if (dclick || (click && previewGrid->lastActiveLine != row && mvtal < 4 && mvtal > 0) && pas < 2){
 			//tabp->grid->SetVideoLineTime(event, mvtal);
@@ -917,7 +917,7 @@ void SubsGridPreview::SeekForOccurences()
 			if (abs(startTime - bestStart) > abs(endTime - bestEnd)){
 				bestJ = bestJE;
 			}
-			//bestJ jest naszym wynikiem w tym przypadku, nie potrzebujemy samego czasu kt�ry jest najlepszy
+			//bestJ jest naszym wynikiem w tym przypadku, nie potrzebujemy samego czasu który jest najlepszy
 			previewData.push_back(MultiPreviewData(tab, tab->grid, bestJ, 0));
 		}
 		tabI++;
