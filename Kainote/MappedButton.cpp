@@ -67,7 +67,9 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& label, cons
 #ifdef _WIN32
 	int controlHeight = textHeight + 10;
 #else
-	int controlHeight = textHeight + 2;
+	// Keep custom buttons compact on GTK, but not so tight that text and
+	// border chrome get vertically cramped in the time-shifting side panel.
+	int controlHeight = wxMax(18, textHeight + 6);
 #endif
 	if (makeSquare){
 		newSize.x = controlHeight;
@@ -128,7 +130,9 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& label, int 
 #ifdef _WIN32
 	int controlHeight = textHeight + 10;
 #else
-	int controlHeight = textHeight + 2;
+	// Keep custom buttons compact on GTK, but not so tight that text and
+	// border chrome get vertically cramped in the time-shifting side panel.
+	int controlHeight = wxMax(18, textHeight + 6);
 #endif
 	if (makeSquare){
 		newSize.x = controlHeight;
@@ -212,7 +216,7 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& tooltip, co
 #ifdef _WIN32
 			newSize.y = textHeight + 10;
 #else
-			newSize.y = textHeight + 2;
+			newSize.y = wxMax(18, textHeight + 6);
 #endif
 		}
 	}
