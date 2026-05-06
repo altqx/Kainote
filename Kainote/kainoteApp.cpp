@@ -43,6 +43,7 @@
 #include <clocale>
 #include <cstdlib>
 #include <cstring>
+#include <wx/tooltip.h>
 #endif
 #include "loghandler.h"
 
@@ -471,17 +472,36 @@ int kainoteApp::FilterEvent(wxEvent& event)
 #ifndef _WIN32
 	const wxEventType type = event.GetEventType();
 	if (type == wxEVT_ENTER_WINDOW || type == wxEVT_MOTION || type == wxEVT_LEAVE_WINDOW){
+		static wxWindow *lastTooltipWindow = nullptr;
 		wxWindow *eventWindow = wxDynamicCast(event.GetEventObject(), wxWindow);
 		KainoteFrame *frame = KainoteFrame::Get();
 		if (eventWindow && frame){
 			wxString tip = eventWindow->GetToolTipText();
 			if (tip != emptyString){
 				if (type == wxEVT_LEAVE_WINDOW){
+					if (lastTooltipWindow == eventWindow){ lastTooltipWindow = nullptr; }
 					frame->SetStatusText(emptyString, 0);
+					// wxGTK native tooltip windows can stay mapped after the pointer
+					// leaves owner-drawn controls that update SetToolTip() dynamically.
+					// Toggle tooltips off/on to force the native popup to hide while
+					// keeping the tooltip text available for the next real hover.
+					wxToolTip::Enable(false);
+					wxToolTip::Enable(true);
 				}
 				else{
+					lastTooltipWindow = eventWindow;
 					tip = tip.BeforeFirst(L'\n');
 					frame->SetStatusText(tip, 0);
+				}
+			}
+			else if (type == wxEVT_MOTION && lastTooltipWindow){
+				wxWindow *top = wxGetTopLevelParent(lastTooltipWindow);
+				const wxPoint mouse = wxGetMousePosition();
+				if (!top || !wxRect(top->GetScreenPosition(), top->GetSize()).Contains(mouse)){
+					lastTooltipWindow = nullptr;
+					frame->SetStatusText(emptyString, 0);
+					wxToolTip::Enable(false);
+					wxToolTip::Enable(true);
 				}
 			}
 		}
