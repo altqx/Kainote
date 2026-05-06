@@ -114,19 +114,15 @@ void KaiStaticBox::PaintForeground(wxDC& tdc, const tagRECT& rc)
 	int posx = 8;
 	int cellWidth = (w - 16) / labels.size();
 #else
-	// On Linux KaiStaticBox is a plain wxWindow, so draw the group outline
-	// ourselves.  This preserves the focused/section border look from the
-	// original UI without letting wxGTK's native wxStaticBox overpaint it.
-	// Use the same visible inactive/focus colour family as custom controls;
-	// STATICBOX_BORDER is too close to WINDOW_BACKGROUND under wxGTK and made
-	// the group/focus rectangles look missing.
+	// On Linux KaiStaticBox is a plain wxWindow, so draw only the group
+	// outline ourselves.  The labels passed to KaiStaticBoxSizer are internal
+	// section/help descriptions in this UI and should not be painted as visible
+	// floating captions over controls on wxGTK.
 	tdc.SetPen(wxPen(Options.GetColour(BUTTON_BORDER_INACTIVE)));
-	tdc.DrawRectangle(4, halfY, w - 8, h - halfY - 2);
-	tdc.SetBackgroundMode(wxSOLID);
-	tdc.SetTextBackground(background);
-	int posx = 8;
-	int cellWidth = wxMax(1, (w - 16) / (int)labels.size());
+	tdc.DrawRectangle(4, 2, w - 8, h - 4);
+	return;
 #endif
+#ifdef _WIN32
 	tdc.SetTextForeground(GetParent()->GetForegroundColour());
 	for (int i = 0; i < labels.GetCount(); i++){
 		wxString text = wxString(L" ") + labels[i] + wxString(L" ");
@@ -154,6 +150,7 @@ void KaiStaticBox::PaintForeground(wxDC& tdc, const tagRECT& rc)
 		}
 		posx += cellWidth + wdiff;
 	}
+#endif
 }
 
 wxSize KaiStaticBox::CalcBorders()
@@ -161,7 +158,7 @@ wxSize KaiStaticBox::CalcBorders()
 #ifdef _WIN32
 	return wxSize(8, heightText + 5);
 #else
-	return wxSize(6, heightText + 3);
+	return wxSize(6, 6);
 #endif
 }
 
@@ -220,11 +217,13 @@ wxSize KaiStaticBoxSizer::CalcMin()
 	wxSize ret(wxBoxSizer::CalcMin());
 	ret.x += 2 * borders.x;
 
+#ifdef _WIN32
 	// ensure that we're wide enough to show the static box label (there is no
 	// need to check for the static box best size in vertical direction though)
 	const int boxWidth = box->GetBestSize().x;
 	if (ret.x < boxWidth)
 		ret.x = boxWidth;
+#endif
 
 	ret.y += borders.x + borders.y;
 

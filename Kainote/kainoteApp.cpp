@@ -183,6 +183,13 @@ bool kainoteApp::OnInit()
 		}
 		if (!std::getenv("XDG_DATA_DIRS"))
 			setenv("XDG_DATA_DIRS", "/usr/local/share:/usr/share", 0);
+
+		// Kainote uses tooltip strings as status/help text.  On wxGTK the native
+		// floating tooltip popups can be mapped for controls that should only
+		// expose bottom/status help (and can remain visible after opening dialogs).
+		// Keep the stored tooltip text for GetToolTipText(), but suppress the
+		// native popup windows so descriptions don't appear over the UI.
+		wxToolTip::Enable(false);
 #endif
 
 		wxImage::AddHandler(new wxPNGHandler);
@@ -483,10 +490,9 @@ int kainoteApp::FilterEvent(wxEvent& event)
 					frame->SetStatusText(emptyString, 0);
 					// wxGTK native tooltip windows can stay mapped after the pointer
 					// leaves owner-drawn controls that update SetToolTip() dynamically.
-					// Toggle tooltips off/on to force the native popup to hide while
-					// keeping the tooltip text available for the next real hover.
+					// Keep native tooltip popups disabled; status-bar help still reads
+					// the stored tooltip text through GetToolTipText().
 					wxToolTip::Enable(false);
-					wxToolTip::Enable(true);
 				}
 				else{
 					lastTooltipWindow = eventWindow;
@@ -501,7 +507,6 @@ int kainoteApp::FilterEvent(wxEvent& event)
 					lastTooltipWindow = nullptr;
 					frame->SetStatusText(emptyString, 0);
 					wxToolTip::Enable(false);
-					wxToolTip::Enable(true);
 				}
 			}
 		}
