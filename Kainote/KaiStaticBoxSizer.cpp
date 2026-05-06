@@ -114,12 +114,12 @@ void KaiStaticBox::PaintForeground(wxDC& tdc, const tagRECT& rc)
 	int posx = 8;
 	int cellWidth = (w - 16) / labels.size();
 #else
-	// On Linux KaiStaticBox is a plain wxWindow, so draw only the group
-	// outline ourselves.  The labels passed to KaiStaticBoxSizer are internal
-	// section/help descriptions in this UI and should not be painted as visible
-	// floating captions over controls on wxGTK.
-	tdc.SetPen(wxPen(Options.GetColour(BUTTON_BORDER_INACTIVE)));
-	tdc.DrawRectangle(4, 2, w - 8, h - 4);
+	// On wxGTK the labels passed to KaiStaticBoxSizer are internal section/help
+	// descriptions.  After suppressing those captions, keeping an unlabeled
+	// custom outline leaves stray-looking frames at the upper-left of many
+	// panels (for example Style manager and Options).  Make the GTK helper box
+	// layout-only: child controls keep their spacing, but no floating caption or
+	// empty frame is painted over the themed panel.
 	return;
 #endif
 #ifdef _WIN32
