@@ -32,6 +32,9 @@
 #include <wx/dcclient.h>
 #include <wx/image.h>
 #include <wx/thread.h>
+#include <algorithm>
+#include <chrono>
+#include <cstdio>
 #include <cstdlib>
 #endif
 
@@ -120,6 +123,68 @@ void RendererFFMS2::PresentLinuxFrame(const unsigned char* frame)
 		if (!m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, frame, m_Width, m_Height, m_Pitch, m_BackBufferRect))
 			DrawBgraFrameWithWx(renderWindow, frame, m_Width, m_Height, m_Pitch, m_BackBufferRect);
 	}
+
+	const unsigned int presented = ++m_LinuxPresentedFrames;
+	if (std::getenv("KAINOTE_DEBUG_LINUX_PLAYBACK") && (presented <= 5 || (presented % 30) == 0))
+		std::fprintf(stderr, "[linux-playback] present=%u time=%d frame=%d\n", presented, m_Time, m_Frame);
+}
+
+void RendererFFMS2::StartLinuxPlaybackThread()
+{
+	StopLinuxPlaybackThread();
+	m_LinuxPresentedFrames.store(0);
+	m_LinuxPlaybackStop.store(false);
+	m_LinuxPlaybackThread = std::thread(&RendererFFMS2::LinuxPlaybackLoop, this);
+}
+
+void RendererFFMS2::StopLinuxPlaybackThread()
+{
+	m_LinuxPlaybackStop.store(true);
+	if (m_LinuxPlaybackThread.joinable())
+		m_LinuxPlaybackThread.join();
+}
+
+void RendererFFMS2::LinuxPlaybackLoop()
+{
+	if (!m_FFMS2 || m_Width <= 0 || m_Height <= 0 || m_Pitch <= 0)
+		return;
+
+	std::vector<unsigned char> frameBuffer(static_cast<size_t>(m_Height) * static_cast<size_t>(m_Pitch));
+	const bool debugPlayback = std::getenv("KAINOTE_DEBUG_LINUX_PLAYBACK") != nullptr;
+	unsigned int decodedFrames = 0;
+	if (debugPlayback)
+		std::fprintf(stderr, "[linux-playback] start time=%d frame=%d end=%d duration=%d\n", m_Time, m_Frame, m_PlayEndTime, GetDuration());
+	int lastPresentedFrame = -1;
+	int lastPresentedTime = -1;
+	while (!m_LinuxPlaybackStop.load()) {
+		int playTime = static_cast<int>(timeGetTime() - m_LastTime);
+		if (playTime < 0)
+			playTime = 0;
+		if (playTime >= m_PlayEndTime || playTime >= GetDuration()) {
+			wxCommandEvent* evt = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_END_OF_STREAM);
+			wxQueueEvent(videoControl, evt);
+			break;
+		}
+
+		const int seekFrom = (lastPresentedFrame >= 0 && playTime >= lastPresentedTime) ? lastPresentedFrame : 0;
+		int nextFrame = m_FFMS2->GetFramefromMS(playTime, seekFrom, true);
+		nextFrame = std::max(0, std::min(nextFrame, m_FFMS2->m_numFrames - 1));
+		if (nextFrame != lastPresentedFrame) {
+			m_Frame = nextFrame;
+			m_Time = m_FFMS2->m_timecodes[m_Frame];
+			m_FFMS2->GetFrame(m_Frame, frameBuffer.data());
+			DrawTexture(frameBuffer.data(), true);
+			++decodedFrames;
+			if (debugPlayback && (decodedFrames <= 5 || (decodedFrames % 30) == 0))
+				std::fprintf(stderr, "[linux-playback] decode=%u playTime=%d time=%d frame=%d\n", decodedFrames, playTime, m_Time, m_Frame);
+			lastPresentedFrame = nextFrame;
+			lastPresentedTime = playTime;
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(4));
+	}
+	if (debugPlayback)
+		std::fprintf(stderr, "[linux-playback] stop decoded=%u presented=%u time=%d frame=%d\n", decodedFrames, m_LinuxPresentedFrames.load(), m_Time, m_Frame);
 }
 
 #endif
@@ -127,6 +192,9 @@ void RendererFFMS2::PresentLinuxFrame(const unsigned char* frame)
 RendererFFMS2::~RendererFFMS2()
 {
 	Stop();
+#ifndef _WIN32
+	StopLinuxPlaybackThread();
+#endif
 
 	m_State = None;
 	SAFE_DELETE(m_FFMS2);
@@ -491,7 +559,11 @@ bool RendererFFMS2::Play(int end)
 	m_Time = m_FFMS2->m_timecodes[m_Frame];
 	m_LastTime = timeGetTime() - m_Time;
 	if (m_AudioPlayer){ m_AudioPlayer->Play(m_Time, -1, false); }
+#ifdef _WIN32
 	m_FFMS2->Play();
+#else
+	StartLinuxPlaybackThread();
+#endif
 
 	return true;
 }
@@ -502,6 +574,9 @@ bool RendererFFMS2::Pause()
 	if (m_State == Playing){
 		SetThreadExecutionState(ES_CONTINUOUS);
 		m_State = Paused;
+#ifndef _WIN32
+		StopLinuxPlaybackThread();
+#endif
 		if (m_AudioPlayer){ m_AudioPlayer->Stop(false); }
 	}
 	else if (m_State != None){
@@ -516,6 +591,9 @@ bool RendererFFMS2::Stop()
 	if (m_State == Playing){
 		SetThreadExecutionState(ES_CONTINUOUS);
 		m_State = Stopped;
+#ifndef _WIN32
+		StopLinuxPlaybackThread();
+#endif
 		if (m_AudioPlayer){
 			m_AudioPlayer->Stop();
 			m_PlayEndTime = GetDuration();

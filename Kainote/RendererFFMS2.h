@@ -23,6 +23,7 @@
 #include <atomic>
 #include <memory>
 #include <mutex>
+#include <thread>
 #include <vector>
 class LinuxSdlRenderer;
 class LinuxVaapiRenderer;
@@ -87,11 +88,17 @@ public:
 	std::mutex m_LinuxPendingFrameMutex;
 	std::vector<unsigned char> m_LinuxPendingFrame;
 	std::vector<unsigned char> m_LinuxPresentFrame;
+	std::thread m_LinuxPlaybackThread;
+	std::atomic_bool m_LinuxPlaybackStop{ false };
+	std::atomic_uint m_LinuxPresentedFrames{ 0 };
 #endif
 protected:
 	void DestroyFFMS2();
 #ifndef _WIN32
 	void QueueLinuxRender();
 	void PresentLinuxFrame(const unsigned char* frame);
+	void StartLinuxPlaybackThread();
+	void StopLinuxPlaybackThread();
+	void LinuxPlaybackLoop();
 #endif
 };
