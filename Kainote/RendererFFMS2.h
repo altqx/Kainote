@@ -27,6 +27,7 @@
 #include <vector>
 class LinuxSdlRenderer;
 class LinuxVaapiRenderer;
+class wxDC;
 #endif
 
 class RendererFFMS2 : public RendererVideo
@@ -61,6 +62,9 @@ public:
 	void GetFpsnRatio(float *fps, long *arx, long *ary);
 	void SetVolume(int vol);
 	bool DrawTexture(unsigned char * nframe = nullptr, bool copy = false);
+#ifndef _WIN32
+	void RenderToDc(wxDC& dc);
+#endif
 	void Render(bool RecreateFrame = true, bool wait = true);
 	void ChangePositionByFrame(int cpos);
 	//it's safe to not exist visual

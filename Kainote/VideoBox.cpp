@@ -1165,7 +1165,12 @@ void VideoBox::OnPaint(wxPaintEvent& event)
 #ifndef _WIN32
 	wxPaintDC paintDc(this);
 	if (renderer && !renderer->m_BlockResize && renderer->m_State != None){
-		renderer->Render(renderer->m_State != Playing, false);
+		if (RendererFFMS2* ffmsRenderer = dynamic_cast<RendererFFMS2*>(renderer)) {
+			ffmsRenderer->RenderToDc(paintDc);
+		}
+		else {
+			renderer->Render(renderer->m_State != Playing, false);
+		}
 		return;
 	}
 	else if (GetState() == None){

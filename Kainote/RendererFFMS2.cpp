@@ -41,10 +41,10 @@
 #ifndef _WIN32
 namespace
 {
-	void DrawBgraFrameWithWx(wxWindow* window, const unsigned char* frame, int width, int height,
+	void DrawBgraFrameWithWxDc(wxDC& dc, const unsigned char* frame, int width, int height,
 		int pitch, const RECT& targetRect)
 	{
-		if (!window || !frame || width <= 0 || height <= 0 || pitch < width * 4)
+		if (!frame || width <= 0 || height <= 0 || pitch < width * 4)
 			return;
 
 		unsigned char* rgb = new unsigned char[width * height * 3];
@@ -73,8 +73,16 @@ namespace
 		if (!bitmap.IsOk())
 			return;
 
-		wxClientDC dc(window);
 		dc.DrawBitmap(bitmap, targetRect.left, targetRect.top, false);
+	}
+
+	void DrawBgraFrameWithWx(wxWindow* window, const unsigned char* frame, int width, int height,
+		int pitch, const RECT& targetRect)
+	{
+		if (!window)
+			return;
+		wxClientDC dc(window);
+		DrawBgraFrameWithWxDc(dc, frame, width, height, pitch, targetRect);
 	}
 }
 #endif
@@ -106,8 +114,13 @@ void RendererFFMS2::QueueLinuxRender()
 			std::lock_guard<std::mutex> lock(m_LinuxPendingFrameMutex);
 			m_LinuxPresentFrame.swap(m_LinuxPendingFrame);
 		}
-		if (m_State != None && !m_LinuxPresentFrame.empty())
+		if (m_State != None && !m_LinuxPresentFrame.empty()) {
 			PresentLinuxFrame(m_LinuxPresentFrame.data());
+			wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
+				static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
+			if (renderWindow)
+				renderWindow->Refresh(false);
+		}
 	});
 }
 
@@ -127,6 +140,14 @@ void RendererFFMS2::PresentLinuxFrame(const unsigned char* frame)
 	const unsigned int presented = ++m_LinuxPresentedFrames;
 	if (std::getenv("KAINOTE_DEBUG_LINUX_PLAYBACK") && (presented <= 5 || (presented % 30) == 0))
 		std::fprintf(stderr, "[linux-playback] present=%u time=%d frame=%d\n", presented, m_Time, m_Frame);
+}
+
+void RendererFFMS2::RenderToDc(wxDC& dc)
+{
+	wxCriticalSectionLocker lock(m_MutexRendering);
+	if (!m_FrameBuffer || m_Width <= 0 || m_Height <= 0 || m_Pitch <= 0)
+		return;
+	DrawBgraFrameWithWxDc(dc, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
 }
 
 void RendererFFMS2::StartLinuxPlaybackThread()
@@ -220,7 +241,7 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 		}
 		else {
 			fdata = m_FrameBuffer;
-			if (m_FFMS2)
+			if (!fdata && m_FFMS2)
 				m_FFMS2->GetFrameBuffer(&fdata);
 			if (!fdata)
 				return false;
