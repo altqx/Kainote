@@ -191,8 +191,8 @@ target_include_directories(kainote PRIVATE
 )
 target_link_libraries(kainote PRIVATE ${wxWidgets_LIBRARIES} PkgConfig::LIBASS PkgConfig::FFMS2 PkgConfig::LUA PkgConfig::HUNSPELL PkgConfig::UCHARDET PkgConfig::LIBCURL PkgConfig::ICU_UC PkgConfig::ICU_I18N PkgConfig::FFMPEG PkgConfig::SDL2 Boost::filesystem Boost::locale Boost::regex Boost::system GL ${CMAKE_DL_LIBS})
 set_target_properties(kainote PROPERTIES
-    BUILD_RPATH "$ORIGIN"
-    INSTALL_RPATH "$ORIGIN"
+    BUILD_RPATH "$ORIGIN:$ORIGIN/pulseaudio"
+    INSTALL_RPATH "$ORIGIN:$ORIGIN/pulseaudio"
 )
 # Prefer old-style DT_RPATH over DT_RUNPATH for the portable build tree.  RPATH
 # is applied transitively, so bundled libraries such as libicuuc can resolve
