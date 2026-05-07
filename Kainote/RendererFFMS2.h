@@ -82,7 +82,6 @@ public:
 	std::unique_ptr<LinuxSdlRenderer> m_SdlRenderer;
 	std::unique_ptr<LinuxVaapiRenderer> m_VaapiRenderer;
 	std::atomic_bool m_LinuxRenderQueued{ false };
-	bool AdvanceLinuxPlayback();
 #endif
 protected:
 	void DestroyFFMS2();

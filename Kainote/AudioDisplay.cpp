@@ -1509,7 +1509,7 @@ void AudioDisplay::Play(int start, int end, bool pause) {
 #ifndef _WIN32
 	stopPlayThread = false;
 	if (!LinuxPlaybackTimer.IsRunning())
-		LinuxPlaybackTimer.Start(18);
+		LinuxPlaybackTimer.Start(17);
 #else
 	if (stopPlayThread)
 		SetEvent(PlayEvent);
@@ -2570,6 +2570,15 @@ void AudioDisplay::UpdateTimer()
 	wxCriticalSectionLocker lock(mutex);
 	auto repaintPlaybackCursor = [this](bool weak) {
 #ifndef _WIN32
+		if (weak && curpos >= 0.f) {
+			const int newCurPos = static_cast<int>(curpos);
+			const int left = wxMax(0, wxMin(oldCurPos, newCurPos) - 4);
+			const int right = wxMin(w, wxMax(oldCurPos, newCurPos) + 5);
+			if (right > left) {
+				RefreshRect(wxRect(left, 0, right - left, h + timelineHeight), false);
+				return;
+			}
+		}
 		Refresh(false);
 #else
 		DoUpdateImage(weak);
