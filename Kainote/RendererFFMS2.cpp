@@ -145,9 +145,13 @@ void RendererFFMS2::PresentLinuxFrame(const unsigned char* frame)
 void RendererFFMS2::RenderToDc(wxDC& dc)
 {
 	wxCriticalSectionLocker lock(m_MutexRendering);
-	if (!m_FrameBuffer || m_Width <= 0 || m_Height <= 0 || m_Pitch <= 0)
+	if (m_Width <= 0 || m_Height <= 0 || m_Pitch <= 0)
 		return;
-	DrawBgraFrameWithWxDc(dc, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+	std::lock_guard<std::mutex> pendingLock(m_LinuxPendingFrameMutex);
+	const unsigned char* frame = !m_LinuxPresentFrame.empty() ? m_LinuxPresentFrame.data() : m_FrameBuffer;
+	if (!frame)
+		return;
+	DrawBgraFrameWithWxDc(dc, frame, m_Width, m_Height, m_Pitch, m_BackBufferRect);
 }
 
 void RendererFFMS2::StartLinuxPlaybackThread()

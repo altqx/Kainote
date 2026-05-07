@@ -743,6 +743,10 @@ void VideoBox::SetFullscreen(int monitor)
 
 		m_VideoToolbar->Synchronize(m_FullScreenWindow->vToolbar);
 		RefreshTime();
+#ifndef _WIN32
+		if (m_FullScreenWindow->IsFullScreen())
+			m_FullScreenWindow->ShowFullScreen(false);
+#endif
 		m_FullScreenWindow->Hide();
 		SetCursor(wxCURSOR_ARROW);
 	}
@@ -766,13 +770,38 @@ void VideoBox::SetFullscreen(int monitor)
 		m_FullScreenWindow->vToolbar->Synchronize(m_VideoToolbar);
 		if (!m_PanelOnFullscreen){ m_FullScreenWindow->panel->Hide(); }
 		m_FullScreenWindow->Show();
-		// wxGTK may report a transient size before mapping; relayout after Show().
+#ifndef _WIN32
+		// wxGTK WMs can keep a borderless, stay-on-top frame inside the work area
+		// (leaving panels/docks visible).  Request real fullscreen so the video
+		// surface owns the whole monitor, then relayout against the mapped client.
+		m_FullScreenWindow->ShowFullScreen(true, wxFULLSCREEN_ALL);
+#endif
+		// wxGTK may report a transient size before mapping/fullscreen; relayout after Show().
 		m_FullScreenWindow->OnSize();
 		m_FullScreenWindow->Raise();
 		renderer->m_BlockResize = true;
 		renderer->UpdateVideoWindow();
 		renderer->m_BlockResize = false;
 		renderer->Render(true, false);
+		m_FullScreenWindow->Refresh(false);
+		m_FullScreenWindow->Update();
+#ifndef _WIN32
+		// Some wxGTK WMs apply fullscreen geometry asynchronously.  Run one more
+		// layout/render pass after the frame is mapped so the video rect and the
+		// bottom control panel use the real fullscreen client size instead of the
+		// pre-fullscreen work-area size.
+		m_FullScreenWindow->CallAfter([this]() {
+			if (!m_IsFullscreen || !m_FullScreenWindow || !renderer)
+				return;
+			m_FullScreenWindow->OnSize();
+			renderer->m_BlockResize = true;
+			renderer->UpdateVideoWindow();
+			renderer->m_BlockResize = false;
+			renderer->Render(true, false);
+			m_FullScreenWindow->Refresh(false);
+			m_FullScreenWindow->Update();
+		});
+#endif
 		RefreshTime();
 		if (GetState() == Playing && !m_FullScreenWindow->panel->IsShown()){ m_VideoTimeTimer.Start(1000); }
 		if (!tab->editor)
