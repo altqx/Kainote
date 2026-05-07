@@ -347,6 +347,12 @@ void RendererFFMS2::Render(bool redrawSubsOnFrame, bool wait)
 			return;
 		}
 		if (redrawSubsOnFrame){
+			{
+				wxCriticalSectionLocker lock(m_MutexRendering);
+				if (m_FrameBuffer && m_FFMS2 && m_Frame >= 0 && m_Frame < m_FFMS2->m_numFrames) {
+					m_FFMS2->GetFrame(m_Frame, m_FrameBuffer);
+				}
+			}
 			DrawTexture();
 			return;
 		}
@@ -554,11 +560,21 @@ bool RendererFFMS2::OpenFile(const wxString &fname, int subsFlag, bool vobsub, b
 
 bool RendererFFMS2::OpenSubs(int flag, bool redraw, wxString *text, bool resetParameters)
 {
-	wxCriticalSectionLocker lock(m_MutexRendering);
-	if (resetParameters)
-		m_SubsProvider->SetVideoParameters(wxSize(m_Width, m_Height), m_Format, m_SwapFrame);
+	bool result = false;
+	{
+		wxCriticalSectionLocker lock(m_MutexRendering);
+		if (resetParameters)
+			m_SubsProvider->SetVideoParameters(wxSize(m_Width, m_Height), m_Format, m_SwapFrame);
 
-	return m_SubsProvider->Open(tab, flag, text);
+		result = m_SubsProvider->Open(tab, flag, text);
+	}
+
+#ifndef _WIN32
+	if (result && redraw && m_State != None && m_FrameBuffer) {
+		Render(true);
+	}
+#endif
+	return result;
 }
 
 bool RendererFFMS2::Play(int end)
