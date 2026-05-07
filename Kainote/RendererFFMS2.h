@@ -22,6 +22,8 @@
 #ifndef _WIN32
 #include <atomic>
 #include <memory>
+#include <mutex>
+#include <vector>
 class LinuxSdlRenderer;
 class LinuxVaapiRenderer;
 #endif
@@ -82,6 +84,9 @@ public:
 	std::unique_ptr<LinuxSdlRenderer> m_SdlRenderer;
 	std::unique_ptr<LinuxVaapiRenderer> m_VaapiRenderer;
 	std::atomic_bool m_LinuxRenderQueued{ false };
+	std::mutex m_LinuxPendingFrameMutex;
+	std::vector<unsigned char> m_LinuxPendingFrame;
+	std::vector<unsigned char> m_LinuxPresentFrame;
 #endif
 protected:
 	void DestroyFFMS2();

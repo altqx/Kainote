@@ -99,8 +99,12 @@ void RendererFFMS2::QueueLinuxRender()
 
 	videoControl->CallAfter([this]() {
 		m_LinuxRenderQueued.store(false);
-		if (m_State != None)
-			Render(false, false);
+		{
+			std::lock_guard<std::mutex> lock(m_LinuxPendingFrameMutex);
+			m_LinuxPresentFrame.swap(m_LinuxPendingFrame);
+		}
+		if (m_State != None && !m_LinuxPresentFrame.empty())
+			PresentLinuxFrame(m_LinuxPresentFrame.data());
 	});
 }
 
@@ -160,6 +164,13 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 			memcpy(m_FrameBuffer, fdata, m_Height * m_Pitch);
 		}
 		if (!wxIsMainThread()) {
+			{
+				std::lock_guard<std::mutex> pendingLock(m_LinuxPendingFrameMutex);
+				const size_t frameBytes = static_cast<size_t>(m_Height) * static_cast<size_t>(m_Pitch);
+				if (m_LinuxPendingFrame.size() != frameBytes)
+					m_LinuxPendingFrame.resize(frameBytes);
+				memcpy(m_LinuxPendingFrame.data(), fdata, frameBytes);
+			}
 			QueueLinuxRender();
 			return true;
 		}

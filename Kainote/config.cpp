@@ -940,7 +940,7 @@ wxFont *config::GetFont(int offset, const wxString& name, bool bold)
 		bool nameMatch = true;
 		if(!name.empty())
 			nameMatch = name == it->second->GetFaceName();
-		bool fontBold = wxFONTWEIGHT_BOLD == it->second->GetFaceName();
+		bool fontBold = wxFONTWEIGHT_BOLD == it->second->GetWeight();
 		bool boldMatch = bold == fontBold;
 		if(nameMatch && boldMatch)
 			return it->second;
@@ -963,6 +963,14 @@ wxFont *config::GetFont(int offset, const wxString& name, bool bold)
 #endif
 
 	wxFont *newFont = new wxFont(wxSize(0, newPixelSize), wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, bold? wxFONTWEIGHT_BOLD : wxFONTWEIGHT_NORMAL, false, fontName);
+#ifndef _WIN32
+	if (!newFont->IsOk()) {
+		delete newFont;
+		newFont = new wxFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+		newFont->SetPixelSize(wxSize(0, newPixelSize));
+		newFont->SetWeight(bold ? wxFONTWEIGHT_BOLD : wxFONTWEIGHT_NORMAL);
+	}
+#endif
 	programFonts.insert(std::pair<int, wxFont*>(10 + offset, newFont));
 	return newFont;
 }
