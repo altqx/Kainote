@@ -775,6 +775,8 @@ void VideoBox::SetFullscreen(int monitor)
 		// (leaving panels/docks visible).  Request real fullscreen so the video
 		// surface owns the whole monitor, then relayout against the mapped client.
 		m_FullScreenWindow->ShowFullScreen(true, wxFULLSCREEN_ALL);
+		m_FullScreenWindow->SetPosition(rt.GetPosition());
+		m_FullScreenWindow->SetSize(rt.GetSize());
 #endif
 		// wxGTK may report a transient size before mapping/fullscreen; relayout after Show().
 		m_FullScreenWindow->OnSize();
@@ -790,9 +792,13 @@ void VideoBox::SetFullscreen(int monitor)
 		// layout/render pass after the frame is mapped so the video rect and the
 		// bottom control panel use the real fullscreen client size instead of the
 		// pre-fullscreen work-area size.
-		m_FullScreenWindow->CallAfter([this]() {
+		m_FullScreenWindow->CallAfter([this, monitor]() {
 			if (!m_IsFullscreen || !m_FullScreenWindow || !renderer)
 				return;
+			KainoteFrame* Kai = (KainoteFrame*)Notebook::GetTabs()->GetParent();
+			wxRect lateRt = GetMonitorRect1(monitor, &MonRects, Kai->GetRect());
+			m_FullScreenWindow->SetPosition(lateRt.GetPosition());
+			m_FullScreenWindow->SetSize(lateRt.GetSize());
 			m_FullScreenWindow->OnSize();
 			renderer->m_BlockResize = true;
 			renderer->UpdateVideoWindow();

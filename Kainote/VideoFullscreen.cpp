@@ -22,6 +22,7 @@
 #include "KainoteApp.h"
 #include "Config.h"
 #include <wx/dcclient.h>
+#include <wx/event.h>
 
 
 Fullscreen::Fullscreen(wxWindow* parent, const wxPoint& pos, const wxSize &size)
@@ -102,6 +103,7 @@ Fullscreen::Fullscreen(wxWindow* parent, const wxPoint& pos, const wxSize &size)
 		panel->SetBackgroundColour(Options.GetColour(WINDOW_BACKGROUND));
 	});
 	Bind(wxEVT_CHAR_HOOK, &Fullscreen::OnKeyPress, this);
+	Bind(wxEVT_CLOSE_WINDOW, &Fullscreen::OnClose, this);
 	SetAccels();
 }
 
@@ -197,6 +199,23 @@ void Fullscreen::OnKeyPress(wxKeyEvent& evt)
 		}
 	}
 	vc->OnKeyPress(evt);
+}
+
+void Fullscreen::OnClose(wxCloseEvent& evt)
+{
+	// On wxGTK a native WM close of the fullscreen top-level must behave like
+	// leaving fullscreen, not like destroying this cached frame.  VideoBox keeps
+	// m_FullScreenWindow and renderer presentation callbacks can still target it;
+	// allowing Destroy() here leaves a dangling pointer and can crash on the next
+	// preview playback/repaint after fullscreen is closed.
+	VideoBox* vc = (VideoBox*)vb;
+	if (vc && vc->m_IsFullscreen) {
+		evt.Veto();
+		vc->SetFullscreen(false);
+		return;
+	}
+	evt.Veto();
+	Hide();
 }
 
 void Fullscreen::SetAccels()
