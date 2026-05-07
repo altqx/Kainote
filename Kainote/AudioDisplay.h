@@ -30,6 +30,7 @@
 #include "Tabpanel.h"
 #include <wx/window.h>
 #include <wx/bitmap.h>
+#include <wx/timer.h>
 //#include <stdint.h>
 #include <vector>
 #include <d3d9.h>
@@ -210,6 +211,9 @@ public:
 	AudioBox *box = nullptr;
 	KaiScrollbar *ScrollBar = nullptr;
 	wxTimer ProgressTimer;
+#ifndef _WIN32
+	wxTimer LinuxPlaybackTimer;
+#endif
 	HANDLE UpdateTimerHandle = nullptr;
 	HANDLE PlayEvent;
 	HANDLE DestroyEvent;

@@ -24,8 +24,35 @@
 #include "SubsGrid.h"
 #include <wx/dir.h>
 #include <wx/filename.h>
+#include <algorithm>
+#include <cstddef>
+#include <cstdlib>
 #include "UtilsWindows.h"
 #include "Provider.h"
+
+namespace
+{
+	void CopyBgraFrameToBuffer(const FFMS_Frame* frame, unsigned char* dst, int width, int height)
+	{
+		if (!frame || !dst || width <= 0 || height <= 0 || !frame->Data[0])
+			return;
+
+		const int dstPitch = width * 4;
+		const int srcPitch = frame->Linesize[0];
+		const unsigned char* src = frame->Data[0];
+		if (srcPitch < 0)
+			src += static_cast<size_t>(height - 1) * static_cast<size_t>(-srcPitch);
+
+		const int srcRowBytes = std::abs(srcPitch);
+		const int copyBytes = std::min(dstPitch, srcRowBytes);
+		for (int y = 0; y < height; ++y) {
+			const unsigned char* row = src + static_cast<ptrdiff_t>(y) * srcPitch;
+			memcpy(dst + static_cast<size_t>(y) * dstPitch, row, copyBytes);
+			if (copyBytes < dstPitch)
+				memset(dst + static_cast<size_t>(y) * dstPitch + copyBytes, 0, dstPitch - copyBytes);
+		}
+	}
+}
 
 ProviderFFMS2::ProviderFFMS2(const wxString& filename, RendererVideo* renderer, 
 	wxWindow* progressSinkWindow, bool* _success)
@@ -105,7 +132,7 @@ void ProviderFFMS2::Processing()
 				if (!m_FFMS2frame) {
 					continue;
 				}
-				memcpy(&buff[0], m_FFMS2frame->Data[0], m_framePlane);
+				CopyBgraFrameToBuffer(m_FFMS2frame, buff, m_width, m_height);
 
 				m_renderer->DrawTexture(buff);
 				m_renderer->Render(false);
@@ -549,8 +576,7 @@ void ProviderFFMS2::GetFrame(int frame, unsigned char* buff)
 {
 	wxCriticalSectionLocker lock(m_blockFrame);
 	const FFMS_Frame *ffmsframe = FFMS_GetFrame(m_videoSource, frame, &m_errInfo);
-	byte* cpy = (byte*)ffmsframe->Data[0];
-	memcpy(&buff[0], cpy, m_framePlane);
+	CopyBgraFrameToBuffer(ffmsframe, buff, m_width, m_height);
 	m_refreshFrame = true;
 }
 
@@ -818,7 +844,7 @@ void ProviderFFMS2::GetFrameBuffer(unsigned char** buffer)
 	if (!m_FFMS2frame) {
 		return;
 	}
-	memcpy(*buffer, m_FFMS2frame->Data[0], m_framePlane);
+	CopyBgraFrameToBuffer(m_FFMS2frame, *buffer, m_width, m_height);
 }
 
 wxString ProviderFFMS2::ColorMatrixDescription(int cs, int cr) {

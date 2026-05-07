@@ -129,18 +129,30 @@ AudioDisplay::AudioDisplay(wxWindow *parent)
 	Bind(EVENT_UPDATE_SCROLLBAR, [=](wxThreadEvent &evt) {
 		UpdateScrollbar();
 	});
+#ifndef _WIN32
+	LinuxPlaybackTimer.SetOwner(this, Audio_Update_Timer);
+	Bind(wxEVT_TIMER, [=](wxTimerEvent&) {
+		if (!stopPlayThread)
+			UpdateTimer();
+	}, Audio_Update_Timer);
+#endif
 	// Set cursor
 	//wxCursor cursor(wxCURSOR_BLANK);
 	//SetCursor(cursor);
+#ifdef _WIN32
 	unsigned int threadid = 0;
 	UpdateTimerHandle = (HANDLE)_beginthreadex(0, 0, OnUpdateTimer, this, 0, &threadid);
 	SetThreadName(threadid, "AudioUpdate");
+#endif
 }
 
 
 //////////////
 // Destructor
 AudioDisplay::~AudioDisplay() {
+#ifndef _WIN32
+	LinuxPlaybackTimer.Stop();
+#endif
 	if (UpdateTimerHandle) {
 		
 		stopPlayThread = true;
@@ -1494,9 +1506,15 @@ void AudioDisplay::Play(int start, int end, bool pause) {
 	// Call play
 	player->Play(start, end - start);
 	
+#ifndef _WIN32
+	stopPlayThread = false;
+	if (!LinuxPlaybackTimer.IsRunning())
+		LinuxPlaybackTimer.Start(18);
+#else
 	if (stopPlayThread)
 		SetEvent(PlayEvent);
-	
+#endif
+
 }
 
 
@@ -1509,6 +1527,9 @@ void AudioDisplay::Stop(bool stopVideo) {
 			audioLastPosition = GetMSAtSample(player->GetCurrentPosition());
 			player->Stop();
 			stopPlayThread = true;
+#ifndef _WIN32
+			LinuxPlaybackTimer.Stop();
+#endif
 			cursorPaint = false;
 			Refresh(false);
 		}
@@ -1804,6 +1825,22 @@ void AudioDisplay::DrawWithWx(wxDC& dc, bool weak)
 		dc.SetPen(wxPen(WX_FROM_D3DCOLOR(AudioCursor), 2, wxPENSTYLE_SHORT_DASH));
 		float x = GetXAtMS(tab->video->Tell());
 		dc.DrawLine((int)x, 0, (int)x, h);
+	}
+
+	if (cursorPaint) {
+		int x = static_cast<int>(curpos);
+		if (x >= 0 && x < w) {
+			dc.SetPen(wxPen(WX_FROM_D3DCOLOR(AudioCursor), 2));
+			dc.DrawLine(x, 0, x, h);
+			if (!player->IsPlaying()) {
+				SubsTime time;
+				time.NewTime(GetMSAtX(curpos));
+				wxString text = time.GetFormatted(ASS);
+				dc.SetFont(tahoma13);
+				dc.SetTextForeground(*wxWHITE);
+				dc.DrawLabel(text, wxRect(x - 150, (hasKara) ? 20 : 5, 300, 32), wxALIGN_CENTER);
+			}
+		}
 	}
 
 	dc.SetPen(*wxTRANSPARENT_PEN);
@@ -2530,7 +2567,13 @@ void AudioDisplay::UpdateTimer()
 {
 
 	wxCriticalSectionLocker lock(mutex);
-	
+	auto repaintPlaybackCursor = [this](bool weak) {
+#ifndef _WIN32
+		Refresh(false);
+#else
+		DoUpdateImage(weak);
+#endif
+	};
 
 	// Draw cursor
 	curpos = -1;
@@ -2556,7 +2599,7 @@ void AudioDisplay::UpdateTimer()
 						int goTo = MAX(0, curPos - 50 * samples);
 						if (goTo >= 0) {
 							UpdatePosition(goTo, true);
-							DoUpdateImage(false);
+							repaintPlaybackCursor(false);
 							//Sleep(10);
 							return;
 						}
@@ -2568,21 +2611,24 @@ void AudioDisplay::UpdateTimer()
 			curpos = GetXAtSample(curPos);
 			if (curpos >= 0.f && curpos < w) {
 
-				DoUpdateImage(true);
+				repaintPlaybackCursor(true);
 			}
 			else if (cursorPaint){
 				cursorPaint = false;
-				DoUpdateImage(true);
+				repaintPlaybackCursor(true);
 			}
 		}
 		else {
 
 			cursorPaint = false;
-			DoUpdateImage(true);
+			repaintPlaybackCursor(true);
 			if (curPos > player->GetEndPosition() + 8192) {
 				player->Stop();
 				
 				stopPlayThread = true;
+#ifndef _WIN32
+				LinuxPlaybackTimer.Stop();
+#endif
 			}
 		}
 		

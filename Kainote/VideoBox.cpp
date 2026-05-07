@@ -1163,10 +1163,25 @@ void VideoBox::OnSPlus()
 void VideoBox::OnPaint(wxPaintEvent& event)
 {
 #ifndef _WIN32
+	wxPaintDC paintDc(this);
 	if (renderer && !renderer->m_BlockResize && renderer->m_State != None){
 		renderer->Render(renderer->m_State != Playing, false);
+		return;
 	}
-	else
+	else if (GetState() == None){
+		int x, y;
+		GetClientSize(&x, &y);
+		paintDc.SetBrush(wxBrush(L"#000000"));
+		paintDc.SetPen(wxPen(L"#000000"));
+		paintDc.DrawRectangle(0, 0, x, y);
+		wxFont font1(72, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, L"Tahoma");
+		paintDc.SetFont(font1);
+		wxSize size = paintDc.GetTextExtent(L"KaiNote");
+		paintDc.SetTextForeground(L"#2EA6E2");
+		paintDc.DrawText(L"KaiNote", (x - size.x) / 2, (y - size.y - m_PanelHeight) / 2);
+		return;
+	}
+	return;
 #endif
 	if (renderer && !renderer->m_BlockResize && renderer->m_State != None && renderer->m_State != Playing){
 		renderer->Render(true, false);
