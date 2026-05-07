@@ -204,6 +204,10 @@ bool VideoBox::Play()
 	wxMutexLocker lock(vbmutex);
 	if (!renderer->Play()){ return false; }
 	int ms = (m_IsFullscreen && !m_FullScreenWindow->panel->IsShown()) ? 1000 : 100;
+#ifndef _WIN32
+	if (!m_IsFullscreen)
+		ms = 17;
+#endif
 	m_VideoTimeTimer.Start(ms);
 	ChangeButtonBMP(false);
 	return true;
@@ -216,6 +220,10 @@ void VideoBox::PlayLine(int start, int end)
 	//wxMutexLocker lock(vbmutex);
 	if (!renderer->PlayLine(start, end)){ return; }
 	int ms = (m_IsFullscreen && !m_FullScreenWindow->panel->IsShown()) ? 1000 : 100;
+#ifndef _WIN32
+	if (!m_IsFullscreen)
+		ms = 17;
+#endif
 	m_VideoTimeTimer.Start(ms);
 	ChangeButtonBMP(false);
 }
@@ -245,6 +253,10 @@ bool VideoBox::Pause(bool skipWhenOnEnd)
 	}
 	else if (GetState() == Playing){
 		int ms = (m_IsFullscreen && !m_FullScreenWindow->panel->IsShown()) ? 1000 : 100;
+#ifndef _WIN32
+		if (!m_IsFullscreen)
+			ms = 17;
+#endif
 		m_VideoTimeTimer.Start(ms);
 	}
 	ChangeButtonBMP(!(GetState() == Playing));
@@ -598,6 +610,11 @@ void VideoBox::OnMouseEvent(wxMouseEvent& event)
 
 void VideoBox::OnPlaytime(wxTimerEvent& event)
 {
+#ifndef _WIN32
+	if (renderer && renderer->m_State == Playing && !renderer->m_BlockResize) {
+		renderer->Render(false, false);
+	}
+#endif
 	RefreshTime();
 }
 
