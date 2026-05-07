@@ -19,6 +19,10 @@
 #include "Provider.h"
 #include <d3d9.h>
 #include <d3dx9.h>
+#ifndef _WIN32
+#include <memory>
+class LinuxVaapiRenderer;
+#endif
 
 class RendererFFMS2 : public RendererVideo
 {
@@ -72,6 +76,9 @@ public:
 	bool InitRendererDX();
 	Provider* GetFFMS2();
 	Provider *m_FFMS2 = nullptr;
+#ifndef _WIN32
+	std::unique_ptr<LinuxVaapiRenderer> m_VaapiRenderer;
+#endif
 protected:
 	void DestroyFFMS2();
 };

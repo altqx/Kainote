@@ -74,6 +74,7 @@ add_executable(kainote
     Kainote/KaiPanel.cpp
     Kainote/Languages.cpp
     Kainote/LineParse.cpp
+    Kainote/LinuxVaapiRenderer.cpp
     Kainote/Provider.cpp
     Kainote/ProviderDummy.cpp
     Kainote/ProviderFFMS2.cpp
