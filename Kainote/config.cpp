@@ -1073,7 +1073,8 @@ bool LoadDataFromResource(char*& t_data, DWORD& t_dataSize, const wxString& t_na
 wxBitmap GetBitmapFromMemory(const char* t_data, const DWORD t_size)
 {
 	wxMemoryInputStream a_is(t_data, t_size);
-	return wxBitmap(wxImage(a_is, wxBITMAP_TYPE_PNG, -1), -1);
+	wxImage image(a_is, wxBITMAP_TYPE_PNG, -1);
+	return image.IsOk() ? wxBitmap(image, -1) : wxBitmap();
 }
 
 #ifndef _WIN32

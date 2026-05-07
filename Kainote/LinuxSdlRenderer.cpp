@@ -116,8 +116,13 @@ bool LinuxSdlRenderer::RenderBgra(wxWindow* window, const unsigned char* frame, 
 	}
 
 	wxImage image(targetWidth, targetHeight, m_scaledRgb.data(), true);
+	if (!image.IsOk())
+		return false;
+	wxBitmap bitmap(image);
+	if (!bitmap.IsOk())
+		return false;
 	wxClientDC dc(window);
-	dc.DrawBitmap(wxBitmap(image), targetRect.left, targetRect.top, false);
+	dc.DrawBitmap(bitmap, targetRect.left, targetRect.top, false);
 	m_available = true;
 	return true;
 }

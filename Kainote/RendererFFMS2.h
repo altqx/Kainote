@@ -20,6 +20,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #ifndef _WIN32
+#include <atomic>
 #include <memory>
 class LinuxSdlRenderer;
 class LinuxVaapiRenderer;
@@ -80,7 +81,12 @@ public:
 #ifndef _WIN32
 	std::unique_ptr<LinuxSdlRenderer> m_SdlRenderer;
 	std::unique_ptr<LinuxVaapiRenderer> m_VaapiRenderer;
+	std::atomic_bool m_LinuxRenderQueued{ false };
 #endif
 protected:
 	void DestroyFFMS2();
+#ifndef _WIN32
+	void QueueLinuxRender();
+	void PresentLinuxFrame(const unsigned char* frame);
+#endif
 };

@@ -1162,6 +1162,12 @@ void VideoBox::OnSPlus()
 
 void VideoBox::OnPaint(wxPaintEvent& event)
 {
+#ifndef _WIN32
+	if (renderer && !renderer->m_BlockResize && renderer->m_State != None){
+		renderer->Render(renderer->m_State != Playing, false);
+	}
+	else
+#endif
 	if (renderer && !renderer->m_BlockResize && renderer->m_State != None && renderer->m_State != Playing){
 		renderer->Render(true, false);
 	}

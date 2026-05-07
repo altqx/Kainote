@@ -31,6 +31,7 @@
 #include <wx/bitmap.h>
 #include <wx/dcclient.h>
 #include <wx/image.h>
+#include <wx/thread.h>
 #include <cstdlib>
 #endif
 
@@ -63,9 +64,14 @@ namespace
 
 		if (targetWidth != width || targetHeight != height)
 			image.Rescale(targetWidth, targetHeight, wxIMAGE_QUALITY_BILINEAR);
+		if (!image.IsOk())
+			return;
+		wxBitmap bitmap(image);
+		if (!bitmap.IsOk())
+			return;
 
 		wxClientDC dc(window);
-		dc.DrawBitmap(wxBitmap(image), targetRect.left, targetRect.top, false);
+		dc.DrawBitmap(bitmap, targetRect.left, targetRect.top, false);
 	}
 }
 #endif
@@ -80,6 +86,38 @@ RendererFFMS2::RendererFFMS2(VideoBox *control, bool visualDisabled)
 {
 	
 }
+
+#ifndef _WIN32
+void RendererFFMS2::QueueLinuxRender()
+{
+	if (!videoControl)
+		return;
+
+	bool expected = false;
+	if (!m_LinuxRenderQueued.compare_exchange_strong(expected, true))
+		return;
+
+	videoControl->CallAfter([this]() {
+		m_LinuxRenderQueued.store(false);
+		if (m_State != None)
+			Render(false, false);
+	});
+}
+
+void RendererFFMS2::PresentLinuxFrame(const unsigned char* frame)
+{
+	if (!frame)
+		return;
+
+	wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
+		static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
+	const bool useVaapi = std::getenv("KAINOTE_ENABLE_VAAPI_RENDER") != nullptr;
+	if (!useVaapi || !m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, frame, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
+		if (!m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, frame, m_Width, m_Height, m_Pitch, m_BackBufferRect))
+			DrawBgraFrameWithWx(renderWindow, frame, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+	}
+}
+#endif
 
 RendererFFMS2::~RendererFFMS2()
 {
@@ -120,13 +158,11 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 			// Keep the software backbuffer in sync for wxGTK redraws after ASS rendering.
 			memcpy(m_FrameBuffer, fdata, m_Height * m_Pitch);
 		}
-		wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
-			static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
-		const bool useVaapi = std::getenv("KAINOTE_ENABLE_VAAPI_RENDER") != nullptr;
-		if (!useVaapi || !m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
-			if (!m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect))
-				DrawBgraFrameWithWx(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+		if (!wxIsMainThread()) {
+			QueueLinuxRender();
+			return true;
 		}
+		PresentLinuxFrame(fdata);
 		return true;
 	}
 #endif
@@ -199,19 +235,17 @@ void RendererFFMS2::Render(bool redrawSubsOnFrame, bool wait)
 {
 #ifndef _WIN32
 	{
+		if (!wxIsMainThread()) {
+			QueueLinuxRender();
+			return;
+		}
 		if (redrawSubsOnFrame){
 			DrawTexture();
 			return;
 		}
 		wxCriticalSectionLocker lock(m_MutexRendering);
 		if (m_FrameBuffer) {
-			wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
-				static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
-			const bool useVaapi = std::getenv("KAINOTE_ENABLE_VAAPI_RENDER") != nullptr;
-			if (!useVaapi || !m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
-				if (!m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect))
-					DrawBgraFrameWithWx(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
-			}
+			PresentLinuxFrame(m_FrameBuffer);
 		}
 		m_VideoResized = false;
 		return;
