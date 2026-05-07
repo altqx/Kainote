@@ -31,6 +31,7 @@
 #include <wx/window.h>
 #include <wx/bitmap.h>
 //#include <stdint.h>
+#include <vector>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <atomic>
@@ -144,6 +145,15 @@ private:
 	D3DCOLOR timescaleText;
 	D3DCOLOR waveformModified;
 	D3DCOLOR waveformSelected;
+#ifndef _WIN32
+	std::vector<unsigned char> spectrumBgraBuffer;
+	std::vector<unsigned char> spectrumRgbBuffer;
+	wxSize spectrumWxCacheSize;
+	long long spectrumWxCachePosition = -1;
+	int spectrumWxCacheSamples = -1;
+	int spectrumWxCachePercent = -1;
+	float spectrumWxCacheScale = -1.f;
+#endif
 
 	void OnPaint(wxPaintEvent &event);
 	void OnMouseEvent(wxMouseEvent &event);

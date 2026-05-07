@@ -1447,6 +1447,19 @@ void AudioDisplay::ChangeOptions()
 	waveform = D3DCOLOR_FROM_WX(Options.GetColour(AUDIO_WAVEFORM));
 	waveformModified = D3DCOLOR_FROM_WX(Options.GetColour(AUDIO_WAVEFORM_MODIFIED));
 	waveformSelected = D3DCOLOR_FROM_WX(Options.GetColour(AUDIO_WAVEFORM_SELECTED));
+#ifndef _WIN32
+	spectrumBgraBuffer.clear();
+	spectrumRgbBuffer.clear();
+	spectrumWxCacheSize = wxSize();
+	spectrumWxCachePosition = -1;
+	spectrumWxCacheSamples = -1;
+	spectrumWxCachePercent = -1;
+	spectrumWxCacheScale = -1.f;
+	if (spectrumRenderer) {
+		spectrumRenderer->ChangeColours();
+		spectrumRenderer->SetNonLinear(Options.GetBool(AUDIO_SPECTRUM_NON_LINEAR_ON));
+	}
+#endif
 }
 
 ////////
@@ -1655,8 +1668,13 @@ void AudioDisplay::DrawWithWx(wxDC& dc, bool weak)
 	if (w < 1 || displayH < 1 || isHidden)
 		return;
 
+	bool spectrum = (provider && spectrumOn);
+
 	dc.SetPen(*wxTRANSPARENT_PEN);
-	dc.SetBrush(wxBrush(WX_FROM_D3DCOLOR(background)));
+	if (spectrum)
+		dc.SetBrush(wxBrush(Options.GetColour(AUDIO_SPECTRUM_BACKGROUND)));
+	else
+		dc.SetBrush(wxBrush(WX_FROM_D3DCOLOR(background)));
 	dc.DrawRectangle(0, 0, w, displayH);
 
 	if (!loaded || !provider)
@@ -1690,38 +1708,75 @@ void AudioDisplay::DrawWithWx(wxDC& dc, bool weak)
 	drawSelStart = lineStart;
 	drawSelEnd = lineEnd;
 
+	if (spectrum) {
+		if (!spectrumRenderer)
+			spectrumRenderer = new AudioSpectrum(provider);
+		spectrumRenderer->SetScaling(scale);
+
+		bool rebuildSpectrum = !weak || spectrumWxCacheSize != wxSize(w, h) ||
+			spectrumWxCachePosition != Position || spectrumWxCacheSamples != samples ||
+			spectrumWxCachePercent != samplesPercent || spectrumWxCacheScale != scale ||
+			spectrumBgraBuffer.size() != (size_t)w * h * 4;
+		if (rebuildSpectrum) {
+			spectrumBgraBuffer.assign((size_t)w * h * 4, 0);
+			spectrumRgbBuffer.resize((size_t)w * h * 3);
+			spectrumRenderer->RenderRange(Position * samples, (Position + w) * samples,
+				spectrumBgraBuffer.data(), w, w, h, samplesPercent);
+			for (int y = 0; y < h; ++y) {
+				for (int x = 0; x < w; ++x) {
+					size_t bgra = ((size_t)y * w + x) * 4;
+					size_t rgb = ((size_t)y * w + x) * 3;
+					spectrumRgbBuffer[rgb + 0] = spectrumBgraBuffer[bgra + 2];
+					spectrumRgbBuffer[rgb + 1] = spectrumBgraBuffer[bgra + 1];
+					spectrumRgbBuffer[rgb + 2] = spectrumBgraBuffer[bgra + 0];
+				}
+			}
+			spectrumWxCacheSize = wxSize(w, h);
+			spectrumWxCachePosition = Position;
+			spectrumWxCacheSamples = samples;
+			spectrumWxCachePercent = samplesPercent;
+			spectrumWxCacheScale = scale;
+		}
+		if (spectrumRgbBuffer.size() == (size_t)w * h * 3) {
+			wxImage image(w, h, spectrumRgbBuffer.data(), true);
+			dc.DrawBitmap(wxBitmap(image), 0, 0, false);
+		}
+	}
+
 	if (hasSel && drawSelStart < drawSelEnd && drawSelectionBackground) {
 		dc.SetPen(*wxTRANSPARENT_PEN);
 		dc.SetBrush(wxBrush(WX_FROM_D3DCOLOR(NeedCommit ? selectionBackgroundModified : selectionBackground)));
 		dc.DrawRectangle((int)drawSelStart, 0, (int)(drawSelEnd - drawSelStart + 1), h);
 	}
 
-	if (!weak || peak == nullptr || min == nullptr) {
-		delete[] peak;
-		delete[] min;
-		peak = new int[w];
-		min = new int[w];
-		provider->GetWaveForm(min, peak, Position * samples, w, h, samples, scale);
-	}
+	if (!spectrum) {
+		if (!weak || peak == nullptr || min == nullptr) {
+			delete[] peak;
+			delete[] min;
+			peak = new int[w];
+			min = new int[w];
+			provider->GetWaveForm(min, peak, Position * samples, w, h, samples, scale);
+		}
 
-	if (peak && min) {
-		if (!hasSel)
-			selStartCap = w;
-		auto drawRange = [&](int x1, int x2, D3DCOLOR color) {
-			x1 = std::max(0, x1);
-			x2 = std::min(w, x2);
-			dc.SetPen(wxPen(WX_FROM_D3DCOLOR(color), 1));
-			for (int x = x1; x < x2; ++x)
-				dc.DrawLine(x, peak[x], x, min[x] - 1);
-		};
+		if (peak && min) {
+			if (!hasSel)
+				selStartCap = w;
+			auto drawRange = [&](int x1, int x2, D3DCOLOR color) {
+				x1 = std::max(0, x1);
+				x2 = std::min(w, x2);
+				dc.SetPen(wxPen(WX_FROM_D3DCOLOR(color), 1));
+				for (int x = x1; x < x2; ++x)
+					dc.DrawLine(x, peak[x], x, min[x] - 1);
+			};
 
-		drawRange(0, (int)selStartCap, waveform);
-		if (hasSel) {
-			D3DCOLOR waveformSel = waveform;
-			if (drawSelectionBackground)
-				waveformSel = NeedCommit ? waveformModified : waveformSelected;
-			drawRange((int)selStartCap, (int)selEndCap, waveformSel);
-			drawRange((int)selEndCap, w, waveform);
+			drawRange(0, (int)selStartCap, waveform);
+			if (hasSel) {
+				D3DCOLOR waveformSel = waveform;
+				if (drawSelectionBackground)
+					waveformSel = NeedCommit ? waveformModified : waveformSelected;
+				drawRange((int)selStartCap, (int)selEndCap, waveformSel);
+				drawRange((int)selEndCap, w, waveform);
+			}
 		}
 	}
 
