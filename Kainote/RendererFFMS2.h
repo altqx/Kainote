@@ -21,6 +21,7 @@
 #include <d3dx9.h>
 #ifndef _WIN32
 #include <memory>
+class LinuxSdlRenderer;
 class LinuxVaapiRenderer;
 #endif
 
@@ -77,6 +78,7 @@ public:
 	Provider* GetFFMS2();
 	Provider *m_FFMS2 = nullptr;
 #ifndef _WIN32
+	std::unique_ptr<LinuxSdlRenderer> m_SdlRenderer;
 	std::unique_ptr<LinuxVaapiRenderer> m_VaapiRenderer;
 #endif
 protected:

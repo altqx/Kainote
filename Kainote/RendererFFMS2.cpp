@@ -26,6 +26,7 @@
 #include "VideoFullscreen.h"
 #include "SubtitlesProviderManager.h"
 #ifndef _WIN32
+#include "LinuxSdlRenderer.h"
 #include "LinuxVaapiRenderer.h"
 #include <wx/bitmap.h>
 #include <wx/dcclient.h>
@@ -72,6 +73,7 @@ RendererFFMS2::RendererFFMS2(VideoBox *control, bool visualDisabled)
 	: RendererVideo(control, visualDisabled)
 	, m_FFMS2(nullptr)
 #ifndef _WIN32
+	, m_SdlRenderer(new LinuxSdlRenderer())
 	, m_VaapiRenderer(new LinuxVaapiRenderer())
 #endif
 {
@@ -119,8 +121,10 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 		}
 		wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
 			static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
-		if (!m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect))
-			DrawBgraFrameWithWx(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+		if (!m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
+			if (!m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect))
+				DrawBgraFrameWithWx(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+		}
 		return true;
 	}
 #endif
@@ -201,8 +205,10 @@ void RendererFFMS2::Render(bool redrawSubsOnFrame, bool wait)
 		if (m_FrameBuffer) {
 			wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
 				static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
-			if (!m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect))
-				DrawBgraFrameWithWx(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+			if (!m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
+				if (!m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect))
+					DrawBgraFrameWithWx(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+			}
 		}
 		m_VideoResized = false;
 		return;
