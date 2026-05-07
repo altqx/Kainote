@@ -12,33 +12,10 @@
 
 #include <SDL.h>
 #include <algorithm>
-#include <dlfcn.h>
-
-namespace
-{
-	using GtkWidget = ::GtkWidget;
-	using GdkWindow = ::GdkWindow;
-
-	template<typename T>
-	T LoadSymbol(void* lib, const char* name)
-	{
-		return reinterpret_cast<T>(dlsym(lib, name));
-	}
-
-	void* OpenAny(const char* first, const char* second = nullptr)
-	{
-		void* handle = dlopen(first, RTLD_NOW | RTLD_LOCAL);
-		if (!handle && second)
-			handle = dlopen(second, RTLD_NOW | RTLD_LOCAL);
-		return handle;
-	}
-
-	const char* SafeDlError()
-	{
-		const char* err = dlerror();
-		return err ? err : "unknown dlopen/dlsym error";
-	}
-}
+#include <cstdlib>
+#include <wx/bitmap.h>
+#include <wx/dcclient.h>
+#include <wx/image.h>
 
 LinuxSdlRenderer::LinuxSdlRenderer() = default;
 
@@ -59,180 +36,106 @@ void LinuxSdlRenderer::SetError(const wxString& error, bool disable)
 	}
 }
 
-unsigned long LinuxSdlRenderer::GetXid(wxWindow* window)
+bool LinuxSdlRenderer::EnsureSdl()
 {
-	if (!window)
-		return 0;
-
-	GtkWidget* widget = reinterpret_cast<GtkWidget*>(window->GetHandle());
-	if (!widget)
-		return 0;
-
-	if (!m_libGtk)
-		m_libGtk = OpenAny("libgtk-3.so.0", "libgtk-3.so");
-	if (!m_libGdk)
-		m_libGdk = OpenAny("libgdk-3.so.0", "libgdk-3.so");
-	if (!m_libGtk || !m_libGdk) {
-		SetError(wxString::FromUTF8(SafeDlError()));
-		return 0;
-	}
-
-	using gtk_widget_get_window_t = GdkWindow* (*)(GtkWidget*);
-	using gdk_x11_window_get_xid_t = unsigned long (*)(GdkWindow*);
-	auto gtk_widget_get_window = LoadSymbol<gtk_widget_get_window_t>(m_libGtk, "gtk_widget_get_window");
-	auto gdk_x11_window_get_xid = LoadSymbol<gdk_x11_window_get_xid_t>(m_libGdk, "gdk_x11_window_get_xid");
-	if (!gtk_widget_get_window || !gdk_x11_window_get_xid) {
-		SetError(wxString::Format(L"missing GTK/GDK X11 symbol for SDL fallback: %s", wxString::FromUTF8(SafeDlError())));
-		return 0;
-	}
-
-	GdkWindow* gdkWindow = gtk_widget_get_window(widget);
-	if (!gdkWindow)
-		return 0;
-	return gdk_x11_window_get_xid(gdkWindow);
-}
-
-bool LinuxSdlRenderer::EnsureWindow(wxWindow* window)
-{
-	if (!window || m_disabled)
+	if (m_disabled)
 		return false;
-
-	unsigned long xid = GetXid(window);
-	if (!xid)
-		return false;
-
-	if (m_sdlRenderer && m_sdlWindow && xid == m_xid) {
-		m_available = true;
+	if (m_sdlInitialized)
 		return true;
-	}
-
-	CloseWindow();
-
-	if (!m_sdlInitialized) {
-		if (SDL_InitSubSystem(SDL_INIT_VIDEO) != 0) {
-			SetError(wxString::FromUTF8(SDL_GetError()));
-			return false;
-		}
-		m_sdlInitialized = true;
-	}
-
-	m_sdlWindow = SDL_CreateWindowFrom(reinterpret_cast<void*>(xid));
-	if (!m_sdlWindow) {
+	if (SDL_InitSubSystem(SDL_INIT_VIDEO) != 0) {
 		SetError(wxString::FromUTF8(SDL_GetError()));
 		return false;
 	}
-
-	m_sdlRenderer = SDL_CreateRenderer(static_cast<SDL_Window*>(m_sdlWindow), -1,
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (!m_sdlRenderer) {
-		// Some Xvfb/VM environments expose only a software SDL renderer.  This is still
-		// a useful fallback before wxImage because SDL owns texture upload/scaling.
-		m_sdlRenderer = SDL_CreateRenderer(static_cast<SDL_Window*>(m_sdlWindow), -1, SDL_RENDERER_SOFTWARE);
-	}
-	if (!m_sdlRenderer) {
-		SetError(wxString::FromUTF8(SDL_GetError()));
-		CloseWindow();
-		return false;
-	}
-
-	m_xid = xid;
-	m_available = true;
-	return true;
-}
-
-bool LinuxSdlRenderer::EnsureTexture(int width, int height)
-{
-	if (!m_sdlRenderer || width <= 0 || height <= 0)
-		return false;
-	if (m_sdlTexture && width == m_width && height == m_height)
-		return true;
-
-	CloseTexture();
-	m_sdlTexture = SDL_CreateTexture(static_cast<SDL_Renderer*>(m_sdlRenderer),
-		SDL_PIXELFORMAT_BGRA32, SDL_TEXTUREACCESS_STREAMING, width, height);
-	if (!m_sdlTexture) {
-		SetError(wxString::FromUTF8(SDL_GetError()));
-		return false;
-	}
-	SDL_SetTextureBlendMode(static_cast<SDL_Texture*>(m_sdlTexture), SDL_BLENDMODE_NONE);
-	m_width = width;
-	m_height = height;
+	m_sdlInitialized = true;
 	return true;
 }
 
 bool LinuxSdlRenderer::RenderBgra(wxWindow* window, const unsigned char* frame, int width, int height,
 	int pitch, const RECT& targetRect)
 {
-	if (!frame || width <= 0 || height <= 0 || pitch < width * 4)
+	if (std::getenv("KAINOTE_DISABLE_SDL_RENDER"))
 		return false;
-	if (!EnsureWindow(window) || !EnsureTexture(width, height))
+	if (!window || !frame || width <= 0 || height <= 0 || pitch < width * 4)
+		return false;
+	if (!EnsureSdl())
 		return false;
 
-	SDL_Texture* texture = static_cast<SDL_Texture*>(m_sdlTexture);
-	SDL_Renderer* renderer = static_cast<SDL_Renderer*>(m_sdlRenderer);
-	if (SDL_UpdateTexture(texture, nullptr, frame, pitch) != 0) {
+	const int targetWidth = static_cast<int>(targetRect.right - targetRect.left);
+	const int targetHeight = static_cast<int>(targetRect.bottom - targetRect.top);
+	if (targetWidth <= 0 || targetHeight <= 0)
+		return false;
+
+	const size_t sourceSize = static_cast<size_t>(width) * height * 3;
+	if (m_sourceRgb.size() != sourceSize || m_sourceWidth != width || m_sourceHeight != height) {
+		m_sourceRgb.resize(sourceSize);
+		m_sourceWidth = width;
+		m_sourceHeight = height;
+	}
+	for (int y = 0; y < height; ++y) {
+		const unsigned char* src = frame + (y * pitch);
+		unsigned char* dst = m_sourceRgb.data() + (static_cast<size_t>(y) * width * 3);
+		for (int x = 0; x < width; ++x) {
+			// FFMS2 output is BGRA. SDL surface scaling works reliably with an
+			// opaque RGB24 source surface and avoids X11 child-window stacking issues.
+			dst[(x * 3) + 0] = src[(x * 4) + 2];
+			dst[(x * 3) + 1] = src[(x * 4) + 1];
+			dst[(x * 3) + 2] = src[(x * 4) + 0];
+		}
+	}
+
+	const size_t scaledSize = static_cast<size_t>(targetWidth) * targetHeight * 3;
+	if (m_scaledRgb.size() != scaledSize || m_scaledWidth != targetWidth || m_scaledHeight != targetHeight) {
+		m_scaledRgb.resize(scaledSize);
+		m_scaledWidth = targetWidth;
+		m_scaledHeight = targetHeight;
+	}
+
+	SDL_Surface* source = SDL_CreateRGBSurfaceWithFormatFrom(m_sourceRgb.data(), width, height, 24,
+		width * 3, SDL_PIXELFORMAT_RGB24);
+	if (!source) {
+		SetError(wxString::FromUTF8(SDL_GetError()));
+		return false;
+	}
+	SDL_Surface* scaled = SDL_CreateRGBSurfaceWithFormatFrom(m_scaledRgb.data(), targetWidth, targetHeight, 24,
+		targetWidth * 3, SDL_PIXELFORMAT_RGB24);
+	if (!scaled) {
+		SDL_FreeSurface(source);
 		SetError(wxString::FromUTF8(SDL_GetError()));
 		return false;
 	}
 
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(targetRect.left);
-	dst.y = static_cast<int>(targetRect.top);
-	dst.w = std::max(0L, targetRect.right - targetRect.left);
-	dst.h = std::max(0L, targetRect.bottom - targetRect.top);
-	if (dst.w <= 0 || dst.h <= 0)
-		return false;
-
-	SDL_Rect clip = dst;
-	SDL_RenderSetClipRect(renderer, &clip);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderFillRect(renderer, &dst);
-	if (SDL_RenderCopy(renderer, texture, nullptr, &dst) != 0) {
-		SDL_RenderSetClipRect(renderer, nullptr);
+	SDL_SetSurfaceBlendMode(source, SDL_BLENDMODE_NONE);
+	SDL_SetSurfaceBlendMode(scaled, SDL_BLENDMODE_NONE);
+	SDL_FillRect(scaled, nullptr, SDL_MapRGB(scaled->format, 0, 0, 0));
+	const int blitResult = SDL_BlitScaled(source, nullptr, scaled, nullptr);
+	SDL_FreeSurface(scaled);
+	SDL_FreeSurface(source);
+	if (blitResult != 0) {
 		SetError(wxString::FromUTF8(SDL_GetError()));
 		return false;
 	}
-	SDL_RenderSetClipRect(renderer, nullptr);
-	SDL_RenderPresent(renderer);
+
+	wxImage image(targetWidth, targetHeight, m_scaledRgb.data(), true);
+	wxClientDC dc(window);
+	dc.DrawBitmap(wxBitmap(image), targetRect.left, targetRect.top, false);
 	m_available = true;
 	return true;
 }
 
-void LinuxSdlRenderer::CloseTexture()
-{
-	if (m_sdlTexture) {
-		SDL_DestroyTexture(static_cast<SDL_Texture*>(m_sdlTexture));
-		m_sdlTexture = nullptr;
-	}
-	m_width = 0;
-	m_height = 0;
-}
-
-void LinuxSdlRenderer::CloseWindow()
-{
-	CloseTexture();
-	if (m_sdlRenderer) {
-		SDL_DestroyRenderer(static_cast<SDL_Renderer*>(m_sdlRenderer));
-		m_sdlRenderer = nullptr;
-	}
-	if (m_sdlWindow) {
-		SDL_DestroyWindow(static_cast<SDL_Window*>(m_sdlWindow));
-		m_sdlWindow = nullptr;
-	}
-	m_xid = 0;
-	m_available = false;
-}
-
 void LinuxSdlRenderer::Reset()
 {
-	CloseWindow();
+	m_sourceRgb.clear();
+	m_scaledRgb.clear();
+	m_sourceWidth = 0;
+	m_sourceHeight = 0;
+	m_scaledWidth = 0;
+	m_scaledHeight = 0;
+	m_available = false;
+	m_disabled = false;
 	if (m_sdlInitialized) {
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 		m_sdlInitialized = false;
 	}
-	if (m_libGdk) { dlclose(m_libGdk); m_libGdk = nullptr; }
-	if (m_libGtk) { dlclose(m_libGtk); m_libGtk = nullptr; }
-	m_disabled = false;
 }
 
 #endif
