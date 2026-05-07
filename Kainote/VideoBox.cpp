@@ -611,8 +611,8 @@ void VideoBox::OnMouseEvent(wxMouseEvent& event)
 void VideoBox::OnPlaytime(wxTimerEvent& event)
 {
 #ifndef _WIN32
-	if (renderer && renderer->m_State == Playing && !renderer->m_BlockResize) {
-		renderer->Render(false, false);
+	if (renderer && !m_IsDirectShow && renderer->m_State == Playing && !renderer->m_BlockResize) {
+		static_cast<RendererFFMS2*>(renderer)->AdvanceLinuxPlayback();
 	}
 #endif
 	RefreshTime();

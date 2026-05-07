@@ -117,6 +117,34 @@ void RendererFFMS2::PresentLinuxFrame(const unsigned char* frame)
 			DrawBgraFrameWithWx(renderWindow, frame, m_Width, m_Height, m_Pitch, m_BackBufferRect);
 	}
 }
+
+bool RendererFFMS2::AdvanceLinuxPlayback()
+{
+	if (m_State != Playing || !m_FFMS2 || !m_FrameBuffer)
+		return false;
+
+	int playTime = timeGetTime() - m_LastTime;
+	if (m_AudioPlayer && m_AudioPlayer->player && m_AudioPlayer->player->IsPlaying()) {
+		playTime = m_AudioPlayer->GetMSAtSample(m_AudioPlayer->player->GetCurrentPosition());
+	}
+
+	if (playTime >= m_PlayEndTime || m_Frame >= m_FFMS2->m_numFrames - 1) {
+		m_Time = wxMin(playTime, m_PlayEndTime);
+		wxCommandEvent* evt = new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, ID_END_OF_STREAM);
+		wxQueueEvent(videoControl, evt);
+		return false;
+	}
+
+	int frame = m_FFMS2->GetFramefromMS(playTime, wxMax(0, m_Frame));
+	frame = MID(0, frame, m_FFMS2->m_numFrames - 1);
+	if (frame == m_Frame && m_Time == m_FFMS2->m_timecodes[frame])
+		return false;
+
+	m_Frame = frame;
+	m_Time = m_FFMS2->m_timecodes[m_Frame];
+	DrawTexture();
+	return true;
+}
 #endif
 
 RendererFFMS2::~RendererFFMS2()
@@ -479,7 +507,9 @@ bool RendererFFMS2::Play(int end)
 	m_Time = m_FFMS2->m_timecodes[m_Frame];
 	m_LastTime = timeGetTime() - m_Time;
 	if (m_AudioPlayer){ m_AudioPlayer->Play(m_Time, -1, false); }
+#ifdef _WIN32
 	m_FFMS2->Play();
+#endif
 
 	return true;
 }

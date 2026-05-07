@@ -1821,7 +1821,8 @@ void AudioDisplay::DrawWithWx(wxDC& dc, bool weak)
 		dc.DrawLine((int)lineEnd, 0, (int)lineEnd, h);
 	}
 
-	if (drawVideoPos && tab && tab->video && tab->video->GetState() == Paused) {
+	if (drawVideoPos && tab && tab->video &&
+		(tab->video->GetState() == Paused || tab->video->GetState() == Playing)) {
 		dc.SetPen(wxPen(WX_FROM_D3DCOLOR(AudioCursor), 2, wxPENSTYLE_SHORT_DASH));
 		float x = GetXAtMS(tab->video->Tell());
 		dc.DrawLine((int)x, 0, (int)x, h);
