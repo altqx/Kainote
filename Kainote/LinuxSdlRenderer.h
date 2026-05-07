@@ -14,12 +14,11 @@
 
 // SDL2 fallback presenter for Linux/wxGTK video frames.
 //
-// Opt-in Linux order:
-//   KAINOTE_ENABLE_SDL_RENDER=1 enables SDL2 software surface scaling before
-//   the normal wxImage/wxBitmap fallback. If KAINOTE_ENABLE_VAAPI_RENDER is set,
-//   VAAPI/X11 is tried first. SDL handles BGRA->RGB conversion/scaling, while
-//   wxGTK does the final blit so GTK cannot repaint over an embedded SDL/X11
-//   child window.
+// Default Linux order:
+//   SDL2 software surface scaler -> wxImage/wxBitmap presentation.
+// If KAINOTE_ENABLE_VAAPI_RENDER is set, VAAPI/X11 is tried before SDL2.
+// SDL handles BGRA->RGB conversion/scaling, while wxGTK does the final blit so
+// GTK cannot repaint over an embedded SDL/X11 child window.
 class LinuxSdlRenderer
 {
 public:
