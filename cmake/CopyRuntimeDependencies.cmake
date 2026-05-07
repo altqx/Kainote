@@ -23,7 +23,13 @@ set(system_dep_regex
     "^(ld-linux.*|linux-vdso.*|lib(c|m|dl|pthread|rt|resolv|nsl|util|anl)\\.so.*)$"
 )
 
-find_program(PATCHELF_EXECUTABLE patchelf)
+set(pulse_private_dir "")
+foreach(dep IN LISTS resolved_deps)
+    if(dep MATCHES "/pulseaudio/[^/]+$")
+        get_filename_component(pulse_private_dir "${dep}" DIRECTORY)
+        break()
+    endif()
+endforeach()
 
 set(copied_count 0)
 foreach(dep IN LISTS resolved_deps)
@@ -57,30 +63,22 @@ foreach(dep IN LISTS resolved_deps)
             endif()
         endif()
 
-        # Transitive system libraries such as libpulse.so often depend on
-        # private/helper libraries (for example libpulsecommon-16.1.so) that live
-        # outside the normal library search directories.  Kainote's executable
-        # uses $ORIGIN RPATH, but copied shared libraries may still lack their own
-        # origin-relative search path when users run the bundle from another
-        # directory.  Stamp copied ELF libraries as well so each bundled .so can
-        # resolve its siblings next to ./kainote.
-        if(PATCHELF_EXECUTABLE AND dep_name MATCHES "\\.so(\\.|$)")
-            execute_process(
-                COMMAND "${PATCHELF_EXECUTABLE}" --force-rpath --set-rpath "$ORIGIN" "${copied_dep}"
-                RESULT_VARIABLE patchelf_result
-                ERROR_QUIET
+        # libpulse.so carries an absolute RUNPATH to PulseAudio's private helper
+        # directory.  If a user runs the copied bundle on a system without that
+        # exact distro path, the dynamic loader ignores the helper that we copied
+        # beside ./kainote and fails at startup.  Repoint only libpulse's copied
+        # RUNPATH with CMake's built-in ELF editor so the bundle does not depend
+        # on patchelf being installed on the build host.
+        if(pulse_private_dir AND dep_name MATCHES "^libpulse\\.so")
+            file(RPATH_CHANGE
+                FILE "${copied_dep}"
+                OLD_RPATH "${pulse_private_dir}"
+                NEW_RPATH "$ORIGIN:$ORIGIN/pulseaudio"
             )
-            if(NOT patchelf_result EQUAL 0)
-                message(WARNING "Failed to set $ORIGIN RPATH on ${copied_dep}")
-            endif()
         endif()
 
         math(EXPR copied_count "${copied_count} + 1")
     endif()
 endforeach()
-
-if(NOT PATCHELF_EXECUTABLE)
-    message(WARNING "patchelf was not found; copied runtime libraries keep their original RPATH/RUNPATH")
-endif()
 
 message(STATUS "Copied ${copied_count} bundled runtime dependencies to ${RUNTIME_DIR}")
