@@ -65,6 +65,7 @@ enum{
 };
 
 class DrawingAndClips;
+class wxDC;
 
 class Visuals : public TagFindReplace
 {
@@ -99,6 +100,7 @@ public:
 	//function should skip events when not use it;
 	virtual void OnKeyPress(wxKeyEvent &evt){};
 	virtual void OnMouseCaptureLost(wxMouseCaptureLostEvent &evt){}
+	virtual void DrawWx(wxDC& dc, int time) {};
 	//virtual void GetVisual(wxString *visual){};
 	virtual void ChangeVisual(wxString *txt, Dialogue *_dial, size_t numOfSelections){};
 	virtual wxPoint ChangeVisual(wxString* txt) { return wxPoint(0, 0); };
@@ -202,6 +204,7 @@ public:
 	Cross();
 	void OnMouseEvent(wxMouseEvent &event);
 	void Draw(int time);
+	void DrawWx(wxDC& dc, int time) override;
 	void DrawLines(wxPoint point);
 	void SetCurVisual();
 	void SizeChanged(wxRect wsize, LPD3DXLINE _line, LPD3DXFONT _font, LPDIRECT3DDEVICE9 _device);

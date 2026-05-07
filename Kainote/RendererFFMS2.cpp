@@ -152,6 +152,8 @@ void RendererFFMS2::RenderToDc(wxDC& dc)
 	if (!frame)
 		return;
 	DrawBgraFrameWithWxDc(dc, frame, m_Width, m_Height, m_Pitch, m_BackBufferRect);
+	if (m_Visual && !m_HasZoom)
+		m_Visual->DrawWx(dc, m_Time);
 }
 
 void RendererFFMS2::StartLinuxPlaybackThread()

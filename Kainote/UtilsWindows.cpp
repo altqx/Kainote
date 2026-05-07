@@ -19,6 +19,9 @@
 #include <wx/msw/private.h>
 #include <wx/mstream.h>
 #include <wx/dc.h>
+#ifndef _WIN32
+#include <wx/display.h>
+#endif
 #include <vector>
 
 
@@ -44,6 +47,35 @@ int CALLBACK MonitorEnumProc1(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMoni
 }
 
 wxRect GetMonitorWorkArea(int wmonitor, std::vector<tagRECT> *MonitorRects, const wxPoint &position, bool workArea) {
+#ifndef _WIN32
+	std::vector<RECT> MonRects;
+	const unsigned int displayCount = wxDisplay::GetCount();
+	for (unsigned int i = 0; i < displayCount; ++i) {
+		wxDisplay display(i);
+		wxRect rect = workArea ? display.GetClientArea() : display.GetGeometry();
+		MonRects.push_back({ rect.x, rect.y, rect.x + rect.width, rect.y + rect.height });
+	}
+	if (MonitorRects)
+		*MonitorRects = MonRects;
+	if (MonRects.empty())
+		return { 0, 0, 1920, workArea ? 1040 : 1080 };
+
+	auto toWxRect = [](const RECT& r) {
+		return wxRect(r.left, r.top, abs(r.right - r.left), abs(r.bottom - r.top));
+	};
+	if (wmonitor == -1 || MonRects.size() == 1)
+		return toWxRect(MonRects[0]);
+	if (wmonitor == 0) {
+		for (const auto& r : MonRects) {
+			if (r.left <= position.x && position.x < r.right && r.top <= position.y && position.y < r.bottom)
+				return toWxRect(r);
+		}
+	}
+	else if (wmonitor < (int)MonRects.size()) {
+		return toWxRect(MonRects[wmonitor]);
+	}
+	return toWxRect(MonRects[0]);
+#else
 	std::vector<RECT> MonRects;
 	std::pair<std::vector<RECT>, bool> *pair = new std::pair<std::vector<RECT>, bool>(MonRects, workArea);
 	EnumDisplayMonitors(nullptr, nullptr, MonitorEnumProc1, (LPARAM)pair);
@@ -74,9 +106,41 @@ wxRect GetMonitorWorkArea(int wmonitor, std::vector<tagRECT> *MonitorRects, cons
 			abs(MonRects[wmonitor].right - MonRects[wmonitor].left), abs(MonRects[wmonitor].bottom - MonRects[wmonitor].top));
 	}
 	return rt;
+#endif
 }
 
 wxRect GetMonitorRect1(int wmonitor, std::vector<tagRECT> *MonitorRects, const wxRect &programRect) {
+#ifndef _WIN32
+	std::vector<RECT> MonRects;
+	const unsigned int displayCount = wxDisplay::GetCount();
+	for (unsigned int i = 0; i < displayCount; ++i) {
+		wxDisplay display(i);
+		wxRect rect = display.GetGeometry();
+		MonRects.push_back({ rect.x, rect.y, rect.x + rect.width, rect.y + rect.height });
+	}
+	if (MonitorRects)
+		*MonitorRects = MonRects;
+	if (MonRects.empty())
+		return { 0, 0, 1920, 1080 };
+
+	auto toWxRect = [](const RECT& r) {
+		return wxRect(r.left, r.top, abs(r.right - r.left), abs(r.bottom - r.top));
+	};
+	if (wmonitor == -1 || MonRects.size() == 1)
+		return toWxRect(MonRects[0]);
+	if (wmonitor == 0) {
+		int x = (programRect.width / 2) + programRect.x;
+		int y = (programRect.height / 2) + programRect.y;
+		for (const auto& r : MonRects) {
+			if (r.left <= x && x < r.right && r.top <= y && y < r.bottom)
+				return toWxRect(r);
+		}
+	}
+	else if (wmonitor < (int)MonRects.size()) {
+		return toWxRect(MonRects[wmonitor]);
+	}
+	return toWxRect(MonRects[0]);
+#else
 	std::vector<RECT> MonRects;
 	std::pair<std::vector<RECT>, bool> *pair = new std::pair<std::vector<RECT>, bool>(MonRects, false);
 	EnumDisplayMonitors(nullptr, nullptr, MonitorEnumProc1, (LPARAM)pair);
@@ -102,6 +166,7 @@ wxRect GetMonitorRect1(int wmonitor, std::vector<tagRECT> *MonitorRects, const w
 		return wxRect(MonRects[wmonitor].left, MonRects[wmonitor].top, abs(MonRects[wmonitor].right - MonRects[wmonitor].left), abs(MonRects[wmonitor].bottom - MonRects[wmonitor].top));
 	}
 	return rt;
+#endif
 }
 
 int FindMonitor(std::vector<tagRECT> *MonitorRects, const wxPoint &pos) {
