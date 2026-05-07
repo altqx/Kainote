@@ -31,6 +31,7 @@
 #include <wx/bitmap.h>
 #include <wx/dcclient.h>
 #include <wx/image.h>
+#include <cstdlib>
 #endif
 
 #ifndef _WIN32
@@ -121,8 +122,10 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 		}
 		wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
 			static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
-		if (!m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
-			if (!m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect))
+		const bool useVaapi = std::getenv("KAINOTE_ENABLE_VAAPI_RENDER") != nullptr;
+		const bool useSdl = std::getenv("KAINOTE_ENABLE_SDL_RENDER") != nullptr;
+		if (!useVaapi || !m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
+			if (!useSdl || !m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect))
 				DrawBgraFrameWithWx(renderWindow, fdata, m_Width, m_Height, m_Pitch, m_BackBufferRect);
 		}
 		return true;
@@ -205,8 +208,10 @@ void RendererFFMS2::Render(bool redrawSubsOnFrame, bool wait)
 		if (m_FrameBuffer) {
 			wxWindow* renderWindow = (videoControl->m_IsFullscreen && videoControl->m_FullScreenWindow) ?
 				static_cast<wxWindow*>(videoControl->m_FullScreenWindow) : static_cast<wxWindow*>(videoControl);
-			if (!m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
-				if (!m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect))
+			const bool useVaapi = std::getenv("KAINOTE_ENABLE_VAAPI_RENDER") != nullptr;
+			const bool useSdl = std::getenv("KAINOTE_ENABLE_SDL_RENDER") != nullptr;
+			if (!useVaapi || !m_VaapiRenderer || !m_VaapiRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect)) {
+				if (!useSdl || !m_SdlRenderer || !m_SdlRenderer->RenderBgra(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect))
 					DrawBgraFrameWithWx(renderWindow, m_FrameBuffer, m_Width, m_Height, m_Pitch, m_BackBufferRect);
 			}
 		}
