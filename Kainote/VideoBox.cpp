@@ -1881,6 +1881,17 @@ bool VideoBox::HasCapture() {
 	}
 }
 bool VideoBox::SetCursor(int cursorId) {
+#ifndef _WIN32
+	// The Windows renderer hides the native pointer while the visual cross/ruler
+	// overlay is drawn by D3D. On wxGTK the Linux presenter currently draws the
+	// video through wx/SDL surfaces, so hiding the pointer makes it disappear
+	// without a visible ruler. Keep fullscreen auto-hide behaviour, but use a
+	// cross cursor for the editor visual area so hovering the preview remains
+	// visible and ruler-like on Linux.
+	if (!m_IsFullscreen && cursorId == wxCURSOR_BLANK) {
+		cursorId = wxCURSOR_CROSS;
+	}
+#endif
 	if (m_IsFullscreen && m_FullScreenWindow && m_LastFullScreenCursor != cursorId) {
 		m_LastFullScreenCursor = cursorId;
 		return m_FullScreenWindow->SetCursor((wxStockCursor)cursorId);
