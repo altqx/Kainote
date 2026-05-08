@@ -42,11 +42,11 @@ KaiTextCtrl::KaiTextCtrl(wxWindow *parent, int id, const wxString &text, const w
 	int fw, fh;
 	GetTextExtent(L"#TWFfGH", &fw, &fh);
 	Fheight = fh;
-	// wxGTK text metrics are taller; keep Windows padding unchanged.
+	// wxGTK needs modest padding for readable text and caret alignment.
 #ifdef _WIN32
 	const int verticalPadding = 10;
 #else
-	const int verticalPadding = 2;
+	const int verticalPadding = 6;
 #endif
 	wxSize newSize((size.x < 1) ? 100 : size.x, (size.y < 1) ? fh + verticalPadding : size.y);
 
@@ -109,7 +109,7 @@ KaiTextCtrl::KaiTextCtrl(wxWindow *parent, int id, const wxString &text, const w
 	SetAcceleratorTable(accel);
 	Connect(ID_TDEL, ID_TRETURN, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&KaiTextCtrl::OnAccelerator);
 	if (setNumpadAccels){
-		Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_MENU_SELECTED, [this](wxCommandEvent &evt){
 			int key = evt.GetId() - 10276;
 			wxKeyEvent kevt;
 			kevt.m_uniChar = key;
@@ -143,7 +143,7 @@ KaiTextCtrl::KaiTextCtrl(wxWindow *parent, int id, const wxString &text, const w
 	Bind(wxEVT_KEY_DOWN, &KaiTextCtrl::OnKeyPress, this);
 
 	timer.SetOwner(this, 29067);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent &evt){
+	Bind(wxEVT_TIMER, [this](wxTimerEvent &evt){
 		CalcWrap(false);
 		Cursor.x = Selend.x = KText.length() - 1;
 		Cursor.y = Selend.y = FindY(Cursor.x);

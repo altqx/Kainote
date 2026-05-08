@@ -164,10 +164,10 @@ KaiChoice::KaiChoice(wxWindow *parent, int id, const wxString &comboBoxText, con
 	choiceText->Bind(wxEVT_ENTER_WINDOW, &KaiChoice::OnMouseEvent, this, 27789);
 	choiceText->Bind(wxEVT_LEAVE_WINDOW, &KaiChoice::OnMouseEvent, this, 27789);
 	choiceText->Bind(wxEVT_MOUSEWHEEL, &KaiChoice::OnMouseEvent, this, 27789);
-	choiceText->Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent &evt){
+	choiceText->Bind(wxEVT_SET_FOCUS, [this](wxFocusEvent &evt){
 		Refresh(false); evt.Skip();
 	}, 27789);
-	choiceText->Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent &evt){
+	choiceText->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &evt){
 		Refresh(false); evt.Skip();
 	}, 27789);
 	//choiceText->Bind(wxEVT_LEFT_DOWN, [=](wxMouseEvent &evt){
@@ -181,23 +181,23 @@ KaiChoice::KaiChoice(wxWindow *parent, int id, const wxString &comboBoxText, con
 	//	}
 	//	evt.Skip();
 	//}, 27789);
-	Bind(wxEVT_COMMAND_TEXT_UPDATED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_TEXT_UPDATED, [this](wxCommandEvent &evt){
 		SetSelectionByPartialName(choiceText->GetValue());
 	}, 27789);
 	//Connect(ID_TDEL,ID_TRETURN,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&KaiTextCtrl::OnAccelerator);
-	choiceText->Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+	choiceText->Bind(wxEVT_COMMAND_MENU_SELECTED, [this](wxCommandEvent &evt){
 		wxKeyEvent kevt;
 		kevt.m_keyCode = WXK_UP;
 		if (itemList&&itemList->IsShown()){ itemList->OnKeyPress(kevt); }
 		else{ evt.SetId(7865); OnArrow(evt); }
 	}, ID_TUP);
-	choiceText->Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+	choiceText->Bind(wxEVT_COMMAND_MENU_SELECTED, [this](wxCommandEvent &evt){
 		wxKeyEvent kevt;
 		kevt.m_keyCode = WXK_DOWN;
 		if (itemList&&itemList->IsShown()){ itemList->OnKeyPress(kevt); }
 		else{ evt.SetId(7866); OnArrow(evt); }
 	}, ID_TDOWN);
-	choiceText->Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+	choiceText->Bind(wxEVT_COMMAND_MENU_SELECTED, [this](wxCommandEvent &evt){
 		long start, end;
 		choiceText->GetSelection(&start, &end);
 		size_t len = choiceText->GetLength();
@@ -837,6 +837,8 @@ void PopupList::Popup(const wxPoint &pos, const wxSize &controlSize, int selecte
 	}
 	activePopup = this;
 	Show();
+	Refresh(false);
+	Update();
 #ifdef _WIN32
 	Bind(wxEVT_IDLE, &PopupList::OnIdle, this);
 #else
@@ -1009,7 +1011,12 @@ void PopupList::OnPaint(wxPaintEvent &event)
 		}
 		if (desc.length() > 1000)
 			desc = desc.Mid(0, 1000);
-		tdc.DrawText(desc, 4, (height*i) + 3);
+		int descw = 0, desch = 0;
+		tdc.GetTextExtent(desc, &descw, &desch);
+		wxRect rowRect(4, height * i, wxMax(0, w - 8), height);
+		tdc.SetClippingRegion(rowRect);
+		tdc.DrawText(desc, rowRect.x, rowRect.y + wxMax(0, (rowRect.height - desch) / 2));
+		tdc.DestroyClippingRegion();
 	}
 	if (newWidth > 0) {
 		SetSize(wxSize(newWidth, h));
