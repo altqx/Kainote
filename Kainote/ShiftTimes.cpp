@@ -256,6 +256,9 @@ void ShiftTimes::CreateControls(bool normal /*= true*/)
 	Main = new wxBoxSizer(wxVERTICAL);
 
 	coll = new MappedButton(panel, 22999, (normal) ? _("Post processor") : _("Przesuwanie czasów"));
+	// Bind the synthetic MappedButton event on the button itself; wxGTK does not
+	// reliably bubble this nested header button up to the ShiftTimes panel.
+	coll->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &ShiftTimes::CollapsePane, this);
 	Main->AddSpacer(2);
 	Main->Add(coll, 0, wxEXPAND | wxLEFT | wxRIGHT, 6);
 
@@ -461,7 +464,6 @@ void ShiftTimes::CreateControls(bool normal /*= true*/)
 	DoTooltips(normal);
 	Connect(GLOBAL_SHIFT_TIMES, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&ShiftTimes::OnOKClick);
 	Connect(ID_BSTYLE, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&ShiftTimes::OnAddStyles);
-	Connect(22999, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&ShiftTimes::CollapsePane);
 }
 
 void ShiftTimes::OnOKClick(wxCommandEvent& event)
