@@ -19,14 +19,7 @@
 #include "SubsDialogue.h"
 #include "KaiScrollbar.h"
 #include "LineParse.h"
-//#include "RendererVideo.h"
 #include "SubsFile.h"
-//#include "SubsGridPreview.h"
-//#include "KainoteFrame.h"
-//#include "EditBox.h"
-//#include "SubsGridWindow.h"
-
-//#include "TabPanel.h"
 #include <vector>
 #include <set>
 
@@ -35,8 +28,6 @@
 class EditBox;
 class KainoteFrame;
 class TabPanel;
-//class SubsGridPreview;
-//class SubsGridWindow;
 
 
 class compareData{
@@ -77,6 +68,7 @@ public:
 	//not adding it when needed cause memory leaks.
 	void InsertRows(int Row, int NumRows, Dialogue *Dialog, bool AddToDestroy = true, bool Save = false);
 	void SetSubsFormat(wxString ext = emptyString);
+	void ChangeActiveLine(int newActive, bool scroll);
 	void SetModified(unsigned char editionType, bool redit = true, bool dummy = false, int SetEditBoxLine = -1, bool Scroll = true);
 	void UpdateUR(bool tolbar = true);
 	void GetAssHeader(wxString* header, bool forFile = false, bool translated = false, bool normalSave = true);

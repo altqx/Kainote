@@ -249,16 +249,16 @@ namespace Auto{
 			lua_pushstring(L, adial->Effect->mb_str(wxConvUTF8).data());
 			lua_setfield(L, -2, "effect");
 
-			bool isTl = false;
-			const char * text = (isTl = adial->TextTl != L"") ? 
-				adial->TextTl->mb_str(wxConvUTF8).data() : 
-				adial->Text->mb_str(wxConvUTF8).data();
-			lua_pushstring(L, text);
+			bool isTl = adial->TextTl != L"";
+			const char* textTl = adial->TextTl->mb_str(wxConvUTF8).data();
+			const char* text = adial->Text->mb_str(wxConvUTF8).data();
+
+			lua_pushstring(L, isTl? textTl : text);
 			lua_setfield(L, -2, "text");
-
-			lua_pushboolean(L, (int)isTl);
-			lua_setfield(L, -2, "is_translation");
-
+			if (isTl) {
+				lua_pushstring(L, text);
+				lua_setfield(L, -2, "text_translation");
+			}
 			lua_newtable(L);
 			lua_setfield(L, -2, "extra");
 
@@ -344,11 +344,11 @@ namespace Auto{
 				GETINT(margt, "margin_t", "dialogue")
 				GETSTRING(Effect, "effect", "dialogue")
 				GETSTRING(Text, "text", "dialogue")
-				
-			bool IsTranslation = false;
-			lua_getfield(L, -1, "is_translation");
-			if (lua_isboolean(L, -1)) {
-				IsTranslation = !!lua_toboolean(L, -1);
+
+			wxString TextTl;
+			lua_getfield(L, -1, "text_translation");
+			if (lua_isstring(L, -1)) {
+				TextTl = wxString(lua_tostring(L, -1), wxConvUTF8);
 			}
 			lua_pop(L, 1);
 
@@ -368,10 +368,12 @@ namespace Auto{
 			e->adial->MarginR = MarginR;
 			e->adial->MarginV = margt;
 			e->adial->Effect = Effect;
-			if (IsTranslation)
-				e->adial->TextTl = Text;
-			else
+			if(TextTl.empty())
 				e->adial->Text = Text;
+			else {
+				e->adial->TextTl = Text;
+				e->adial->Text = TextTl;
+			}
 			e->adial->ChangeDialogueState(1);
 		}
 
