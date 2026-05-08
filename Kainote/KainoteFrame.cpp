@@ -465,10 +465,33 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 		});
 
 	boost::locale::generator gen;
+#ifdef _WIN32
 	// Make system default locale global
 	std::locale loc = gen("");
 	std::locale::global(loc);
 	locale = std::locale("");
+#else
+	// wxLocale may temporarily leave the process locale set to a UI language
+	// that is not generated on Unix; keep startup alive and fall back to a
+	// usable UTF-8/C locale for collation.
+	try{
+		std::locale loc = gen("");
+		std::locale::global(loc);
+		locale = loc;
+	}
+	catch (...){
+		try{
+			std::locale loc = gen("C.UTF-8");
+			std::locale::global(loc);
+			locale = loc;
+		}
+		catch (...){
+			std::locale loc = std::locale::classic();
+			std::locale::global(loc);
+			locale = loc;
+		}
+	}
+#endif
 }
 
 KainoteFrame::~KainoteFrame()
