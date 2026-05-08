@@ -289,7 +289,14 @@ void ShiftTimes::CreateControls(bool normal /*= true*/)
 		Bind(wxEVT_COMMAND_BUTTON_CLICKED, &ShiftTimes::OnRemoveProfile, this, 31230);
 		wxArrayString profileList;
 		GetProfilesNames(profileList);
+#ifdef _WIN32
 		ProfilesList = new KaiChoice(panel, 31231, wxDefaultPosition, wxDefaultSize, profileList);
+#else
+		// wxGTK can mis-size an empty KaiChoice from wxDefaultSize in this compact
+		// horizontal sizer.  Give only the profile list a concrete width hint while
+		// still letting KaiChoice calculate its native Linux height.
+		ProfilesList = new KaiChoice(panel, 31231, wxDefaultPosition, wxSize(100, -1), profileList);
+#endif
 		Bind(wxEVT_COMMAND_CHOICE_SELECTED, &ShiftTimes::OnChangeProfile, this, 31231);
 		profileSizer->Add(NewProfile, 0, wxALL, 2);
 		profileSizer->Add(RemoveProfile, 0, wxBOTTOM | wxTOP | wxRIGHT, 2);
