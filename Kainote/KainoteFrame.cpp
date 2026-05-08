@@ -392,14 +392,11 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 	Bind(wxEVT_ACTIVATE, &KainoteFrame::OnActivate, this);
 	Connect(GLOBAL_SNAP_WITH_START, GLOBAL_SNAP_WITH_END, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&KainoteFrame::OnAudioSnap);
 	Tabs->SetDropTarget(new DragnDrop(this));
-#ifndef _WIN32
-	SetMinSize(wxSize(1000, 650));
-#endif
 	Bind(wxEVT_SIZE, &KainoteFrame::OnSize, this);
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &KainoteFrame::OnMenuSelected, this, 
 		GLOBAL_ASK_FOR_LOAD_LAST_SESSION, GLOBAL_LOAD_LAST_SESSION_ON_START);
 
-	auto focusFunction = [=](wxFocusEvent &event) -> void {
+	auto focusFunction = [this](wxFocusEvent &event) -> void {
 		TabPanel *tab = GetTab();
 		if (tab->lastFocusedWindowId){
 			wxWindow *win = FindWindowById(tab->lastFocusedWindowId, tab);
@@ -425,7 +422,7 @@ KainoteFrame::KainoteFrame(const wxPoint &pos, const wxSize &size)
 	Auto = new Auto::Automation();
 	m_SendFocus.SetOwner(this, 6789);
 
-	Bind(wxEVT_TIMER, [=](wxTimerEvent &evt){
+	Bind(wxEVT_TIMER, [this](wxTimerEvent &evt){
 		//if it will crash on last focused window
 		//we need to remove last focused window
 		//it's not needed here

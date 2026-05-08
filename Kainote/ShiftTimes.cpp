@@ -299,8 +299,8 @@ void ShiftTimes::CreateControls(bool normal /*= true*/)
 			wxSize(100, NewProfile->GetMinSize().GetHeight()), profileList);
 #endif
 		Bind(wxEVT_COMMAND_CHOICE_SELECTED, &ShiftTimes::OnChangeProfile, this, 31231);
-		profileSizer->Add(NewProfile, 0, wxALL, 2);
-		profileSizer->Add(RemoveProfile, 0, wxBOTTOM | wxTOP | wxRIGHT, 2);
+		profileSizer->Add(NewProfile, 0, wxALIGN_CENTER_VERTICAL | wxALL, 2);
+		profileSizer->Add(RemoveProfile, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM | wxTOP | wxRIGHT, 2);
 		profileSizer->Add(ProfilesList, 1, wxALIGN_CENTER_VERTICAL | wxBOTTOM | wxTOP | wxRIGHT, 2);
 		//time frame
 		KaiStaticBoxSizer *timesizer = new KaiStaticBoxSizer(wxVERTICAL, panel, _("Czas"));
