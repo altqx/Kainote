@@ -29,6 +29,7 @@
 #include "LinuxSdlRenderer.h"
 #include "LinuxVaapiRenderer.h"
 #include <wx/bitmap.h>
+#include <wx/app.h>
 #include <wx/dcclient.h>
 #include <wx/image.h>
 #include <wx/thread.h>
@@ -108,7 +109,7 @@ void RendererFFMS2::QueueLinuxRender()
 	if (!m_LinuxRenderQueued.compare_exchange_strong(expected, true))
 		return;
 
-	videoControl->CallAfter([this]() {
+	wxTheApp->CallAfter([this]() {
 		m_LinuxRenderQueued.store(false);
 		{
 			std::lock_guard<std::mutex> lock(m_LinuxPendingFrameMutex);
@@ -122,6 +123,7 @@ void RendererFFMS2::QueueLinuxRender()
 				renderWindow->Refresh(false);
 		}
 	});
+	wxWakeUpIdle();
 }
 
 void RendererFFMS2::PresentLinuxFrame(const unsigned char* frame)
@@ -241,9 +243,6 @@ bool RendererFFMS2::DrawTexture(unsigned char *nframe, bool copy)
 		unsigned char* fdata = nullptr;
 		if (nframe) {
 			fdata = nframe;
-			if (copy && m_FrameBuffer) {
-				memcpy(m_FrameBuffer, fdata, m_Height * m_Pitch);
-			}
 		}
 		else {
 			fdata = m_FrameBuffer;

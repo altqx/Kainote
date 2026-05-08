@@ -65,24 +65,6 @@ bool LinuxSdlRenderer::RenderBgra(wxWindow* window, const unsigned char* frame, 
 	if (targetWidth <= 0 || targetHeight <= 0)
 		return false;
 
-	const size_t sourceSize = static_cast<size_t>(width) * height * 3;
-	if (m_sourceRgb.size() != sourceSize || m_sourceWidth != width || m_sourceHeight != height) {
-		m_sourceRgb.resize(sourceSize);
-		m_sourceWidth = width;
-		m_sourceHeight = height;
-	}
-	for (int y = 0; y < height; ++y) {
-		const unsigned char* src = frame + (y * pitch);
-		unsigned char* dst = m_sourceRgb.data() + (static_cast<size_t>(y) * width * 3);
-		for (int x = 0; x < width; ++x) {
-			// FFMS2 output is BGRA. SDL surface scaling works reliably with an
-			// opaque RGB24 source surface and avoids X11 child-window stacking issues.
-			dst[(x * 3) + 0] = src[(x * 4) + 2];
-			dst[(x * 3) + 1] = src[(x * 4) + 1];
-			dst[(x * 3) + 2] = src[(x * 4) + 0];
-		}
-	}
-
 	const size_t scaledSize = static_cast<size_t>(targetWidth) * targetHeight * 3;
 	if (m_scaledRgb.size() != scaledSize || m_scaledWidth != targetWidth || m_scaledHeight != targetHeight) {
 		m_scaledRgb.resize(scaledSize);
@@ -90,8 +72,8 @@ bool LinuxSdlRenderer::RenderBgra(wxWindow* window, const unsigned char* frame, 
 		m_scaledHeight = targetHeight;
 	}
 
-	SDL_Surface* source = SDL_CreateRGBSurfaceWithFormatFrom(m_sourceRgb.data(), width, height, 24,
-		width * 3, SDL_PIXELFORMAT_RGB24);
+	SDL_Surface* source = SDL_CreateRGBSurfaceWithFormatFrom(const_cast<unsigned char*>(frame), width, height, 32,
+		pitch, SDL_PIXELFORMAT_BGRA32);
 	if (!source) {
 		SetError(wxString::FromUTF8(SDL_GetError()));
 		return false;
@@ -129,10 +111,7 @@ bool LinuxSdlRenderer::RenderBgra(wxWindow* window, const unsigned char* frame, 
 
 void LinuxSdlRenderer::Reset()
 {
-	m_sourceRgb.clear();
 	m_scaledRgb.clear();
-	m_sourceWidth = 0;
-	m_sourceHeight = 0;
 	m_scaledWidth = 0;
 	m_scaledHeight = 0;
 	m_available = false;

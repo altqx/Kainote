@@ -38,10 +38,7 @@ private:
 	bool EnsureSdl();
 	void SetError(const wxString& error, bool disable = true);
 
-	std::vector<unsigned char> m_sourceRgb;
 	std::vector<unsigned char> m_scaledRgb;
-	int m_sourceWidth = 0;
-	int m_sourceHeight = 0;
 	int m_scaledWidth = 0;
 	int m_scaledHeight = 0;
 	bool m_sdlInitialized = false;
