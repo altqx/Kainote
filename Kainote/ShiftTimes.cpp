@@ -293,14 +293,15 @@ void ShiftTimes::CreateControls(bool normal /*= true*/)
 		ProfilesList = new KaiChoice(panel, 31231, wxDefaultPosition, wxDefaultSize, profileList);
 #else
 		// wxGTK can mis-size an empty KaiChoice from wxDefaultSize in this compact
-		// horizontal sizer.  Give only the profile list a concrete width hint while
-		// still letting KaiChoice calculate its native Linux height.
-		ProfilesList = new KaiChoice(panel, 31231, wxDefaultPosition, wxSize(100, -1), profileList);
+		// horizontal sizer.  Match the adjacent profile buttons so the empty profile
+		// choice stays Windows-compact instead of using GTK's taller text extent.
+		ProfilesList = new KaiChoice(panel, 31231, wxDefaultPosition,
+			wxSize(100, NewProfile->GetMinSize().GetHeight()), profileList);
 #endif
 		Bind(wxEVT_COMMAND_CHOICE_SELECTED, &ShiftTimes::OnChangeProfile, this, 31231);
 		profileSizer->Add(NewProfile, 0, wxALL, 2);
 		profileSizer->Add(RemoveProfile, 0, wxBOTTOM | wxTOP | wxRIGHT, 2);
-		profileSizer->Add(ProfilesList, 1, wxEXPAND | wxBOTTOM | wxTOP | wxRIGHT, 2);
+		profileSizer->Add(ProfilesList, 1, wxALIGN_CENTER_VERTICAL | wxBOTTOM | wxTOP | wxRIGHT, 2);
 		//time frame
 		KaiStaticBoxSizer *timesizer = new KaiStaticBoxSizer(wxVERTICAL, panel, _("Czas"));
 		wxGridSizer *timegrid = new wxGridSizer(2, 0, 0);
