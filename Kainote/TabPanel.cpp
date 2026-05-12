@@ -325,6 +325,7 @@ void TabPanel::ReloadSubsIfModified()
 			OpenWrite ow;
 			wxString s;
 			if (ow.FileOpen(SubsPath, &s)) {
+				grid->ClosePreviewWindows();
 				grid->LoadSubtitles(s, ext);
 				if (video->GetState() != None) {
 					//OPEN_DUMMY

@@ -48,6 +48,7 @@ public:
 	void SetActive(int line);
 	void ShowSecondComparedLine(int Line, bool showPreview = false, bool fromPreview = false, bool setViaScroll = false);
 	void RefreshPreview();
+	void ClosePreviewWindows(bool refresh = false);
 
 	SubsGridPreview *preview = nullptr;
 

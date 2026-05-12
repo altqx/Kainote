@@ -2020,6 +2020,18 @@ void SubsGridWindow::RefreshPreview()
 		preview->Refresh(false);
 }
 
+void SubsGridWindow::ClosePreviewWindows(bool refresh)
+{
+	if (preview){
+		preview->DestroyPreview(refresh);
+		preview = nullptr;
+	}
+	if (thisPreview){
+		thisPreview->DestroyPreview(refresh);
+		thisPreview = nullptr;
+	}
+}
+
 bool SubsGridWindow::ShowPreviewWindow(SubsGridWindow *previewGrid, 
 	SubsGridWindow *windowToDraw, int activeLine, int diffPosition)
 {
