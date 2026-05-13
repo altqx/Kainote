@@ -1115,6 +1115,21 @@ void SubsGridBase::SetSubsFormat(wxString ext)
 	}
 }
 
+void SubsGridBase::ChangeActiveLine(int newActive, bool scroll)
+{
+	int newCurrentLine = (newActive >= 0) ? newActive : currentLine;
+	if (newCurrentLine >= GetCount()) { newCurrentLine = GetCount() - 1; }
+	lastRow = newCurrentLine;
+	if (scroll) {
+		if (Options.GetBool(GRID_DONT_CENTER_ACTIVE_LINE))
+			MakeVisible(newCurrentLine);
+		else
+			ScrollTo(newCurrentLine, true);
+	}
+	edit->SetLine(newCurrentLine);
+	InsertSelection(newCurrentLine);
+}
+
 
 //dont guard cause most of functions that it uses have own gauard
 //Every SetModified have to find on list and add etitionType
@@ -1133,21 +1148,9 @@ void SubsGridBase::SetModified(unsigned char editionType, bool redit, bool dummy
 			SaveSelections();
 		}
 		savedSelections = false;
-		if (redit){
-			int newCurrentLine = (SetEditBoxLine >= 0) ? SetEditBoxLine : currentLine;
-			if (newCurrentLine >= GetCount()){ newCurrentLine = GetCount() - 1; }
-			lastRow = newCurrentLine;
-			/*int w, h;
-			GetClientSize(&w, &h);*/
-			if (Scroll){
-				if (Options.GetBool(GRID_DONT_CENTER_ACTIVE_LINE))
-					MakeVisible(newCurrentLine);
-				else
-					ScrollTo(newCurrentLine, true);
-			}
-			edit->SetLine(newCurrentLine);
-			InsertSelection(newCurrentLine);
-		}
+		if (redit)
+			ChangeActiveLine(SetEditBoxLine, Scroll);
+
 		SaveUndo(editionType, currentLine, markedLine);
 		Kai->Label(GetActualHistoryIter(), false, Kai->Tabs->FindPanel(tab));
 		if (!dummy){
@@ -1177,6 +1180,9 @@ void SubsGridBase::SetModified(unsigned char editionType, bool redit, bool dummy
 			makebackup = false;
 		}
 		UpdateUR();
+	}
+	else if (redit) {
+		ChangeActiveLine(SetEditBoxLine, Scroll);
 	}
 }
 
@@ -1395,8 +1401,6 @@ void SubsGridBase::NextLine(int direction)
 		AdjustWidths(subsFormat > TMP ? (START | END) : 0);
 		newCurrentLine = GetCount() - 1;
 	}
-	int h, w;
-	GetClientSize(&w, &h);
 	if (Options.GetBool(GRID_DONT_CENTER_ACTIVE_LINE))
 		MakeVisible(newCurrentLine);
 	else
