@@ -25,7 +25,9 @@
 #include <wx/timer.h>
 #include <wx/snglinst.h>
 
-
+#ifndef _WIN32
+class wxServerBase;
+#endif
 
 #if _DEBUG
 //#define _CRTDBG_MAP_ALLOC
@@ -55,6 +57,9 @@ public:
 	wxArrayString paths;
 private:
 	wxSingleInstanceChecker* m_checker;
+#ifndef _WIN32
+	wxServerBase* m_ipcServer;
+#endif
 	wxLocale *locale;
 	static void OnOutofMemory();
 };

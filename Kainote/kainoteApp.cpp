@@ -43,6 +43,7 @@
 #include <clocale>
 #include <cstdlib>
 #include <cstring>
+#include <wx/tokenzr.h>
 #include <wx/tooltip.h>
 #endif
 #include "loghandler.h"
@@ -54,6 +55,116 @@
 #include <dbghelp.h>
 #endif
 
+namespace {
+#ifndef _WIN32
+wxString JoinOpenPaths(const wxArrayString& openPaths)
+{
+	wxString joined;
+	for (size_t i = 0; i < openPaths.GetCount(); ++i){
+		if (i){ joined += L"|"; }
+		joined += openPaths[i];
+	}
+	return joined;
+}
+
+void QueueOpenPaths(const wxString& packedPaths)
+{
+	kainoteApp *Kai = (kainoteApp *)wxTheApp;
+	if (!Kai){ return; }
+	wxStringTokenizer tkn(packedPaths, L"|");
+	while (tkn.HasMoreTokens()){
+		wxString path = tkn.NextToken();
+		if (!path.empty()){
+			Kai->paths.Add(path);
+		}
+	}
+	if (!Kai->paths.empty()){
+		Kai->openTimer.Start(400, true);
+	}
+}
+
+const wxString KainoteIpcTopic()
+{
+	return L"KainoteOpenFiles";
+}
+
+wxString KainoteIpcServiceName()
+{
+	wxString user = wxGetUserId();
+	if (user.empty()){
+		user = L"user";
+	}
+	wxString safeUser;
+	for (size_t i = 0; i < user.length(); ++i){
+		const wxUniChar ch = user[i];
+		if ((ch >= L'0' && ch <= L'9') || (ch >= L'A' && ch <= L'Z') ||
+			(ch >= L'a' && ch <= L'z') || ch == L'_' || ch == L'-'){
+			safeUser += ch;
+		}
+		else{
+			safeUser += L'_';
+		}
+	}
+	return wxFileName::GetTempDir() + wxFileName::GetPathSeparator() + L"kainote-" + safeUser + L".ipc";
+}
+
+void RemoveKainoteIpcSocket()
+{
+	wxLogNull noLog;
+	wxRemoveFile(KainoteIpcServiceName());
+}
+
+class KainoteIpcConnection : public wxConnection
+{
+public:
+	bool OnExec(const wxString& topic, const wxString& data) override
+	{
+		if (topic != KainoteIpcTopic()){
+			return false;
+		}
+		QueueOpenPaths(data);
+		KainoteFrame *frame = KainoteFrame::Get();
+		if (frame){
+			if (frame->IsIconized()){
+				frame->Iconize(false);
+			}
+			frame->Raise();
+		}
+		return true;
+	}
+};
+
+class KainoteIpcServer : public wxServer
+{
+public:
+	wxConnectionBase *OnAcceptConnection(const wxString& topic) override
+	{
+		if (topic == KainoteIpcTopic()){
+			return new KainoteIpcConnection();
+		}
+		return nullptr;
+	}
+};
+
+bool SendOpenPathsToRunningInstance(const wxString& packedPaths)
+{
+	if (packedPaths.empty()){
+		return false;
+	}
+	wxClient client;
+	for (int attempt = 0; attempt < 100; ++attempt){
+		wxConnectionBase *connection = client.MakeConnection(L"localhost", KainoteIpcServiceName(), KainoteIpcTopic());
+		if (connection){
+			const bool sent = connection->Execute(packedPaths);
+			connection->Disconnect();
+			return sent;
+		}
+		wxMilliSleep(40);
+	}
+	return false;
+}
+#endif
+}
 
 #ifdef _WIN32
 typedef enum MONITOR_DPI_TYPE {
@@ -140,12 +251,25 @@ IMPLEMENT_APP(kainoteApp);
 bool kainoteApp::OnInit()
 {
 
+#ifndef _WIN32
+	m_ipcServer = nullptr;
+#endif
 	m_checker = new wxSingleInstanceChecker();
 
 	//bool wxsOK = true;
 
 	if (!m_checker->IsAnotherRunning())
 	{
+
+#ifndef _WIN32
+		RemoveKainoteIpcSocket();
+		m_ipcServer = new KainoteIpcServer();
+		if (!m_ipcServer->Create(KainoteIpcServiceName())){
+			delete m_ipcServer;
+			m_ipcServer = nullptr;
+			KaiLogSilent(L"Cannot create Kainote IPC server for opening files in a running instance");
+		}
+#endif
 
 #ifndef _WIN32
 		// Keep the C character locale UTF-8 on Unix.  Some wx helpers still
@@ -413,18 +537,28 @@ bool kainoteApp::OnInit()
 
 	}
 	else{
+#ifndef _WIN32
+		wxArrayString openPaths;
+		for (int i = 1; i < argc; i++) {
+			openPaths.Add(argv[i]);
+		}
+		wxString subs = JoinOpenPaths(openPaths);
+#else
 		wxString subs;
 		for (int i = 1; i < argc; i++) {
 			subs.Append(argv[i]);
 			if (i + 1 != argc){ subs += L"|"; }
 		}
+#endif
 
 		delete m_checker; // OnExit() won't be called if we return false
 		m_checker = nullptr;
 		if (subs.empty())
 			return false;
 #ifndef _WIN32
-		KaiLogSilent(wxString::Format(L"Cannot pass files to an already running instance on this platform: %s", subs));
+		if (!SendOpenPathsToRunningInstance(subs)){
+			KaiLogSilent(wxString::Format(L"Cannot pass files to an already running instance on this platform: %s", subs));
+		}
 		return false;
 #else
 		//damn wxwidgets, why class name is not customizable?    
@@ -459,6 +593,10 @@ bool kainoteApp::OnInit()
 
 int kainoteApp::OnExit()
 {
+#ifndef _WIN32
+	if (m_ipcServer){ delete m_ipcServer; m_ipcServer = nullptr; }
+	RemoveKainoteIpcSocket();
+#endif
 	if (m_checker){ delete m_checker; }
 	wxDELETE(locale);
 	return 0;
