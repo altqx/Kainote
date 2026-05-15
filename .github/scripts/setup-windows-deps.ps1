@@ -60,7 +60,7 @@ function Expand-DependencyArchive {
   }
 
   Expand-Archive -LiteralPath $archive -DestinationPath $tempRoot -Force
-  $roots = Get-ChildItem -LiteralPath $tempRoot -Directory | Where-Object { $_.FullName -ne $Destination }
+  $roots = @(Get-ChildItem -LiteralPath $tempRoot -Directory | Where-Object { $_.FullName -ne $Destination })
   if ($roots.Count -lt 1) { throw "No extracted root directory found for $Name" }
   $sourceRoot = $roots[0].FullName
   Copy-Item -Path (Join-Path $sourceRoot "*") -Destination $Destination -Recurse -Force
@@ -117,23 +117,23 @@ function Ensure-ToolOnPath([string]$ExeName, [string[]]$Candidates) {
 
 Write-Section "Preparing ignored third-party dependency trees"
 $thirdparty = Join-Path $Root "Thirdparty"
-Expand-DependencyArchive -Name "boost" -Uri "https://archives.boost.io/release/1.61.0/source/boost_1_61_0.zip" -Destination (Join-Path $thirdparty "boost") -Marker "boost\flyweight.hpp"
-Expand-DependencyArchive -Name "icu" -Uri "https://github.com/unicode-org/icu/releases/download/release-60-2/icu4c-60_2-src.zip" -Destination (Join-Path $thirdparty "icu") -Marker "source\common\unicode\utypes.h"
-Expand-DependencyArchive -Name "zlib" -Uri "https://github.com/madler/zlib/archive/refs/tags/v1.2.13.zip" -Destination (Join-Path $thirdparty "zlib") -Marker "zlib.h"
+Expand-DependencyArchive -Name "boost" -Uri "https://archives.boost.io/release/1.91.0/source/boost_1_91_0.zip" -Destination (Join-Path $thirdparty "boost") -Marker "boost\flyweight.hpp"
+Expand-DependencyArchive -Name "icu" -Uri "https://github.com/unicode-org/icu/releases/download/release-78.3/icu4c-78.3-sources.zip" -Destination (Join-Path $thirdparty "icu") -Marker "source\common\unicode\utypes.h"
+Expand-DependencyArchive -Name "zlib" -Uri "https://github.com/madler/zlib/releases/download/v1.3.2/zlib132.zip" -Destination (Join-Path $thirdparty "zlib") -Marker "zlib.h"
 $legacyZlib = Join-Path $thirdparty "zlib-1.2.12"
 if (-not (Test-Path -LiteralPath (Join-Path $legacyZlib "zlib.h"))) {
   Write-Host "Creating zlib-1.2.12 compatibility tree for stale project include paths."
   New-Directory $legacyZlib
   Copy-Item -Path (Join-Path (Join-Path $thirdparty "zlib") "*") -Destination $legacyZlib -Recurse -Force
 }
-Expand-DependencyArchive -Name "curl" -Uri "https://github.com/curl/curl/archive/976eb1d50d56dcb1fe55a65ebe095d5012627f7e.zip" -Destination (Join-Path $thirdparty "curl") -Marker "include\curl\curl.h"
+Expand-DependencyArchive -Name "curl" -Uri "https://github.com/curl/curl/releases/download/curl-8_20_0/curl-8.20.0.zip" -Destination (Join-Path $thirdparty "curl") -Marker "include\curl\curl.h"
 
-Write-Section "Adding compatibility shims for the pinned curl snapshot"
+Write-Section "Adding compatibility shims for the hydrated curl source"
 $curlRoot = Join-Path $thirdparty "curl"
 $curlCompat = @{
   "lib\strdup.c" = "/* Kainote CI compatibility shim: Curl.vcxproj still lists lib/strdup.c. */`n#include `"curlx/strdup.c`"`n";
-  "lib\curl_rtmp.c" = "/* Kainote CI compatibility shim: RTMP support was removed from the pinned curl snapshot. */`n";
-  "lib\vquic\curl_osslq.c" = "/* Kainote CI compatibility shim: OpenSSL QUIC backend source was removed from the pinned curl snapshot. */`n";
+  "lib\curl_rtmp.c" = "/* Kainote CI compatibility shim: RTMP support was removed from the hydrated curl release. */`n";
+  "lib\vquic\curl_osslq.c" = "/* Kainote CI compatibility shim: OpenSSL QUIC backend source was removed from the hydrated curl release. */`n";
 }
 
 foreach ($entry in $curlCompat.GetEnumerator()) {

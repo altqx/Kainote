@@ -1215,7 +1215,7 @@
     <ClCompile Include="..\..\Icu\source\i18n\ztrans.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="icudt60l.c">
+    <ClCompile Include="icudt78l.c">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
