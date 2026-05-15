@@ -22,7 +22,7 @@
 #include <wx/regex.h>
 #include <wx/clipbrd.h>
 
-#include "kainoteFrame.h"
+#include "KainoteFrame.h"
 #include "Config.h"
 
 

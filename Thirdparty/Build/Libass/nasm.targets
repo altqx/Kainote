@@ -16,8 +16,8 @@
       <InputRelativeSourceDir></InputRelativeSourceDir>
       <Include></Include>
       <ExcludeFromBuild>false</ExcludeFromBuild>
-      <Config Condition="'$(Platform)'=='Win32'">-f win32</Config>
-      <Config Condition="'$(Platform)'=='x64'">-f win64</Config>
+      <Format Condition="'$(Platform)'=='Win32'">-f win32</Format>
+      <Format Condition="'$(Platform)'=='x64'">-f win64</Format>
     </Nasm>
   </ItemDefinitionGroup>
   
@@ -88,7 +88,7 @@
       Text="%(_Nasm.RelativeOutputDir)%(_Nasm.Filename)%(_Nasm.Extension)"
       />
     <Exec
-      Command="&quot;C:\NASM\Nasm.exe&quot; -Xvc %(_Nasm.Config) %(_Nasm.Include) -o &quot;%(_Nasm.OutputDir)%(_Nasm.Filename).obj&quot; &quot;%(_Nasm.FullPath)&quot;"
+      Command="&quot;C:\NASM\Nasm.exe&quot; -Xvc %(_Nasm.Format) %(_Nasm.Config) %(_Nasm.Include) -o &quot;%(_Nasm.OutputDir)%(_Nasm.Filename).obj&quot; &quot;%(_Nasm.FullPath)&quot;"
       WorkingDirectory="%(_Nasm.OutputDir)"
       />
     <ItemGroup>

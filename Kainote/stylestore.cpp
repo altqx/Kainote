@@ -16,7 +16,7 @@
 
 
 #include "StyleStore.h"
-#include "kainoteFrame.h"
+#include "KainoteFrame.h"
 #include "KaiStaticBoxSizer.h"
 #include "config.h"
 #include "SubsGrid.h"

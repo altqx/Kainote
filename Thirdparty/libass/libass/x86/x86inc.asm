@@ -31,6 +31,20 @@
 ;    %error private_prefix not defined
 ; %endif
 
+%ifndef ARCH_X86_64
+    %ifidn __OUTPUT_FORMAT__,win64
+        %define ARCH_X86_64 1
+    %elifidn __OUTPUT_FORMAT__,x64
+        %define ARCH_X86_64 1
+    %elifidn __OUTPUT_FORMAT__,elf64
+        %define ARCH_X86_64 1
+    %elifidn __OUTPUT_FORMAT__,macho64
+        %define ARCH_X86_64 1
+    %else
+        %define ARCH_X86_64 0
+    %endif
+%endif
+
 %ifndef public_prefix
     %define public_prefix private_prefix
 %endif

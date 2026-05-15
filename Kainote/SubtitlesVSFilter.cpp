@@ -20,7 +20,7 @@
 
 #include "RendererVideo.h"
 #include "OpennWrite.h"
-#include "kainoteframe.h"
+#include "KainoteFrame.h"
 #include "DshowRenderer.h"
 #include "CsriMod.h"
 

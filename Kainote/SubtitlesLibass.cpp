@@ -18,7 +18,7 @@
 #include "SubtitlesProvider.h"
 #include "RendererVideo.h"
 #include "OpennWrite.h"
-#include "kainoteFrame.h"
+#include "KainoteFrame.h"
 #include "DshowRenderer.h"
 #include <wx/msw/winundef.h>
 #include <wx/thread.h>
