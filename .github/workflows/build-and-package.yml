@@ -1,0 +1,271 @@
+name: Build and package
+
+"on":
+  push:
+    branches:
+      - linux
+      - main
+      - master
+    tags:
+      - "v*"
+      - "[0-9]*.[0-9]*"
+  pull_request:
+    branches:
+      - linux
+      - main
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CMAKE_BUILD_TYPE: Release
+  WINDOWS_CONFIGURATION: Release
+  WINDOWS_PLATFORM: x64
+
+jobs:
+  linux:
+    name: Linux build/package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          fetch-depth: 0
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            build-essential \
+            cmake \
+            git \
+            pkg-config \
+            xz-utils \
+            libwxgtk3.2-dev \
+            libwxgtk-gl3.2-dev \
+            libass-dev \
+            libffms2-dev \
+            liblua5.1-0-dev \
+            libhunspell-dev \
+            libuchardet-dev \
+            libcurl4-openssl-dev \
+            libicu-dev \
+            libboost-filesystem-dev \
+            libboost-locale-dev \
+            libboost-regex-dev \
+            libboost-system-dev \
+            libavformat-dev \
+            libavcodec-dev \
+            libavutil-dev \
+            libsdl2-dev \
+            libgl1-mesa-dev \
+            libgtk-3-dev \
+            xvfb \
+            xauth \
+            x11-utils
+
+      - name: Print dependency versions
+        run: |
+          cmake --version
+          wx-config --version
+          pkg-config --modversion \
+            libass \
+            ffms2 \
+            lua5.1 \
+            hunspell \
+            uchardet \
+            libcurl \
+            icu-uc \
+            icu-i18n \
+            libavformat \
+            libavcodec \
+            libavutil \
+            sdl2
+
+      - name: Configure
+        run: cmake -S . -B build-linux -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+
+      - name: Build
+        run: |
+          set -o pipefail
+          cmake --build build-linux --parallel 2 2>&1 | tee build-linux.log
+
+      - name: Check runtime dependencies
+        run: |
+          set -o pipefail
+          ldd build-linux/kainote | tee build-linux/ldd.txt
+          if grep -q "not found" build-linux/ldd.txt; then
+            exit 1
+          fi
+
+      - name: Headless GUI smoke test
+        run: |
+          set +e
+          G_DEBUG=fatal-criticals timeout 10s xvfb-run -a ./build-linux/kainote > build-linux/xvfb-smoke.log 2>&1
+          rc=$?
+          set -e
+          cat build-linux/xvfb-smoke.log
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 124 ]; then
+            exit "$rc"
+          fi
+
+      - name: Package Linux artifact
+        id: package-linux
+        run: |
+          chmod +x .github/scripts/package-linux.sh
+          .github/scripts/package-linux.sh "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/build-linux" "$GITHUB_WORKSPACE/dist" "kainote-linux-x86_64"
+
+      - name: Upload Linux package
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kainote-linux-x86_64
+          if-no-files-found: error
+          path: |
+            dist/kainote-linux-x86_64.tar.xz
+            dist/kainote-linux-x86_64/artifact-manifest.txt
+
+      - name: Upload Linux build logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kainote-linux-build-logs
+          if-no-files-found: ignore
+          path: |
+            build-linux.log
+            build-linux/ldd.txt
+            build-linux/xvfb-smoke.log
+            build-linux/CMakeFiles/CMakeConfigureLog.yaml
+
+  windows:
+    name: Windows build/package
+    runs-on: windows-2022
+    timeout-minutes: 240
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          fetch-depth: 0
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
+
+      - name: Set up MSVC developer environment
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756
+        with:
+          arch: x64
+
+      - name: Set up MSYS2 for FFmpeg
+        uses: msys2/setup-msys2@e9898307ac31d1a803454791be09ab9973336e1c
+        with:
+          msystem: UCRT64
+          path-type: inherit
+          update: true
+          install: >-
+            make
+            diffutils
+            yasm
+            nasm
+            pkgconf
+            git
+            unzip
+            curl
+
+      - name: Install legacy DirectX SDK and NASM
+        shell: pwsh
+        run: |
+          choco install directx-sdk nasm -y --no-progress
+          $dxLib = "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64\D3DX9.lib"
+          if (-not (Test-Path -LiteralPath $dxLib)) {
+            throw "DirectX SDK library not found: $dxLib"
+          }
+
+      - name: Build FFmpeg static libraries for FFMS2
+        shell: msys2 {0}
+        env:
+          FFMPEG_TAG: n7.1.1
+          MSYS2_PATH_TYPE: inherit
+        run: |
+          set -euo pipefail
+          cd "$(cygpath -u "$GITHUB_WORKSPACE")"
+          if [ -f /usr/bin/link.exe ]; then
+            mv /usr/bin/link.exe /usr/bin/link.exe.msys
+          fi
+          if [ ! -d Thirdparty/ffmpeg ]; then
+            curl --fail --location --retry 3 --retry-delay 5 -o "$RUNNER_TEMP/ffmpeg.zip" "https://github.com/FFmpeg/FFmpeg/archive/refs/tags/${FFMPEG_TAG}.zip"
+            unzip -q "$RUNNER_TEMP/ffmpeg.zip" -d Thirdparty
+            mv "Thirdparty/FFmpeg-${FFMPEG_TAG}" Thirdparty/ffmpeg
+          fi
+          cd Thirdparty/ffmpeg
+          ./configure \
+            --toolchain=msvc \
+            --target-os=win64 \
+            --arch=x86_64 \
+            --disable-autodetect \
+            --enable-gpl \
+            --enable-version3 \
+            --disable-programs \
+            --disable-doc \
+            --disable-avdevice \
+            --disable-postproc \
+            --disable-avfilter \
+            --enable-dxva2 \
+            --enable-d3d11va 2>&1 | tee "$GITHUB_WORKSPACE/ffmpeg-configure.log"
+          make -j2 2>&1 | tee "$GITHUB_WORKSPACE/ffmpeg-build.log"
+
+      - name: Create empty dav1d import library for CI FFmpeg build
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "bin\${env:WINDOWS_PLATFORM}\${env:WINDOWS_CONFIGURATION}" | Out-Null
+          $source = Join-Path $env:RUNNER_TEMP "empty_dav1d.c"
+          $object = Join-Path $env:RUNNER_TEMP "empty_dav1d.obj"
+          Set-Content -LiteralPath $source -Value "void __kainote_ci_empty_dav1d(void) {}" -Encoding ASCII
+          cl /nologo /c $source /Fo:$object
+          lib /nologo /out:"bin\${env:WINDOWS_PLATFORM}\${env:WINDOWS_CONFIGURATION}\dav1d.lib" $object
+
+      - name: Build Windows solution
+        shell: pwsh
+        run: |
+          & msbuild Kainote.sln `
+            /m `
+            /p:Configuration=${env:WINDOWS_CONFIGURATION} `
+            /p:Platform=${env:WINDOWS_PLATFORM} `
+            /p:PreferredToolArchitecture=x64 `
+            /p:KainoteSkipDeployPostBuild=true `
+            /v:minimal `
+            /bl:build-windows.binlog 2>&1 | Tee-Object -FilePath build-windows.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Package Windows artifact
+        id: package-windows
+        shell: pwsh
+        run: .\.github\scripts\package-windows.ps1 -Root $env:GITHUB_WORKSPACE -Configuration ${env:WINDOWS_CONFIGURATION} -Platform ${env:WINDOWS_PLATFORM} -PackageName "kainote-windows-x64"
+
+      - name: Upload Windows package
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kainote-windows-x64
+          if-no-files-found: error
+          path: |
+            dist/kainote-windows-x64.zip
+            dist/kainote-windows-x64/artifact-manifest.txt
+
+      - name: Upload Windows build logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kainote-windows-build-logs
+          if-no-files-found: ignore
+          path: |
+            build-windows.log
+            build-windows.binlog
+            ffmpeg-configure.log
+            ffmpeg-build.log
