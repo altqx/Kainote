@@ -22,10 +22,28 @@
 
 #include <cstdlib>
 #include <iterator>
+#include <boost/regex.hpp>
 
 
-#include <boost/regex/icu.hpp>
-#include <boost/locale/conversion.hpp>
+#include <algorithm>
+#include <cwctype>
+#include <vector>
+
+static std::string to_upper_str(const char *str) {
+    std::string s(str);
+    std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) { return std::toupper(c); });
+    return s;
+}
+
+static std::string to_lower_str(const char *str) {
+    std::string s(str);
+    std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) { return std::tolower(c); });
+    return s;
+}
+
+static std::string fold_case_str(const char *str) {
+    return to_lower_str(str);
+}
 //#include <unicode/uclean.h>
 
 #ifdef _MSC_VER
@@ -314,7 +332,7 @@ namespace Auto{
 
 	char *wrapu(const char *str, char **err) {
 		try {
-			return strndup(boost::locale::to_upper(str));
+			return strndup(to_upper_str(str));
 		}
 		catch (std::exception const& e) {
 			KaiLog(wxString::Format("uppercase error: " + wxString(e.what())));
@@ -325,7 +343,7 @@ namespace Auto{
 
 	char *wrapl(const char *str, char **err) {
 		try {
-			return strndup(boost::locale::to_lower(str));
+			return strndup(to_lower_str(str));
 		}
 		catch (std::exception const& e) {
 			KaiLog(wxString::Format("lowercase error: " + wxString(e.what())));
@@ -335,7 +353,7 @@ namespace Auto{
 	}
 	char *wrapf(const char *str, char **err) {
 		try {
-			return strndup(boost::locale::fold_case(str));
+			return strndup(fold_case_str(str));
 		}
 		catch (std::exception const& e) {
 			KaiLog(wxString::Format("foldcase error: " + wxString(e.what())));
@@ -347,9 +365,9 @@ namespace Auto{
 	extern "C" int luaopen_unicode_impl(lua_State *L) {
 		do_register_lib_table(L, std::vector<const char *>());
 		lua_createtable(L, 0, 3);
-		do_register_lib_function(L, "to_upper_case", "char * (*)(const char *, char **)", wrapu);
-		do_register_lib_function(L, "to_lower_case", "char * (*)(const char *, char **)", wrapl);
-		do_register_lib_function(L, "to_fold_case", "char * (*)(const char *, char **)", wrapf);
+		do_register_lib_function(L, "to_upper_case", "char * (*)(const char *, char **)", reinterpret_cast<void*>(wrapu));
+		do_register_lib_function(L, "to_lower_case", "char * (*)(const char *, char **)", reinterpret_cast<void*>(wrapl));
+		do_register_lib_function(L, "to_fold_case", "char * (*)(const char *, char **)", reinterpret_cast<void*>(wrapf));
 		lua_remove(L, -2); // ffi.cast function
 
 		return 1;
@@ -357,7 +375,7 @@ namespace Auto{
 
 
 
-	using boost::u32regex;
+using boost::regex;
 
 	// A cmatch with a match range attached to it so that we can return a pointer to
 	// an int pair without an extra heap allocation each time (LuaJIT can't compile
@@ -374,18 +392,18 @@ namespace Auto{
 
 
 
-	//AGI_DEFINE_TYPE_NAME(u32regex);
+	//AGI_DEFINE_TYPE_NAME(regex);
 	//AGI_DEFINE_TYPE_NAME(agi_re_match);
 	//AGI_DEFINE_TYPE_NAME(agi_re_flag);
 
 
 	//using match = agi_re_match;
-	bool search(u32regex& re, const char *str, size_t len, int start, boost::cmatch& result) {
-		return u32regex_search(str + start, str + len, result, re,
+	bool search(regex& re, const char *str, size_t len, int start, boost::cmatch& result) {
+		return regex_search(str + start, str + len, result, re,
 			start > 0 ? boost::match_prev_avail | boost::match_not_bob : boost::match_default);
 	}
 
-	agi_re_match *regex_match(u32regex& re, const char *str, size_t len, int start) {
+	agi_re_match *regex_match(regex& re, const char *str, size_t len, int start) {
 		std::unique_ptr<agi_re_match> result(new agi_re_match);
 		if (!search(re, str, len, start, result->m))
 			return nullptr;
@@ -400,7 +418,7 @@ namespace Auto{
 		return match.range;
 	}
 
-	int *regex_search(u32regex& re, const char *str, size_t len, size_t start) {
+	int *regex_search(regex& re, const char *str, size_t len, size_t start) {
 		boost::cmatch result;
 		if (!search(re, str, len, start, result))
 			return nullptr;
@@ -411,10 +429,10 @@ namespace Auto{
 		return ret;
 	}
 
-	char *regex_replace(u32regex& re, const char *replacement, const char *str, size_t len, int max_count) {
+	char *regex_replace(regex& re, const char *replacement, const char *str, size_t len, int max_count) {
 		// Can't just use regex_replace here since it can only do one or infinite replacements
-		auto match = boost::u32regex_iterator<const char *>(str, str + len, re);
-		auto end_it = boost::u32regex_iterator<const char *>();
+		auto match = boost::regex_iterator<const char *>(str, str + len, re);
+		auto end_it = boost::regex_iterator<const char *>();
 
 		auto suffix = str;
 
@@ -432,10 +450,10 @@ namespace Auto{
 		return strndup(ret);
 	}
 
-	u32regex *regex_compile(const char *pattern, int flags, char **err) {
-		std::unique_ptr<u32regex> re(new u32regex);//new u32regex;//
+	regex *regex_compile(const char *pattern, int flags, char **err) {
+		std::unique_ptr<regex> re(new regex);//new regex;//
 		try {
-			*re = boost::make_u32regex(pattern, boost::regex::perl | flags);
+			*re = regex(pattern, boost::regex::perl | flags);
 			return re.release();
 		}
 		catch (std::exception const& e) {
@@ -444,20 +462,20 @@ namespace Auto{
 		}
 	}
 
-	void regex_free(u32regex *re) { delete re; /*u_cleanup();*/ }
+	void regex_free(regex *re) { delete re; /*u_cleanup();*/ }
 	void match_free(agi_re_match *m) { delete m; }
 
 	const agi_re_flag *get_regex_flags() {
 		static const agi_re_flag flags[] = {
-			{ "ICASE", boost::u32regex::icase },
-			{ "NOSUB", boost::u32regex::nosubs },
-			{ "COLLATE", boost::u32regex::collate },
-			{ "NEWLINE_ALT", boost::u32regex::newline_alt },
-			{ "NO_MOD_M", boost::u32regex::no_mod_m },
-			{ "NO_MOD_S", boost::u32regex::no_mod_s },
-			{ "MOD_S", boost::u32regex::mod_s },
-			{ "MOD_X", boost::u32regex::mod_x },
-			{ "NO_EMPTY_SUBEXPRESSIONS", boost::u32regex::no_empty_expressions },
+			{ "ICASE", boost::regex::icase },
+			{ "NOSUB", boost::regex::nosubs },
+			{ "COLLATE", boost::regex::collate },
+			{ "NEWLINE_ALT", boost::regex::newline_alt },
+			{ "NO_MOD_M", boost::regex::no_mod_m },
+			{ "NO_MOD_S", boost::regex::no_mod_s },
+			{ "MOD_S", boost::regex::mod_s },
+			{ "MOD_X", boost::regex::mod_x },
+			{ "NO_EMPTY_SUBEXPRESSIONS", boost::regex::no_empty_expressions },
 			{ nullptr, 0 }
 		};
 		return flags;
@@ -467,18 +485,18 @@ namespace Auto{
 	extern "C" int luaopen_re_impl(lua_State *L) {
 		std::vector<const char *> types;
 		types.push_back("agi_re_match");
-		types.push_back("u32regex");
+		types.push_back("regex");
 
 		do_register_lib_table(L, types);
 		lua_createtable(L, 0, 8);
-		do_register_lib_function(L, "search", "int * (*)(u32regex&, const char *, size_t, size_t)", regex_search);
-		do_register_lib_function(L, "match", "agi_re_match * (*)(u32regex&, const char *, size_t, int)", regex_match);
-		do_register_lib_function(L, "get_match", "int * (*)(agi_re_match&, size_t)", regex_get_match);
-		do_register_lib_function(L, "replace", "char * (*)(u32regex&, const char *, const char *, size_t, int)", regex_replace);
-		do_register_lib_function(L, "compile", "u32regex * (*)(const char *, int, char **)", regex_compile);
-		do_register_lib_function(L, "get_flags", "const agi_re_flag * (*)()", get_regex_flags);
-		do_register_lib_function(L, "match_free", "void (*)(agi_re_match *)", match_free);
-		do_register_lib_function(L, "regex_free", "void (*)(u32regex *)", regex_free);
+		do_register_lib_function(L, "search", "int * (*)(regex&, const char *, size_t, size_t)", reinterpret_cast<void*>(regex_search));
+		do_register_lib_function(L, "match", "agi_re_match * (*)(regex&, const char *, size_t, int)", reinterpret_cast<void*>(regex_match));
+		do_register_lib_function(L, "get_match", "int * (*)(agi_re_match&, size_t)", reinterpret_cast<void*>(regex_get_match));
+		do_register_lib_function(L, "replace", "char * (*)(regex&, const char *, const char *, size_t, int)", reinterpret_cast<void*>(regex_replace));
+		do_register_lib_function(L, "compile", "regex * (*)(const char *, int, char **)", reinterpret_cast<void*>(regex_compile));
+		do_register_lib_function(L, "get_flags", "const agi_re_flag * (*)()", reinterpret_cast<void*>(get_regex_flags));
+		do_register_lib_function(L, "match_free", "void (*)(agi_re_match *)", reinterpret_cast<void*>(match_free));
+		do_register_lib_function(L, "regex_free", "void (*)(regex *)", reinterpret_cast<void*>(regex_free));
 		lua_remove(L, -2); // ffi.cast function
 
 		return 1;
