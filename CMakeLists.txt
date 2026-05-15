@@ -28,6 +28,35 @@ find_library(LUA_RUNTIME_LIBRARY
 # Other system libraries remain dynamically linked through pkg-config/wxWidgets.
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS filesystem locale regex system)
+
+execute_process(
+    COMMAND git rev-parse --verify HEAD
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    OUTPUT_VARIABLE KAINOTE_GIT_COMMIT
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+)
+execute_process(
+    COMMAND git rev-parse --abbrev-ref HEAD
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    OUTPUT_VARIABLE KAINOTE_GIT_BRANCH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+)
+if(NOT KAINOTE_GIT_COMMIT)
+    set(KAINOTE_GIT_COMMIT unknown)
+endif()
+if((NOT KAINOTE_GIT_BRANCH OR KAINOTE_GIT_BRANCH STREQUAL "HEAD") AND DEFINED ENV{GITHUB_REF_NAME})
+    set(KAINOTE_GIT_BRANCH "$ENV{GITHUB_REF_NAME}")
+endif()
+if(NOT KAINOTE_GIT_BRANCH)
+    set(KAINOTE_GIT_BRANCH unknown)
+endif()
+set(KAINOTE_GENERATED_DIR "${CMAKE_BINARY_DIR}/generated")
+file(MAKE_DIRECTORY "${KAINOTE_GENERATED_DIR}")
+file(WRITE "${KAINOTE_GENERATED_DIR}/gitparams.h"
+"#pragma once\n#define GIT_CUR_COMMIT ${KAINOTE_GIT_COMMIT}\n#define GIT_BRANCH ${KAINOTE_GIT_BRANCH}\n")
+
 add_compile_definitions(_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING _CRT_SECURE_NO_WARNINGS HAVE_DLL_EXPORT LINUX_BUILD KAINOTE_LINUX_BUILD)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-include> $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/Kainote/platform.h> -Wno-deprecated-declarations -Wno-narrowing -Wno-unused-result $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>)
 add_executable(kainote
@@ -183,6 +212,7 @@ add_executable(kainote
     Thirdparty/Build/FFMS2/indexing_additional.cpp
 )
 target_include_directories(kainote PRIVATE
+    ${KAINOTE_GENERATED_DIR}
     ${CMAKE_SOURCE_DIR}/Kainote
     ${CMAKE_SOURCE_DIR}/Kainote/GFFT
     ${CMAKE_SOURCE_DIR}/Thirdparty/luabins/include
