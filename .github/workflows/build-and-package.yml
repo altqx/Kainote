@@ -230,6 +230,15 @@ jobs:
           cl /nologo /c $source /Fo:$object
           lib /nologo /out:"bin\${env:WINDOWS_PLATFORM}\${env:WINDOWS_CONFIGURATION}\dav1d.lib" $object
 
+      - name: Prepare Windows third-party dependencies
+        shell: pwsh
+        run: |
+          .\.github\scripts\setup-windows-deps.ps1 `
+            -Root $env:GITHUB_WORKSPACE `
+            -Configuration ${env:WINDOWS_CONFIGURATION} `
+            -Platform ${env:WINDOWS_PLATFORM} 2>&1 | Tee-Object -FilePath setup-windows-deps.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: Build Windows solution
         shell: pwsh
         run: |
@@ -266,5 +275,6 @@ jobs:
           path: |
             build-windows.log
             build-windows.binlog
+            setup-windows-deps.log
             ffmpeg-configure.log
             ffmpeg-build.log
