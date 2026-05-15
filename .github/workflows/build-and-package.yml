@@ -163,6 +163,7 @@ jobs:
           arch: x64
 
       - name: Set up MSYS2 for FFmpeg
+        id: msys2
         uses: msys2/setup-msys2@e9898307ac31d1a803454791be09ab9973336e1c
         with:
           msystem: UCRT64
@@ -232,6 +233,8 @@ jobs:
 
       - name: Prepare Windows third-party dependencies
         shell: pwsh
+        env:
+          MSYS2_LOCATION: ${{ steps.msys2.outputs.msys2-location }}
         run: |
           .\.github\scripts\setup-windows-deps.ps1 `
             -Root $env:GITHUB_WORKSPACE `

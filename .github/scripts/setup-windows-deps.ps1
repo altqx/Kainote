@@ -99,20 +99,54 @@ function Copy-IfPresent([string]$Source, [string]$Destination) {
   }
 }
 
+function Get-Msys2Roots {
+  $roots = New-Object System.Collections.Generic.List[string]
+  if (-not [string]::IsNullOrWhiteSpace($env:MSYS2_LOCATION)) {
+    $roots.Add($env:MSYS2_LOCATION)
+  }
+  if (-not [string]::IsNullOrWhiteSpace($env:RUNNER_TEMP)) {
+    $roots.Add((Join-Path $env:RUNNER_TEMP "msys64"))
+  }
+  $roots.Add("C:\msys64")
+
+  foreach ($pathEntry in ($env:PATH -split ';')) {
+    if ($pathEntry -match '^(.*\\msys64)\\(?:usr|ucrt64|mingw64)\\bin\\?$') {
+      $roots.Add($Matches[1])
+    }
+  }
+
+  return @($roots | Select-Object -Unique)
+}
+
+function Get-Msys2ToolCandidates([string]$ExeName) {
+  $candidates = New-Object System.Collections.Generic.List[string]
+  foreach ($root in Get-Msys2Roots) {
+    foreach ($binDir in @("usr\bin", "ucrt64\bin", "mingw64\bin")) {
+      $parts = @($root) + ($binDir -split '\\') + $ExeName
+      $candidates.Add([IO.Path]::Combine([string[]]$parts))
+    }
+  }
+  return @($candidates | Select-Object -Unique)
+}
+
 function Ensure-ToolOnPath([string]$ExeName, [string[]]$Candidates) {
   $cmd = Get-Command $ExeName -ErrorAction SilentlyContinue
-  if ($cmd) { return $cmd.Source }
+  if ($cmd) {
+    Write-Host "Using $ExeName from PATH: $($cmd.Source)"
+    return $cmd.Source
+  }
 
   foreach ($candidate in $Candidates) {
     if (Test-Path -LiteralPath $candidate) {
       $dir = Split-Path -Parent $candidate
       $env:PATH = "$dir;$env:PATH"
       if ($env:GITHUB_PATH) { Add-Content -LiteralPath $env:GITHUB_PATH -Value $dir }
+      Write-Host "Using $ExeName from discovered path: $candidate"
       return $candidate
     }
   }
 
-  throw "$ExeName not found. Checked PATH and: $($Candidates -join ', ')"
+  throw "$ExeName not found. MSYS2_LOCATION='$env:MSYS2_LOCATION'. Checked PATH and: $($Candidates -join ', ')"
 }
 
 Write-Section "Preparing ignored third-party dependency trees"
@@ -253,15 +287,15 @@ $nasmProps = @'
 '@
 Set-Content -LiteralPath (Join-Path $buildCustomizations "nasm.props") -Value $nasmProps -Encoding UTF8
 
-$nasm = Ensure-ToolOnPath "nasm.exe" @(
+$nasmCandidates = @(
   "C:\Program Files\NASM\nasm.exe",
-  "C:\ProgramData\chocolatey\bin\nasm.exe",
-  "C:\msys64\usr\bin\nasm.exe",
-  "C:\msys64\ucrt64\bin\nasm.exe"
-)
+  "C:\ProgramData\chocolatey\bin\nasm.exe"
+) + (Get-Msys2ToolCandidates "nasm.exe")
+$nasm = Ensure-ToolOnPath "nasm.exe" $nasmCandidates
 New-Directory "C:\NASM"
 Copy-Item -LiteralPath $nasm -Destination "C:\NASM\Nasm.exe" -Force
-[void](Ensure-ToolOnPath "yasm.exe" @("C:\msys64\usr\bin\yasm.exe", "C:\msys64\ucrt64\bin\yasm.exe"))
+$yasmCandidates = Get-Msys2ToolCandidates "yasm.exe"
+[void](Ensure-ToolOnPath "yasm.exe" $yasmCandidates)
 
 Write-Section "Generating AviSynth version headers"
 $arch = if ($Platform -eq "x64") { "x86_64" } else { "x86_32" }
