@@ -43,14 +43,13 @@ jobs:
       - name: Install Linux dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y \
+          sudo DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a apt-get install --no-install-recommends -y \
             build-essential \
             cmake \
             git \
             pkg-config \
             xz-utils \
             libwxgtk3.2-dev \
-            libwxgtk-gl3.2-dev \
             libass-dev \
             libffms2-dev \
             liblua5.1-0-dev \
