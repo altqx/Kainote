@@ -15,7 +15,7 @@
 
 
 
-#include "StyleStore.h"
+#include "stylestore.h"
 #include "KainoteFrame.h"
 #include "KaiStaticBoxSizer.h"
 #include "config.h"
@@ -28,7 +28,7 @@
 #include "EditBox.h"
 #include <wx/tokenzr.h>
 #include <vector>
-#include "Styles.h"
+#include "styles.h"
 #include <wx/intl.h>
 #include <wx/string.h>
 #include <wx/filedlg.h>

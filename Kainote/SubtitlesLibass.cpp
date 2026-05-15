@@ -24,7 +24,7 @@
 #include <wx/thread.h>
 #include <process.h>
 #include "config.h"
-#include "utilswindows.h"
+#include "UtilsWindows.h"
 #include "Notebook.h"
 #include "VisualDrawingShapes.h"
 #include "VisualClips.h"

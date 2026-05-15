@@ -23,11 +23,11 @@
 #include "OpennWrite.h"
 #include "VideoBox.h"
 
-#include "Editbox.h"
+#include "EditBox.h"
 #include "SubsGrid.h"
 #include "Toolbar.h"
 #include "TabPanel.h"
-#include "shiftTimes.h"
+#include "ShiftTimes.h"
 #include "KainoteFrame.h"
 #include "ModificationChecker.h"
 

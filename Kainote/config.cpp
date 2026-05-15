@@ -33,7 +33,7 @@
 #include <wx/msw/private.h>
 #include <wx/mstream.h>
 #include <wx/dc.h>
-#include "Config.h"
+#include "config.h"
 #include "UtilsWindows.h"
 #include <locale>
 #include <algorithm>

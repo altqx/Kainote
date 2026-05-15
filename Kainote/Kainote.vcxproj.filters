@@ -501,10 +501,10 @@
     <ClInclude Include="ColorPicker.h">
       <Filter>C</Filter>
     </ClInclude>
-    <ClInclude Include="ColorSpace.h">
+    <ClInclude Include="colorspace.h">
       <Filter>C</Filter>
     </ClInclude>
-    <ClInclude Include="Config.h">
+    <ClInclude Include="config.h">
       <Filter>C</Filter>
     </ClInclude>
     <ClInclude Include="ConfigConverter.h">
@@ -564,7 +564,7 @@
     <ClInclude Include="DropFiles.h">
       <Filter>D</Filter>
     </ClInclude>
-    <ClInclude Include="DShowPlayer.h">
+    <ClInclude Include="dshowplayer.h">
       <Filter>D</Filter>
     </ClInclude>
     <ClInclude Include="DshowRenderer.h">
@@ -630,7 +630,7 @@
     <ClInclude Include="KaiMessageBox.h">
       <Filter>K</Filter>
     </ClInclude>
-    <ClInclude Include="KainoteApp.h">
+    <ClInclude Include="kainoteApp.h">
       <Filter>K</Filter>
     </ClInclude>
     <ClInclude Include="KaiPanel.h">
@@ -780,10 +780,10 @@
     <ClInclude Include="StylePreview.h">
       <Filter>S</Filter>
     </ClInclude>
-    <ClInclude Include="Styles.h">
+    <ClInclude Include="styles.h">
       <Filter>S</Filter>
     </ClInclude>
-    <ClInclude Include="StyleStore.h">
+    <ClInclude Include="stylestore.h">
       <Filter>S</Filter>
     </ClInclude>
     <ClInclude Include="SubsDialogue.h">
@@ -849,7 +849,7 @@
     <ClInclude Include="VersionKainote.h">
       <Filter>V</Filter>
     </ClInclude>
-    <ClInclude Include="Videobox.h">
+    <ClInclude Include="VideoBox.h">
       <Filter>V</Filter>
     </ClInclude>
     <ClInclude Include="VideoFullscreen.h">

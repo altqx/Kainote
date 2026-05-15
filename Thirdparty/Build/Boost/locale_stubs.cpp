@@ -16,6 +16,7 @@
 
 #include <boost/locale/gnu_gettext.hpp>
 #include <boost/locale/localization_backend.hpp>
+#include <boost/version.hpp>
 #include <unicode/locid.h>
 
 // Boost.locale doesn't support partial builds of ICU, so provide stub versions
@@ -29,11 +30,17 @@ struct cdata {
 	bool utf8;
 };
 
-std::locale create_formatting(std::locale const& in, cdata const& cd, character_facet_type type) {
+#if BOOST_VERSION >= 109100
+using kainote_character_facet_type = char_facet_t;
+#else
+using kainote_character_facet_type = character_facet_type;
+#endif
+
+std::locale create_formatting(std::locale const& in, cdata const& cd, kainote_character_facet_type type) {
 	return in;
 }
 
-std::locale create_parsing(std::locale const& in, cdata const& cd, character_facet_type type) {
+std::locale create_parsing(std::locale const& in, cdata const& cd, kainote_character_facet_type type) {
 	return in;
 }
 

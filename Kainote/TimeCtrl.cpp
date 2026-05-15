@@ -23,7 +23,7 @@
 #include <wx/clipbrd.h>
 
 #include "KainoteFrame.h"
-#include "Config.h"
+#include "config.h"
 
 
 TimeCtrl::TimeCtrl(wxWindow* parent, const long int id, const wxString& val, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name)

@@ -508,10 +508,10 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
     <ClInclude Include="RendererFFMS2.h" />
     <ClInclude Include="RendererVideo.h" />
     <ClInclude Include="ShiftTimes.h" />
-    <ClInclude Include="ColorSpace.h" />
-    <ClInclude Include="Config.h" />
+    <ClInclude Include="colorspace.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="D2DInit.h" />
-    <ClInclude Include="DShowPlayer.h" />
+    <ClInclude Include="dshowplayer.h" />
     <ClInclude Include="FindReplace.h" />
     <ClInclude Include="FindReplaceDialog.h" />
     <ClInclude Include="FindReplaceResultsDialog.h" />
@@ -525,7 +525,7 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
     <ClInclude Include="KaiFrame.h" />
     <ClInclude Include="KaiListCtrl.h" />
     <ClInclude Include="KaiMessageBox.h" />
-    <ClInclude Include="KainoteApp.h" />
+    <ClInclude Include="kainoteApp.h" />
     <ClInclude Include="KaiRadioButton.h" />
     <ClInclude Include="KaiScrollbar.h" />
     <ClInclude Include="KaiSlider.h" />
@@ -556,8 +556,8 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
     <ClInclude Include="FontCollector.h" />
     <ClInclude Include="FontDialog.h" />
     <ClInclude Include="SubsGrid.h" />
-    <ClInclude Include="Styles.h" />
-    <ClInclude Include="StyleStore.h" />
+    <ClInclude Include="styles.h" />
+    <ClInclude Include="stylestore.h" />
     <ClInclude Include="SubsGridDialogs.h" />
     <ClInclude Include="SubsGridFiltering.h" />
     <ClInclude Include="SubsGridPreview.h" />
@@ -591,7 +591,7 @@ git rev-parse --abbrev-ref HEAD &gt;&gt;  gitparams.h</Command>
     <ClInclude Include="SubsTime.h" />
     <ClInclude Include="TimeCtrl.h" />
     <ClInclude Include="TLDialog.h" />
-    <ClInclude Include="Videobox.h" />
+    <ClInclude Include="VideoBox.h" />
     <ClInclude Include="VideoFullscreen.h" />
     <ClInclude Include="VideoSlider.h" />
     <ClInclude Include="VideoToolbar.h" />

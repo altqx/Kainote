@@ -36,7 +36,7 @@
 #include "Automation.h"
 #include "Hotkeys.h"
 
-#include "KainoteApp.h"
+#include "kainoteApp.h"
 #include "AutomationToFile.h"
 #include "AutomationProgress.h"
 

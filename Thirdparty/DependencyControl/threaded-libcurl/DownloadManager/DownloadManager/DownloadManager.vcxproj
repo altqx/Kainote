@@ -255,6 +255,12 @@
     <ClInclude Include="..\..\DownloadManagerC.h" />
     <ClInclude Include="..\..\sha1.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Build\Curl\Curl\Curl.vcxproj">
+      <Project>{7ee5840d-0b07-49c4-808d-526bad3b3e86}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -16,7 +16,7 @@
 
 #include "SubtitlesProvider.h"
 
-#include "Config.h"
+#include "config.h"
 
 #include "RendererVideo.h"
 #include "OpennWrite.h"

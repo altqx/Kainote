@@ -16,7 +16,7 @@
 
 #include "Menu.h"
 #include "Hotkeys.h"
-#include "Config.h"
+#include "config.h"
 #include "UtilsWindows.h"
 #include "Toolbar.h"
 #include "KaiScrollbar.h"
@@ -25,7 +25,7 @@
 #include <wx/dc.h>
 #include <wx/dcmemory.h>
 #include <wx/dcclient.h>
-#include "KainoteApp.h"
+#include "kainoteApp.h"
 #include <locale>
 
 //cannot use font outside class cause it create before it can get font scale from system

@@ -28,7 +28,7 @@
 //
 // Aegisub Project http://www.aegisub.org/
 
-#include "Config.h"
+#include "config.h"
 #include "SpellChecker.h"
 #include <wx/dir.h>
 #include <wx/filename.h>

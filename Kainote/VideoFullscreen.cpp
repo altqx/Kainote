@@ -19,8 +19,8 @@
 #include "VideoFullscreen.h"
 #include "VideoBox.h"
 #include "RendererFFMS2.h"
-#include "KainoteApp.h"
-#include "Config.h"
+#include "kainoteApp.h"
+#include "config.h"
 #include <wx/dcclient.h>
 #include <wx/event.h>
 
