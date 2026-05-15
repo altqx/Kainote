@@ -18,6 +18,7 @@
 #include "RendererVideo.h"
 //#include "include/ffms.h"
 #include <dxva2api.h>
+#include <wx/msw/winundef.h>
 
 
 

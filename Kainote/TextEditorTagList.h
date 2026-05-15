@@ -16,7 +16,6 @@
 #pragma once
 
 #include <wx/popupwin.h>
-#include <wx/msw/popupwin.h>
 #include <vector>
 
 class KaiScrollbar;

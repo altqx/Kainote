@@ -226,6 +226,14 @@
     <ClInclude Include="xy_overlay_paint_machine.h" />
     <ClInclude Include="xy_widen_regoin.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Build\Boost\Boost.vcxproj">
+      <Project>{c91e1d87-614c-47e8-9587-393568d41738}</Project>
+    </ProjectReference>
+    <ProjectReference Include="libssf\libssf.vcxproj">
+      <Project>{dd9d2d92-2241-408a-859e-b85d444b7e3c}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

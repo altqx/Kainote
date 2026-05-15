@@ -17,7 +17,6 @@
 
 #include <map>
 #include <wx/popupwin.h>
-#include <wx/msw/popupwin.h>
 #include <wx/timer.h>
 #include <wx/object.h>
 #include "config.h"

@@ -141,7 +141,7 @@ bool SpellChecker::Initialize()
 				if (curLine.IsEmpty() || curLine.IsNumber()) continue;
 
 				wxCharBuffer curLineBuf = curLine.mb_str(*conv);
-				hunspell->add(std::string(curLineBuf.data()));
+				if (curLineBuf) hunspell->add(curLineBuf.data());
 			}
 
 		}
@@ -193,7 +193,7 @@ bool SpellChecker::AddWord(const wxString& word)
 	if (word.IsEmpty() || word.IsNumber()) return false;
 
 	wxCharBuffer wordBuf = word.mb_str(*conv);
-	hunspell->add(std::string(wordBuf.data()));//.mb_str(*conv))
+	if (wordBuf) hunspell->add(wordBuf.data());//.mb_str(*conv))
 	//wxString pathhh = Options.pathfull + L"\\Dictionary\\UserDic.udic";
 	OpenWrite ow;
 	wxString txt;
@@ -227,7 +227,7 @@ bool SpellChecker::RemoveWords(const wxArrayString &words)
 			if (foundWord != -1){
 				found = true;
 				wxCharBuffer foundWordBuf = words[foundWord].mb_str(*conv);
-				succeded = hunspell->remove(std::string(foundWordBuf.data()));
+				if (foundWordBuf) succeded = hunspell->remove(foundWordBuf.data());
 				continue;
 			}
 			newTxt << curLine << L"\r\n";

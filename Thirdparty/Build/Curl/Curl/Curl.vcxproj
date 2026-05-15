@@ -169,6 +169,7 @@
     <ClCompile Include="..\..\..\curl\lib\system_win32.c" />
     <ClCompile Include="..\..\..\curl\lib\telnet.c" />
     <ClCompile Include="..\..\..\curl\lib\tftp.c" />
+    <ClCompile Include="..\..\..\curl\lib\thrdpool.c" />
     <ClCompile Include="..\..\..\curl\lib\thrdqueue.c" />
     <ClCompile Include="..\..\..\curl\lib\transfer.c" />
     <ClCompile Include="..\..\..\curl\lib\uint-bset.c" />

@@ -19,6 +19,7 @@ typedef wchar_t* PTCHAR;
 
 #ifdef _WIN32
 #include <streams.h>
+#include <wx/msw/winundef.h>
 
 enum {    
 	RGB32,

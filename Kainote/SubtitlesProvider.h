@@ -22,7 +22,11 @@
 #include <atomic>
 
 extern "C" {
+#if __has_include(<ass/ass.h>)
 #include <ass/ass.h>
+#else
+#include <libass/ass.h>
+#endif
 }
 
 
