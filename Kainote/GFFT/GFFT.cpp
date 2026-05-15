@@ -19,12 +19,11 @@
 
 
 
-//#include <iostream>
-//#include <cmath>
-//#include <math.h>
+#include <cmath>
 #include "Factory.h"
-#include "../Provider.h"
 #include "GFFT.h"
+
+void FFTProviderGetBuffer(Provider* provider, void* buf, long long start, long long count);
 
 #define PI 3.1415926535897932384626433832795f
 #define PI2 2 * 3.1415926535897932384626433832795f
@@ -261,7 +260,7 @@ void FFT::SetAudio(long long _from, long long len)
 	if (!input){
 		input = new short[inputSize];
 	}
-	prov->GetBuffer(input, from, inputSize);
+	FFTProviderGetBuffer(prov, input, from, inputSize);
 }
 
 void FFT::Transform(long long whre){

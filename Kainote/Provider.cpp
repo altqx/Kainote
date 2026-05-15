@@ -25,6 +25,12 @@
 #include "Notebook.h"
 
 
+void FFTProviderGetBuffer(Provider* provider, void* buf, long long start, long long count)
+{
+	provider->GetBuffer(buf, start, count);
+}
+
+
 Provider::Provider(const wxString& filename, RendererVideo* renderer)
 	: m_renderer(renderer)
 	, m_filename(filename)

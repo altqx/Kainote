@@ -784,7 +784,10 @@ static void Bilinear(unsigned char *buf, int w, int h, int stride, int x_factor,
     xy_free(col_pix_buf_base);
 }
 
-extern "C" void* memsetSSE2(void* dest, int c, size_t count);
+extern "C" void* memsetSSE2(void* dest, int c, size_t count)
+{
+    return memset(dest, c, count);
+}
 
 bool Rasterizer::Rasterize(const ScanLineData2& scan_line_data2, int xsub, int ysub, SharedPtrOverlay overlay)
 {
