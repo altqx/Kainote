@@ -1385,7 +1385,7 @@ namespace Auto{
 							script->Reload();
 							actualMacro = script->GetMacro(p);
 							//validate it to prevent errors
-							if (!actualMacro->Validate(c))
+							if (!actualMacro || !actualMacro->Validate(c))
 								return;
 						}
 					
