@@ -541,18 +541,26 @@ bool kainoteApp::OnInit()
 					wxWindow* window = node->GetData();
 					KaiDialog* kaiDialog = (window && window->IsKindOf(CLASSINFO(KaiDialog))) ? static_cast<KaiDialog*>(window) : nullptr;
 					if (kaiDialog && kaiDialog->IsShown() && kaiDialog->IsModal()){
-						kaiDialog->EndModal(kaiDialog->GetEscapeId());
+						int escapeId = kaiDialog->GetEscapeId();
+						kaiDialog->EndModal(escapeId != wxID_NONE ? escapeId : wxID_CANCEL);
 						automationExitTimer.Start(250, true);
 						return;
 					}
 					wxDialog* wxDialogWindow = (window && window->IsKindOf(CLASSINFO(wxDialog))) ? static_cast<wxDialog*>(window) : nullptr;
 					if (wxDialogWindow && wxDialogWindow->IsShown() && wxDialogWindow->IsModal()){
+						int escapeId = wxDialogWindow->GetEscapeId();
+						wxDialogWindow->EndModal(escapeId != wxID_NONE ? escapeId : wxID_CANCEL);
 						automationExitTimer.Start(250, true);
 						return;
 					}
 				}
-				if (Frame)
+				if (Frame){
+					// Frame->Close() can synchronously open a modal "save changes?" dialog.
+					// Re-arm the automation timer before closing so the modal loop has a
+					// chance to receive the next tick and dismiss the dialog.
+					automationExitTimer.Start(250, true);
 					Frame->Close();
+				}
 			}, 3299);
 			automationExitTimer.Start(autoExitMs, true);
 		}

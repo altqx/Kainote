@@ -17,12 +17,14 @@
 #include "MappedButton.h"
 #include "config.h"
 #include <wx/sizer.h>
+#include <cstdlib>
 #include "KaiStaticText.h"
 
 
 KaiMessageDialog::KaiMessageDialog(wxWindow *parent, const wxString& msg, 
 	const wxString &caption, long elems, const wxPoint &pos, long buttonWithFocus)
 	: KaiDialog(parent, -1, caption, pos)
+	, automationDismissTimer(this)
 {
 	SetMinSize(wxSize(300, -1));
 	wxBoxSizer *sizer1 = new wxBoxSizer(wxHORIZONTAL);
@@ -108,6 +110,15 @@ KaiMessageDialog::KaiMessageDialog(wxWindow *parent, const wxString& msg,
 	//Bind(wxEVT_CLOSE_WINDOW,[=](wxCloseEvent &evt){EndModal((elems & wxCANCEL)? wxCANCEL : (elems & wxNO)? wxNO : wxOK);});
 	//here is the main problem id number is different than returned value
 	SetEscapeId((elems & wxCANCEL) ? 9010 : (elems & wxNO) ? wxID_NO : 9009);
+#ifndef _WIN32
+	if (std::getenv("KAINOTE_AUTOMATION_EXIT_MS")){
+		Bind(wxEVT_TIMER, [this, elems](wxTimerEvent&){
+			int result = (elems & wxCANCEL) ? wxCANCEL : (elems & wxNO) ? wxNO : wxOK;
+			EndModal(result);
+		}, automationDismissTimer.GetId());
+		automationDismissTimer.Start(50, true);
+	}
+#endif
 
 }
 

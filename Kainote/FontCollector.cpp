@@ -691,16 +691,43 @@ void FontCollector::GetAssFonts(SubsFile *subs, int tab)
 
 bool FontCollector::AddFont(const wxString &string)
 {
+#ifndef _WIN32
+	return AddFontResourceExW(string.wc_str(), FR_PRIVATE, nullptr) > 0;
+#else
 	return true;
+#endif
 }
 
 void FontCollector::CheckOrCopyFonts()
 {
 	if (!(operation & CHECK_FONTS) && (fontSizes.size() < 1 || reloadFonts)){
+		fontSizes.clear();
+		hasExternalFolder = false;
+#ifndef _WIN32
+		// Linux does not have a single Windows-style Fonts directory.  Use
+		// fontconfig as the source of truth and store absolute paths directly in
+		// fontSizes; the later lookup code prepends fontfolder, which is kept empty
+		// on this platform.
+		fontfolder.clear();
+		fontFolderLocal.clear();
+		fontFolderExternal.clear();
+		for (const auto& fontPath : kainote_linux_collect_font_files()){
+			std::error_code ec;
+			auto size = std::filesystem::file_size(fontPath, ec);
+			if (ec || size == 0 || size > static_cast<std::uintmax_t>(std::numeric_limits<long>::max()))
+				continue;
+			fontSizes.insert(std::pair<long, wxString>(static_cast<long>(size), wxString::FromUTF8(fontPath.c_str())));
+		}
+		if (fontSizes.empty()){
+			SendMessageD(_("Nie można pobrać rozmiarów i nazw plików czcionek\nkopiowanie zostaje przerwane.\n"), fcd->warning);
+			return;
+		}
+		SubsTime processTime(sw.Time());
+		SendMessageD(wxString::Format(_("Pobrano rozmiary i nazwy %i czcionek, upłynęło %sms.\n\n"), (int)fontSizes.size(), processTime.GetFormatted(SRT)), fcd->normal);
+#else
 		fontfolder = wxGetOSDirectory() + L"\\fonts\\";
 		wxString seekpath = fontfolder + L"*";
 
-		fontSizes.clear();
 		WIN32_FIND_DATAW data;
 		HANDLE h = FindFirstFileW(seekpath.wc_str(), &data);
 		if (h == INVALID_HANDLE_VALUE){
@@ -754,6 +781,7 @@ void FontCollector::CheckOrCopyFonts()
 		}
 		SubsTime processTime(sw.Time());
 		SendMessageD(wxString::Format(_("Pobrano rozmiary i nazwy %i czcionek, upłynęło %sms.\n\n"), (int)fontSizes.size() - 2, processTime.GetFormatted(SRT)), fcd->normal);
+#endif
 	}
 	
 	zip = nullptr;

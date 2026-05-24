@@ -57,6 +57,7 @@ void DirectSoundPlayer2Thread::Run()
 		linuxState->failed = true;
 		linuxState->initialized = true;
 		linuxState->cv.notify_all();
+		SDL_QuitSubSystem(SDL_INIT_AUDIO);
 		return;
 	}
 
@@ -191,8 +192,15 @@ DirectSoundPlayer2Thread::DirectSoundPlayer2Thread(Provider *provider, int _Want
 
 	std::unique_lock<std::mutex> lock(linuxState->mutex);
 	linuxState->cv.wait(lock, [this] { return linuxState->initialized; });
-	if (linuxState->failed)
+	const bool failed = linuxState->failed;
+	lock.unlock();
+	if (failed) {
+		if (linuxState->thread.joinable())
+			linuxState->thread.join();
+		delete linuxState;
+		linuxState = nullptr;
 		throw _T("Failed creating SDL audio playback device.");
+	}
 }
 
 DirectSoundPlayer2Thread::~DirectSoundPlayer2Thread()

@@ -13,9 +13,12 @@
 #include <string>
 #include <filesystem>
 #include <cstdio>
+#include <fstream>
 #include <locale>
 #include <codecvt>
 #include <sys/stat.h>
+#include <sys/inotify.h>
+#include <poll.h>
 #include <unistd.h>
 #include <dlfcn.h>
 #include <cerrno>
@@ -23,11 +26,16 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cfloat>
+#include <limits>
 #include <mutex>
 #include <condition_variable>
 #include <thread>
 #include <atomic>
+#include <memory>
+#include <map>
 #include <sys/wait.h>
+#include <fontconfig/fontconfig.h>
+#include <wx/app.h>
 #include <wx/defs.h>
 #include <wx/window.h>
 #include <wx/panel.h>
@@ -199,10 +207,12 @@ constexpr DWORD FILE_ATTRIBUTE_READONLY = 0x1;
 constexpr DWORD INVALID_FILE_ATTRIBUTES = 0xffffffffu;
 #define INVALID_HANDLE_VALUE ((HANDLE)(intptr_t)-1)
 
-inline void kainote_time_t_to_system(std::time_t t, SYSTEMTIME* st) {
-    std::tm tm{}; gmtime_r(&t, &tm);
+inline void kainote_tm_to_system(const std::tm& tm, SYSTEMTIME* st) {
     st->wYear = tm.tm_year + 1900; st->wMonth = tm.tm_mon + 1; st->wDay = tm.tm_mday;
     st->wDayOfWeek = tm.tm_wday; st->wHour = tm.tm_hour; st->wMinute = tm.tm_min; st->wSecond = tm.tm_sec; st->wMilliseconds = 0;
+}
+inline void kainote_time_t_to_system(std::time_t t, SYSTEMTIME* st) {
+    std::tm tm{}; gmtime_r(&t, &tm); kainote_tm_to_system(tm, st);
 }
 inline void GetSystemTime(SYSTEMTIME* st) { kainote_time_t_to_system(std::time(nullptr), st); }
 inline void GetLocalTime(SYSTEMTIME* st) {
@@ -210,15 +220,21 @@ inline void GetLocalTime(SYSTEMTIME* st) {
     st->wYear=tm.tm_year+1900; st->wMonth=tm.tm_mon+1; st->wDay=tm.tm_mday; st->wDayOfWeek=tm.tm_wday; st->wHour=tm.tm_hour; st->wMinute=tm.tm_min; st->wSecond=tm.tm_sec; st->wMilliseconds=0;
 }
 inline bool SystemTimeToFileTime(const SYSTEMTIME* st, FILETIME* ft) {
+    if (!st || !ft) return false;
     std::tm tm{}; tm.tm_year=st->wYear-1900; tm.tm_mon=st->wMonth-1; tm.tm_mday=st->wDay; tm.tm_hour=st->wHour; tm.tm_min=st->wMinute; tm.tm_sec=st->wSecond;
     auto t = timegm(&tm); auto v=static_cast<std::uint64_t>(t);
     ft->dwLowDateTime=static_cast<DWORD>(v); ft->dwHighDateTime=static_cast<DWORD>(v>>32); return true;
 }
 inline bool FileTimeToSystemTime(const FILETIME* ft, SYSTEMTIME* st) {
+    if (!ft || !st) return false;
     std::uint64_t v=((std::uint64_t)ft->dwHighDateTime<<32)|ft->dwLowDateTime; kainote_time_t_to_system((std::time_t)v, st); return true;
 }
+inline std::time_t kainote_filetime_to_time_t(const FILETIME* ft) {
+    std::uint64_t v = ((std::uint64_t)ft->dwHighDateTime << 32) | ft->dwLowDateTime;
+    return static_cast<std::time_t>(v);
+}
 struct KainoteHandleBase {
-    enum class Kind { File, Event, Thread, Timer } kind;
+    enum class Kind { File, Event, Thread, Timer, ChangeNotification } kind;
     explicit KainoteHandleBase(Kind k) : kind(k) {}
     virtual ~KainoteHandleBase() = default;
 };
@@ -241,11 +257,45 @@ struct KainoteThreadHandle : KainoteHandleBase {
     explicit KainoteThreadHandle(std::thread&& t) : KainoteHandleBase(Kind::Thread), thread(std::move(t)) {}
     ~KainoteThreadHandle() override { if (thread.joinable()) thread.detach(); }
 };
-struct KainoteTimerHandle : KainoteHandleBase {
-    std::thread thread;
+struct KainoteTimerState {
+    std::mutex mutex;
+    std::condition_variable cv;
     std::atomic<bool> cancelled{false};
+
+    bool wait_for_cancel_or_timeout(DWORD milliseconds) {
+        if (cancelled.load()) return true;
+        if (milliseconds == 0) return false;
+        std::unique_lock<std::mutex> lock(mutex);
+        return cv.wait_for(lock, std::chrono::milliseconds(milliseconds), [&] { return cancelled.load(); });
+    }
+
+    void cancel() {
+        cancelled.store(true);
+        cv.notify_all();
+    }
+};
+struct KainoteTimerHandle : KainoteHandleBase {
+    std::shared_ptr<KainoteTimerState> state{std::make_shared<KainoteTimerState>()};
+    std::thread thread;
+    KainoteTimerHandle() : KainoteHandleBase(Kind::Timer) {}
     explicit KainoteTimerHandle(std::thread&& t) : KainoteHandleBase(Kind::Timer), thread(std::move(t)) {}
-    ~KainoteTimerHandle() override { cancelled = true; if (thread.joinable()) thread.detach(); }
+    ~KainoteTimerHandle() override {
+        if (state) state->cancel();
+        if (thread.joinable()) {
+            if (thread.get_id() == std::this_thread::get_id()) thread.detach();
+            else thread.join();
+        }
+    }
+};
+struct KainoteChangeNotificationHandle : KainoteHandleBase {
+    int fd{-1};
+    int watch{-1};
+    KainoteChangeNotificationHandle(int inotifyFd, int watchDescriptor)
+        : KainoteHandleBase(Kind::ChangeNotification), fd(inotifyFd), watch(watchDescriptor) {}
+    ~KainoteChangeNotificationHandle() override {
+        if (fd >= 0 && watch >= 0) inotify_rm_watch(fd, watch);
+        if (fd >= 0) close(fd);
+    }
 };
 
 inline HANDLE CreateFileW(const wchar_t* path, DWORD access, DWORD, void*, DWORD creation, DWORD, HANDLE) {
@@ -315,13 +365,52 @@ inline DWORD FormatMessageA(DWORD, void*, DWORD error, DWORD, char* buffer, DWOR
     return static_cast<DWORD>(std::strlen(buffer));
 }
 inline void* LocalFree(void*) { return nullptr; }
-inline BOOL SetFileTime(HANDLE, const FILETIME*, const FILETIME*, const FILETIME*) { return TRUE; }
+inline BOOL SetFileTime(HANDLE h, const FILETIME*, const FILETIME* access, const FILETIME* write) {
+    auto* base = kainote_handle(h);
+    if (!base || base->kind != KainoteHandleBase::Kind::File) { errno = EBADF; return FALSE; }
+    FILE* f = static_cast<KainoteFileHandle*>(base)->file;
+    if (!f) { errno = EBADF; return FALSE; }
+    const int fd = fileno(f);
+    struct stat st{};
+    if (fd < 0 || fstat(fd, &st) != 0) return FALSE;
+    timespec times[2]{};
+    times[0] = st.st_atim;
+    times[1] = st.st_mtim;
+    if (access) {
+        times[0].tv_sec = kainote_filetime_to_time_t(access);
+        times[0].tv_nsec = 0;
+    }
+    if (write) {
+        times[1].tv_sec = kainote_filetime_to_time_t(write);
+        times[1].tv_nsec = 0;
+    }
+    return futimens(fd, times) == 0 ? TRUE : FALSE;
+}
 inline BOOL CopyFile(const wchar_t* from, const wchar_t* to, BOOL failIfExists) { std::error_code ec; auto src = std::filesystem::path(kainote_normalize_path(from)); auto dst = std::filesystem::path(kainote_normalize_path(to)); if (failIfExists && std::filesystem::exists(dst, ec)) return FALSE; std::filesystem::create_directories(dst.parent_path(), ec); return std::filesystem::copy_file(src, dst, std::filesystem::copy_options::overwrite_existing, ec); }
 inline FILE* kainote_wfopen(const wchar_t* path, const wchar_t* mode) { std::string p = kainote_normalize_path(path); std::string m = kainote_wstring_to_utf8(mode ? std::wstring(mode) : std::wstring(L"rb")); return std::fopen(p.c_str(), m.c_str()); }
 inline int kainote_wremove(const wchar_t* path) { std::string p = kainote_normalize_path(path); return std::remove(p.c_str()); }
 struct TIME_ZONE_INFORMATION { LONG Bias{}; };
-inline DWORD GetTimeZoneInformation(TIME_ZONE_INFORMATION*) { return 0; }
-inline BOOL SystemTimeToTzSpecificLocalTime(const TIME_ZONE_INFORMATION*, const SYSTEMTIME* universal, SYSTEMTIME* local) { if (!universal || !local) return FALSE; *local = *universal; return TRUE; }
+inline DWORD GetTimeZoneInformation(TIME_ZONE_INFORMATION* info) {
+    if (info) {
+        std::time_t now = std::time(nullptr);
+        std::tm utc{};
+        std::tm local{};
+        gmtime_r(&now, &utc);
+        localtime_r(&now, &local);
+        info->Bias = static_cast<LONG>(std::difftime(timegm(&utc), mktime(&local)) / 60);
+    }
+    return 0;
+}
+inline BOOL SystemTimeToTzSpecificLocalTime(const TIME_ZONE_INFORMATION*, const SYSTEMTIME* universal, SYSTEMTIME* local) {
+    if (!universal || !local) return FALSE;
+    FILETIME ft{};
+    if (!SystemTimeToFileTime(universal, &ft)) return FALSE;
+    std::time_t t = kainote_filetime_to_time_t(&ft);
+    std::tm tm{};
+    if (!localtime_r(&t, &tm)) return FALSE;
+    kainote_tm_to_system(tm, local);
+    return TRUE;
+}
 #define _wfopen kainote_wfopen
 #define _wremove kainote_wremove
 inline int kainote_wrename(const wchar_t* oldp, const wchar_t* newp) { return std::rename(kainote_normalize_path(oldp).c_str(), kainote_normalize_path(newp).c_str()); }
@@ -350,8 +439,56 @@ constexpr int WH_GETMESSAGE = 3;
 inline HHOOK SetWindowsHookEx(int, LRESULT (__stdcall *)(int, WPARAM, LPARAM), void*, DWORD) { return nullptr; }
 inline BOOL UnhookWindowsHookEx(HHOOK) { return 1; }
 inline LRESULT CallNextHookEx(HHOOK, int, WPARAM, LPARAM) { return 0; }
-inline UINT SetTimer(HWND, UINT id, UINT, TIMERPROC proc) { if (proc) proc(); return id; }
-inline BOOL KillTimer(HWND, UINT) { return 1; }
+inline std::mutex& kainote_window_timer_mutex() { static std::mutex m; return m; }
+inline std::map<std::pair<std::uintptr_t, UINT>, std::unique_ptr<KainoteTimerHandle>>& kainote_window_timers() { static std::map<std::pair<std::uintptr_t, UINT>, std::unique_ptr<KainoteTimerHandle>> timers; return timers; }
+inline void kainote_dispatch_timer_proc(TIMERPROC proc) {
+    if (!proc) return;
+    if (wxTheApp) wxTheApp->CallAfter([proc]() { proc(); });
+    else proc();
+}
+inline UINT SetTimer(HWND hwnd, UINT id, UINT elapsed, TIMERPROC proc) {
+    static std::atomic<UINT> nextTimerId{1};
+    if (id == 0) {
+        id = nextTimerId.fetch_add(1);
+        if (id == 0) id = nextTimerId.fetch_add(1);
+    }
+    auto timer = std::make_unique<KainoteTimerHandle>();
+    auto state = timer->state;
+    timer->thread = std::thread([state, elapsed, proc]() {
+        do {
+            if (state->wait_for_cancel_or_timeout(elapsed)) break;
+            if (state->cancelled.load()) break;
+            kainote_dispatch_timer_proc(proc);
+        } while (!state->cancelled.load());
+    });
+
+    std::unique_ptr<KainoteTimerHandle> old;
+    auto key = std::make_pair(reinterpret_cast<std::uintptr_t>(hwnd), id);
+    {
+        std::lock_guard<std::mutex> lock(kainote_window_timer_mutex());
+        auto& timers = kainote_window_timers();
+        auto it = timers.find(key);
+        if (it != timers.end()) {
+            old = std::move(it->second);
+            timers.erase(it);
+        }
+        timers.emplace(key, std::move(timer));
+    }
+    return id;
+}
+inline BOOL KillTimer(HWND hwnd, UINT id) {
+    std::unique_ptr<KainoteTimerHandle> timer;
+    auto key = std::make_pair(reinterpret_cast<std::uintptr_t>(hwnd), id);
+    {
+        std::lock_guard<std::mutex> lock(kainote_window_timer_mutex());
+        auto& timers = kainote_window_timers();
+        auto it = timers.find(key);
+        if (it == timers.end()) return FALSE;
+        timer = std::move(it->second);
+        timers.erase(it);
+    }
+    return TRUE;
+}
 #ifndef MAXINT
 #define MAXINT INT32_MAX
 #endif
@@ -377,7 +514,12 @@ constexpr int DEFAULT_PITCH = 0;
 constexpr int FF_DONTCARE = 0;
 constexpr int CLEARTYPE_QUALITY = 5;
 struct SYSTEM_INFO { DWORD dwNumberOfProcessors{1}; };
-inline void GetSystemInfo(SYSTEM_INFO* si) { if (si) si->dwNumberOfProcessors = 1; }
+inline void GetSystemInfo(SYSTEM_INFO* si) {
+    if (!si) return;
+    long processors = sysconf(_SC_NPROCESSORS_ONLN);
+    if (processors < 1) processors = static_cast<long>(std::thread::hardware_concurrency());
+    si->dwNumberOfProcessors = static_cast<DWORD>(std::max<long>(1, processors));
+}
 constexpr int SM_CXICON = 11;
 constexpr int SM_CYICON = 12;
 constexpr DWORD WAIT_OBJECT_0 = 0;
@@ -429,6 +571,20 @@ inline DWORD WaitForSingleObject(HANDLE h, DWORD ms) {
         if (!ev->manualReset) ev->signaled = false;
         return WAIT_OBJECT_0;
     }
+    if (base->kind == KainoteHandleBase::Kind::ChangeNotification) {
+        auto* change = static_cast<KainoteChangeNotificationHandle*>(base);
+        if (change->fd < 0) return WAIT_FAILED;
+        pollfd pfd{};
+        pfd.fd = change->fd;
+        pfd.events = POLLIN;
+        const int timeout = (ms == INFINITE) ? -1 : static_cast<int>(ms);
+        int result = poll(&pfd, 1, timeout);
+        if (result == 0) return WAIT_TIMEOUT;
+        if (result < 0) return WAIT_FAILED;
+        char buffer[4096];
+        while (read(change->fd, buffer, sizeof(buffer)) > 0) {}
+        return WAIT_OBJECT_0;
+    }
     return WAIT_FAILED;
 }
 inline DWORD WaitForMultipleObjects(DWORD count, const HANDLE* handles, BOOL waitAll, DWORD ms) {
@@ -473,15 +629,15 @@ inline HANDLE CreateThread(void*, size_t, LPTHREAD_START_ROUTINE proc, void* dat
 }
 inline BOOL CreateTimerQueueTimer(HANDLE* out, HANDLE, WAITORTIMERCALLBACK cb, PVOID param, DWORD due, DWORD period, ULONG) {
     if (!cb) return FALSE;
-    auto* timer = new KainoteTimerHandle(std::thread());
-    timer->thread = std::thread([timer, cb, param, due, period]() {
-        std::this_thread::sleep_for(std::chrono::milliseconds(due));
+    auto* timer = new KainoteTimerHandle();
+    auto state = timer->state;
+    timer->thread = std::thread([state, cb, param, due, period]() {
+        if (state->wait_for_cancel_or_timeout(due)) return;
         do {
-            if (timer->cancelled) break;
+            if (state->cancelled.load()) break;
             cb(param, TRUE);
             if (!period) break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(period));
-        } while (!timer->cancelled);
+        } while (!state->wait_for_cancel_or_timeout(period));
     });
     if (out) *out = reinterpret_cast<HANDLE>(timer);
     return TRUE;
@@ -501,26 +657,237 @@ constexpr int CSIDL_FLAG_CREATE = 0x8000;
 constexpr DWORD GGI_MARK_NONEXISTING_GLYPHS = 0x1;
 constexpr DWORD GDI_ERROR = 0xffffffffu;
 inline HRESULT SHGetFolderPath(HWND, int, HANDLE, DWORD, LPWSTR path) { if (!path) return -1; const char* home = std::getenv("HOME"); std::wstring w = kainote_utf8_to_wstring(std::string(home ? home : "/tmp") + "/.local/share"); std::wcsncpy(path, w.c_str(), MAX_PATH - 1); path[MAX_PATH - 1] = L'\0'; return 0; }
-inline DWORD GetGlyphIndicesW(HDC, LPCWSTR text, int count, LPWORD indices, DWORD) { if (!text || !indices) return GDI_ERROR; if (count < 0) count = std::wcslen(text); for (int i = 0; i < count; ++i) indices[i] = text[i] ? static_cast<WORD>(text[i]) : 0xffff; return static_cast<DWORD>(count); }
-inline HDC GetDC(HWND) { return nullptr; }
-inline HDC CreateCompatibleDC(HDC) { return reinterpret_cast<HDC>(new int(0)); }
-inline BOOL DeleteDC(HDC dc) { delete reinterpret_cast<int*>(dc); return TRUE; }
+
+struct KainoteLinuxFontFace {
+    std::wstring family;
+    std::string file;
+    int weight{FW_NORMAL};
+    bool italic{};
+};
+
+inline std::wstring kainote_lower_wstring(std::wstring value) {
+    std::transform(value.begin(), value.end(), value.begin(), [](wchar_t ch) { return static_cast<wchar_t>(std::towlower(ch)); });
+    return value;
+}
+
+inline int kainote_fc_to_win_weight(int weight) {
+    if (weight >= FC_WEIGHT_BOLD) return FW_BOLD;
+    if (weight >= FC_WEIGHT_DEMIBOLD) return 600;
+    return FW_NORMAL;
+}
+
+inline int kainote_win_to_fc_weight(int weight) {
+    return weight >= FW_BOLD ? FC_WEIGHT_BOLD : FC_WEIGHT_REGULAR;
+}
+
+inline LOGFONTW kainote_logfont_from_face(const KainoteLinuxFontFace& face) {
+    LOGFONTW lf{};
+    lf.lfCharSet = DEFAULT_CHARSET;
+    lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+    lf.lfOutPrecision = OUT_TT_PRECIS;
+    lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+    lf.lfQuality = ANTIALIASED_QUALITY;
+    lf.lfWeight = face.weight;
+    lf.lfItalic = face.italic ? 0xff : 0;
+    std::wcsncpy(lf.lfFaceName, face.family.c_str(), WXSIZEOF(lf.lfFaceName) - 1);
+    lf.lfFaceName[WXSIZEOF(lf.lfFaceName) - 1] = L'\0';
+    return lf;
+}
+
+inline std::vector<KainoteLinuxFontFace> kainote_linux_list_fonts(const std::wstring& familyFilter = std::wstring()) {
+    std::vector<KainoteLinuxFontFace> faces;
+    if (!FcInit()) return faces;
+
+    FcPattern* pattern = FcPatternCreate();
+    FcObjectSet* objects = FcObjectSetBuild(FC_FAMILY, FC_FILE, FC_WEIGHT, FC_SLANT, nullptr);
+    if (!pattern || !objects) {
+        if (pattern) FcPatternDestroy(pattern);
+        if (objects) FcObjectSetDestroy(objects);
+        return faces;
+    }
+
+    FcFontSet* fonts = FcFontList(nullptr, pattern, objects);
+    const std::wstring filter = kainote_lower_wstring(familyFilter);
+    if (fonts) {
+        for (int i = 0; i < fonts->nfont; ++i) {
+            FcPattern* font = fonts->fonts[i];
+            FcChar8* familyRaw = nullptr;
+            if (FcPatternGetString(font, FC_FAMILY, 0, &familyRaw) != FcResultMatch || !familyRaw) continue;
+            std::wstring family = kainote_utf8_to_wstring(reinterpret_cast<const char*>(familyRaw));
+            if (!filter.empty() && kainote_lower_wstring(family) != filter) continue;
+
+            KainoteLinuxFontFace face;
+            face.family = std::move(family);
+            FcChar8* fileRaw = nullptr;
+            if (FcPatternGetString(font, FC_FILE, 0, &fileRaw) == FcResultMatch && fileRaw)
+                face.file = reinterpret_cast<const char*>(fileRaw);
+            int weight = FC_WEIGHT_REGULAR;
+            if (FcPatternGetInteger(font, FC_WEIGHT, 0, &weight) == FcResultMatch)
+                face.weight = kainote_fc_to_win_weight(weight);
+            int slant = FC_SLANT_ROMAN;
+            if (FcPatternGetInteger(font, FC_SLANT, 0, &slant) == FcResultMatch)
+                face.italic = slant != FC_SLANT_ROMAN;
+            faces.push_back(std::move(face));
+        }
+        FcFontSetDestroy(fonts);
+    }
+    FcObjectSetDestroy(objects);
+    FcPatternDestroy(pattern);
+    return faces;
+}
+
+inline std::vector<std::string> kainote_linux_collect_font_files() {
+    std::vector<std::string> files;
+    for (const auto& face : kainote_linux_list_fonts()) {
+        if (!face.file.empty()) files.push_back(face.file);
+    }
+    std::sort(files.begin(), files.end());
+    files.erase(std::unique(files.begin(), files.end()), files.end());
+    return files;
+}
+
+struct KainoteGdiBase {
+    enum class Kind { Dc, Font } kind;
+    explicit KainoteGdiBase(Kind k) : kind(k) {}
+    virtual ~KainoteGdiBase() = default;
+};
+
+struct KainoteFontObject : KainoteGdiBase {
+    LOGFONTW logfont{};
+    std::string file;
+    FcCharSet* charset{};
+    explicit KainoteFontObject(const LOGFONTW& lf) : KainoteGdiBase(Kind::Font), logfont(lf) {}
+    ~KainoteFontObject() override { if (charset) FcCharSetDestroy(charset); }
+};
+
+struct KainoteDcObject : KainoteGdiBase {
+    KainoteFontObject* selectedFont{};
+    KainoteDcObject() : KainoteGdiBase(Kind::Dc) {}
+};
+
+inline KainoteGdiBase* kainote_gdi_base(void* handle) {
+    return handle ? reinterpret_cast<KainoteGdiBase*>(handle) : nullptr;
+}
+
+inline KainoteDcObject* kainote_dc(HDC dc) {
+    auto* base = kainote_gdi_base(dc);
+    return base && base->kind == KainoteGdiBase::Kind::Dc ? static_cast<KainoteDcObject*>(base) : nullptr;
+}
+
+inline KainoteFontObject* kainote_font(HGDIOBJ font) {
+    auto* base = kainote_gdi_base(font);
+    return base && base->kind == KainoteGdiBase::Kind::Font ? static_cast<KainoteFontObject*>(base) : nullptr;
+}
+
+inline void kainote_fill_font_object_from_match(KainoteFontObject* out) {
+    if (!out || !FcInit()) return;
+    FcPattern* pattern = FcPatternCreate();
+    if (!pattern) return;
+
+    if (out->logfont.lfFaceName[0]) {
+        std::string family = kainote_wstring_to_utf8(out->logfont.lfFaceName);
+        FcPatternAddString(pattern, FC_FAMILY, reinterpret_cast<const FcChar8*>(family.c_str()));
+    }
+    FcPatternAddInteger(pattern, FC_WEIGHT, kainote_win_to_fc_weight(static_cast<int>(out->logfont.lfWeight)));
+    FcPatternAddInteger(pattern, FC_SLANT, out->logfont.lfItalic ? FC_SLANT_ITALIC : FC_SLANT_ROMAN);
+    FcConfigSubstitute(nullptr, pattern, FcMatchPattern);
+    FcDefaultSubstitute(pattern);
+
+    FcResult result = FcResultNoMatch;
+    FcPattern* match = FcFontMatch(nullptr, pattern, &result);
+    if (match) {
+        FcChar8* fileRaw = nullptr;
+        if (FcPatternGetString(match, FC_FILE, 0, &fileRaw) == FcResultMatch && fileRaw)
+            out->file = reinterpret_cast<const char*>(fileRaw);
+        FcCharSet* charset = nullptr;
+        if (FcPatternGetCharSet(match, FC_CHARSET, 0, &charset) == FcResultMatch && charset)
+            out->charset = FcCharSetCopy(charset);
+        FcChar8* familyRaw = nullptr;
+        if (FcPatternGetString(match, FC_FAMILY, 0, &familyRaw) == FcResultMatch && familyRaw) {
+            std::wstring family = kainote_utf8_to_wstring(reinterpret_cast<const char*>(familyRaw));
+            std::wcsncpy(out->logfont.lfFaceName, family.c_str(), WXSIZEOF(out->logfont.lfFaceName) - 1);
+            out->logfont.lfFaceName[WXSIZEOF(out->logfont.lfFaceName) - 1] = L'\0';
+        }
+        FcPatternDestroy(match);
+    }
+    FcPatternDestroy(pattern);
+}
+
+inline DWORD GetGlyphIndicesW(HDC dc, LPCWSTR text, int count, LPWORD indices, DWORD) {
+    if (!text || !indices) return GDI_ERROR;
+    if (count < 0) count = std::wcslen(text);
+    auto* context = kainote_dc(dc);
+    auto* font = context ? context->selectedFont : nullptr;
+    for (int i = 0; i < count; ++i) {
+        const wchar_t ch = text[i];
+        bool present = ch != 0;
+        if (font && font->charset)
+            present = FcCharSetHasChar(font->charset, static_cast<FcChar32>(ch));
+        indices[i] = present ? 1 : 0xffff;
+    }
+    return static_cast<DWORD>(count);
+}
+
+inline HDC GetDC(HWND) { return reinterpret_cast<HDC>(new KainoteDcObject()); }
+inline HDC CreateCompatibleDC(HDC) { return reinterpret_cast<HDC>(new KainoteDcObject()); }
+inline BOOL DeleteDC(HDC dc) { auto* context = kainote_dc(dc); if (!context) return FALSE; delete context; return TRUE; }
 inline int SetMapMode(HDC, int mode) { return mode; }
 inline int GetDeviceCaps(HDC, int) { return 96; }
-inline int ReleaseDC(HWND, HDC) { return 1; }
-inline HGDIOBJ CreateFontIndirectW(const LOGFONTW*) { return nullptr; }
+inline int ReleaseDC(HWND, HDC dc) { return DeleteDC(dc) ? 1 : 0; }
+inline HGDIOBJ CreateFontIndirectW(const LOGFONTW* lf) { LOGFONTW copy = lf ? *lf : LOGFONTW{}; auto* font = new KainoteFontObject(copy); kainote_fill_font_object_from_match(font); return reinterpret_cast<HGDIOBJ>(font); }
 #define CreateFontIndirect CreateFontIndirectW
-inline HGDIOBJ SelectObject(HDC, HGDIOBJ obj) { return obj; }
-inline BOOL DeleteObject(HGDIOBJ) { return TRUE; }
+inline HGDIOBJ SelectObject(HDC dc, HGDIOBJ obj) { auto* context = kainote_dc(dc); if (!context) return nullptr; HGDIOBJ old = reinterpret_cast<HGDIOBJ>(context->selectedFont); context->selectedFont = kainote_font(obj); return old; }
+inline BOOL DeleteObject(HGDIOBJ obj) { auto* base = kainote_gdi_base(obj); if (!base) return TRUE; delete base; return TRUE; }
 inline BOOL GetTextExtentPoint32(HDC, const wchar_t* text, int len, SIZE* size) { if (size) { size->cx = std::max(0, len) * 8 * 64; size->cy = 16 * 64; } return TRUE; }
 inline BOOL GetTextMetrics(HDC, TEXTMETRIC* tm) { if (tm) { tm->tmDescent = 3 * 64; tm->tmExternalLeading = 0; } return TRUE; }
-inline int EnumFontFamiliesEx(HDC, LOGFONTW*, FONTENUMPROC proc, LPARAM lParam, DWORD) { if (proc) { LOGFONTW lf{}; std::wcscpy(lf.lfFaceName, L"Sans"); TEXTMETRIC tm{}; proc(&lf, &tm, 0, lParam); } return 1; }
-inline DWORD GetFontData(HDC, DWORD, DWORD, void*, DWORD) { return GDI_ERROR; }
-inline HANDLE FindFirstChangeNotification(const wchar_t*, BOOL, DWORD) { return INVALID_HANDLE_VALUE; }
-inline BOOL FindNextChangeNotification(HANDLE) { return FALSE; }
-inline BOOL FindCloseChangeNotification(HANDLE) { return TRUE; }
-inline int AddFontResourceExW(const wchar_t*, DWORD, void*) { return 0; }
-inline BOOL RemoveFontResourceExW(const wchar_t*, DWORD, void*) { return TRUE; }
+inline int EnumFontFamiliesEx(HDC, LOGFONTW* requested, FONTENUMPROC proc, LPARAM lParam, DWORD) {
+    if (!proc) return 0;
+    std::wstring familyFilter;
+    if (requested && requested->lfFaceName[0]) familyFilter = requested->lfFaceName;
+    auto faces = kainote_linux_list_fonts(familyFilter);
+    TEXTMETRIC tm{};
+    for (const auto& face : faces) {
+        LOGFONTW lf = kainote_logfont_from_face(face);
+        if (!proc(&lf, &tm, 0, lParam)) break;
+    }
+    return static_cast<int>(faces.size());
+}
+inline DWORD GetFontData(HDC dc, DWORD, DWORD offset, void* buffer, DWORD length) {
+    auto* context = kainote_dc(dc);
+    auto* font = context ? context->selectedFont : nullptr;
+    if (!font || font->file.empty()) return GDI_ERROR;
+    std::ifstream input(font->file, std::ios::binary | std::ios::ate);
+    if (!input) return GDI_ERROR;
+    std::streamoff size = input.tellg();
+    if (size < 0 || static_cast<unsigned long long>(size) > 0xffffffffull) return GDI_ERROR;
+    if (!buffer || length == 0) return static_cast<DWORD>(size);
+    if (offset >= static_cast<DWORD>(size)) return GDI_ERROR;
+    const DWORD available = static_cast<DWORD>(size) - offset;
+    const DWORD toRead = std::min(length, available);
+    input.seekg(offset, std::ios::beg);
+    input.read(reinterpret_cast<char*>(buffer), toRead);
+    return static_cast<DWORD>(input.gcount());
+}
+inline HANDLE FindFirstChangeNotification(const wchar_t* path, BOOL, DWORD) {
+    if (!path) return INVALID_HANDLE_VALUE;
+    std::string normalized = kainote_normalize_path(path);
+    int fd = inotify_init1(IN_NONBLOCK | IN_CLOEXEC);
+    if (fd < 0) return INVALID_HANDLE_VALUE;
+    const uint32_t mask = IN_CREATE | IN_DELETE | IN_MOVED_FROM | IN_MOVED_TO | IN_CLOSE_WRITE | IN_ATTRIB;
+    int wd = inotify_add_watch(fd, normalized.c_str(), mask);
+    if (wd < 0) {
+        close(fd);
+        return INVALID_HANDLE_VALUE;
+    }
+    return reinterpret_cast<HANDLE>(new KainoteChangeNotificationHandle(fd, wd));
+}
+inline BOOL FindNextChangeNotification(HANDLE h) {
+    auto* base = kainote_handle(h);
+    return base && base->kind == KainoteHandleBase::Kind::ChangeNotification ? TRUE : FALSE;
+}
+inline BOOL FindCloseChangeNotification(HANDLE h) { return CloseHandle(h) ? TRUE : FALSE; }
+inline int AddFontResourceExW(const wchar_t* path, DWORD, void*) { if (!path || !FcInit()) return 0; std::string p = kainote_normalize_path(path); FcConfig* config = FcConfigGetCurrent(); if (!config) return 0; if (!FcConfigAppFontAddFile(config, reinterpret_cast<const FcChar8*>(p.c_str()))) return 0; FcConfigBuildFonts(config); return 1; }
+inline BOOL RemoveFontResourceExW(const wchar_t*, DWORD, void*) { if (!FcInit()) return FALSE; FcConfig* config = FcConfigGetCurrent(); if (!config) return FALSE; FcConfigAppFontClear(config); FcConfigBuildFonts(config); return TRUE; }
 inline LRESULT SendMessage(HWND, UINT, WPARAM, LPARAM) { return 0; }
 inline HICON GetHiconOf(...) { return nullptr; }
 inline HRESULT CoInitialize(void*) { return 0; }
@@ -561,13 +928,179 @@ inline HKEY HKEY_CURRENT_USER = reinterpret_cast<HKEY>(static_cast<std::uintptr_
 constexpr DWORD KEY_ALL_ACCESS = 0xf003f;
 constexpr DWORD REG_OPTION_NON_VOLATILE = 0;
 constexpr DWORD REG_SZ = 1;
-inline long RegOpenKeyEx(HKEY, LPCWSTR, DWORD, DWORD, HKEY*) { return 1; }
-inline long RegCreateKeyEx(HKEY, LPCWSTR, DWORD, LPWSTR, DWORD, DWORD, void*, HKEY* out, DWORD*) { if (out) *out = reinterpret_cast<HKEY>(new int(0)); return 0; }
-inline long RegCloseKey(HKEY h) { delete reinterpret_cast<int*>(h); return 0; }
-inline long RegSetValueExW(HKEY, LPCWSTR, DWORD, DWORD, const BYTE*, DWORD) { return 0; }
+constexpr long ERROR_SUCCESS = 0;
+constexpr long ERROR_INVALID_PARAMETER = 87;
+constexpr long ERROR_MORE_DATA = 234;
+
+struct KainoteRegistryHandle {
+    std::wstring path;
+    explicit KainoteRegistryHandle(std::wstring p) : path(std::move(p)) {}
+};
+
+inline std::mutex& kainote_registry_mutex() { static std::mutex m; return m; }
+inline char kainote_hex_digit(unsigned value) { return static_cast<char>(value < 10 ? '0' + value : 'a' + value - 10); }
+inline int kainote_hex_value(char ch) {
+    if (ch >= '0' && ch <= '9') return ch - '0';
+    if (ch >= 'a' && ch <= 'f') return ch - 'a' + 10;
+    if (ch >= 'A' && ch <= 'F') return ch - 'A' + 10;
+    return -1;
+}
+inline std::string kainote_hex_encode(const std::string& input) {
+    std::string out;
+    out.reserve(input.size() * 2);
+    for (unsigned char ch : input) {
+        out.push_back(kainote_hex_digit(ch >> 4));
+        out.push_back(kainote_hex_digit(ch & 0xf));
+    }
+    return out;
+}
+inline std::string kainote_hex_decode(const std::string& input) {
+    std::string out;
+    if (input.size() % 2) return out;
+    out.reserve(input.size() / 2);
+    for (std::size_t i = 0; i < input.size(); i += 2) {
+        int hi = kainote_hex_value(input[i]);
+        int lo = kainote_hex_value(input[i + 1]);
+        if (hi < 0 || lo < 0) return {};
+        out.push_back(static_cast<char>((hi << 4) | lo));
+    }
+    return out;
+}
+inline std::string kainote_registry_encode(const std::wstring& input) { return kainote_hex_encode(kainote_wstring_to_utf8(input)); }
+inline std::wstring kainote_registry_decode(const std::string& input) { return kainote_utf8_to_wstring(kainote_hex_decode(input)); }
+inline std::filesystem::path kainote_registry_store_path() {
+    const char* xdg = std::getenv("XDG_CONFIG_HOME");
+    std::filesystem::path dir;
+    if (xdg && *xdg) dir = std::filesystem::path(xdg) / "kainote";
+    else {
+        const char* home = std::getenv("HOME");
+        dir = std::filesystem::path(home && *home ? home : "/tmp") / ".config" / "kainote";
+    }
+    std::error_code ec;
+    std::filesystem::create_directories(dir, ec);
+    return dir / "registry-kv.txt";
+}
+using KainoteRegistryStore = std::map<std::wstring, std::map<std::wstring, std::wstring>>;
+inline KainoteRegistryStore kainote_load_registry_store() {
+    KainoteRegistryStore store;
+    std::ifstream input(kainote_registry_store_path());
+    std::string line;
+    while (std::getline(input, line)) {
+        auto first = line.find('\t');
+        auto second = first == std::string::npos ? std::string::npos : line.find('\t', first + 1);
+        if (first == std::string::npos || second == std::string::npos) continue;
+        std::wstring key = kainote_registry_decode(line.substr(0, first));
+        std::wstring name = kainote_registry_decode(line.substr(first + 1, second - first - 1));
+        std::wstring value = kainote_registry_decode(line.substr(second + 1));
+        if (!key.empty()) store[key][name] = value;
+    }
+    return store;
+}
+inline KainoteRegistryStore& kainote_registry_store() { static KainoteRegistryStore store = kainote_load_registry_store(); return store; }
+inline void kainote_save_registry_store() {
+    std::ofstream output(kainote_registry_store_path(), std::ios::trunc);
+    for (const auto& [key, values] : kainote_registry_store()) {
+        for (const auto& [name, value] : values) {
+            output << kainote_registry_encode(key) << '\t' << kainote_registry_encode(name) << '\t' << kainote_registry_encode(value) << '\n';
+        }
+        if (values.empty()) output << kainote_registry_encode(key) << '\t' << '\t' << '\n';
+    }
+}
+inline std::wstring kainote_registry_normalize_subkey(LPCWSTR subkey) {
+    std::wstring value = subkey ? std::wstring(subkey) : std::wstring();
+    std::replace(value.begin(), value.end(), L'/', L'\\');
+    while (!value.empty() && value.front() == L'\\') value.erase(value.begin());
+    while (!value.empty() && value.back() == L'\\') value.pop_back();
+    return value;
+}
+inline std::wstring kainote_registry_base_path(HKEY key) {
+    if (key == HKEY_CURRENT_USER) return L"HKEY_CURRENT_USER";
+    auto* handle = reinterpret_cast<KainoteRegistryHandle*>(key);
+    return handle ? handle->path : std::wstring();
+}
+inline std::wstring kainote_registry_join(HKEY key, LPCWSTR subkey) {
+    std::wstring base = kainote_registry_base_path(key);
+    std::wstring sub = kainote_registry_normalize_subkey(subkey);
+    if (base.empty()) return sub;
+    if (sub.empty()) return base;
+    return base + L"\\" + sub;
+}
+inline long RegOpenKeyEx(HKEY hKey, LPCWSTR subKey, DWORD, DWORD, HKEY* out) {
+    if (!out) return ERROR_INVALID_PARAMETER;
+    *out = nullptr;
+    std::wstring path = kainote_registry_join(hKey, subKey);
+    if (path.empty()) return ERROR_INVALID_PARAMETER;
+    std::lock_guard<std::mutex> lock(kainote_registry_mutex());
+    auto& store = kainote_registry_store();
+    if (store.find(path) == store.end()) return ERROR_FILE_NOT_FOUND;
+    *out = reinterpret_cast<HKEY>(new KainoteRegistryHandle(path));
+    return ERROR_SUCCESS;
+}
+inline long RegCreateKeyEx(HKEY hKey, LPCWSTR subKey, DWORD, LPWSTR, DWORD, DWORD, void*, HKEY* out, DWORD*) {
+    if (!out) return ERROR_INVALID_PARAMETER;
+    *out = nullptr;
+    std::wstring path = kainote_registry_join(hKey, subKey);
+    if (path.empty()) return ERROR_INVALID_PARAMETER;
+    std::lock_guard<std::mutex> lock(kainote_registry_mutex());
+    kainote_registry_store().try_emplace(path);
+    kainote_save_registry_store();
+    *out = reinterpret_cast<HKEY>(new KainoteRegistryHandle(path));
+    return ERROR_SUCCESS;
+}
+inline long RegCloseKey(HKEY h) {
+    if (!h || h == HKEY_CURRENT_USER) return ERROR_SUCCESS;
+    delete reinterpret_cast<KainoteRegistryHandle*>(h);
+    return ERROR_SUCCESS;
+}
+inline long RegSetValueExW(HKEY hKey, LPCWSTR valueName, DWORD, DWORD type, const BYTE* data, DWORD) {
+    if (type != REG_SZ) return ERROR_INVALID_PARAMETER;
+    std::wstring path = kainote_registry_base_path(hKey);
+    if (path.empty() || hKey == HKEY_CURRENT_USER) return ERROR_INVALID_PARAMETER;
+    std::wstring name = valueName ? std::wstring(valueName) : std::wstring();
+    std::wstring value = data ? std::wstring(reinterpret_cast<const wchar_t*>(data)) : std::wstring();
+    std::lock_guard<std::mutex> lock(kainote_registry_mutex());
+    kainote_registry_store()[path][name] = value;
+    kainote_save_registry_store();
+    return ERROR_SUCCESS;
+}
 template <typename TypePtr, typename SizePtr>
-inline long RegQueryValueExW(HKEY, LPCWSTR, DWORD*, TypePtr type, LPBYTE, SizePtr) { if (type) *type = REG_SZ; return 1; }
-inline long RegDeleteTree(HKEY, LPCWSTR) { return 0; }
+inline long RegQueryValueExW(HKEY hKey, LPCWSTR valueName, DWORD*, TypePtr type, LPBYTE data, SizePtr size) {
+    std::wstring path = kainote_registry_base_path(hKey);
+    if (path.empty() || hKey == HKEY_CURRENT_USER) return ERROR_INVALID_PARAMETER;
+    std::wstring name = valueName ? std::wstring(valueName) : std::wstring();
+    std::lock_guard<std::mutex> lock(kainote_registry_mutex());
+    auto keyIt = kainote_registry_store().find(path);
+    if (keyIt == kainote_registry_store().end()) return ERROR_FILE_NOT_FOUND;
+    auto valueIt = keyIt->second.find(name);
+    if (valueIt == keyIt->second.end()) return ERROR_FILE_NOT_FOUND;
+    if (type) *type = REG_SZ;
+    const std::wstring& value = valueIt->second;
+    const std::size_t required = (value.size() + 1) * sizeof(wchar_t);
+    if (size && static_cast<std::size_t>(*size) < required) {
+        *size = required;
+        return ERROR_MORE_DATA;
+    }
+    if (data) std::wmemcpy(reinterpret_cast<wchar_t*>(data), value.c_str(), value.size() + 1);
+    if (size) *size = required;
+    return ERROR_SUCCESS;
+}
+inline long RegDeleteTree(HKEY hKey, LPCWSTR subKey) {
+    std::wstring path = kainote_registry_join(hKey, subKey);
+    if (path.empty()) return ERROR_INVALID_PARAMETER;
+    std::lock_guard<std::mutex> lock(kainote_registry_mutex());
+    auto& store = kainote_registry_store();
+    bool removed = false;
+    for (auto it = store.begin(); it != store.end();) {
+        if (it->first == path || it->first.rfind(path + L"\\", 0) == 0) {
+            it = store.erase(it);
+            removed = true;
+        } else {
+            ++it;
+        }
+    }
+    if (removed) kainote_save_registry_store();
+    return removed ? ERROR_SUCCESS : ERROR_FILE_NOT_FOUND;
+}
 constexpr long SHCNE_ASSOCCHANGED = 0x08000000L;
 constexpr unsigned SHCNF_IDLIST = 0;
 inline void SHChangeNotify(long, unsigned, const void*, const void*) {}

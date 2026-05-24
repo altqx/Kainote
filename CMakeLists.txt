@@ -16,6 +16,7 @@ pkg_check_modules(ICU_UC REQUIRED IMPORTED_TARGET icu-uc)
 pkg_check_modules(ICU_I18N REQUIRED IMPORTED_TARGET icu-i18n)
 pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET libavformat libavcodec libavutil)
 pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
+pkg_check_modules(FONTCONFIG REQUIRED IMPORTED_TARGET fontconfig)
 
 find_library(LUA_RUNTIME_LIBRARY
     NAMES liblua5.1.so.0 lua5.1
@@ -189,7 +190,7 @@ target_include_directories(kainote PRIVATE
     ${CMAKE_SOURCE_DIR}/Thirdparty/DependencyControl/include
     ${CMAKE_SOURCE_DIR}/Thirdparty/ffms2/src
 )
-target_link_libraries(kainote PRIVATE ${wxWidgets_LIBRARIES} PkgConfig::LIBASS PkgConfig::FFMS2 PkgConfig::LUA PkgConfig::HUNSPELL PkgConfig::UCHARDET PkgConfig::LIBCURL PkgConfig::ICU_UC PkgConfig::ICU_I18N PkgConfig::FFMPEG PkgConfig::SDL2 Boost::filesystem Boost::locale Boost::regex Boost::system GL ${CMAKE_DL_LIBS})
+target_link_libraries(kainote PRIVATE ${wxWidgets_LIBRARIES} PkgConfig::LIBASS PkgConfig::FFMS2 PkgConfig::LUA PkgConfig::HUNSPELL PkgConfig::UCHARDET PkgConfig::LIBCURL PkgConfig::ICU_UC PkgConfig::ICU_I18N PkgConfig::FFMPEG PkgConfig::SDL2 PkgConfig::FONTCONFIG Boost::filesystem Boost::locale Boost::regex Boost::system GL ${CMAKE_DL_LIBS})
 set_target_properties(kainote PROPERTIES
     BUILD_RPATH "$ORIGIN:$ORIGIN/pulseaudio"
     INSTALL_RPATH "$ORIGIN:$ORIGIN/pulseaudio"
