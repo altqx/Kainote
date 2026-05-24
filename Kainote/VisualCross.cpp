@@ -34,6 +34,11 @@ Cross::Cross()
 
 }
 
+Cross::~Cross()
+{
+	SAFE_RELEASE(calcfont);
+}
+
 void Cross::OnMouseEvent(wxMouseEvent &event)
 {
 	if ((tab->video->IsFullScreen() && tab->video->GetFullScreenWindow() &&
@@ -287,6 +292,7 @@ void Cross::SizeChanged(wxRect wsize, LPD3DXLINE _line, LPD3DXFONT _font, LPDIRE
 	Visuals::SizeChanged(wsize, _line, _font, _device);
 	wxFont* font12 = Options.GetFont(4);
 	wxSize pixelSize = font12->GetPixelSize();
+	SAFE_RELEASE(calcfont);
 	if (pixelSize.x == 0 || pixelSize.y == 0) { return; }
 	HRN(D3DXCreateFontW(device, pixelSize.y, 0, FW_BOLD, 0, FALSE, 
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLEARTYPE_QUALITY,

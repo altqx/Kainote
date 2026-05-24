@@ -530,6 +530,33 @@ bool kainoteApp::OnInit()
 			}, 2299);
 		}
 
+#ifndef _WIN32
+		if (const char* autoExitMsText = std::getenv("KAINOTE_AUTOMATION_EXIT_MS")){
+			long autoExitMs = std::strtol(autoExitMsText, nullptr, 10);
+			if (autoExitMs < 1)
+				autoExitMs = 1000;
+			automationExitTimer.SetOwner(this, 3299);
+			Bind(wxEVT_TIMER, [this](wxTimerEvent &evt){
+				for (wxWindowList::compatibility_iterator node = wxTopLevelWindows.GetFirst(); node; node = node->GetNext()){
+					wxWindow* window = node->GetData();
+					KaiDialog* kaiDialog = (window && window->IsKindOf(CLASSINFO(KaiDialog))) ? static_cast<KaiDialog*>(window) : nullptr;
+					if (kaiDialog && kaiDialog->IsShown() && kaiDialog->IsModal()){
+						kaiDialog->EndModal(kaiDialog->GetEscapeId());
+						automationExitTimer.Start(250, true);
+						return;
+					}
+					wxDialog* wxDialogWindow = (window && window->IsKindOf(CLASSINFO(wxDialog))) ? static_cast<wxDialog*>(window) : nullptr;
+					if (wxDialogWindow && wxDialogWindow->IsShown() && wxDialogWindow->IsModal()){
+						automationExitTimer.Start(250, true);
+						return;
+					}
+				}
+				if (Frame)
+					Frame->Close();
+			}, 3299);
+			automationExitTimer.Start(autoExitMs, true);
+		}
+#endif
 
 		wxString path = Options.GetString(EXTERNAL_FONTS_DIRECTORY);
 		if(!path.empty())

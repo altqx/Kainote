@@ -48,7 +48,10 @@ namespace
 		if (!frame || width <= 0 || height <= 0 || pitch < width * 4)
 			return;
 
-		unsigned char* rgb = new unsigned char[width * height * 3];
+		const size_t rgbSize = static_cast<size_t>(width) * static_cast<size_t>(height) * 3;
+		unsigned char* rgb = static_cast<unsigned char*>(std::malloc(rgbSize));
+		if (!rgb)
+			return;
 		for (int y = 0; y < height; ++y) {
 			const unsigned char* src = frame + (y * pitch);
 			unsigned char* dst = rgb + (y * width * 3);

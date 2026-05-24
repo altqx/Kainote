@@ -137,6 +137,7 @@ KaiDialog::~KaiDialog()
 int KaiDialog::ShowModal()
 {
 	int result = wxID_CANCEL;
+	wxWindowDisabler disableOtherTopWindows(this);
 	Show();
 	if (IsShown()){
 		loop = new wxModalEventLoop(this);

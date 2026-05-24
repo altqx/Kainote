@@ -28,8 +28,7 @@ ProviderDummy::~ProviderDummy()
 		SetEvent(m_eventKillSelf);
 		WaitForSingleObject(m_thread, 20000);
 		CloseHandle(m_thread);
-		CloseHandle(m_eventStartPlayback);
-		CloseHandle(m_eventKillSelf);
+		m_thread = nullptr;
 	}
 
 	delete[] m_FrameBuffer;

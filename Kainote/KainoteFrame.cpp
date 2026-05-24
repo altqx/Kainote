@@ -550,6 +550,8 @@ void KainoteFrame::DestroyDialogs(){
 
 void KainoteFrame::ProgressSetup(const wxString& title)
 {
+	if (!This || Options.GetClosing())
+		return;
 	//DWORD windowsVersion = GetVersion();
 	//DWORD dwMajor = LOBYTE(LOWORD(windowsVersion));
 	//DWORD dwMinor = HIBYTE(LOWORD(windowsVersion));
@@ -567,6 +569,8 @@ void KainoteFrame::ProgressSetup(const wxString& title)
 
 void KainoteFrame::ProgressTitle(const wxString& title)
 {
+	if (!This || Options.GetClosing() || !This->StatusBar)
+		return;
 	This->progressTitle = title;
 	SubsTime progressTime;
 	progressTime.NewTime(timeGetTime() - This->progressFirstTime);
@@ -577,12 +581,14 @@ void KainoteFrame::ProgressTitle(const wxString& title)
 
 void KainoteFrame::ProgressParcentProgress(int parcent, bool showOnStatusBar)
 {
+	if (!This || Options.GetClosing())
+		return;
 	int newTime = timeGetTime() - This->progressFirstTime;
 	if (newTime + 10 > This->progressLastTime) {
 		if (This->taskbar) {
 			This->taskbar->SetProgressValue(This->GetHWND(), (ULONGLONG)parcent, 100);
 		}
-		if (showOnStatusBar) {
+		if (showOnStatusBar && This->StatusBar) {
 			SubsTime progressTime;
 			progressTime.NewTime(newTime);
 
@@ -596,19 +602,24 @@ void KainoteFrame::ProgressParcentProgress(int parcent, bool showOnStatusBar)
 
 void KainoteFrame::ProgressEnd()
 {
+	if (!This || Options.GetClosing())
+		return;
 	if (This->taskbar) {
 		This->taskbar->SetProgressState(This->GetHWND(), TBPF_NOPROGRESS);
 		This->taskbar = nullptr;
 	}
-	This->StatusBar->SetLabelText(0, L"");
+	if (This->StatusBar)
+		This->StatusBar->SetLabelText(0, L"");
 }
 
 bool KainoteFrame::ProgressIsInitialized() {
-	return This->taskbar != nullptr;
+	return This && !Options.GetClosing() && This->taskbar != nullptr;
 }
 
 void KainoteFrame::ProgressSetupEvent(const wxString& title)
 {
+	if (!This || Options.GetClosing())
+		return;
 	wxThreadEvent* evt = new wxThreadEvent(EVT_SETUP, This->GetId());
 	evt->SetPayload(title);
 	wxQueueEvent(This, evt);
@@ -616,6 +627,8 @@ void KainoteFrame::ProgressSetupEvent(const wxString& title)
 
 void KainoteFrame::ProgressTitleEvent(const wxString& title)
 {
+	if (!This || Options.GetClosing())
+		return;
 	wxThreadEvent* evt = new wxThreadEvent(EVT_SET_TITLE, This->GetId());
 	evt->SetPayload(title);
 	wxQueueEvent(This, evt);
@@ -623,6 +636,8 @@ void KainoteFrame::ProgressTitleEvent(const wxString& title)
 
 void KainoteFrame::ProgressParcentProgressEvent(int parcent)
 {
+	if (!This || Options.GetClosing())
+		return;
 	wxThreadEvent* evt = new wxThreadEvent(EVT_SET_PROGRESS, This->GetId());
 	evt->SetPayload(parcent);
 	wxQueueEvent(This, evt);
@@ -630,6 +645,8 @@ void KainoteFrame::ProgressParcentProgressEvent(int parcent)
 
 void KainoteFrame::ProgressEndEvent()
 {
+	if (!This || Options.GetClosing())
+		return;
 	wxThreadEvent* evt = new wxThreadEvent(EVT_END_PROGRESS, This->GetId());
 	wxQueueEvent(This, evt);
 }

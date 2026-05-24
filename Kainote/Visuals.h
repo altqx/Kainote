@@ -209,6 +209,7 @@ public:
 class Cross : public Visuals{
 public:
 	Cross();
+	~Cross() override;
 	void OnMouseEvent(wxMouseEvent &event);
 	void Draw(int time);
 	void DrawWx(wxDC& dc, int time) override;

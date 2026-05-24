@@ -28,7 +28,7 @@
 
 
 KaiToolbar::KaiToolbar(wxWindow *Parent, MenuBar *mainm, int id)
-	:wxWindow(Parent, -1, wxDefaultPosition, wxSize(thickness, -1))
+	:wxWindow(Parent, -1, wxDefaultPosition, wxSize(24, -1))
 	, bmp(nullptr)
 	, Clicked(false)
 	, wasmoved(false)

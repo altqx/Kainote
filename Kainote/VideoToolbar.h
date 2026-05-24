@@ -48,6 +48,7 @@ class VisualItem
 {
 public:
 	VisualItem(){};
+	virtual ~VisualItem() = default;
 	virtual void OnMouseEvent(wxMouseEvent &evt, int w, int h, VideoToolbar *vt){};
 	virtual void OnPaint(wxDC &dc, int w, int h, VideoToolbar *vt){};
 	virtual void Synchronize(VisualItem * item){};

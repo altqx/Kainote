@@ -1111,8 +1111,8 @@ namespace Auto{
 	VOID CALLBACK callbackfunc(PVOID   lpParameter, BOOLEAN TimerOrWaitFired) {
 		Automation *auto_ = (Automation*)lpParameter;
 		auto_->ReloadScripts(true);
-		DeleteTimerQueueTimer(auto_->handle, 0, 0);
-		SetEvent(auto_->eventEndAutoload);
+		if (auto_->eventEndAutoload)
+			SetEvent(auto_->eventEndAutoload);
 	}
 
 	Automation::Automation(bool loadSubsScripts, bool loadNow)
@@ -1143,6 +1143,12 @@ namespace Auto{
 		breakLoading = true;
 		if (eventEndAutoload){
 			WaitForSingleObject(eventEndAutoload, 50000);
+			CloseHandle(eventEndAutoload);
+			eventEndAutoload = nullptr;
+		}
+		if (handle) {
+			DeleteTimerQueueTimer(nullptr, handle, nullptr);
+			handle = nullptr;
 		}
 		if(finished)
 			SaveDummy();

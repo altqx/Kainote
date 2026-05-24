@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdlib>
+#include <limits>
 #include "UtilsWindows.h"
 #include "Provider.h"
 
@@ -108,11 +109,21 @@ void ProviderFFMS2::Processing()
 
 	progress->EndModal();
 
-	m_framePlane = m_height * m_width * 4;
+	if (!m_success || m_width <= 0 || m_height <= 0) {
+		SetEvent(m_eventComplete);
+		return;
+	}
+	const long long framePlane = static_cast<long long>(m_height) * static_cast<long long>(m_width) * 4;
+	if (framePlane > std::numeric_limits<int>::max()) {
+		KaiLog(_("Rozmiar klatki wideo jest zbyt duży"));
+		m_success = false;
+		SetEvent(m_eventComplete);
+		return;
+	}
+	m_framePlane = static_cast<int>(framePlane);
 	int tdiff = 0;
 
 	SetEvent(m_eventComplete);
-	if (m_width < 0) { return; }
 
 	while (1) {
 		DWORD wait_result = WaitForMultipleObjects(sizeof(events_to_wait) / sizeof(HANDLE), events_to_wait, FALSE, INFINITE);
@@ -488,6 +499,9 @@ audio:
 
 		if (FFMS_SetOutputFormatA(m_audioSource, resopts, &m_errInfo)) {
 			KaiLog(wxString::Format(_("Wystąpił błąd konwertowania audio: %s"), wxString::FromUTF8(m_errInfo.Buffer)));
+			FFMS_DestroyResampleOptions(resopts);
+			FFMS_DestroyAudioSource(m_audioSource);
+			m_audioSource = nullptr;
 			return 1;
 		}
 		FFMS_DestroyResampleOptions(resopts);
@@ -517,14 +531,20 @@ ProviderFFMS2::~ProviderFFMS2()
 		SetEvent(m_eventKillSelf);
 		WaitForSingleObject(m_thread, 20000);
 		CloseHandle(m_thread);
-		CloseHandle(m_eventStartPlayback);
-		CloseHandle(m_eventKillSelf);
+		m_thread = nullptr;
 	}
 
 	if (m_audioLoadThread) {
 		m_stopLoadingAudio = true;
 		WaitForSingleObject(m_eventAudioComplete, INFINITE);
+	}
+	if (m_audioSource) {
+		FFMS_DestroyAudioSource(m_audioSource);
+		m_audioSource = nullptr;
+	}
+	if (m_eventAudioComplete) {
 		CloseHandle(m_eventAudioComplete);
+		m_eventAudioComplete = nullptr;
 	}
 	m_keyFrames.Clear();
 	m_timecodes.clear();

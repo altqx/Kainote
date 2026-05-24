@@ -54,6 +54,9 @@ public:
 	KainoteFrame* Frame;
 	wxTimer openTimer;
 	wxTimer debugtimer;
+#ifndef _WIN32
+	wxTimer automationExitTimer;
+#endif
 	wxArrayString paths;
 private:
 	wxSingleInstanceChecker* m_checker;

@@ -20,6 +20,16 @@
 #include "config.h"
 #undef GetClassInfo
 
+namespace
+{
+	KaiRadioButton* AsKaiRadioButton(wxWindow* window)
+	{
+		if (!window || !window->IsKindOf(CLASSINFO(KaiRadioButton)))
+			return nullptr;
+		return static_cast<KaiRadioButton*>(window);
+	}
+}
+
 KaiRadioButton::KaiRadioButton(wxWindow *parent, int id, const wxString& label,
 	const wxPoint& pos, const wxSize& size, long style)
 	: KaiCheckBox(parent, id, label, pos, size, style)
@@ -75,8 +85,7 @@ void KaiRadioButton::DeselectRest()
 			nodeBefore;
 			nodeBefore = nodeBefore->GetPrevious())
 		{
-			KaiRadioButton *btn = wxDynamicCast(nodeBefore->GetData(),
-				KaiRadioButton);
+			KaiRadioButton *btn = AsKaiRadioButton(nodeBefore->GetData());
 			if (!btn)
 			{
 				// don't stop on non radio buttons, we could have intermixed
@@ -110,8 +119,7 @@ void KaiRadioButton::DeselectRest()
 		nodeAfter;
 		nodeAfter = nodeAfter->GetNext())
 	{
-		KaiRadioButton *btn = wxDynamicCast(nodeAfter->GetData(),
-			KaiRadioButton);
+		KaiRadioButton *btn = AsKaiRadioButton(nodeAfter->GetData());
 
 		if (!btn)
 			continue;
@@ -145,8 +153,7 @@ void KaiRadioButton::SelectPrev(bool first)
 			nodeBefore;
 			nodeBefore = nodeBefore->GetPrevious())
 		{
-			KaiRadioButton *btn = wxDynamicCast(nodeBefore->GetData(),
-				KaiRadioButton);
+			KaiRadioButton *btn = AsKaiRadioButton(nodeBefore->GetData());
 			if (!btn)
 			{
 				// don't stop on non radio buttons, we could have intermixed
@@ -199,8 +206,7 @@ void KaiRadioButton::SelectNext(bool last)
 		nodeAfter;
 		nodeAfter = nodeAfter->GetNext())
 	{
-		KaiRadioButton *btn = wxDynamicCast(nodeAfter->GetData(),
-			KaiRadioButton);
+		KaiRadioButton *btn = AsKaiRadioButton(nodeAfter->GetData());
 
 		if (!btn){
 			if (btntmp && btntmp->CanBeFocused()){
@@ -244,7 +250,7 @@ void KaiRadioButton::SelectNext(bool last)
 	}
 }
 
-wxIMPLEMENT_ABSTRACT_CLASS(KaiRadioButton, wxWindow);
+wxIMPLEMENT_ABSTRACT_CLASS(KaiRadioButton, KaiCheckBox);
 
 KaiRadioBox::KaiRadioBox(wxWindow *parent, int id, const wxString& label,
 	const wxPoint& pos, const wxSize& size, const wxArrayString &names, int spacing, long style)

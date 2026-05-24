@@ -159,10 +159,16 @@ AudioDisplay::~AudioDisplay() {
 		SetEvent(DestroyEvent);
 		WaitForSingleObject(UpdateTimerHandle, 10000);
 		CloseHandle(UpdateTimerHandle);
-		CloseHandle(PlayEvent);
-		CloseHandle(DestroyEvent);
 		UpdateTimerHandle = nullptr;
 		
+	}
+	if (PlayEvent) {
+		CloseHandle(PlayEvent);
+		PlayEvent = nullptr;
+	}
+	if (DestroyEvent) {
+		CloseHandle(DestroyEvent);
+		DestroyEvent = nullptr;
 	}
 	if (player) { player->CloseStream(); delete player; }
 	if (ownProvider && provider) { delete provider; provider = nullptr; }
