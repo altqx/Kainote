@@ -118,7 +118,7 @@ bool SpellChecker::Initialize()
 	if (!wxFileExists(dic) || !wxFileExists(aff))
 	{
 		Options.SetBool(SPELLCHECKER_ON, false);
-		// Missing dictionaries are common in portable/Linux builds; disable without warning.
+		KaiMessageBox(wxString::Format(_("Brak plików słownika w folderze \"%s\\Dictionary\".\nSprawdzanie pisowni zostanie wyłączone"), Options.pathfull));
 		return false;
 	}
 	// Load

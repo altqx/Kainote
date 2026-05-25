@@ -201,6 +201,29 @@ set_target_properties(kainote PROPERTIES
 target_link_options(kainote PRIVATE "-Wl,--disable-new-dtags")
 
 set(KAINOTE_RUNTIME_DIR $<TARGET_FILE_DIR:kainote>)
+set(KAINOTE_DICTIONARY_SOURCE_DIR "${CMAKE_SOURCE_DIR}/Dictionary")
+find_path(KAINOTE_SYSTEM_DICTIONARY_DIR
+    NAMES en_US.aff
+    PATHS /usr/share/hunspell /usr/share/myspell/dicts
+)
+set(KAINOTE_DICTIONARY_COPY_COMMAND
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${KAINOTE_RUNTIME_DIR}/Dictionary"
+)
+if(EXISTS "${KAINOTE_DICTIONARY_SOURCE_DIR}")
+    set(KAINOTE_DICTIONARY_COPY_COMMAND
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${KAINOTE_DICTIONARY_SOURCE_DIR}"
+                "${KAINOTE_RUNTIME_DIR}/Dictionary"
+    )
+elseif(KAINOTE_SYSTEM_DICTIONARY_DIR AND EXISTS "${KAINOTE_SYSTEM_DICTIONARY_DIR}/en_US.dic")
+    set(KAINOTE_DICTIONARY_COPY_COMMAND
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${KAINOTE_RUNTIME_DIR}/Dictionary"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${KAINOTE_SYSTEM_DICTIONARY_DIR}/en_US.aff"
+                "${KAINOTE_SYSTEM_DICTIONARY_DIR}/en_US.dic"
+                "${KAINOTE_RUNTIME_DIR}/Dictionary"
+    )
+endif()
 
 # Keep the build tree runnable by copying runtime data next to the executable.
 # Windows embeds PNG RCDATA through resource.rc, but the Linux build loads those
@@ -218,6 +241,7 @@ add_custom_command(TARGET kainote POST_BUILD
             -D SOURCE_LOCALE_DIR="${CMAKE_SOURCE_DIR}/Locale"
             -D RUNTIME_LOCALE_DIR="${KAINOTE_RUNTIME_DIR}/Locale"
             -P "${CMAKE_SOURCE_DIR}/cmake/CopyLocaleCatalogs.cmake"
+    ${KAINOTE_DICTIONARY_COPY_COMMAND}
     COMMAND ${CMAKE_COMMAND} -E make_directory "${KAINOTE_RUNTIME_DIR}/Kainote"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${CMAKE_SOURCE_DIR}/Kainote/resource.rc"

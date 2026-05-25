@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kainote\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 09:07+0700\n"
+"POT-Creation-Date: 2026-05-25 09:44+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Marcin Drob <bjajka7@gmail.com>\n"
 "Language-Team: https://github.com/bjakja/Kainote\n"
@@ -5473,6 +5473,13 @@ msgstr ""
 #: ShiftTimes.cpp:977
 #, c-format
 msgid "Na pewno chcesz usunąć profil o nazwie \"%s\""
+msgstr ""
+
+#: SpellChecker.cpp:121
+#, c-format
+msgid ""
+"Brak plików słownika w folderze \"%s\\Dictionary\".\n"
+"Sprawdzanie pisowni zostanie wyłączone"
 msgstr ""
 
 #: SpellChecker.cpp:129

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 09:07+0700\n"
+"POT-Creation-Date: 2026-05-25 09:44+0700\n"
 "PO-Revision-Date: 2026-03-22 15:24+0100\n"
 "Last-Translator: Marcin Drob <bjakja7@gmail.com>\n"
 "Language-Team: English <https://hosted.weblate.org/projects/kainote/kainote/"
@@ -5636,6 +5636,15 @@ msgstr "There is no selected profile to remove"
 msgid "Na pewno chcesz usunąć profil o nazwie \"%s\""
 msgstr "Do you want to remove profile of name \"%s\""
 
+#: SpellChecker.cpp:121
+#, c-format
+msgid ""
+"Brak plików słownika w folderze \"%s\\Dictionary\".\n"
+"Sprawdzanie pisowni zostanie wyłączone"
+msgstr ""
+"No dictionary files were found in the \"%s\\Dictionary\" folder.\n"
+"Spell checking will be disabled"
+
 #: SpellChecker.cpp:129
 msgid "Nie można odczytać formatu konwersji słownika."
 msgstr "Unable to read the dictionary conversion format."
@@ -8105,14 +8114,6 @@ msgstr "Copy style from storage to ASS"
 #: stylestore.cpp:797
 msgid "Oczyść napisy z nieużywanych stylów"
 msgstr "Delete unused ASS styles"
-
-#, c-format
-#~ msgid ""
-#~ "Brak plików słownika w folderze \"%s\\Dictionary\".\n"
-#~ "Sprawdzanie pisowni zostanie wyłączone"
-#~ msgstr ""
-#~ "Cannot find dictionary files in \"%s\\Dictionary\" folder.\n"
-#~ "Spell checker will be disabled"
 
 #~ msgid "Szerokość"
 #~ msgstr "Width"
