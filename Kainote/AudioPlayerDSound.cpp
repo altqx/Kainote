@@ -173,8 +173,14 @@ unsigned int DirectSoundPlayer2Thread::FillAndUnlockBuffers(unsigned char*, unsi
 
 void DirectSoundPlayer2Thread::CheckError()
 {
-	if (!linuxState || !linuxState->failed)
+	if (!linuxState)
 		return;
+
+	std::lock_guard<std::mutex> lock(linuxState->mutex);
+	const bool failed = linuxState->failed;
+	if (!failed)
+		return;
+
 	throw _T("SDL audio player failed.");
 }
 
@@ -305,7 +311,9 @@ double DirectSoundPlayer2Thread::GetVolume()
 
 bool DirectSoundPlayer2Thread::IsDead()
 {
-	return !linuxState || linuxState->failed;
+	if (!linuxState) return true;
+	std::lock_guard<std::mutex> lock(linuxState->mutex);
+	return linuxState->failed;
 }
 
 #else

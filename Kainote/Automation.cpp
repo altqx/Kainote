@@ -620,7 +620,6 @@ namespace Auto{
 
 		// store aegisub table to globals
 		lua_setglobal(L, "aegisub");
-		lua_pop(L, 1);
 		stackcheck.check_stack(0);
 
 		// load user script
