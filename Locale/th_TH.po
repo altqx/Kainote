@@ -2,8 +2,9 @@
 # altinat <al@altqx.com>, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2026.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
+# Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2026.
 msgid ""
-msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-03-10 10:10+0000\nLast-Translator: Weblate <noreply-mt-weblate@weblate.org>\nLanguage-Team: Thai <https://hosted.weblate.org/projects/kainote/kainote/th/>\nLanguage: th_TH\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 5.17-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
+msgstr "Project-Id-Version: Kainote\nReport-Msgid-Bugs-To: poiiiii4yy@gmail.com\nPOT-Creation-Date: 2022-06-06 20:10+0700\nPO-Revision-Date: 2026-04-24 10:09+0000\nLast-Translator: altinat <al@altqx.com>\nLanguage-Team: Thai <https://hosted.weblate.org/projects/kainote/kainote/th/>\nLanguage: th_TH\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=0;\nX-Generator: Weblate 5.17.1-dev\nX-Poedit-Basepath: ../Kainote\nX-Poedit-SourceCharset: UTF-8\nX-Poedit-KeywordsList: _\nX-Poedit-SearchPath-0: .\nX-Poedit-SearchPathExcluded-0: Bitmaps\nX-Poedit-SearchPathExcluded-1: GFFT\nX-Poedit-SearchPathExcluded-2: include\nX-Poedit-SearchPathExcluded-3: Win32\nX-Poedit-SearchPathExcluded-4: x64\nX-Poedit-SearchPathExcluded-5: ffms2.lib\nX-Poedit-SearchPathExcluded-6: ffms2_x64.lib\nX-Poedit-SearchPathExcluded-7: Kainote.vcproj.Bakura-Komputer.Bakura.user\nX-Poedit-SearchPathExcluded-8: Kainote.vcxproj\nX-Poedit-SearchPathExcluded-9: Kainote.vcxproj.filters\nX-Poedit-SearchPathExcluded-10: Kainote.vcxproj.user\nX-Poedit-SearchPathExcluded-11: RCa00888\nX-Poedit-SearchPathExcluded-12: resource.aps\nX-Poedit-SearchPathExcluded-13: resource.rc\nX-Poedit-SearchPathExcluded-14: CsriMod.cpp\nX-Poedit-SearchPathExcluded-15: UpdateChecker.cpp\nX-Poedit-SearchPathExcluded-16: KaiTextValidator.cpp\n"
 
 #: AudioBox.cpp:72
 msgid "Pasek szukania"
@@ -651,10 +652,6 @@ msgstr "สีเส้นขอบ"
 #: HotkeysNaming.cpp:92 StyleChange.cpp:697 TextEditorTagList.cpp:346
 msgid "Kolor cienia"
 msgstr "สีเงา"
-
-#: ColorPicker.cpp:548
-msgid "Zamień ze sobą skróty próbnika i okna wyboru kolorów"
-msgstr "สลับปุ่มลัดตัวหยิบสีและหน้าต่างเลือกสี"
 
 #: ColorPicker.cpp:550
 msgid ""
@@ -9347,42 +9344,34 @@ msgid "Wybierz zewnętrzny folder czcionek"
 msgstr "เลือกโฟลเดอร์แบบอักษรภายนอก"
 
 #: HotkeysNaming.cpp:200 KainoteFrame.cpp:268
-#, fuzzy
 msgid "Wyłącz powiększenie wideo"
-msgstr "ปิดวิดีโอ"
+msgstr "ปิดการซูมวิดีโอ"
 
 #: OptionsDialog.cpp:566
-#, fuzzy
 msgid "Początkowy zoom wideo w procentach"
-msgstr "เริ่มต้นวิดีโอซูมในเปอร์เซ็นต์."
+msgstr "เริ่มต้นวิดีโอด้วยซูมเป็นเปอร์เซ็นต์"
 
 #: TabPanel.cpp:297
-#, fuzzy
 msgid "Napisy zostały zmodyfikowane przez inny program, przeładować?"
-msgstr "กําหนดค่าโดยโปรแกรมอื่น ๆ การโหลด?"
+msgstr "คำบรรยายถูกแก้ไขโดยโปรแกรมอื่น ต้องการโหลดใหม่?"
 
 #: VideoToolbar.cpp:747 VisualAllTagsEdition.cpp:86
-#, fuzzy
 msgid "Gradient tekst rosnąco"
-msgstr "ข้อความที่เพิ่มขึ้น"
+msgstr "ไล่ระดับสีข้อความจากน้อยไปมาก"
 
 #: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
-#, fuzzy
 msgid "Gradient tekst malejąco"
-msgstr "ข้อเสียของข้อความ"
+msgstr "ไล่ระดับสีข้อความจากมากไปน้อย"
 
 #: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
-#, fuzzy
 msgid "Gradient linia rosnąco"
-msgstr "สายการผลิตที่เพิ่ม"
+msgstr "ไล่ระดับสีบรรทัดจากน้อยไปมาก"
 
 #: VideoToolbar.cpp:748 VisualAllTagsEdition.cpp:87
-#, fuzzy
 msgid "Gradient linia malejąco"
-msgstr "สายการผลิตที่ลดลง"
+msgstr "ไล่ระดับสีบรรทัดจากมากไปน้อย"
 
 #: VideoToolbar.cpp:751
-#, fuzzy
 msgid ""
 "Opcje zmiany tagów:\n"
 "Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
@@ -9394,9 +9383,58 @@ msgid ""
 "Gradnient tekst malejąco - wstawia tag co znak malejąco\n"
 "Gradient linia rosnąco - wstawia tag w zaznaczone linie rosnąco\n"
 "Gradient linia malejąco - wstawia tag w zaznaczone linie malejąco"
-msgstr "ตัวเลือกของแท็กเปลี่ยน:\nเพิ่ม - เปลี่ยนแท็กทั้งหมดเพิ่มเลื่อนบนเลื่อน\nแทรก - ใส่แท็กในแกนเมื่อเส้นหนึ่ง\nหรือเริ่มต้นสายเมื่อหลายเส้น\nขนาดหลาย - เลื่อนเลื่อนบนเส้นเลื่อน\nบรรทัดแรกไม่มีการเปลี่ยนแปลง ทําจาก cascade\nข้อเสียข้อความเพิ่ม - ใส่แท็กในทุกรายการ\nเพิ่มจํานวนบนเลื่อน\nข้อเสียข้อความลบ - ใส่แท็กในตัวละครทั้งหมด\nลดลงจากจํานวนช่องเลื่อน\nสายการผลิตที่เพิ่ม - ใส่แท็กในทุกสาย\nเพิ่มจํานวนบนเลื่อน\nการวางเส้นตะกอน - ใส่แท็กในทุกสาย\nลดลงจากจํานวนช่องเลื่อน"
+msgstr "ตัวเลือกการเปลี่ยนแท็ก:\nเพิ่ม - เปลี่ยนแท็กทั้งหมดโดยเพิ่มการเลื่อนจากแถบเลื่อน\nแทรก - แทรกที่ตำแหน่งเคอร์เซอร์สำหรับบรรทัดเดียว\nหรือที่จุดเริ่มต้นสำหรับหลายบรรทัด\nคูณ - คูณการเลื่อนแถบเลื่อนด้วยหมายเลขบรรทัดที่เลือก\nบรรทัดแรกจะไม่เปลี่ยนแปลง\nไล่ระดับสีข้อความจากน้อยไปมาก - แทรกแท็กทุกตัวอักษรในลำดับจากน้อยไปมาก\nไล่ระดับสีข้อความจากมากไปน้อย - แทรกแท็กทุกตัวอักษรในลำดับจากมากไปน้อย\nไล่ระดับสีบรรทัดจากน้อยไปมาก - แทรกแท็กในบรรทัดที่เลือกในลำดับจากน้อยไปมาก\nไล่ระดับสีบรรทัดจากมากไปน้อย - แทรกแท็กในบรรทัดที่เลือกในลำดับจากมากไปน้อย"
 
 #: TabPanel.cpp:297
-#, fuzzy
 msgid "Przeładowywanie"
-msgstr "กำลังโหลดข้อมูลซ้ำ…"
+msgstr "กำลังโหลดใหม่…"
+
+#: ColorPicker.cpp:572
+msgid ""
+"Zamień ze sobą skróty próbnika\n"
+"i okna wyboru kolorów"
+msgstr "สลับปุ่มลัดตัวหยิบสี\nและหน้าต่างเลือกสี"
+
+#: HotkeysNaming.cpp:154 SubsGrid.cpp:158
+msgid "Podziel linię do czasu wideo"
+msgstr "แบ่งบรรทัดตามเวลาวิดีโอ"
+
+#: HotkeysNaming.cpp:155 SubsGrid.cpp:160
+msgid "Podziel linie na klatki"
+msgstr "แบ่งบรรทัดตามเฟรม"
+
+#: HotkeysNaming.cpp:156 SubsGrid.cpp:162
+msgid "Podziel linie na znaki"
+msgstr "แบ่งบรรทัดตามตัวอักษร"
+
+#: HotkeysNaming.cpp:157 SubsGrid.cpp:163
+msgid "Podziel linie na słowa"
+msgstr "แบ่งบรรทัดตามคำ"
+
+#: HotkeysNaming.cpp:158 SubsGrid.cpp:164
+msgid "Podziel linie według łamań"
+msgstr "แบ่งบรรทัดตามตัวแบ่ง"
+
+#: OptionsDialog.cpp:423
+msgid "Zliczaj spacje i znaki interpunkcyjne dla łamań"
+msgstr "การคํานวณพื้นที่และเครื่องหมายวรรคตอนสำหรับตัวแบ่ง"
+
+#: OptionsDialog.cpp:426
+msgid "Zliczaj spacje i znaki interpunkcyjne dla ZNS"
+msgstr "คํานวณพื้นที่และเครื่องหมายวรรคตอนสําหรับอักษรต่อวิ"
+
+#: SubsFile.cpp:172
+msgid "Usunięcie filtrowania"
+msgstr "ลบตัวกรอง"
+
+#: SubsFile.cpp:173
+msgid "Dzielenie linii"
+msgstr "กำลังแบ่งบรรทัด"
+
+#: SubsGrid.cpp:203
+msgid "Wstaw linie"
+msgstr "แทรกบรรทัด"
+
+#: SubsGrid.cpp:218
+msgid "Podziel linie"
+msgstr "แบ่งบรรทัด"
