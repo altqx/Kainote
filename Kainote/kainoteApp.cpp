@@ -39,6 +39,7 @@
 #include <wx/filename.h>
 #include <wx/filefn.h>
 #include <wx/log.h>
+#include <wx/weakref.h>
 #ifndef _WIN32
 #include <clocale>
 #include <cstdlib>
@@ -642,7 +643,7 @@ int kainoteApp::FilterEvent(wxEvent& event)
 #ifndef _WIN32
 	const wxEventType type = event.GetEventType();
 	if (type == wxEVT_ENTER_WINDOW || type == wxEVT_MOTION || type == wxEVT_LEAVE_WINDOW){
-		static wxWindow *lastTooltipWindow = nullptr;
+		static wxWeakRef<wxWindow> lastTooltipWindow = nullptr;
 		wxWindow *eventWindow = wxDynamicCast(event.GetEventObject(), wxWindow);
 		KainoteFrame *frame = KainoteFrame::Get();
 		if (eventWindow && frame){
