@@ -544,7 +544,7 @@ DialogColorPicker::DialogColorPicker(wxWindow *parent, AssColor initial_color, i
 	else
 		colorType->SetSelection(colorNum - 1);
 
-	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent &evt){
 		//not good fix for recent, it must check edition
 		GetColor();
 		wxCommandEvent ctcevt(COLOR_TYPE_CHANGED, GetId());
@@ -670,7 +670,7 @@ DialogColorPicker::DialogColorPicker(wxWindow *parent, AssColor initial_color, i
 	screen_dropper_icon->Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(DialogColorPicker::OnDropperMouse), 0, this);
 	screen_dropper_icon->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(DialogColorPicker::OnDropperMouse), 0, this);
 	screen_dropper_icon->Connect(wxEVT_RIGHT_UP, wxMouseEventHandler(DialogColorPicker::OnDropperMouse), 0, this);
-	screen_dropper_icon->Bind(wxEVT_MOUSE_CAPTURE_LOST, [=](wxMouseCaptureLostEvent &evt){
+	screen_dropper_icon->Bind(wxEVT_MOUSE_CAPTURE_LOST, [=, this](wxMouseCaptureLostEvent &evt){
 		if (screen_dropper_icon->HasCapture())
 			screen_dropper_icon->ReleaseMouse();
 	});
@@ -1376,7 +1376,7 @@ SimpleColorPickerDialog::SimpleColorPickerDialog(wxWindow *parent, const AssColo
 		colorType->Enable(false);
 	else
 		colorType->SetSelection(colorNum - 1);
-	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent &evt){
 		AddRecent();
 		wxCommandEvent ctcevt(COLOR_TYPE_CHANGED, GetId());
 		//selections starts from 0, colors from 1
@@ -1386,11 +1386,11 @@ SimpleColorPickerDialog::SimpleColorPickerDialog(wxWindow *parent, const AssColo
 
 	HexColor = new KaiTextCtrl(this, -1, actualColor.GetAss(false, false));
 	dropper = new ColorPickerScreenDropper(this, 9765, 7, 7, 8, false, true);
-	Bind(wxEVT_MOUSE_CAPTURE_LOST, [=](wxMouseCaptureLostEvent &evt){ 
+	Bind(wxEVT_MOUSE_CAPTURE_LOST, [=, this](wxMouseCaptureLostEvent &evt){ 
 		ReleaseMouse(); 
 		EndModal(0);
 		});
-	Bind(wxDROPPER_SELECT, [=](wxCommandEvent &evt){
+	Bind(wxDROPPER_SELECT, [=, this](wxCommandEvent &evt){
 		wxString stringColor = evt.GetString();
 		color.Copy(stringColor);
 		HexColor->SetValue(stringColor);

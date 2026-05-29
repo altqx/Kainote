@@ -40,7 +40,7 @@ KaiMessageDialog::KaiMessageDialog(wxWindow *parent, const wxString& msg,
 	}
 	if (elems & wxOK){
 		btn = new MappedButton(this, 9009, L"OK", -1, wxDefaultPosition, wxSize(60, -1));
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent &evt){
 			int askOnce = (kcb && kcb->GetValue()) ? ASK_ONCE : 0;
 			EndModal(wxOK | askOnce);
 		}, 9009);
@@ -51,7 +51,7 @@ KaiMessageDialog::KaiMessageDialog(wxWindow *parent, const wxString& msg,
 	}
 	if (elems & wxYES_TO_ALL){
 		btn = new MappedButton(this, wxYES_TO_ALL, _("Tak dla wszystkich"));
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent &evt){
 			int result = wxYES_TO_ALL | ((kcb && kcb->GetValue()) ? ASK_ONCE : 0);
 			EndModal(result);
 		}, wxYES_TO_ALL);
@@ -60,7 +60,7 @@ KaiMessageDialog::KaiMessageDialog(wxWindow *parent, const wxString& msg,
 	}
 	if (elems & wxYES){
 		btn = new MappedButton(this, wxID_YES, _("Tak"), -1, wxDefaultPosition, wxSize(60, -1));
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent &evt){
 			int result = wxYES | ((kcb && kcb->GetValue()) ? ASK_ONCE : 0);
 			EndModal(result);
 		}, wxID_YES);
@@ -69,7 +69,7 @@ KaiMessageDialog::KaiMessageDialog(wxWindow *parent, const wxString& msg,
 	}
 	if (elems & wxNO){
 		btn = new MappedButton(this, wxID_NO, _("Nie"), -1, wxDefaultPosition, wxSize(60, -1));
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent &evt){
 			EndModal(wxNO | ((kcb && kcb->GetValue()) ? ASK_ONCE : 0));
 		}, wxID_NO);
 		sizer1->Add(btn, 1, wxALL | wxEXPAND, 3);
@@ -77,7 +77,7 @@ KaiMessageDialog::KaiMessageDialog(wxWindow *parent, const wxString& msg,
 	}
 	if (elems & wxCANCEL){
 		btn = new MappedButton(this, 9010, _("Anuluj"), -1);
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent &evt){
 			EndModal(wxCANCEL | ((kcb && kcb->GetValue()) ? ASK_ONCE : 0));
 		}, 9010);
 		sizer1->Add(btn, 1, wxALL | wxEXPAND, 3);
@@ -85,7 +85,7 @@ KaiMessageDialog::KaiMessageDialog(wxWindow *parent, const wxString& msg,
 	}
 	if (elems & wxHELP){
 		btn = new MappedButton(this, 9011, _("Pomoc"), -1);
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent &evt){
 			EndModal(wxHELP | ((kcb && kcb->GetValue()) ? ASK_ONCE : 0));
 		}, 9011);
 		sizer1->Add(btn, 1, wxALL | wxEXPAND, 3);

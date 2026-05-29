@@ -62,7 +62,7 @@ TabPanel::TabPanel(wxWindow *parent, KainoteFrame *kai, const wxPoint &pos, cons
 	edit->SetMinSize(wxSize(-1, 200));
 	edit->SetLine(0);
 
-	windowResizer = new KaiWindowResizer(this, [=](int newpos){
+	windowResizer = new KaiWindowResizer(this, [=, this](int newpos){
 		int mw, mh;
 		GetClientSize(&mw, &mh);
 		int limit = (video->GetState() != None && video->IsShown()) ? 350 : 150;
@@ -72,7 +72,7 @@ TabPanel::TabPanel(wxWindow *parent, KainoteFrame *kai, const wxPoint &pos, cons
 		int bottomLimit = 5;
 #endif
 		return newpos > limit && newpos < mh - bottomLimit;
-	}, [=](int newpos, bool shiftDown){
+	}, [=, this](int newpos, bool shiftDown){
 		int w, h;
 		edit->GetClientSize(&w, &h);
 		SetVideoWindowSizes(w, newpos, shiftDown);

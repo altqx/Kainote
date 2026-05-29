@@ -47,8 +47,8 @@ KaiRadioButton::KaiRadioButton(wxWindow *parent, int id, const wxString& label,
 	entries[3].Set(wxACCEL_NORMAL, WXK_DOWN, ID_ACCEL_RIGHT);
 	wxAcceleratorTable accel(4, entries);
 	SetAcceleratorTable(accel);
-	Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){SelectPrev(false); }, ID_ACCEL_LEFT);
-	Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){SelectNext(false); }, ID_ACCEL_RIGHT);
+	Bind(wxEVT_COMMAND_MENU_SELECTED, [=, this](wxCommandEvent &evt){SelectPrev(false); }, ID_ACCEL_LEFT);
+	Bind(wxEVT_COMMAND_MENU_SELECTED, [=, this](wxCommandEvent &evt){SelectNext(false); }, ID_ACCEL_RIGHT);
 }
 
 void KaiRadioButton::OnMouseLeft(wxMouseEvent &evt)
@@ -264,7 +264,7 @@ KaiRadioBox::KaiRadioBox(wxWindow *parent, int id, const wxString& label,
 		buttons.push_back(new KaiRadioButton(this, 9876 + i, names[i], wxDefaultPosition, wxDefaultSize, (i == 0) ? wxRB_GROUP : 0));
 		box->Add(buttons[i], 1, wxALL, spacing);
 	}
-	Bind(wxEVT_COMMAND_RADIOBUTTON_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_RADIOBUTTON_SELECTED, [=, this](wxCommandEvent &evt){
 		selected = evt.GetId() - 9876;
 		wxCommandEvent *evtrb = new wxCommandEvent(wxEVT_COMMAND_RADIOBOX_SELECTED, GetId());
 		wxQueueEvent(GetParent(), evtrb);

@@ -49,8 +49,8 @@ KaiTreebook::KaiTreebook(wxWindow *parent, int id,
 	, selection(0)
 	, bmp(nullptr)
 {
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent& evt) {RefreshTree(); });
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent& evt) {RefreshTree(); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent& evt) {RefreshTree(); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent& evt) {RefreshTree(); });
 }
 
 KaiTreebook::~KaiTreebook()

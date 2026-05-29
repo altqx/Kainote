@@ -56,8 +56,8 @@ StyleList::StyleList(wxWindow *parent, long id, std::vector<Styles*> *stylearray
 	sels.Add(0);
 	SetMinSize(wxSize(150, 150));
 	Bind(wxEVT_ERASE_BACKGROUND, [=](wxEraseEvent& evt) {});
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent& evt) { Refresh(false); });
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent& evt) { Refresh(false); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent& evt) { Refresh(false); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent& evt) { Refresh(false); });
 }
 
 StyleList::~StyleList(){

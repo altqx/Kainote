@@ -478,7 +478,7 @@ ToolbarMenu::ToolbarMenu(KaiToolbar*_parent, const wxPoint &pos, const wxSize &s
 		parent->alignment = 0;
 	alignments->SetSelection(parent->alignment);
 	alignments->SetToolTip(_("Pozycja paska narzędzi"));
-	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent &evt){
 		parent->alignment = alignments->GetSelection();
 		Options.SetInt(TOOLBAR_ALIGNMENT, parent->alignment);
 		KainoteFrame *win = (KainoteFrame*)parent->GetParent();

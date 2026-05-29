@@ -44,8 +44,8 @@ FontList::FontList(wxWindow *parent, long id, const wxPoint &pos, const wxSize &
 	sel = 0;
 	holding = false;
 	Bind(wxEVT_ERASE_BACKGROUND, [=](wxEraseEvent& evt) {});
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent& evt) {Refresh(false); });
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent& evt) {Refresh(false); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent& evt) {Refresh(false); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent& evt) {Refresh(false); });
 }
 
 FontList::~FontList(){
@@ -431,7 +431,7 @@ FontDialog::FontDialog(wxWindow *parent, Styles *acst, bool changePointToPixel)
 	Filter = new ToggleButton(this, ID_FILTER1, _("Filtruj"));
 	Filter->SetToolTip(_("Filtruje czcionki, by zawierały wpisane znaki"));
 	Filter->SetValue(fontFilterOn);
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		wxPoint pos = CatalogAdd->GetPosition();
 		wxSize size = CatalogAdd->GetSize();
 		wxString font;
@@ -444,7 +444,7 @@ FontDialog::FontDialog(wxWindow *parent, Styles *acst, bool changePointToPixel)
 			ChangeCatalog();
 		}
 		}, ID_CATALOG_ADD1);
-	Bind(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		ChangeCatalog(true);
 		}, ID_FILTER1);
 	ChangeCatalog();
@@ -456,12 +456,12 @@ FontDialog::FontDialog(wxWindow *parent, Styles *acst, bool changePointToPixel)
 	filtersizer->Add(CatalogManage, 1, wxEXPAND | wxALL, 2);
 	filtersizer->Add(Filter, 1, wxEXPAND | wxALL, 2);
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		if (!FCL) {
 			wxString fontname;
 			GetFontName(&fontname);
 			FCL = new FontCatalogList(this, fontname);
-			Bind(CATALOG_CHANGED, [=](wxCommandEvent& evt) {
+			Bind(CATALOG_CHANGED, [=, this](wxCommandEvent& evt) {
 				int sel = fontCatalog->GetSelection();
 				
 				fontCatalog->PutArray(FCManagement.GetCatalogNames());
@@ -480,7 +480,7 @@ FontDialog::FontDialog(wxWindow *parent, Styles *acst, bool changePointToPixel)
 		FCL->CenterOnParent();
 	}, ID_CATALOG_MANAGE1);
 
-	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent& evt) {
 		ChangeCatalog();
 		}, ID_FONT_CATALOG_LIST1);
 
@@ -500,7 +500,7 @@ FontDialog::FontDialog(wxWindow *parent, Styles *acst, bool changePointToPixel)
 	UpdatePreview();
 
 	fontChangedTimer.SetOwner(this, 12345);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent & event){
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent & event){
 		wxCommandEvent evt(FONT_CHANGED, GetId());
 		evt.SetClientData(this);
 		//process event immediately
@@ -522,7 +522,7 @@ FontDialog::FontDialog(wxWindow *parent, Styles *acst, bool changePointToPixel)
 	//Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent & evt){
 	//	//fontChangedTimer.Start()
 	//}, wxID_APPLY);
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent & evt){
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent & evt){
 		if (editedStyle){
 			delete editedStyle;
 			editedStyle = nullptr;
@@ -715,12 +715,12 @@ wxArrayString* FontDialog::GetFontsTable(bool save)
 	wxArrayString* fonts;
 	wxString fontFilterText = Options.GetString(STYLE_EDIT_FILTER_TEXT);
 	if (fontFilterText.IsEmpty() || !filterOn) {
-		fonts = FontEnum.GetFonts(this, [=]() {
+		fonts = FontEnum.GetFonts(this, [=, this]() {
 			ReloadFonts();
 			});
 	}
 	else {
-		fonts = FontEnum.GetFilteredFonts(this, [=]() {
+		fonts = FontEnum.GetFilteredFonts(this, [=, this]() {
 			ReloadFonts();
 			}, fontFilterText);
 	}

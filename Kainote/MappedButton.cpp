@@ -95,8 +95,8 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& label, cons
 		}
 	});*/
 	Bind(wxEVT_ERASE_BACKGROUND, [=](wxEraseEvent &evt){});
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent &evt){Refresh(false); });
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent &evt){Refresh(false); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent &evt){Refresh(false); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent &evt){Refresh(false); });
 	wxAcceleratorEntry centries[1];
 	centries[0].Set(wxACCEL_NORMAL, WXK_RETURN, GetId());
 	wxAcceleratorTable caccel(1, centries);
@@ -159,14 +159,14 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& label, int 
 		}
 		});*/
 	Bind(wxEVT_ERASE_BACKGROUND, [=](wxEraseEvent &evt){});
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent &evt){Refresh(false); });
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent &evt){Refresh(false); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent &evt){Refresh(false); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent &evt){Refresh(false); });
 	wxAcceleratorEntry centries[1];
 	centries[0].Set(wxACCEL_NORMAL, WXK_RETURN, GetId());
 	wxAcceleratorTable caccel(1, centries);
 	SetAcceleratorTable(caccel);
 	if (Window < 0){
-		Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_MENU_SELECTED, [=, this](wxCommandEvent &evt){
 			SendEvent();
 		}, GetId());
 	}
@@ -231,8 +231,8 @@ MappedButton::MappedButton(wxWindow *parent, int id, const wxString& tooltip, co
 		}
 	});*/
 	Bind(wxEVT_ERASE_BACKGROUND, [=](wxEraseEvent &evt){});
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent &evt){Refresh(false); });
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent &evt){Refresh(false); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent &evt){Refresh(false); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent &evt){Refresh(false); });
 	wxAcceleratorEntry centries[1];
 	centries[0].Set(wxACCEL_NORMAL, WXK_RETURN, GetId());
 	wxAcceleratorTable caccel(1, centries);
@@ -572,14 +572,14 @@ ToggleButton::ToggleButton(wxWindow *parent, int id, const wxString& label, cons
 	Bind(wxEVT_LEAVE_WINDOW, &ToggleButton::OnMouseEvent, this);
 	Bind(wxEVT_SIZE, &ToggleButton::OnSize, this);
 	Bind(wxEVT_PAINT, &ToggleButton::OnPaint, this);
-	Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_MENU_SELECTED, [=, this](wxCommandEvent &evt){
 		toggled = !toggled;
 		Refresh(false);
 		SendEvent();
 	});
 	Bind(wxEVT_ERASE_BACKGROUND, [=](wxEraseEvent &evt){});
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent& evt) {Refresh(false); });
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent& evt) {Refresh(false); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent& evt) {Refresh(false); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent& evt) {Refresh(false); });
 	wxAcceleratorEntry centries[1];
 	centries[0].Set(wxACCEL_NORMAL, WXK_RETURN, GetId());
 	wxAcceleratorTable caccel(1, centries);

@@ -463,7 +463,7 @@ unsigned int __stdcall AudioSpectrumMultiThreading::AudioProc(void* num)
 {
 	int numOfThread = *((int*)num);
 	sthread->AudioPorocessing(numOfThread);
-	delete num;
+	delete (int*)num;
 	return 0;
 }
 void AudioSpectrumMultiThreading::AudioPorocessing(int numOfTread)

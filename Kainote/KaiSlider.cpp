@@ -62,7 +62,7 @@ KaiSlider::KaiSlider(wxWindow *parent, int id, int _value, int _minRange, int _m
 		value = (maxRange - minRange) - value;
 	}
 	pageLoop.SetOwner(this, 2345);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent &evt){
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent &evt){
 		if (value == 0.f || value == (maxRange - minRange)){ pageLoop.Stop(); return; }
 		//int thumbRange = size - thumbSize;
 		float pageSize = thumbRange / 10.f;
@@ -80,8 +80,8 @@ KaiSlider::KaiSlider(wxWindow *parent, int id, int _value, int _minRange, int _m
 		if (pageLoop.GetInterval() == 500){ pageLoop.Start(100); }
 	}, 2345);
 
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent& evt) { Refresh(false); });
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent& evt) { Refresh(false); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent& evt) { Refresh(false); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent& evt) { Refresh(false); });
 }
 
 void KaiSlider::OnSize(wxSizeEvent& evt)

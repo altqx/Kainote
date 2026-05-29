@@ -525,7 +525,7 @@ bool kainoteApp::OnInit()
 		if (loadSession){
 			debugtimer.SetOwner(this, 2299);
 			debugtimer.Start(100, true);
-			Bind(wxEVT_TIMER, [=](wxTimerEvent &evt){
+			Bind(wxEVT_TIMER, [=, this](wxTimerEvent &evt){
 				Frame->Tabs->LoadLastSession(loadCrashSession);
 			}, 2299);
 		}

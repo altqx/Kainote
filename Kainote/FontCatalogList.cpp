@@ -115,14 +115,14 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 	wxString fontFilterText = Options.GetString(STYLE_EDIT_FILTER_TEXT);
 	fontFilter = new KaiTextCtrl(this, -1, fontFilterText);
 	MappedButton* saveFilter = new MappedButton(this, ID_SAVE_FILTER, _("Zapisz Filtr"));
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		wxString ctlg = catalog->GetValue();
 		if (!ctlg.empty()) {
 			FCManagement.AddCatalog(ctlg);
 			catalog->Append(ctlg);
 		}
 		}, ID_ADD_CATALOG);
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		wxString ctlg = catalog->GetValue();
 		int ctlgIndex = catalog->FindString(ctlg);
 		wxPoint cpos = ClientToScreen(catalog->GetPosition());
@@ -136,7 +136,7 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 		}
 		}, ID_EDIT_CATALOG);
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		wxString ctlg = catalog->GetValue();
 		int ctlgIndex = catalog->FindString(ctlg);
 		if (!ctlg.empty() && ctlgIndex != -1) {
@@ -149,15 +149,15 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 		}
 		}, ID_REMOVE_CATALOG);
 
-	Bind(LIST_ITEM_LEFT_CLICK, [=](wxCommandEvent& evt) {
+	Bind(LIST_ITEM_LEFT_CLICK, [=, this](wxCommandEvent& evt) {
 		RefreshPreview();
 		}, ID_FONT_LIST);
 
-	Bind(wxEVT_COMMAND_TEXT_UPDATED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_TEXT_UPDATED, [=, this](wxCommandEvent& evt) {
 		SetSelectionByPartialName(fontSeek->GetValue());
 		}, fontSeek->GetId());
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		Options.SetString(STYLE_EDIT_FILTER_TEXT, fontFilter->GetValue());
 		}, ID_SAVE_FILTER);
 
@@ -189,7 +189,7 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 	SetSizerAndFit(main);
 	fontStyle = Styles(L"FontPreview,Arial,80,&H00FFFFFF,&HFF0000FF,&H00301946,&H7A301946,-1,0,0,0,100,100,1.13208,0,1,3.5,0,2,120,120,40,1");
 
-	Bind(wxEVT_SHOW, [=](wxShowEvent& evt) {
+	Bind(wxEVT_SHOW, [=, this](wxShowEvent& evt) {
 		//bool show = evt.();
 		//if (!show) {
 			wxCommandEvent event(CATALOG_CHANGED, GetId());
@@ -197,7 +197,7 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 		//}
 	});
 	autoSaveTimer.SetOwner(this, ID_EDIT_TIMER);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent& evt) {
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent& evt) {
 		status->SetLabelText(0, _("Autozapis"));
 		wxString path = Options.pathfull + L"/Config/FontCatalogsAutosave" + std::to_string(autoSaveI) + L".txt";
 		FCManagement.SaveCatalogs(path);
@@ -208,7 +208,7 @@ FontCatalogList::FontCatalogList(wxWindow* parent, const wxString& styleFont)
 		autoSaveTimerRemove.Start(10000, true);
 		}, ID_EDIT_TIMER);
 	autoSaveTimerRemove.SetOwner(this, ID_EDIT_TIMER_REMOVE);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent& evt) {
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent& evt) {
 		status->SetLabelText(0, emptyString);
 		}, ID_EDIT_TIMER_REMOVE);
 	RefreshPreview();
@@ -848,7 +848,7 @@ public:
 		catalog = new KaiChoice(this, -1, emptyString, wxDefaultPosition, wxDefaultSize, *catalogs);
 		catalog->SetSelection(0);
 		MappedButton* add = new MappedButton(this, 2998, _("Dodaj"));
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 			wxString ctlg = catalog->GetValue();
 			if (!ctlg.empty()) {
 				FCManagement.AddCatalog(ctlg, nullptr, false);

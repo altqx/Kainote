@@ -51,7 +51,7 @@ RendererVideo::RendererVideo(VideoBox *control, bool visualDisabled)
 	m_HWND = videoControl->GetHWND();
 
 	//---------------------------- format
-	m_D3DFormat = D3DFORMAT('2YUY');//D3DFORMAT('21VN');
+	m_D3DFormat = D3DFMT_YUY2;//D3DFORMAT('21VN');
 	m_Format = NV12;
 	//-----------------------------------
 	m_Visual = (tab->editor && !visualDisabled)? 

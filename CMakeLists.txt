@@ -28,7 +28,7 @@ find_library(LUA_RUNTIME_LIBRARY
 # exact distro Boost shared-library SONAME, e.g. libboost_filesystem.so.1.83.0.
 # Other system libraries remain dynamically linked through pkg-config/wxWidgets.
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost REQUIRED COMPONENTS filesystem locale regex system)
+find_package(Boost REQUIRED COMPONENTS filesystem locale regex OPTIONAL_COMPONENTS system thread)
 add_compile_definitions(_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING _CRT_SECURE_NO_WARNINGS HAVE_DLL_EXPORT LINUX_BUILD KAINOTE_LINUX_BUILD)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-include> $<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/Kainote/platform.h> -Wno-deprecated-declarations -Wno-narrowing -Wno-unused-result $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>)
 add_executable(kainote
@@ -190,7 +190,7 @@ target_include_directories(kainote PRIVATE
     ${CMAKE_SOURCE_DIR}/Thirdparty/DependencyControl/include
     ${CMAKE_SOURCE_DIR}/Thirdparty/ffms2/src
 )
-target_link_libraries(kainote PRIVATE ${wxWidgets_LIBRARIES} PkgConfig::LIBASS PkgConfig::FFMS2 PkgConfig::LUA PkgConfig::HUNSPELL PkgConfig::UCHARDET PkgConfig::LIBCURL PkgConfig::ICU_UC PkgConfig::ICU_I18N PkgConfig::FFMPEG PkgConfig::SDL2 PkgConfig::FONTCONFIG Boost::filesystem Boost::locale Boost::regex Boost::system GL ${CMAKE_DL_LIBS})
+target_link_libraries(kainote PRIVATE ${wxWidgets_LIBRARIES} PkgConfig::LIBASS PkgConfig::FFMS2 PkgConfig::LUA PkgConfig::HUNSPELL PkgConfig::UCHARDET PkgConfig::LIBCURL PkgConfig::ICU_UC PkgConfig::ICU_I18N PkgConfig::FFMPEG PkgConfig::SDL2 PkgConfig::FONTCONFIG Boost::filesystem Boost::locale Boost::regex $<$<BOOL:${Boost_SYSTEM_FOUND}>:Boost::system> $<$<BOOL:${Boost_THREAD_FOUND}>:Boost::thread> GL ${CMAKE_DL_LIBS})
 set_target_properties(kainote PROPERTIES
     BUILD_RPATH "$ORIGIN:$ORIGIN/pulseaudio"
     INSTALL_RPATH "$ORIGIN:$ORIGIN/pulseaudio"

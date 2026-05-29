@@ -141,11 +141,11 @@ VideoToolbar::VideoToolbar(wxWindow *parent, const wxPoint &pos, const wxSize &s
 	//wxSize playMinSize = videoPlayAfter->GetMinSize();
 	//SetMinSize(wxSize(100, seekMinSize.GetHeight() + 2));
 
-	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent &evt){
 		Options.SetInt(MOVE_VIDEO_TO_ACTIVE_LINE, videoSeekAfter->GetSelection());
 		Options.SaveOptions(true, false);
 	}, ID_SEEK_AFTER);
-	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent &evt){
 		Options.SetInt(VIDEO_PLAY_AFTER_SELECTION, videoPlayAfter->GetSelection());
 		Options.SaveOptions(true, false);
 	}, ID_PLAY_AFTER);
@@ -512,7 +512,7 @@ void VectorItem::ShowContols(VideoToolbar* vt)
 		shapeList->SetToolTip(_("Lista gotowych rysunków ASS z możliwością edycji.\nPo wybraniu rysunku z listy należy ustawić kursor\nw miejcu początku przytrzymać lewy przycisk myszy i przeciągnąć."));
 		shapeList->SetSelection(shapeListSelection);
 
-		auto sendItemToggled = [=](wxCommandEvent& evt) {
+		auto sendItemToggled = [=, this](wxCommandEvent& evt) {
 			int listSelection = shapeList->GetSelection();
 			if (listSelection > shapes->size()) {
 				ShapesEdition se(Notebook::GetTab(), wxPoint(), shapes, shapeListSelection);
@@ -756,7 +756,7 @@ void AllTagsItem::ShowContols(VideoToolbar* vtoolbar)
 		"Gradient linia malejąco - wstawia tag w zaznaczone linie malejąco"));
 	options->SetSelection(mode);
 
-	auto sendItemToggled = [=](wxCommandEvent& evt) {
+	auto sendItemToggled = [=, this](wxCommandEvent& evt) {
 		if (evt.GetId() == ID_TAG_LIST) {
 			int sel = tagList->GetSelection();
 			if (sel < tags->size() && sel >= 0) {
@@ -776,7 +776,7 @@ void AllTagsItem::ShowContols(VideoToolbar* vtoolbar)
 	vtoolbar->Bind(wxEVT_COMMAND_CHOICE_SELECTED, sendItemToggled, ID_OPTIONS);
 
 	edition = new MappedButton(vtoolbar, ID_EDITION, _("Edytuj"), _("Edycja tagów z listy oraz tworzenie nowych"), wxDefaultPosition, wxDefaultSize, -1);
-	vtoolbar->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	vtoolbar->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		AllTagsEdition edit(vtoolbar, wxPoint(), tags, tagList->GetSelection());
 		if (edit.ShowModal() == wxID_OK) {
 			auto tags = edit.GetTags();
@@ -1099,7 +1099,7 @@ void PositionItem::ShowContols(VideoToolbar* vt)
 		_("Przed-góra"), _("Przed-środek"), _("Przed-dół"), 
 		_("Za-góra"), _("Za-środek"), _("Za-dół") };
 	alignment = new KaiChoice(vt, ID_ALIGNMENT, wxDefaultPosition, wxDefaultSize, 21, alignments);
-	vt->Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent& evt) {
+	vt->Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent& evt) {
 		wxCommandEvent* evt1 = new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, ID_MOVE_TOOLBAR_EVENT);
 		an = alignment->GetSelection();
 		evt1->SetInt(GetItemToggled());

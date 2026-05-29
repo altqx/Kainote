@@ -115,7 +115,7 @@ bool Demux::GetSubtitles(SubsGrid* target)
 			codecType = 2;
 
 		progress = new ProgressSink(target->GetParent(), _("Odczyt napisów z pliku Matroska."));
-		progress->SetAndRunTask([=]() {
+		progress->SetAndRunTask([=, this]() {
 			FFMS_GetSubtitles(indexer, trackToRead, &Demux::GetSubtitles, (void*)this);
 			if (progress->WasCancelled()) {
 				subtitleList.clear();

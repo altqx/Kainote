@@ -167,13 +167,13 @@ VideoBox::VideoBox(wxWindow *parent, const wxSize &size)
 	m_VideoToolbar = new VideoToolbar(m_VideoPanel, wxPoint(0, m_PanelHeight - m_ToolBarHeight), wxSize(-1, m_ToolBarHeight));
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &VideoBox::OnChangeVisual, this, ID_VIDEO_TOOLBAR_EVENT);
 
-	Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_MENU_SELECTED, [=, this](wxCommandEvent &evt){
 		renderer->VisualChangeTool(evt.GetInt());
 	}, ID_VECTOR_TOOLBAR_EVENT);
-	Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_MENU_SELECTED, [=, this](wxCommandEvent &evt){
 		renderer->VisualChangeTool(evt.GetInt());
 	}, ID_MOVE_TOOLBAR_EVENT);
-	Bind(wxEVT_COMMAND_MENU_SELECTED, [=](wxCommandEvent &evt){
+	Bind(wxEVT_COMMAND_MENU_SELECTED, [=, this](wxCommandEvent &evt){
 		RefreshTime();
 	}, ID_REFRESH_TIME);
 	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {

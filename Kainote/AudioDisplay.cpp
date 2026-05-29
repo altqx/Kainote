@@ -114,7 +114,7 @@ AudioDisplay::AudioDisplay(wxWindow *parent)
 	GetClientSize(&w, &h);
 	h -= timelineHeight;
 	ProgressTimer.SetOwner(this, 7654);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent &evt){
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent &evt){
 		if (!provider->AudioNotInitialized()){
 			UpdateImage(); ProgressTimer.Stop();
 		}
@@ -126,12 +126,12 @@ AudioDisplay::AudioDisplay(wxWindow *parent)
 #ifndef _WIN32
 	SetBackgroundStyle(wxBG_STYLE_PAINT);
 #endif
-	Bind(EVENT_UPDATE_SCROLLBAR, [=](wxThreadEvent &evt) {
+	Bind(EVENT_UPDATE_SCROLLBAR, [=, this](wxThreadEvent &evt) {
 		UpdateScrollbar();
 	});
 #ifndef _WIN32
 	LinuxPlaybackTimer.SetOwner(this, Audio_Update_Timer);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent&) {
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent&) {
 		if (!stopPlayThread)
 			UpdateTimer();
 	}, Audio_Update_Timer);
@@ -881,7 +881,7 @@ void AudioDisplay::DrawTimescale() {
 		}
 		
 	}
-	auto drawTime = [=](int x, long long pos/*, int *lastTextPos*/, bool drawMS){
+	auto drawTime = [=, this](int x, long long pos/*, int *lastTextPos*/, bool drawMS){
 		//wxCoord textW;
 		int s = pos / rate;
 		int hr = s / 3600;

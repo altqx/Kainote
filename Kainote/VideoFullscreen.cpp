@@ -71,14 +71,14 @@ Fullscreen::Fullscreen(wxWindow* parent, const wxPoint& pos, const wxSize &size)
 	mstimes->SetCursor(wxCURSOR_ARROW);
 	mstimes->SetBackgroundColour(WINDOW_BACKGROUND);
 	Videolabel = new KaiStaticText(panel, -1, emptyString, wxPoint(644, toolBarHeight - 6), wxSize(1200, 26));
-	Videolabel->Bind(wxEVT_LEFT_DOWN, [=](wxMouseEvent &evt){
+	Videolabel->Bind(wxEVT_LEFT_DOWN, [=, this](wxMouseEvent &evt){
 		panel->SetFocus();
 		evt.Skip();
 	});
 	vToolbar = new VideoToolbar(panel, wxPoint(0, buttonSection), wxSize(-1, -1));
 	vToolbar->SetSize(wxSize(size.x, toolBarHeight));
 	vToolbar->Show(!vc->IsDirectShow());
-	showToolbar->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, [=](wxCommandEvent &evt){
+	showToolbar->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, [=, this](wxCommandEvent &evt){
 		bool show = showToolbar->GetValue();
 		vToolbar->Show(show);
 		if (show){ 
@@ -98,7 +98,7 @@ Fullscreen::Fullscreen(wxWindow* parent, const wxPoint& pos, const wxSize &size)
 		vc->OnVolume(evt);
 		}, ID_VOL);
 	//Connect(wxEVT_SIZE, (wxObjectEventFunction)&Fullscreen::OnSize);
-	Bind(wxEVT_SYS_COLOUR_CHANGED, [=](wxSysColourChangedEvent & evt){
+	Bind(wxEVT_SYS_COLOUR_CHANGED, [=, this](wxSysColourChangedEvent & evt){
 		panel->SetForegroundColour(Options.GetColour(WINDOW_TEXT));
 		panel->SetBackgroundColour(Options.GetColour(WINDOW_BACKGROUND));
 	});

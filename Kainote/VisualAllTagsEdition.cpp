@@ -57,15 +57,15 @@ AllTagsEdition::AllTagsEdition(wxWindow* parent, const wxPoint& pos,
 	nameTagSizer->Add(new KaiStaticText(this, -1, _("Tag:")), 1, wxALL | wxEXPAND, 4);
 	nameTagSizer->Add(tagWithoutSlash, 1, wxALL | wxEXPAND, 4);
 	wxBoxSizer* minMaxSizer = new wxBoxSizer(wxHORIZONTAL);
-	minValue = new NumCtrl(this, -1, currentTag.rangeMin, -10000, 10000, false);
-	maxValue = new NumCtrl(this, -1, currentTag.rangeMax, -10000, 10000, false);
+	minValue = new NumCtrl(this, -1, currentTag.rangeMin, -10000.0, 10000.0, false);
+	maxValue = new NumCtrl(this, -1, currentTag.rangeMax, -10000.0, 10000.0, false);
 	minMaxSizer->Add(new KaiStaticText(this, -1, _("Minimalna wartość:")), 1, wxALL | wxEXPAND, 4);
 	minMaxSizer->Add(minValue, 1, wxALL | wxEXPAND, 4);
 	minMaxSizer->Add(new KaiStaticText(this, -1, _("Maksymalna wartość:")), 1, wxALL | wxEXPAND, 4);
 	minMaxSizer->Add(maxValue, 1, wxALL | wxEXPAND, 4);
 	wxBoxSizer* valStepSizer = new wxBoxSizer(wxHORIZONTAL);
-	values[0] = new NumCtrl(this, -1, currentTag.values[0], -10000, 10000, false);
-	step = new NumCtrl(this, -1, currentTag.step, -10000, 10000, false);
+	values[0] = new NumCtrl(this, -1, currentTag.values[0], -10000.0, 10000.0, false);
+	step = new NumCtrl(this, -1, currentTag.step, -10000.0, 10000.0, false);
 	valStepSizer->Add(new KaiStaticText(this, -1, _("Wartość:")), 1, wxALL | wxEXPAND, 4);
 	valStepSizer->Add(values[0], 1, wxALL | wxEXPAND, 4);
 	valStepSizer->Add(new KaiStaticText(this, -1, _("Przeskok:")), 1, wxALL | wxEXPAND, 4);
@@ -98,12 +98,12 @@ AllTagsEdition::AllTagsEdition(wxWindow* parent, const wxPoint& pos,
 	valuesAndInsertModeSizer->Add(numOfValues, 1, wxEXPAND | wxALL, 4);
 	valuesAndInsertModeSizer->Add(tagInsertMode, 1, wxEXPAND | wxALL, 4);
 	for (int i = 1; i < 4; i++) {
-		values[i] = new NumCtrl(this, -1, currentTag.values[i], -10000, 10000, false);
+		values[i] = new NumCtrl(this, -1, currentTag.values[i], -10000.0, 10000.0, false);
 		values[i]->SetToolTip(wxString::Format(_("Wartość %i"), i + 2));
 		values[i]->Enable(currentTag.numOfValues > i);
 	}
 
-	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent& evt) {
 		int numAdditionalValues = numOfValues->GetSelection() + 1;
 		for (int i = 1; i < 4; i++) {
 			values[i]->Enable(numAdditionalValues > i);

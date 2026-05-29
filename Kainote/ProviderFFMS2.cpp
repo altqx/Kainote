@@ -564,7 +564,7 @@ ProviderFFMS2::~ProviderFFMS2()
 
 
 
-int FFMS_CC ProviderFFMS2::UpdateProgress(long long Current, long long Total, void* ICPrivate)
+int FFMS_CC ProviderFFMS2::UpdateProgress(int64_t Current, int64_t Total, void* ICPrivate)
 {
 	ProgressSink* progress = (ProgressSink*)ICPrivate;
 	progress->Progress(((double)Current / (double)Total) * 100);

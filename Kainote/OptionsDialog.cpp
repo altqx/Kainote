@@ -440,7 +440,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		KaiTextCtrl* path = new KaiTextCtrl(EditorAdvanced, ID_EXTERNAL_FONTS_FOLDER, Options.GetString(EXTERNAL_FONTS_DIRECTORY));
 		ConOpt(path, EXTERNAL_FONTS_DIRECTORY);
 		MappedButton* choosePath = new MappedButton(EditorAdvanced, ID_EXTERNAL_FONTS_CHOOSE_FOLDER, _("Wybierz"));
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& event) {
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& event) {
 			wxDirDialog ddlg(this, _("Wybierz zewnętrzny folder czcionek"), path->GetValue());
 			ddlg.ShowModal();
 			path->SetValue(ddlg.GetPath());
@@ -676,7 +676,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 		buttonsSizer->Add(deleteHotkey, 0, wxALL, 2);
 		HkeysSizer->Add(buttonsSizer, 0, wxALL | wxALIGN_CENTER, 2);
 		// filter list it need created list
-		Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent &evt){
 			//we check to second collumn that contain shortcut
 			Shortcuts->FilterList(1, filterList->GetSelection());
 		}, 14568);
@@ -904,7 +904,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent)
 			int size = themeList->Append(themeName);
 			themeList->SetSelection(size);
 		}, 14566);
-		Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent &evt){
+		Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent &evt){
 			wxString themeName = themeList->GetString(themeList->GetSelection());
 			if (themeName.IsEmpty()){ return; }
 			Options.LoadColors(themeName);
@@ -1209,12 +1209,12 @@ void OptionsDialog::SetOptions(bool saveall)
 			KaiListCtrl *list = (KaiListCtrl*)OB.ctrl;
 			if (list->GetModified()){
 
-				if (OB.option == ID_COLOR_CONFIG){
+				if (OB.option == (CONFIG)ID_COLOR_CONFIG){
 					list->SaveAll(1);
 					Options.SaveColors();
 					ChangeColors();
 				}
-				else if (OB.option == ID_HOTKEYS_CONFIG){
+				else if (OB.option == (CONFIG)ID_HOTKEYS_CONFIG){
 					if (list->GetModified() && hotkeysCopy.size()){
 						list->SaveAll(1);
 						Hkeys.SetHotkeysMap(hotkeysCopy);

@@ -47,7 +47,7 @@ KaiScrollbar::KaiScrollbar(wxWindow *parent, int id, const wxPoint &pos, const w
 			wxSize(thickness, parent->GetClientSize().y));
 	}
 	pageLoop.SetOwner(this, 2345);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent &evt){
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent &evt){
 		if (unitPos == 0 || unitPos == allVisibleSize){ pageLoop.Stop(); return; }
 		if (diff <= thumbPos){ unitPos -= pageSize; }
 		else if (diff >= thumbPos + thumbSize){ unitPos += pageSize; }
@@ -62,7 +62,7 @@ KaiScrollbar::KaiScrollbar(wxWindow *parent, int id, const wxPoint &pos, const w
 		if (pageLoop.GetInterval() == 500){ pageLoop.Start(100); }
 	}, 2345);
 	arrowLoop.SetOwner(this, 2346);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent &evt){
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent &evt){
 		//float unitToPixel = (float)thumbSize / (float)thumbRange;
 		if (element & ELEMENT_BUTTON_BOTTOM && unitPos < allVisibleSize){
 			unitPos += scrollRate;

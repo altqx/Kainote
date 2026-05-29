@@ -50,7 +50,7 @@ ProgresDialog::ProgresDialog(wxWindow *_parent, const wxString &title, const wxP
 	Bind(EVT_SHOW_DIALOG, &ProgresDialog::OnShow, this);
 	Bind(EVT_SET_PROGRESS, &ProgresDialog::OnProgress, this);
 	Bind(EVT_SET_TITLE, &ProgresDialog::OnTitle, this);
-	Bind(EVT_CREATE_SECONDARY_DIALOG, [=](wxThreadEvent &evt){
+	Bind(EVT_CREATE_SECONDARY_DIALOG, [=, this](wxThreadEvent &evt){
 		std::pair<std::function<int()>, wxSemaphore*> pair = evt.GetPayload<std::pair<std::function<int()>, wxSemaphore*>>();
 		wxSemaphore* sema = pair.second;
 		std::function<int()> showDial = pair.first;
@@ -59,7 +59,7 @@ ProgresDialog::ProgresDialog(wxWindow *_parent, const wxString &title, const wxP
 		oldtime = 0;
 		firsttime = timeGetTime();
 	});
-	Bind(EVT_END_MODAL, [=](wxThreadEvent &evt){
+	Bind(EVT_END_MODAL, [=, this](wxThreadEvent &evt){
 		EndFrameProgress();
 		if (IsModal()){
 			EndModal(wxID_OK);

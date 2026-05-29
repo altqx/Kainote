@@ -51,7 +51,7 @@ AutoSavesRemoving::AutoSavesRemoving(wxWindow* parent)
 	}
 	year = new KaiChoice(this, -1, wxDefaultPosition, wxDefaultSize, years);
 
-	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_CHOICE_SELECTED, [=, this](wxCommandEvent& evt) {
 		int sely = year->GetSelection();
 		wxString selyear = year->GetString(sely);
 		int numyear = wxAtoi(selyear);
@@ -135,25 +135,25 @@ AutoSavesRemoving::AutoSavesRemoving(wxWindow* parent)
 	audioCache->Add(removeAllAudioCache, 1, wxALL | wxEXPAND, 3);
 	audioCache->Add(removeAudioCacheByDate, 1, wxALL | wxEXPAND, 3);
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		ClearSelected(evt.GetId());
 		}, ID_REMOVE_SELECTED_AUTO_SAVES, ID_REMOVE_SELECTED_AUDIO_CACHES);
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		ClearAll(evt.GetId());
 		}, ID_REMOVE_ALL_AUTO_SAVES, ID_REMOVE_ALL_AUDIO_CACHES);
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		ClearByDate(evt.GetId());
 		}, ID_REMOVE_AUTO_SAVES_BY_DATE, ID_REMOVE_AUDIO_CACHE_BY_DATE);
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		ClearAll(ID_REMOVE_ALL_AUTO_SAVES);
 		ClearAll(ID_REMOVE_ALL_INDICES);
 		ClearAll(ID_REMOVE_ALL_AUDIO_CACHES);
 		}, ID_REMOVE_ALL);
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent& evt) {
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=, this](wxCommandEvent& evt) {
 		ClearByDate(ID_REMOVE_AUTO_SAVES_BY_DATE);
 		ClearByDate(ID_REMOVE_INDICES_BY_DATE);
 		ClearByDate(ID_REMOVE_AUDIO_CACHE_BY_DATE);

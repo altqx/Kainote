@@ -24,7 +24,7 @@ DragnDrop::DragnDrop(KainoteFrame* kfparent)
 	Kai = kfparent;
 	int timerId = 8989;
 	timer.SetOwner(Kai, timerId);
-	Kai->Bind(wxEVT_TIMER, [=](wxTimerEvent &evt) { OnDropTimer(evt); }, timerId);
+	Kai->Bind(wxEVT_TIMER, [=, this](wxTimerEvent &evt) { OnDropTimer(evt); }, timerId);
 }
 
 bool DragnDrop::OnDropFiles(wxCoord posx, wxCoord posy, const wxArrayString& filenames)

@@ -492,8 +492,8 @@ namespace Auto{
 			PUSH_FIELD(scroll_position, "Active Line");
 			PUSH_FIELD(active_row, "Active Line");
 			PUSH_FIELD(ar_mode, "");
-			set_field(L, "video_position", (c->video->HasFFMS2()) ? 
-				c->video->GetFFMS2()->GetFramefromMS(c->video->Tell()) : NULL);
+			set_field(L, "video_position", (c->video->HasFFMS2()) ?
+				c->video->GetFFMS2()->GetFramefromMS(c->video->Tell()) : 0);
 #undef PUSH_FIELD
 			set_field(L, "audio_file", c->AudioPath);
 			set_field(L, "video_file", c->VideoPath);

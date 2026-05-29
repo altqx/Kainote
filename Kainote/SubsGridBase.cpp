@@ -125,7 +125,7 @@ SubsGridBase::SubsGridBase(wxWindow *parent, const long int id, const wxPoint& p
 	timer.SetOwner(this, ID_AUTIMER);
 	//reset autosave on statusbar
 	nullifyTimer.SetOwner(this, 27890);
-	Bind(wxEVT_TIMER, [=](wxTimerEvent &evt){
+	Bind(wxEVT_TIMER, [=, this](wxTimerEvent &evt){
 		Kai->SetStatusText(emptyString, 0);
 	}, 27890);
 }

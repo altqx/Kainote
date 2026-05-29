@@ -54,8 +54,8 @@ SubsGridWindow::SubsGridWindow(wxWindow *parent, const long int id, const wxPoin
 	Bind(wxEVT_MIDDLE_DOWN, &SubsGridWindow::OnMouseEvent, this);
 	Bind(wxEVT_RIGHT_DOWN, &SubsGridWindow::OnMouseEvent, this);
 	Bind(wxEVT_RIGHT_UP, &SubsGridWindow::OnMouseEvent, this);
-	Bind(wxEVT_SET_FOCUS, [=](wxFocusEvent& evt) {Refresh(false); });
-	Bind(wxEVT_KILL_FOCUS, [=](wxFocusEvent& evt) {Refresh(false); });
+	Bind(wxEVT_SET_FOCUS, [=, this](wxFocusEvent& evt) {Refresh(false); });
+	Bind(wxEVT_KILL_FOCUS, [=, this](wxFocusEvent& evt) {Refresh(false); });
 }
 
 SubsGridWindow::~SubsGridWindow()
