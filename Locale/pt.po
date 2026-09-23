@@ -8,17 +8,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Kainote\n"
-"Report-Msgid-Bugs-To: https://github.com/bjakja/Kainote/issues\n"
+"Report-Msgid-Bugs-To: poiiiii4yy@gmail.com\n"
 "POT-Creation-Date: 2026-09-18 02:02+0700\n"
-"PO-Revision-Date: 2026-06-27 11:01+0000\n"
-"Last-Translator: Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/kainote/kainote/pt/>\n"
+"PO-Revision-Date: 2026-09-23 13:52+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/kainote/"
+"kainote/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: Kainote/AudioBox.cpp:93
 #, fuzzy
@@ -474,8 +475,8 @@ msgid ""
 "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
 "*.ass;*.ssa;*.srt;*.sub;*.txt"
 msgstr ""
-"Arquivos de subtítulo "
-"(*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
+"Arquivos de subtítulo (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
 
 #: Kainote/AutoSavesRemoving.cpp:178
 #, fuzzy
@@ -1381,7 +1382,8 @@ msgid ""
 "Because of the large video file,\n"
 "the search for everything \"*. *\" Is changed to *.ass"
 msgstr ""
-"Filtros de pesquisa do Windows separados por ponto-e-vírgula, por exemplo, \"*.ass; *.srt\".\n"
+"Filtros de pesquisa do Windows separados por ponto-e-vírgula, por exemplo, "
+"\"*.ass; *.srt\".\n"
 "Por causa do grande arquivo de vídeo,\n"
 "a busca de tudo \"*. *\" É alterado para *.ass"
 
@@ -1963,12 +1965,12 @@ msgid "found"
 msgstr "encontrado"
 
 #: Kainote/FontCollector.cpp:852 Kainote/FontCollector.cpp:871
-#, c-format
+#, c-format, fuzzy
 msgctxt "found or copied"
 msgid "%d font"
 msgid_plural "%d fonts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d fontes"
+msgstr[1] "%d fontes"
 
 #: Kainote/FontCollector.cpp:854
 #, fuzzy, c-format
@@ -1978,12 +1980,12 @@ msgstr ""
 ".\n"
 
 #: Kainote/FontCollector.cpp:856 Kainote/FontCollector.cpp:861
-#, c-format
+#, c-format, fuzzy
 msgctxt "not found or not copied"
 msgid "%d font"
 msgid_plural "%d fonts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d fontes"
+msgstr[1] "%d fontes"
 
 #: Kainote/FontCollector.cpp:859
 #, fuzzy, c-format
@@ -4068,9 +4070,9 @@ msgid ""
 "*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|"
 "*.mkv;*.ogm"
 msgstr ""
-"Arquivos de subtítulo "
-"(*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt|Vídeos "
-"com legendas embutidas (*.mkv),(*.ogm)|*.mkv;*.ogm"
+"Arquivos de subtítulo (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|Vídeos com legendas embutidas (*.mkv),(*.ogm)|"
+"*.mkv;*.ogm"
 
 #: Kainote/KainoteFrame.cpp:1039
 #, fuzzy
@@ -4080,9 +4082,8 @@ msgid ""
 "*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All "
 "files (*.*)|*.*"
 msgstr ""
-"Arquivos de vídeo "
-"(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.m*m*.3gp),(*.mpg.)|*.m.mcv."
-" Todos os ficheiros (*.*)|*.*"
+"Arquivos de vídeo (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),"
+"(*.rm),(*.m*m*.3gp),(*.mpg.)|*.m.mcv. Todos os ficheiros (*.*)|*.*"
 
 #: Kainote/KainoteFrame.cpp:1055
 #, fuzzy
@@ -4090,9 +4091,8 @@ msgid ""
 "Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|"
 "All files (*.*)|*.*"
 msgstr ""
-"Arquivo Keyframes "
-"(*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log| Todos os "
-"ficheiros (*.*)|*.*"
+"Arquivo Keyframes (*.txt),(*.pass),(*.stats),(*.log)|"
+"*.txt;*.pass;*.stats;*.log| Todos os ficheiros (*.*)|*.*"
 
 #: Kainote/KainoteFrame.cpp:1107
 #, fuzzy, c-format
@@ -4123,8 +4123,10 @@ msgid ""
 "by email.\n"
 "\n"
 msgstr ""
-"Se você notou quaisquer bugs ou tiver sugestões para alterações ou novos recursos,\n"
-"você pode escrever sobre ele em: Discord https://discord.gg/9WacFTtK6q, Github, ou por email.\n"
+"Se você notou quaisquer bugs ou tiver sugestões para alterações ou novos "
+"recursos,\n"
+"você pode escrever sobre ele em: Discord https://discord.gg/9WacFTtK6q, "
+"Github, ou por email.\n"
 "\n"
 ".\n"
 "\n"
@@ -4141,7 +4143,8 @@ msgid ""
 "automation,\n"
 "and several other individual features taken from Aegisub -\n"
 msgstr ""
-"Color picker, demuxing legendas de MKV, caixa de áudio, leitor de áudio, automação,\n"
+"Color picker, demuxing legendas de MKV, caixa de áudio, leitor de áudio, "
+"automação,\n"
 "e várias outras características individuais tiradas de Aegisub -\n"
 
 #: Kainote/KainoteFrame.cpp:1124
@@ -4210,7 +4213,8 @@ msgid ""
 "- MatiasMovie (found some crashes and suggessted some improvements, helps "
 "with crash debugging).\n"
 msgstr ""
-"- MatiasMovie (encontrado algumas falhas e suggessted algumas melhorias, ajuda com depuração de acidente).\n"
+"- MatiasMovie (encontrado algumas falhas e suggessted algumas melhorias, "
+"ajuda com depuração de acidente).\n"
 ".\n"
 
 #: Kainote/KainoteFrame.cpp:1138
@@ -6251,9 +6255,9 @@ msgid "Video frame size is too large"
 msgstr "Tamanho do quadro de vídeo é muito grande"
 
 #: Kainote/ProviderFFMS2.cpp:147
-#, c-format
+#, c-format, fuzzy
 msgid "Cannot get frame %i: %s"
-msgstr ""
+msgstr "Não é possível obter frame %i: %s"
 
 #: Kainote/ProviderFFMS2.cpp:306
 #, fuzzy
@@ -7386,11 +7390,11 @@ msgid "Set"
 msgstr "Definida"
 
 #: Kainote/SubsFile.cpp:55
-#, c-format
+#, c-format, fuzzy
 msgid "%d element"
 msgid_plural "%d elements"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d elementos"
+msgstr[1] "%d elementos"
 
 #: Kainote/SubsFile.cpp:149
 #, fuzzy
@@ -8575,33 +8579,39 @@ msgid "Toolbar alignment"
 msgstr "Alinhamento da barra de ferramentas"
 
 #: Kainote/UpdateChecker.cpp:124
-#, c-format
+#, c-format, fuzzy
 msgid "A new version (%s) is available. Update?"
-msgstr ""
+msgstr "Uma nova versão (%s) está disponível. Actualização?"
 
 #: Kainote/UpdateChecker.cpp:124
+#, fuzzy
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #: Kainote/UpdateChecker.cpp:125
+#, fuzzy
 msgid "Disable updates"
-msgstr ""
+msgstr "Desativar atualizações"
 
 #: Kainote/UpdateChecker.cpp:126
+#, fuzzy
 msgid "Update after closing"
-msgstr ""
+msgstr "Atualização após o fechamento"
 
 #: Kainote/UpdateChecker.cpp:237
+#, fuzzy
 msgid "Cannot download the new version of Kainote"
-msgstr ""
+msgstr "Não é possível baixar a nova versão do Kainote"
 
 #: Kainote/UpdateChecker.cpp:242
+#, fuzzy
 msgid "Cannot find the Kainote updater"
-msgstr ""
+msgstr "Não é possível encontrar o atualizador Kainote"
 
 #: Kainote/UpdateChecker.cpp:250 Kainote/UpdateChecker.cpp:255
+#, fuzzy
 msgid "Cannot close Kainote"
-msgstr ""
+msgstr "Não consigo fechar Kainote"
 
 #: Kainote/UtilsWindows.cpp:40
 #, fuzzy
@@ -8694,9 +8704,9 @@ msgid ""
 "(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
 "All files (*.*)|*.*"
 msgstr ""
-"Arquivos de "
-"vídeo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv.asf;*."
-" Todos os ficheiros (*.*)|*.*"
+"Arquivos de vídeo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),"
+"(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv.asf;*. Todos os "
+"ficheiros (*.*)|*.*"
 
 #: Kainote/VideoBox.cpp:1092
 #, fuzzy
@@ -9091,12 +9101,17 @@ msgstr ""
 "Adicionar - muda todas as tags adicionando o valor do controle deslizante.\n"
 "Inserir - insere a tag na posição do cursor para uma linha,\n"
 "ou no início para várias linhas.\n"
-"Multiplicar - multiplica o valor do controle deslizante pelo número de linha selecionado;\n"
+"Multiplicar - multiplica o valor do controle deslizante pelo número de linha "
+"selecionado;\n"
 "a primeira linha não é alterada.\n"
-"Texto gradual aumentando - insere uma tag em cada caractere, aumentando o valor.\n"
-"Texto gradual diminuindo - insere uma tag em cada caractere, diminuindo o valor.\n"
-"Linha gradual aumentando - insere uma tag em linhas selecionadas, aumentando o valor.\n"
-"Linha gradual diminuindo - insere uma tag em linhas selecionadas, diminuindo o valor."
+"Texto gradual aumentando - insere uma tag em cada caractere, aumentando o "
+"valor.\n"
+"Texto gradual diminuindo - insere uma tag em cada caractere, diminuindo o "
+"valor.\n"
+"Linha gradual aumentando - insere uma tag em linhas selecionadas, aumentando "
+"o valor.\n"
+"Linha gradual diminuindo - insere uma tag em linhas selecionadas, diminuindo "
+"o valor."
 
 #: Kainote/VideoToolbar.cpp:781
 #, fuzzy
@@ -9633,7 +9648,8 @@ msgid ""
 "Are you sure you want to make changes in all subtitle files?\n"
 "If you make a mistake, backups are in the 'ReplaceBackup' folder."
 msgstr ""
-"Tem certeza de que deseja fazer alterações em todos os arquivos de legendas?\n"
+"Tem certeza de que deseja fazer alterações em todos os arquivos de "
+"legendas?\n"
 "Se você cometer um erro, os backups estão na pasta 'ReplaceBackup'."
 
 #: Kainote/findreplace.cpp:1295

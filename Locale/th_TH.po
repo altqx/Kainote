@@ -5,11 +5,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Kainote\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://github.com/bjakja/Kainote/issues\n"
 "POT-Creation-Date: 2026-09-18 02:02+0700\n"
 "PO-Revision-Date: 2026-06-18 16:00+0700\n"
 "Last-Translator: altinat <al@altqx.com>\n"
-"Language-Team: Thai <https://hosted.weblate.org/projects/kainote/kainote/th/>\n"
+"Language-Team: Thai <https://hosted.weblate.org/projects/kainote/kainote/th/"
+">\n"
 "Language: th_TH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -423,8 +424,12 @@ msgid "Remove older audio cache files"
 msgstr "ลบแฟ้มแคชเสียงที่เก่ากว่า"
 
 #: Kainote/AutoSavesRemoving.cpp:177
-msgid "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
-msgstr "แฟ้มคำบรรยาย (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
+msgid ""
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
+msgstr ""
+"แฟ้มคำบรรยาย (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
 
 #: Kainote/AutoSavesRemoving.cpp:178
 msgid "Index files (*.ffindex)|*.ffindex"
@@ -454,8 +459,12 @@ msgstr ""
 "%s."
 
 #: Kainote/Automation.cpp:656
-msgid "You are trying to load an Automation 3 script as an Automation 4 script. Automation 3 is no longer supported."
-msgstr "คุณกำลังพยายามโหลดสคริปต์ Automation 3 ในฐานะสคริปต์ Automation 4 ซึ่งไม่รองรับ Automation 3 แล้ว"
+msgid ""
+"You are trying to load an Automation 3 script as an Automation 4 script. "
+"Automation 3 is no longer supported."
+msgstr ""
+"คุณกำลังพยายามโหลดสคริปต์ Automation 3 ในฐานะสคริปต์ Automation 4 ซึ่งไม่รองรับ "
+"Automation 3 แล้ว"
 
 #: Kainote/Automation.cpp:699
 #, c-format
@@ -721,13 +730,17 @@ msgstr "สีเงา"
 msgid ""
 "Swap shortcuts between the color picker\n"
 "and the color selection window"
-msgstr "สลับปุ่มลัดระหว่างตัวเลือกสี\nกับหน้าต่างเลือกสี"
+msgstr ""
+"สลับปุ่มลัดระหว่างตัวเลือกสี\n"
+"กับหน้าต่างเลือกสี"
 
 #: Kainote/ColorPicker.cpp:564
 msgid ""
 "Checking this option opens the color picker on left-click,\n"
 "and the color selection window on right-click."
-msgstr "เมื่อเลือกตัวเลือกนี้ คลิกซ้ายจะเปิดตัวเลือกสี\nและคลิกขวาจะเปิดหน้าต่างเลือกสี"
+msgstr ""
+"เมื่อเลือกตัวเลือกนี้ คลิกซ้ายจะเปิดตัวเลือกสี\n"
+"และคลิกขวาจะเปิดหน้าต่างเลือกสี"
 
 #: Kainote/ColorPicker.cpp:574
 msgid "Selected color:"
@@ -1068,7 +1081,8 @@ msgid "Text position"
 msgstr "ตำแหน่งข้อความ"
 
 #: Kainote/EditBox.cpp:1197
-msgid "Translator mode displays and saves both foreign text and translation text"
+msgid ""
+"Translator mode displays and saves both foreign text and translation text"
 msgstr "โหมดผู้แปลจะแสดงและบันทึกทั้งข้อความภาษาต่างประเทศและข้อความการแปล"
 
 #: Kainote/EditBox.cpp:1198
@@ -1124,7 +1138,9 @@ msgid "Line top and bottom margins"
 msgstr "ระยะขอบบนและขอบล่างของบรรทัด"
 
 #: Kainote/EditBox.cpp:1211
-msgid "Line effect. Used to mark lines to which karaoke or VSFilter effects should be applied"
+msgid ""
+"Line effect. Used to mark lines to which karaoke or VSFilter effects should "
+"be applied"
 msgstr "เอฟเฟกต์ของบรรทัด ใช้ระบุบรรทัดที่จะใช้เอฟเฟกต์คาราโอเกะหรือ VSFilter"
 
 #: Kainote/EditBox.cpp:1212
@@ -1277,7 +1293,9 @@ msgstr "แทนที่ทั้งหมด"
 msgid ""
 "Replace in all open\n"
 "subtitles"
-msgstr "แทนที่ในคำบรรยาย\nที่เปิดอยู่ทั้งหมด"
+msgstr ""
+"แทนที่ในคำบรรยาย\n"
+"ที่เปิดอยู่ทั้งหมด"
 
 #: Kainote/FindReplaceDialog.cpp:205 Kainote/FindReplaceDialog.cpp:413
 #: Kainote/FindReplaceDialog.cpp:428
@@ -1419,7 +1437,8 @@ msgid "Prompt"
 msgstr "คำถาม"
 
 #: Kainote/FontCatalogList.cpp:168
-msgid "The catalog list has autosave; files are stored in the \"Config\" folder."
+msgid ""
+"The catalog list has autosave; files are stored in the \"Config\" folder."
 msgstr "รายการของแคตตาล็อกจะถูกบันทึกอัตโนมัติไว้ในโฟลเดอร์ \"Config\""
 
 #: Kainote/FontCatalogList.cpp:170 Kainote/FontCatalogList.cpp:859
@@ -1624,7 +1643,9 @@ msgstr ""
 msgid ""
 "Retrieved sizes and names of %i fonts, elapsed time %sms.\n"
 "\n"
-msgstr "อ่านขนาดและชื่อแบบอักษร %i รายการแล้ว ใช้เวลา %s มิลลิวินาที\n\n"
+msgstr ""
+"อ่านขนาดและชื่อแบบอักษร %i รายการแล้ว ใช้เวลา %s มิลลิวินาที\n"
+"\n"
 
 #: Kainote/FontCollector.cpp:821
 msgid "Path is not available"
@@ -1739,7 +1760,9 @@ msgstr "ไม่สามารถบันทึกแบบอักษรช
 msgid ""
 "Completed, copied %i fonts.\n"
 "Failed to copy %i fonts."
-msgstr "คัดลอกแบบอักษรสำเร็จ %i รายการ\nคัดลอกไม่สำเร็จ %i รายการ"
+msgstr ""
+"คัดลอกแบบอักษรสำเร็จ %i รายการ\n"
+"คัดลอกไม่สำเร็จ %i รายการ"
 
 #: Kainote/FontCollector.cpp:977
 #, c-format
@@ -2264,7 +2287,8 @@ msgid "Add lead-out"
 msgstr "เพิ่มช่วงต่อท้าย"
 
 #: Kainote/Hotkeys.cpp:270
-msgid "The shortcuts file is outdated and will be replaced with the default one"
+msgid ""
+"The shortcuts file is outdated and will be replaced with the default one"
 msgstr "แฟ้มปุ่มลัดล้าสมัย แฟ้มปุ่มลัดจะถูกแทนที่ด้วยค่าเริ่มต้น"
 
 #: Kainote/Hotkeys.cpp:373
@@ -2307,7 +2331,8 @@ msgid "Please enter a hotkey for \"%s\"."
 msgstr "ป้อนปุ่มลัดสำหรับ \"%s\""
 
 #: Kainote/Hotkeys.cpp:641
-msgid "Global and editor shortcuts must include modifiers (e.g. Shift, Ctrl, Alt)."
+msgid ""
+"Global and editor shortcuts must include modifiers (e.g. Shift, Ctrl, Alt)."
 msgstr "ปุ่มลัดส่วนกลางและปุ่มลัดตัวแก้ไขต้องมีปุ่มปรับแต่ง เช่น Shift, Ctrl หรือ Alt"
 
 #: Kainote/Hotkeys.cpp:644
@@ -3369,16 +3394,33 @@ msgid "Choose subtitle file"
 msgstr "เลือกแฟ้มคำบรรยาย"
 
 #: Kainote/KainoteFrame.cpp:1009
-msgid "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|*.mkv;*.ogm"
-msgstr "แฟ้มคำบรรยาย (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt|วิดีโอที่มีคำบรรยาย (*.mkv),(*.ogm)|*.mkv;*.ogm"
+msgid ""
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|"
+"*.mkv;*.ogm"
+msgstr ""
+"แฟ้มคำบรรยาย (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|วิดีโอที่มีคำบรรยาย (*.mkv),(*.ogm)|*.mkv;*.ogm"
 
 #: Kainote/KainoteFrame.cpp:1039
-msgid "Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All files (*.*)|*.*"
-msgstr "แฟ้มวิดีโอ (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|แฟ้มทั้งหมด (*.*)|*.*"
+msgid ""
+"Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All "
+"files (*.*)|*.*"
+msgstr ""
+"แฟ้มวิดีโอ (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|"
+"แฟ้มทั้งหมด (*.*)|*.*"
 
 #: Kainote/KainoteFrame.cpp:1055
-msgid "Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|All files (*.*)|*.*"
-msgstr "แฟ้มคีย์เฟรม (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|แฟ้มทั้งหมด (*.*)|*.*"
+msgid ""
+"Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|"
+"All files (*.*)|*.*"
+msgstr ""
+"แฟ้มคีย์เฟรม (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|"
+"แฟ้มทั้งหมด (*.*)|*.*"
 
 #: Kainote/KainoteFrame.cpp:1107
 #, c-format
@@ -3386,7 +3428,8 @@ msgid ""
 "Subtitle editor by Marcin Drob aka Bakura or Bjakja (bjakja7@gmail.com),\n"
 "version %s from %s"
 msgstr ""
-"ตัวแก้ไขคำบรรยายโดย Marcin Drob หรือที่รู้จักในชื่อ Bakura หรือ Bjakja (bjakja7@gmail.com)\n"
+"ตัวแก้ไขคำบรรยายโดย Marcin Drob หรือที่รู้จักในชื่อ Bakura หรือ Bjakja "
+"(bjakja7@gmail.com)\n"
 "เวอร์ชัน %s วันที่ %s"
 
 #: Kainote/KainoteFrame.cpp:1109
@@ -3399,8 +3442,10 @@ msgstr ""
 
 #: Kainote/KainoteFrame.cpp:1110
 msgid ""
-"If you have noticed any bugs or have any suggestions for changes or new features,\n"
-"you can write about it in: Discord https://discord.gg/9WacFTtK6q, Github, or by email.\n"
+"If you have noticed any bugs or have any suggestions for changes or new "
+"features,\n"
+"you can write about it in: Discord https://discord.gg/9WacFTtK6q, Github, or "
+"by email.\n"
 "\n"
 msgstr ""
 "หากพบข้อบกพร่อง หรือมีข้อเสนอแนะเกี่ยวกับการเปลี่ยนแปลงหรือฟีเจอร์ใหม่\n"
@@ -3413,9 +3458,12 @@ msgstr "Kainote มีบางส่วนของโครงการดั�
 
 #: Kainote/KainoteFrame.cpp:1113
 msgid ""
-"Color picker, demuxing subtitles from MKV, audio box, audio player, automation,\n"
+"Color picker, demuxing subtitles from MKV, audio box, audio player, "
+"automation,\n"
 "and several other individual features taken from Aegisub -\n"
-msgstr "ตัวเลือกสี การแยกคำบรรยายจาก MKV หน้าต่างเสียง เครื่องเล่นเสียง Automation\nและคุณสมบัติอื่น ๆ อีกหลายรายการที่นำมาจาก Aegisub -\n"
+msgstr ""
+"ตัวเลือกสี การแยกคำบรรยายจาก MKV หน้าต่างเสียง เครื่องเล่นเสียง Automation\n"
+"และคุณสมบัติอื่น ๆ อีกหลายรายการที่นำมาจาก Aegisub -\n"
 
 #: Kainote/KainoteFrame.cpp:1124
 msgid "About Kainote"
@@ -3450,16 +3498,24 @@ msgstr ""
 "ช่วยได้มากในการทดสอบ Kainote บนคอมพิวเตอร์ช้า)\n"
 
 #: Kainote/KainoteFrame.cpp:1135
-msgid "- Devilkan (crashhunter, because of his system and habits he made Kainote crash a lot\n"
-msgstr "- Devilkan (ผู้ค้นหาข้อขัดข้อง ซึ่งพบข้อขัดข้องจำนวนมากจากระบบและพฤติกรรมการใช้งานของตน\n"
+msgid ""
+"- Devilkan (crashhunter, because of his system and habits he made Kainote "
+"crash a lot\n"
+msgstr ""
+"- Devilkan (ผู้ค้นหาข้อขัดข้อง ซึ่งพบข้อขัดข้องจำนวนมากจากระบบและพฤติกรรมการใช้งานของตน\n"
 
 #: Kainote/KainoteFrame.cpp:1136
-msgid "helped with typesetting tools and came up with many more improvements).\n"
-msgstr "และช่วยปรับปรุงการทำงานของเครื่องมือจัดวางตัวอักษร รวมถึงเสนอการปรับปรุงอื่น ๆ อีกมากมาย)\n"
+msgid ""
+"helped with typesetting tools and came up with many more improvements).\n"
+msgstr ""
+"และช่วยปรับปรุงการทำงานของเครื่องมือจัดวางตัวอักษร รวมถึงเสนอการปรับปรุงอื่น ๆ อีกมากมาย)\n"
 
 #: Kainote/KainoteFrame.cpp:1137
-msgid "- MatiasMovie (found some crashes and suggessted some improvements, helps with crash debugging).\n"
-msgstr "- MatiasMovie (พบข้อขัดข้องบางส่วน เสนอการปรับปรุงหลายรายการ และช่วยดีบักข้อขัดข้อง)\n"
+msgid ""
+"- MatiasMovie (found some crashes and suggessted some improvements, helps "
+"with crash debugging).\n"
+msgstr ""
+"- MatiasMovie (พบข้อขัดข้องบางส่วน เสนอการปรับปรุงหลายรายการ และช่วยดีบักข้อขัดข้อง)\n"
 
 #: Kainote/KainoteFrame.cpp:1138
 msgid "- mas1904 (found some errors and helping with crash debuging).\n"
@@ -3498,7 +3554,9 @@ msgstr "บันทึกแฟ้มคำบรรยาย"
 msgid ""
 "Chosen file is read only,\n"
 "please save with different name or change file attribute."
-msgstr "แฟ้มที่เลือกเป็นแบบอ่านอย่างเดียว\nโปรดบันทึกโดยใช้ชื่ออื่นหรือเปลี่ยนคุณสมบัติของแฟ้ม"
+msgstr ""
+"แฟ้มที่เลือกเป็นแบบอ่านอย่างเดียว\n"
+"โปรดบันทึกโดยใช้ชื่ออื่นหรือเปลี่ยนคุณสมบัติของแฟ้ม"
 
 #: Kainote/KainoteFrame.cpp:1346
 #, c-format
@@ -3685,13 +3743,17 @@ msgstr "ค้นหาข้อผิดพลาด"
 msgid ""
 "Find errors\n"
 "in current tab"
-msgstr "ค้นหาข้อผิดพลาด\nในแท็บปัจจุบัน"
+msgstr ""
+"ค้นหาข้อผิดพลาด\n"
+"ในแท็บปัจจุบัน"
 
 #: Kainote/MisspellReplacer.cpp:123
 msgid ""
 "Find errors\n"
 "in all tabs"
-msgstr "ค้นหาข้อผิดพลาด\nในทุกแท็บ"
+msgstr ""
+"ค้นหาข้อผิดพลาด\n"
+"ในทุกแท็บ"
 
 #: Kainote/MisspellReplacer.cpp:124
 msgid "Replace error"
@@ -3701,13 +3763,17 @@ msgstr "แทนที่ข้อผิดพลาด"
 msgid ""
 "Replace all errors\n"
 "in current tab"
-msgstr "แทนที่ข้อผิดพลาดทั้งหมด\nในแท็บปัจจุบัน"
+msgstr ""
+"แทนที่ข้อผิดพลาดทั้งหมด\n"
+"ในแท็บปัจจุบัน"
 
 #: Kainote/MisspellReplacer.cpp:127
 msgid ""
 "Replace all errors\n"
 "in all tabs"
-msgstr "แทนที่ข้อผิดพลาดทั้งหมด\nในทุกแท็บ"
+msgstr ""
+"แทนที่ข้อผิดพลาดทั้งหมด\n"
+"ในทุกแท็บ"
 
 #: Kainote/MisspellReplacer.cpp:292 Kainote/MisspellReplacer.cpp:317
 #: Kainote/MisspellReplacer.cpp:336
@@ -5000,7 +5066,9 @@ msgid ""
 "WARNING! Behavior differs on each Windows version.\n"
 "For example, on Windows 7 WMP blocked\n"
 "the ability to change video associations."
-msgstr "คำเตือน! การทำงานในแต่ละ Windows จะแตกต่างกัน ตัวอย่างเช่น Windows 7 WMP จะไม่สามารถเปลี่ยนแปลงความสัมพันธ์ของแฟ้มวิดีโอ"
+msgstr ""
+"คำเตือน! การทำงานในแต่ละ Windows จะแตกต่างกัน ตัวอย่างเช่น Windows 7 WMP "
+"จะไม่สามารถเปลี่ยนแปลงความสัมพันธ์ของแฟ้มวิดีโอ"
 
 #: Kainote/OptionsDialog.cpp:985
 msgid "Deselect all"
@@ -5695,7 +5763,9 @@ msgstr "ละเว้นความคิดเห็น"
 msgid ""
 "Ignore words written entirely\n"
 "in uppercase"
-msgstr "ละเว้นคำที่เขียนด้วยตัวพิมพ์ใหญ่\nทั้งหมด"
+msgstr ""
+"ละเว้นคำที่เขียนด้วยตัวพิมพ์ใหญ่\n"
+"ทั้งหมด"
 
 #: Kainote/SpellCheckerDialog.cpp:49
 msgid "Misspell word:"
@@ -6405,7 +6475,9 @@ msgstr "ยังไม่ได้เลือกบรรทัดที่จ
 msgid ""
 "Are you sure you want to turn off translation mode?\n"
 "Foreign language text will be deleted."
-msgstr "ต้องการปิดโหมดผู้แปลหรือไม่?\nข้อความภาษาต่างประเทศจะถูกลบ"
+msgstr ""
+"ต้องการปิดโหมดผู้แปลหรือไม่?\n"
+"ข้อความภาษาต่างประเทศจะถูกลบ"
 
 #: Kainote/SubsGridDialogs.cpp:23
 msgid "Choose new FPS"
@@ -6534,7 +6606,14 @@ msgid ""
 "Subtitle resolution: %i x %i\n"
 "\n"
 "Match the resolution to the video?\n"
-msgstr "ความละเอียดวิดีโอและคำบรรยายไม่ตรงกัน\nคุณสามารถปรับตอนนี้หรือใช้ 'เปลี่ยนความละเอียดคำบรรยาย' ภายหลัง\n\nความละเอียดวิดีโอ: %i x %i\nความละเอียดคำบรรยาย: %i x %i\n\nต้องการปรับความละเอียดคำบรรยายให้ตรงกับวิดีโอหรือไม่?\n"
+msgstr ""
+"ความละเอียดวิดีโอและคำบรรยายไม่ตรงกัน\n"
+"คุณสามารถปรับตอนนี้หรือใช้ 'เปลี่ยนความละเอียดคำบรรยาย' ภายหลัง\n"
+"\n"
+"ความละเอียดวิดีโอ: %i x %i\n"
+"ความละเอียดคำบรรยาย: %i x %i\n"
+"\n"
+"ต้องการปรับความละเอียดคำบรรยายให้ตรงกับวิดีโอหรือไม่?\n"
 
 #: Kainote/SubsResampleDialog.cpp:178
 msgid "Change only the subtitle resolution"
@@ -6638,7 +6717,10 @@ msgid ""
 "Adds a blank line before the selected line.\n"
 "Moves the original one line down.\n"
 "The added line must be timed."
-msgstr "เพิ่มบรรทัดว่างก่อนบรรทัดที่เลือก\nเลื่อนข้อความต้นฉบับลงหนึ่งบรรทัด\nต้องกำหนดเวลาให้บรรทัดที่เพิ่ม"
+msgstr ""
+"เพิ่มบรรทัดว่างก่อนบรรทัดที่เลือก\n"
+"เลื่อนข้อความต้นฉบับลงหนึ่งบรรทัด\n"
+"ต้องกำหนดเวลาให้บรรทัดที่เพิ่ม"
 
 #: Kainote/TLDialog.cpp:43
 msgid "Original"
@@ -6650,7 +6732,11 @@ msgid ""
 "Original - subtitle text with correct timing, used\n"
 "to compare pasted dialogue lines; it is deleted later.\n"
 "Translation - text pasted into subtitles with correct timing."
-msgstr "คำอธิบาย:\nต้นฉบับ - ข้อความคำบรรยายที่กำหนดเวลาไว้ถูกต้อง ใช้\nเปรียบเทียบบรรทัดบทสนทนาที่วาง และจะถูกลบภายหลัง\nคำแปล - ข้อความที่วางลงในคำบรรยายโดยใช้เวลาที่ถูกต้อง"
+msgstr ""
+"คำอธิบาย:\n"
+"ต้นฉบับ - ข้อความคำบรรยายที่กำหนดเวลาไว้ถูกต้อง ใช้\n"
+"เปรียบเทียบบรรทัดบทสนทนาที่วาง และจะถูกลบภายหลัง\n"
+"คำแปล - ข้อความที่วางลงในคำบรรยายโดยใช้เวลาที่ถูกต้อง"
 
 #: Kainote/TabPanel.cpp:322
 msgid "Reloading"
@@ -7074,8 +7160,14 @@ msgid "Deleting"
 msgstr "กำลังลบ"
 
 #: Kainote/VideoBox.cpp:1077
-msgid "Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|All files (*.*)|*.*"
-msgstr "แฟ้มวิดีโอ (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|แฟ้มทั้งหมด (*.*)|*.*"
+msgid ""
+"Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
+"All files (*.*)|*.*"
+msgstr ""
+"แฟ้มวิดีโอ (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
+"แฟ้มทั้งหมด (*.*)|*.*"
 
 #: Kainote/VideoBox.cpp:1092
 msgid "Subtitle files (*.ass),(*.sub),(*.txt)|*.ass;*.sub;*.txt"
@@ -7210,7 +7302,9 @@ msgstr "เปลี่ยนแท็กหมุนทั้งหมดตา
 msgid ""
 "Preserve proportions so that vector drawings and text\n"
 "keep their original positions after rotation."
-msgstr "รักษาสัดส่วนเพื่อให้ภาพวาดเวกเตอร์และข้อความ\nคงตำแหน่งเดิมหลังการหมุน"
+msgstr ""
+"รักษาสัดส่วนเพื่อให้ภาพวาดเวกเตอร์และข้อความ\n"
+"คงตำแหน่งเดิมหลังการหมุน"
 
 #: Kainote/VideoToolbar.cpp:82
 msgid ""
@@ -7239,7 +7333,10 @@ msgid ""
 "Set a custom rectangle for the current scale.\n"
 "If automatic size calculation does not work correctly,\n"
 "you can set a rectangle for the original scale."
-msgstr "กำหนดกรอบสี่เหลี่ยมสำหรับขนาดปัจจุบันด้วยตนเอง\nหากการคำนวณขนาดอัตโนมัติไม่ถูกต้อง\nคุณสามารถกำหนดกรอบสำหรับขนาดต้นฉบับได้"
+msgstr ""
+"กำหนดกรอบสี่เหลี่ยมสำหรับขนาดปัจจุบันด้วยตนเอง\n"
+"หากการคำนวณขนาดอัตโนมัติไม่ถูกต้อง\n"
+"คุณสามารถกำหนดกรอบสำหรับขนาดต้นฉบับได้"
 
 #: Kainote/VideoToolbar.cpp:87
 msgid "Change all scale tags"
@@ -7249,7 +7346,9 @@ msgstr "เปลี่ยนแท็กขนาดทั้งหมด"
 msgid ""
 "Preserve proportions so that vector drawings and text\n"
 "keep their original positions after scaling."
-msgstr "รักษาสัดส่วนเพื่อให้ภาพวาดเวกเตอร์และข้อความ\nคงตำแหน่งเดิมหลังการปรับขนาด"
+msgstr ""
+"รักษาสัดส่วนเพื่อให้ภาพวาดเวกเตอร์และข้อความ\n"
+"คงตำแหน่งเดิมหลังการปรับขนาด"
 
 #: Kainote/VideoToolbar.cpp:91
 msgid ""
@@ -7384,10 +7483,14 @@ msgid ""
 "or at the start for multiple lines.\n"
 "Multiply - multiplies the slider value by the selected line number;\n"
 "the first line is not changed.\n"
-"Gradient text increasing - inserts a tag at each character, increasing the value.\n"
-"Gradient text decreasing - inserts a tag at each character, decreasing the value.\n"
-"Gradient line increasing - inserts a tag in selected lines, increasing the value.\n"
-"Gradient line decreasing - inserts a tag in selected lines, decreasing the value."
+"Gradient text increasing - inserts a tag at each character, increasing the "
+"value.\n"
+"Gradient text decreasing - inserts a tag at each character, decreasing the "
+"value.\n"
+"Gradient line increasing - inserts a tag in selected lines, increasing the "
+"value.\n"
+"Gradient line decreasing - inserts a tag in selected lines, decreasing the "
+"value."
 msgstr ""
 "ตัวเลือกการเปลี่ยนแท็ก:\n"
 "เพิ่ม - เปลี่ยนแท็กทั้งหมดโดยเพิ่มค่าการเลื่อนจากแถบเลื่อน\n"
@@ -7583,7 +7686,8 @@ msgid "Field \"Step\" must contain a value greater than zero."
 msgstr "ช่อง \"ช่วงก้าว\" ต้องมีค่ามากกว่าศูนย์"
 
 #: Kainote/VisualAllTagsEdition.cpp:312
-msgid "Field \"Step\" contains a number too large for the current min-max range."
+msgid ""
+"Field \"Step\" contains a number too large for the current min-max range."
 msgstr "ช่อง \"ช่วงก้าว\" มีตัวเลขสูงเกินไปสำหรับช่วงที่กำหนด"
 
 #: Kainote/VisualClips.cpp:1014
@@ -7683,7 +7787,9 @@ msgstr ""
 
 #: Kainote/config.cpp:633
 #, c-format
-msgid "Some colors were absent from theme \"%s\" and were loaded from the default theme."
+msgid ""
+"Some colors were absent from theme \"%s\" and were loaded from the default "
+"theme."
 msgstr "สีบางรายการไม่มีในชุดรูปแบบ \"%s\" จึงใช้สีจากชุดรูปแบบเริ่มต้น"
 
 #: Kainote/config.cpp:643
@@ -7854,7 +7960,10 @@ msgid ""
 "Styles named \"%s\" do not exist in the subtitles being searched,\n"
 "which may significantly reduce the number of search results.\n"
 "What would you like to do?"
-msgstr "ไม่พบสไตล์ชื่อ \"%s\" ในคำบรรยายที่กำลังค้นหา\nซึ่งอาจทำให้ผลการค้นหาลดลงอย่างมาก\nต้องการดำเนินการอย่างไร?"
+msgstr ""
+"ไม่พบสไตล์ชื่อ \"%s\" ในคำบรรยายที่กำลังค้นหา\n"
+"ซึ่งอาจทำให้ผลการค้นหาลดลงอย่างมาก\n"
+"ต้องการดำเนินการอย่างไร?"
 
 #: Kainote/findreplace.cpp:1329
 msgid "Remove nonexistent styles"
@@ -7868,13 +7977,17 @@ msgstr "หน่วยความจำไม่เพียงพอ ปร�
 msgid ""
 "Cannot read settings.\n"
 "The program will be terminated."
-msgstr "ไม่สามารถอ่านการตั้งค่าได้\nโปรแกรมจะปิดลง"
+msgstr ""
+"ไม่สามารถอ่านการตั้งค่าได้\n"
+"โปรแกรมจะปิดลง"
 
 #: Kainote/kainoteApp.cpp:396
 msgid ""
 "Cannot read hotkeys.\n"
 "The program will be terminated."
-msgstr "ไม่สามารถอ่านปุ่มลัดได้\nโปรแกรมจะปิดลง"
+msgstr ""
+"ไม่สามารถอ่านปุ่มลัดได้\n"
+"โปรแกรมจะปิดลง"
 
 #: Kainote/kainoteApp.cpp:524
 msgid "Load last session?"
@@ -7957,7 +8070,8 @@ msgid "Style named \"%s\" already exists."
 msgstr "มีสไตล์ชื่อ \"%s\" อยู่แล้ว"
 
 #: Kainote/stylestore.cpp:508
-msgid "Style name modified. Do you want to change all instances to the new name?"
+msgid ""
+"Style name modified. Do you want to change all instances to the new name?"
 msgstr "เปลี่ยนชื่อสไตล์แล้ว ต้องการเปลี่ยนชื่อดังกล่าวทุกแห่งด้วยหรือไม่?"
 
 #: Kainote/stylestore.cpp:612
