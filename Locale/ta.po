@@ -9,17 +9,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Kainote\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: poiiiii4yy@gmail.com\n"
 "POT-Creation-Date: 2026-09-18 02:02+0700\n"
-"PO-Revision-Date: 2026-03-10 10:09+0000\n"
+"PO-Revision-Date: 2026-09-23 13:52+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
-"Language-Team: Tamil <https://hosted.weblate.org/projects/kainote/kainote/ta/>\n"
+"Language-Team: Tamil <https://hosted.weblate.org/projects/kainote/kainote/"
+"ta/>\n"
 "Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "X-Poedit-Basepath: ../Kainote\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -427,7 +428,9 @@ msgid "Remove older audio cache files"
 msgstr "பழைய ஆடியோ கேச் கோப்புகளை அகற்று"
 
 #: Kainote/AutoSavesRemoving.cpp:177
-msgid "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
+msgid ""
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
 msgstr "வசன வரிகள் (*.ஆச்), (*. எச்.எச்.ஏ), (*. எச்.ஆர்.டி), (*. துணை), (*. txt"
 
 #: Kainote/AutoSavesRemoving.cpp:178
@@ -458,8 +461,12 @@ msgstr ""
 "%s."
 
 #: Kainote/Automation.cpp:656
-msgid "You are trying to load an Automation 3 script as an Automation 4 script. Automation 3 is no longer supported."
-msgstr "ச்கிரிப்ட் ஆட்டோமேசன் 3 ஐ ச்கிரிப்ட் ஆட்டோமேசன் 4 ஆக ஏற்ற முயற்சிக்கிறீர்கள். ஆட்டோமேசன் 3 இனி ஆதரிக்கப்படாது."
+msgid ""
+"You are trying to load an Automation 3 script as an Automation 4 script. "
+"Automation 3 is no longer supported."
+msgstr ""
+"ச்கிரிப்ட் ஆட்டோமேசன் 3 ஐ ச்கிரிப்ட் ஆட்டோமேசன் 4 ஆக ஏற்ற முயற்சிக்கிறீர்கள். ஆட்டோமேசன் 3 இனி "
+"ஆதரிக்கப்படாது."
 
 #: Kainote/Automation.cpp:699
 #, c-format
@@ -1075,8 +1082,11 @@ msgid "Text position"
 msgstr "உரை நிலை"
 
 #: Kainote/EditBox.cpp:1197
-msgid "Translator mode displays and saves both foreign text and translation text"
-msgstr "மொழிபெயர்ப்பாளர் பயன்முறை வெளிநாட்டு உரை மற்றும் மொழிபெயர்ப்பு உரை இரண்டையும் காண்பிக்கும் மற்றும் சேமிக்கிறது"
+msgid ""
+"Translator mode displays and saves both foreign text and translation text"
+msgstr ""
+"மொழிபெயர்ப்பாளர் பயன்முறை வெளிநாட்டு உரை மற்றும் மொழிபெயர்ப்பு உரை இரண்டையும் காண்பிக்கும் "
+"மற்றும் சேமிக்கிறது"
 
 #: Kainote/EditBox.cpp:1198
 msgid "Copies all foreign-language text to the translation field"
@@ -1131,8 +1141,12 @@ msgid "Line top and bottom margins"
 msgstr "மேல் மற்றும் கீழ் விளிம்பு வரி"
 
 #: Kainote/EditBox.cpp:1211
-msgid "Line effect. Used to mark lines to which karaoke or VSFilter effects should be applied"
-msgstr "வரி விளைவு. இது கோடுகளைக் குறிக்கப் பயன்படுகிறது, இது கரோக்கி அல்லது வி.எச்.பில்டர் விளைவுகளாக இருந்தது"
+msgid ""
+"Line effect. Used to mark lines to which karaoke or VSFilter effects should "
+"be applied"
+msgstr ""
+"வரி விளைவு. இது கோடுகளைக் குறிக்கப் பயன்படுகிறது, இது கரோக்கி அல்லது வி.எச்.பில்டர் "
+"விளைவுகளாக இருந்தது"
 
 #: Kainote/EditBox.cpp:1212
 msgid ""
@@ -1182,7 +1196,8 @@ msgid ""
 "Because of the large video file,\n"
 "the search for everything \"*. *\" Is changed to *.ass"
 msgstr ""
-"சாளரங்கள் தேடல் வடிப்பான்கள் அரைப்புள்ளிகளால் பிரிக்கப்படுகின்றன, எ.கா. \"*.ass; *.srt\".\n"
+"சாளரங்கள் தேடல் வடிப்பான்கள் அரைப்புள்ளிகளால் பிரிக்கப்படுகின்றன, எ.கா. \"*.ass; "
+"*.srt\".\n"
 "பெரிய வீடியோ கோப்பு காரணமாக,\n"
 "\"*. *\" அனைத்திற்கும் தேடல் *.ass என மாற்றப்பட்டுள்ளது"
 
@@ -1428,8 +1443,10 @@ msgid "Prompt"
 msgstr "உடனடி"
 
 #: Kainote/FontCatalogList.cpp:168
-msgid "The catalog list has autosave; files are stored in the \"Config\" folder."
-msgstr "அட்டவணை பட்டியலில் ஆட்டோசேவ் உள்ளது, கோப்புகளை \"கட்டமைப்பு\" கோப்புறையில் காணலாம்."
+msgid ""
+"The catalog list has autosave; files are stored in the \"Config\" folder."
+msgstr ""
+"அட்டவணை பட்டியலில் ஆட்டோசேவ் உள்ளது, கோப்புகளை \"கட்டமைப்பு\" கோப்புறையில் காணலாம்."
 
 #: Kainote/FontCatalogList.cpp:170 Kainote/FontCatalogList.cpp:859
 msgid "Catalogs:"
@@ -1585,7 +1602,9 @@ msgstr "நீங்கள் எழுத்துருக்களை நக�
 
 #: Kainote/FontCollector.cpp:467
 msgid "No subtitles loaded. Load subtitles or deselect this option."
-msgstr "வசன வரிகள் எதுவும் ஏற்றப்படவில்லை. வசன வரிகள் ஏற்றவும் அல்லது இந்த விருப்பத்தை தேர்வுநீக்கவும்."
+msgstr ""
+"வசன வரிகள் எதுவும் ஏற்றப்படவில்லை. வசன வரிகள் ஏற்றவும் அல்லது இந்த விருப்பத்தை "
+"தேர்வுநீக்கவும்."
 
 #: Kainote/FontCollector.cpp:473
 msgid "Choose a name for the archive"
@@ -2287,7 +2306,8 @@ msgid "Add lead-out"
 msgstr "லீட்-அவுட் சேர்க்கவும்"
 
 #: Kainote/Hotkeys.cpp:270
-msgid "The shortcuts file is outdated and will be replaced with the default one"
+msgid ""
+"The shortcuts file is outdated and will be replaced with the default one"
 msgstr "குறுக்குவழிகள் கோப்பு காலாவதியானது, அது இயல்பாக மாற்றப்படும்"
 
 #: Kainote/Hotkeys.cpp:373
@@ -2330,12 +2350,16 @@ msgid "Please enter a hotkey for \"%s\"."
 msgstr "தயவுசெய்து \"%s\" க்கு ஆட்ச்கியை உள்ளிடவும்."
 
 #: Kainote/Hotkeys.cpp:641
-msgid "Global and editor shortcuts must include modifiers (e.g. Shift, Ctrl, Alt)."
-msgstr "உலகளாவிய மற்றும் எடிட்டர் குறுக்குவழிகளில் மாற்றியமைப்பாளர்கள் இருக்க வேண்டும் (எ.கா. சிப்ட், சி.டி.ஆர்.எல், ஆல்ட்)."
+msgid ""
+"Global and editor shortcuts must include modifiers (e.g. Shift, Ctrl, Alt)."
+msgstr ""
+"உலகளாவிய மற்றும் எடிட்டர் குறுக்குவழிகளில் மாற்றியமைப்பாளர்கள் இருக்க வேண்டும் (எ.கா. "
+"சிப்ட், சி.டி.ஆர்.எல், ஆல்ட்)."
 
 #: Kainote/Hotkeys.cpp:644
 msgid "You cannot use shortcuts for copying, cutting, and pasting."
-msgstr "நகலெடுப்பது, வெட்டுதல் மற்றும் ஒட்டுவதற்கு நீங்கள் குறுக்குவழிகளைப் பயன்படுத்த முடியாது."
+msgstr ""
+"நகலெடுப்பது, வெட்டுதல் மற்றும் ஒட்டுவதற்கு நீங்கள் குறுக்குவழிகளைப் பயன்படுத்த முடியாது."
 
 #: Kainote/Hotkeys.cpp:647
 msgid "You cannot use the program exit shortcut."
@@ -3397,16 +3421,29 @@ msgid "Choose subtitle file"
 msgstr "வசன வரிகளைத் தேர்வுசெய்க"
 
 #: Kainote/KainoteFrame.cpp:1009
-msgid "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|*.mkv;*.ogm"
-msgstr "வசன வரிகள் (*.ஆச்), (*. எச்.எச்.ஏ), (*. எச்.ஆர்.டி), (*. துணை), (*. TXT | வசனங்களுடன் வீடியோ (*.MKV), (*. OGM) |*.MKV;*. OGM"
+msgid ""
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|"
+"*.mkv;*.ogm"
+msgstr ""
+"வசன வரிகள் (*.ஆச்), (*. எச்.எச்.ஏ), (*. எச்.ஆர்.டி), (*. துணை), (*. TXT | "
+"வசனங்களுடன் வீடியோ (*.MKV), (*. OGM) |*.MKV;*. OGM"
 
 #: Kainote/KainoteFrame.cpp:1039
-msgid "Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All files (*.*)|*.*"
-msgstr "வீடியோ கோப்புகள் (* g), (*. avs) |*.avi;*. mkv;*. Mp4;* கோப்புகள் (*.*) |*.*"
+msgid ""
+"Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All "
+"files (*.*)|*.*"
+msgstr ""
+"வீடியோ கோப்புகள் (* g), (*. avs) |*.avi;*. mkv;*. Mp4;* கோப்புகள் (*.*) |*.*"
 
 #: Kainote/KainoteFrame.cpp:1055
-msgid "Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|All files (*.*)|*.*"
-msgstr "கீஃப்ரேம்கள் கோப்பு (*.txt), (*. பாச்), (*. புள்ளிவிவரங்கள்), (*. பதிவு) |*.txt;* *.*"
+msgid ""
+"Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|"
+"All files (*.*)|*.*"
+msgstr ""
+"கீஃப்ரேம்கள் கோப்பு (*.txt), (*. பாச்), (*. புள்ளிவிவரங்கள்), (*. பதிவு) |*.txt;* *.*"
 
 #: Kainote/KainoteFrame.cpp:1107
 #, c-format
@@ -3414,7 +3451,8 @@ msgid ""
 "Subtitle editor by Marcin Drob aka Bakura or Bjakja (bjakja7@gmail.com),\n"
 "version %s from %s"
 msgstr ""
-"மார்கின் ட்ரோப் அக்கா பகுரா அல்லது பிசாக்சா (bjakja7@gmail.com), வசன ஆசிரியர் ஆசிரியர்,\n"
+"மார்கின் ட்ரோப் அக்கா பகுரா அல்லது பிசாக்சா (bjakja7@gmail.com), வசன ஆசிரியர் "
+"ஆசிரியர்,\n"
 " நாள் %s முதல் பதிப்பு %s"
 
 #: Kainote/KainoteFrame.cpp:1109
@@ -3427,12 +3465,16 @@ msgstr ""
 
 #: Kainote/KainoteFrame.cpp:1110
 msgid ""
-"If you have noticed any bugs or have any suggestions for changes or new features,\n"
-"you can write about it in: Discord https://discord.gg/9WacFTtK6q, Github, or by email.\n"
+"If you have noticed any bugs or have any suggestions for changes or new "
+"features,\n"
+"you can write about it in: Discord https://discord.gg/9WacFTtK6q, Github, or "
+"by email.\n"
 "\n"
 msgstr ""
-"நீங்கள் ஏதேனும் பிழைகள் கவனித்திருந்தால் அல்லது மாற்றங்கள் அல்லது புதிய அம்சங்களுக்கான பரிந்துரைகள் ஏதேனும் இருந்தால், \n"
-"நீங்கள் இதைப் பற்றி எழுதலாம்: டிச்கார்ட் https://discord.gg/9wacfttk6q, github அல்லது மின்னஞ்சல் மூலம்.\n"
+"நீங்கள் ஏதேனும் பிழைகள் கவனித்திருந்தால் அல்லது மாற்றங்கள் அல்லது புதிய அம்சங்களுக்கான "
+"பரிந்துரைகள் ஏதேனும் இருந்தால், \n"
+"நீங்கள் இதைப் பற்றி எழுதலாம்: டிச்கார்ட் https://discord.gg/9wacfttk6q, github அல்லது "
+"மின்னஞ்சல் மூலம்.\n"
 "\n"
 
 #: Kainote/KainoteFrame.cpp:1111
@@ -3441,7 +3483,8 @@ msgstr "கைனோட் பின்வரும் திட்டங்க�
 
 #: Kainote/KainoteFrame.cpp:1113
 msgid ""
-"Color picker, demuxing subtitles from MKV, audio box, audio player, automation,\n"
+"Color picker, demuxing subtitles from MKV, audio box, audio player, "
+"automation,\n"
 "and several other individual features taken from Aegisub -\n"
 msgstr ""
 "கலர் பிக்கர், எம்.கே.வி வசன வருதல், ஆடியோபாக்ச், ஆடியோ பிளேயர், ஆட்டோமேசன்\n"
@@ -3480,16 +3523,26 @@ msgstr ""
 "மெதுவான கணினியில் கைனோட்டை சோதிக்கும் சிறந்த உதவி)\n"
 
 #: Kainote/KainoteFrame.cpp:1135
-msgid "- Devilkan (crashhunter, because of his system and habits he made Kainote crash a lot\n"
-msgstr "- பிசாசன் (க்ராச்அண்டர், அவரது அமைப்பு மற்றும் பழக்கவழக்கங்கள் காரணமாக அவர் கைனோட்டை நிறைய செயலிழக்கச் செய்தார்\n"
+msgid ""
+"- Devilkan (crashhunter, because of his system and habits he made Kainote "
+"crash a lot\n"
+msgstr ""
+"- பிசாசன் (க்ராச்அண்டர், அவரது அமைப்பு மற்றும் பழக்கவழக்கங்கள் காரணமாக அவர் கைனோட்டை நிறைய "
+"செயலிழக்கச் செய்தார்\n"
 
 #: Kainote/KainoteFrame.cpp:1136
-msgid "helped with typesetting tools and came up with many more improvements).\n"
-msgstr "தட்டச்சு செய்யும் கருவிகளுக்கு உதவியது மற்றும் இன்னும் பல மேம்பாடுகளைக் கொண்டு வந்தது).\n"
+msgid ""
+"helped with typesetting tools and came up with many more improvements).\n"
+msgstr ""
+"தட்டச்சு செய்யும் கருவிகளுக்கு உதவியது மற்றும் இன்னும் பல மேம்பாடுகளைக் கொண்டு வந்தது).\n"
 
 #: Kainote/KainoteFrame.cpp:1137
-msgid "- MatiasMovie (found some crashes and suggessted some improvements, helps with crash debugging).\n"
-msgstr "- மத்தியாச்மோவி (சில விபத்துக்களைக் கண்டறிந்தது மற்றும் சில மேம்பாடுகளை பரிந்துரைத்தது, செயலிழப்பு பிழைத்திருத்தத்திற்கு உதவுகிறது).\n"
+msgid ""
+"- MatiasMovie (found some crashes and suggessted some improvements, helps "
+"with crash debugging).\n"
+msgstr ""
+"- மத்தியாச்மோவி (சில விபத்துக்களைக் கண்டறிந்தது மற்றும் சில மேம்பாடுகளை பரிந்துரைத்தது, "
+"செயலிழப்பு பிழைத்திருத்தத்திற்கு உதவுகிறது).\n"
 
 #: Kainote/KainoteFrame.cpp:1138
 msgid "- mas1904 (found some errors and helping with crash debuging).\n"
@@ -5236,9 +5289,9 @@ msgid "Cannot overlay surfaces"
 msgstr "மேற்பரப்புகளை மேலெழுத முடியாது"
 
 #: Kainote/RendererGStreamer.cpp:108
-#, c-format
+#, c-format, fuzzy
 msgid "Chapter %i"
-msgstr ""
+msgstr "அத்தியாயம் %i"
 
 #: Kainote/RendererGStreamer.cpp:197
 msgid "Video file does not contain a video stream"
@@ -5255,7 +5308,7 @@ msgid "Cannot create GStreamer video display module"
 msgstr "செயல்முறையை உருவாக்க முடியவில்லை. மக்சிங் ரத்து செய்யப்பட்டது"
 
 #: Kainote/RendererGStreamer.cpp:340
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot open video file: %s"
 msgstr "\"%s\" கோப்பைத் திறக்க முடியாது."
 
@@ -5643,7 +5696,9 @@ msgstr "நகர்த்துவதற்கான நேரங்களி�
 
 #: Kainote/ShiftTimes.cpp:564
 msgid "Correction end times, when they are improper or overlap each other"
-msgstr "திருத்தம் இறுதி நேரங்கள், அவை முறையற்றதாக இருக்கும்போது அல்லது ஒருவருக்கொருவர் ஒன்றுடன் ஒன்று"
+msgstr ""
+"திருத்தம் இறுதி நேரங்கள், அவை முறையற்றதாக இருக்கும்போது அல்லது ஒருவருக்கொருவர் ஒன்றுடன் "
+"ஒன்று"
 
 #: Kainote/ShiftTimes.cpp:567
 msgid "Inserts introduction to the start time (good when using fad)"
@@ -6710,7 +6765,8 @@ msgid ""
 "Translation - text pasted into subtitles with correct timing."
 msgstr ""
 "விளக்கம்: \n"
-"அசல் - சரியான நேரத்துடன் வசன வரிகள், வரிகளை ஒப்பிட்டுப் பார்க்க நீங்கள் அதைப் பார்க்கலாம், அது நீக்கப்படும் \n"
+"அசல் - சரியான நேரத்துடன் வசன வரிகள், வரிகளை ஒப்பிட்டுப் பார்க்க நீங்கள் அதைப் பார்க்கலாம், "
+"அது நீக்கப்படும் \n"
 "மொழிபெயர்ப்பு - நீங்கள் சரியான நேரத்தில் ஒட்டும் வசனங்கள்."
 
 #: Kainote/TabPanel.cpp:322
@@ -7036,17 +7092,19 @@ msgid "Toolbar alignment"
 msgstr "கருவிப்பட்டி சீரமைப்பு"
 
 #: Kainote/UpdateChecker.cpp:124
-#, c-format
+#, c-format, fuzzy
 msgid "A new version (%s) is available. Update?"
-msgstr ""
+msgstr "புதிய பதிப்பு (%s) கிடைக்கிறது, புதுப்பிப்பு?"
 
 #: Kainote/UpdateChecker.cpp:124
+#, fuzzy
 msgid "Update"
-msgstr ""
+msgstr "புதுப்பிப்பு"
 
 #: Kainote/UpdateChecker.cpp:125
+#, fuzzy
 msgid "Disable updates"
-msgstr ""
+msgstr "புதுப்பிப்புகளை முடக்கு"
 
 #: Kainote/UpdateChecker.cpp:126
 msgid "Update after closing"
@@ -7136,8 +7194,13 @@ msgid "Deleting"
 msgstr "நீக்குதல்"
 
 #: Kainote/VideoBox.cpp:1077
-msgid "Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|All files (*.*)|*.*"
-msgstr "வீடியோ கோப்புகள் (*. அவி), (*. எம்.கே.வி), (*. MP4), (*. OGM), (*. WMV), (*. ASF), (*. RMVB), (* p), (*. avs) |*.avi;*. mkv;*. Mp4;* கோப்புகள் (*.*) |*.*"
+msgid ""
+"Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
+"All files (*.*)|*.*"
+msgstr ""
+"வீடியோ கோப்புகள் (*. அவி), (*. எம்.கே.வி), (*. MP4), (*. OGM), (*. WMV), (*. "
+"ASF), (*. RMVB), (* p), (*. avs) |*.avi;*. mkv;*. Mp4;* கோப்புகள் (*.*) |*.*"
 
 #: Kainote/VideoBox.cpp:1092
 msgid "Subtitle files (*.ass),(*.sub),(*.txt)|*.ass;*.sub;*.txt"
@@ -7457,10 +7520,14 @@ msgid ""
 "or at the start for multiple lines.\n"
 "Multiply - multiplies the slider value by the selected line number;\n"
 "the first line is not changed.\n"
-"Gradient text increasing - inserts a tag at each character, increasing the value.\n"
-"Gradient text decreasing - inserts a tag at each character, decreasing the value.\n"
-"Gradient line increasing - inserts a tag in selected lines, increasing the value.\n"
-"Gradient line decreasing - inserts a tag in selected lines, decreasing the value."
+"Gradient text increasing - inserts a tag at each character, increasing the "
+"value.\n"
+"Gradient text decreasing - inserts a tag at each character, decreasing the "
+"value.\n"
+"Gradient line increasing - inserts a tag in selected lines, increasing the "
+"value.\n"
+"Gradient line decreasing - inserts a tag in selected lines, decreasing the "
+"value."
 msgstr ""
 
 #: Kainote/VideoToolbar.cpp:781
@@ -7592,7 +7659,9 @@ msgstr "மூன்று கூடுதல் மதிப்புகள்"
 
 #: Kainote/VisualAllTagsEdition.cpp:93
 msgid "Used only when tag have 2 values or more"
-msgstr "குறிச்சொல்லில் 2 மதிப்புகள் அல்லது அதற்கு மேற்பட்டவை இருக்கும்போது மட்டுமே பயன்படுத்தப்படுகிறது"
+msgstr ""
+"குறிச்சொல்லில் 2 மதிப்புகள் அல்லது அதற்கு மேற்பட்டவை இருக்கும்போது மட்டுமே "
+"பயன்படுத்தப்படுகிறது"
 
 #: Kainote/VisualAllTagsEdition.cpp:96
 msgid "Tag change options"
@@ -7652,8 +7721,10 @@ msgstr ""
 "புலம் \"குறைந்தபட்ச மதிப்பு\" இலிருந்து அதிகமாகும்."
 
 #: Kainote/VisualAllTagsEdition.cpp:312
-msgid "Field \"Step\" contains a number too large for the current min-max range."
-msgstr "புலம் \"படி\" தற்போதைய மணித்துளி - அதிகபட்ச வரம்பிற்கு மிகச்சிறந்த எண்ணைக் கொண்டுள்ளது."
+msgid ""
+"Field \"Step\" contains a number too large for the current min-max range."
+msgstr ""
+"புலம் \"படி\" தற்போதைய மணித்துளி - அதிகபட்ச வரம்பிற்கு மிகச்சிறந்த எண்ணைக் கொண்டுள்ளது."
 
 #: Kainote/VisualClips.cpp:1014
 msgid "Double \"m\" was blocked because of Vsfilter bug"
@@ -7730,7 +7801,9 @@ msgstr "புலம் \"வடிவம்\" காலியாக இரு�
 
 #: Kainote/VisualMove.cpp:464
 msgid "Video must be set at least one frame after the line's start time"
-msgstr "வரியின் தொடக்க நேரத்திற்குப் பிறகு குறைந்தபட்சம் ஒரு சட்டத்தையாவது வீடியோ அமைக்கப்பட வேண்டும்"
+msgstr ""
+"வரியின் தொடக்க நேரத்திற்குப் பிறகு குறைந்தபட்சம் ஒரு சட்டத்தையாவது வீடியோ அமைக்கப்பட "
+"வேண்டும்"
 
 #: Kainote/VisualRotationZ.cpp:487 Kainote/VisualScale.cpp:772
 msgid "Cannot read clip rectangle values."
@@ -7752,7 +7825,9 @@ msgstr ""
 
 #: Kainote/config.cpp:633
 #, c-format
-msgid "Some colors were absent from theme \"%s\" and were loaded from the default theme."
+msgid ""
+"Some colors were absent from theme \"%s\" and were loaded from the default "
+"theme."
 msgstr "கருப்பொருள் \"%s\" இல் சில வண்ணங்கள் காணவில்லை, இயல்புநிலையிலிருந்து ஏற்றப்பட்டன."
 
 #: Kainote/config.cpp:643
@@ -8028,8 +8103,11 @@ msgid "Style named \"%s\" already exists."
 msgstr "\"%s\" என்று பெயரிடப்பட்ட பாணி ஏற்கனவே உள்ளது."
 
 #: Kainote/stylestore.cpp:508
-msgid "Style name modified. Do you want to change all instances to the new name?"
-msgstr "பாணி பெயர் மாற்றியமைக்கப்பட்டது. எல்லா நிகழ்வுகளையும் புதிய பெயருக்கு மாற்ற விரும்புகிறீர்களா?"
+msgid ""
+"Style name modified. Do you want to change all instances to the new name?"
+msgstr ""
+"பாணி பெயர் மாற்றியமைக்கப்பட்டது. எல்லா நிகழ்வுகளையும் புதிய பெயருக்கு மாற்ற "
+"விரும்புகிறீர்களா?"
 
 #: Kainote/stylestore.cpp:612
 msgid "Choose ASS file"

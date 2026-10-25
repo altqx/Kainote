@@ -4,16 +4,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Kainote\n"
-"Report-Msgid-Bugs-To: https://github.com/bjakja/Kainote/issues\n"
-"PO-Revision-Date: 2026-09-18 02:03+0700\n"
+"Report-Msgid-Bugs-To: poiiiii4yy@gmail.com\n"
 "POT-Creation-Date: 2026-09-18 02:02+0700\n"
-"Last-Translator: Marcin Drob <bjakja7@gmail.com>\n"
-"Language-Team: Polish\n"
+"PO-Revision-Date: 2026-09-23 13:52+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/kainote/kainote/"
+"pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: Kainote/AudioBox.cpp:93
 msgid "Search bar"
@@ -400,8 +403,12 @@ msgid "Remove older audio cache files"
 msgstr "Usuń starsze pliki audio cache"
 
 #: Kainote/AutoSavesRemoving.cpp:177
-msgid "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
-msgstr "Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
+msgid ""
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
+msgstr ""
+"Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
 
 #: Kainote/AutoSavesRemoving.cpp:178
 msgid "Index files (*.ffindex)|*.ffindex"
@@ -431,8 +438,12 @@ msgstr ""
 "%s."
 
 #: Kainote/Automation.cpp:656
-msgid "You are trying to load an Automation 3 script as an Automation 4 script. Automation 3 is no longer supported."
-msgstr "Próbujesz wczytać skrypt Automatyzacji 3 jako skrypt Automatyzacji 4. Automatyzacja 3 nie jest już wspierana."
+msgid ""
+"You are trying to load an Automation 3 script as an Automation 4 script. "
+"Automation 3 is no longer supported."
+msgstr ""
+"Próbujesz wczytać skrypt Automatyzacji 3 jako skrypt Automatyzacji 4. "
+"Automatyzacja 3 nie jest już wspierana."
 
 #: Kainote/Automation.cpp:699
 #, c-format
@@ -1049,8 +1060,11 @@ msgid "Text position"
 msgstr "Położenie tekstu"
 
 #: Kainote/EditBox.cpp:1197
-msgid "Translator mode displays and saves both foreign text and translation text"
-msgstr "Tryb tłumacza wyświetla i zapisuje zarówno tekst obcojęzyczny, jak i tekst tłumaczenia"
+msgid ""
+"Translator mode displays and saves both foreign text and translation text"
+msgstr ""
+"Tryb tłumacza wyświetla i zapisuje zarówno tekst obcojęzyczny, jak i tekst "
+"tłumaczenia"
 
 #: Kainote/EditBox.cpp:1198
 msgid "Copies all foreign-language text to the translation field"
@@ -1105,8 +1119,12 @@ msgid "Line top and bottom margins"
 msgstr "Margines górny i dolny linijki"
 
 #: Kainote/EditBox.cpp:1211
-msgid "Line effect. Used to mark lines to which karaoke or VSFilter effects should be applied"
-msgstr "Efekt linijki. Służy do oznaczania linijek, na których zastosowane ma być karaoke bądź efekty VSFiltra"
+msgid ""
+"Line effect. Used to mark lines to which karaoke or VSFilter effects should "
+"be applied"
+msgstr ""
+"Efekt linijki. Służy do oznaczania linijek, na których zastosowane ma być "
+"karaoke bądź efekty VSFiltra"
 
 #: Kainote/EditBox.cpp:1212
 msgid ""
@@ -1402,8 +1420,11 @@ msgid "Prompt"
 msgstr "Pytanie"
 
 #: Kainote/FontCatalogList.cpp:168
-msgid "The catalog list has autosave; files are stored in the \"Config\" folder."
-msgstr "Lista katalogów ma opcję autozapisu, pliki znajdują się w folderze \"Config\"."
+msgid ""
+"The catalog list has autosave; files are stored in the \"Config\" folder."
+msgstr ""
+"Lista katalogów ma opcję autozapisu, pliki znajdują się w folderze "
+"\"Config\"."
 
 #: Kainote/FontCatalogList.cpp:170 Kainote/FontCatalogList.cpp:859
 msgid "Catalogs:"
@@ -1894,7 +1915,8 @@ msgstr "Ładowanie czcionek zewnętrznych"
 
 #: Kainote/FontEnumerator.cpp:462
 msgid "Cannot create next notification handler for fonts folder."
-msgstr "Nie można stworzyć następnego uchwytu notyfikacji zmian folderu czcionek."
+msgstr ""
+"Nie można stworzyć następnego uchwytu notyfikacji zmian folderu czcionek."
 
 #: Kainote/FontEnumerator.cpp:574
 msgid "Removing fonts from external folder"
@@ -2255,7 +2277,8 @@ msgid "Add lead-out"
 msgstr "Dodaj zakończenie"
 
 #: Kainote/Hotkeys.cpp:270
-msgid "The shortcuts file is outdated and will be replaced with the default one"
+msgid ""
+"The shortcuts file is outdated and will be replaced with the default one"
 msgstr "Plik skrótów jest przestarzały zostanie zamieniony domyślnym"
 
 #: Kainote/Hotkeys.cpp:373
@@ -2298,8 +2321,10 @@ msgid "Please enter a hotkey for \"%s\"."
 msgstr "Proszę wcisnąć klawisze skrótu dla \"%s\"."
 
 #: Kainote/Hotkeys.cpp:641
-msgid "Global and editor shortcuts must include modifiers (e.g. Shift, Ctrl, Alt)."
-msgstr "Skróty globalne i edytora muszą zawierać modyfikatory (Shift, Ctrl lub Alt)."
+msgid ""
+"Global and editor shortcuts must include modifiers (e.g. Shift, Ctrl, Alt)."
+msgstr ""
+"Skróty globalne i edytora muszą zawierać modyfikatory (Shift, Ctrl lub Alt)."
 
 #: Kainote/Hotkeys.cpp:644
 msgid "You cannot use shortcuts for copying, cutting, and pasting."
@@ -3360,16 +3385,34 @@ msgid "Choose subtitle file"
 msgstr "Wybierz plik napisów"
 
 #: Kainote/KainoteFrame.cpp:1009
-msgid "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|*.mkv;*.ogm"
-msgstr "Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt|Pliki wideo z wbudowanymi napisami (*.mkv),(*.ogm)|*.mkv;*.ogm"
+msgid ""
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|"
+"*.mkv;*.ogm"
+msgstr ""
+"Pliki napisów (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|Pliki wideo z wbudowanymi napisami (*.mkv),"
+"(*.ogm)|*.mkv;*.ogm"
 
 #: Kainote/KainoteFrame.cpp:1039
-msgid "Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All files (*.*)|*.*"
-msgstr "Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|Wszystkie pliki (*.*)|*.*"
+msgid ""
+"Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All "
+"files (*.*)|*.*"
+msgstr ""
+"Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|"
+"Wszystkie pliki (*.*)|*.*"
 
 #: Kainote/KainoteFrame.cpp:1055
-msgid "Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|All files (*.*)|*.*"
-msgstr "Pliki klatek kluczowych (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|Wszystkie pliki (*.*)|*.*"
+msgid ""
+"Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|"
+"All files (*.*)|*.*"
+msgstr ""
+"Pliki klatek kluczowych (*.txt),(*.pass),(*.stats),(*.log)|"
+"*.txt;*.pass;*.stats;*.log|Wszystkie pliki (*.*)|*.*"
 
 #: Kainote/KainoteFrame.cpp:1107
 #, c-format
@@ -3385,17 +3428,22 @@ msgid ""
 "I wrote this program to replace two programs: Bestplayer and Aegisub.\n"
 "\n"
 msgstr ""
-"Ten program powstał w celu zastąpienia dwóch programów: Bestplayera i Aegisuba.\n"
+"Ten program powstał w celu zastąpienia dwóch programów: Bestplayera i "
+"Aegisuba.\n"
 "\n"
 
 #: Kainote/KainoteFrame.cpp:1110
 msgid ""
-"If you have noticed any bugs or have any suggestions for changes or new features,\n"
-"you can write about it in: Discord https://discord.gg/9WacFTtK6q, Github, or by email.\n"
+"If you have noticed any bugs or have any suggestions for changes or new "
+"features,\n"
+"you can write about it in: Discord https://discord.gg/9WacFTtK6q, Github, or "
+"by email.\n"
 "\n"
 msgstr ""
-"Jeśli zauważyłeś(aś) jakieś błędy bądź masz jakieś propozycje zmian lub nowych funkcji,\n"
-"możesz napisać o tym na: Discordzie https://discord.gg/9WacFTtK6q, Githubie, bądź mailowo.\n"
+"Jeśli zauważyłeś(aś) jakieś błędy bądź masz jakieś propozycje zmian lub "
+"nowych funkcji,\n"
+"możesz napisać o tym na: Discordzie https://discord.gg/9WacFTtK6q, Githubie, "
+"bądź mailowo.\n"
 "\n"
 
 #: Kainote/KainoteFrame.cpp:1111
@@ -3404,10 +3452,12 @@ msgstr "Kainote zawiera w sobie części następujących projektów:\n"
 
 #: Kainote/KainoteFrame.cpp:1113
 msgid ""
-"Color picker, demuxing subtitles from MKV, audio box, audio player, automation,\n"
+"Color picker, demuxing subtitles from MKV, audio box, audio player, "
+"automation,\n"
 "and several other individual features taken from Aegisub -\n"
 msgstr ""
-"Color picker, wymuxowywanie napisów z mkv, audiobox, odwarzacz audio, automatyzacja\n"
+"Color picker, wymuxowywanie napisów z mkv, audiobox, odwarzacz audio, "
+"automatyzacja\n"
 "i kilka innych pojedynczych funkcji wzięte z Aegisuba -\n"
 
 #: Kainote/KainoteFrame.cpp:1124
@@ -3443,16 +3493,27 @@ msgstr ""
 " nieoceniona pomoc przy testowaniu wydajności na słabym komputerze).\n"
 
 #: Kainote/KainoteFrame.cpp:1135
-msgid "- Devilkan (crashhunter, because of his system and habits he made Kainote crash a lot\n"
-msgstr "- Devilkan (crashhunter, ze względu na swój system i przyzwyczajenia wytropił już wiele crashy,\n"
+msgid ""
+"- Devilkan (crashhunter, because of his system and habits he made Kainote "
+"crash a lot\n"
+msgstr ""
+"- Devilkan (crashhunter, ze względu na swój system i przyzwyczajenia "
+"wytropił już wiele crashy,\n"
 
 #: Kainote/KainoteFrame.cpp:1136
-msgid "helped with typesetting tools and came up with many more improvements).\n"
-msgstr "pomógł w poprawie działania narzędzi do typesettingu, wymyślił wiele innych usprawnień).\n"
+msgid ""
+"helped with typesetting tools and came up with many more improvements).\n"
+msgstr ""
+"pomógł w poprawie działania narzędzi do typesettingu, wymyślił wiele innych "
+"usprawnień).\n"
 
 #: Kainote/KainoteFrame.cpp:1137
-msgid "- MatiasMovie (found some crashes and suggessted some improvements, helps with crash debugging).\n"
-msgstr "- MatiasMovie (wyłapał parę crashy i zaproponował różne usprawnienia, pomaga w debugowaniu crashy).\n"
+msgid ""
+"- MatiasMovie (found some crashes and suggessted some improvements, helps "
+"with crash debugging).\n"
+msgstr ""
+"- MatiasMovie (wyłapał parę crashy i zaproponował różne usprawnienia, pomaga "
+"w debugowaniu crashy).\n"
 
 #: Kainote/KainoteFrame.cpp:1138
 msgid "- mas1904 (found some errors and helping with crash debuging).\n"
@@ -3476,7 +3537,8 @@ msgstr "- Niskala5570 (malajskie tłumaczenie).\n"
 
 #: Kainote/KainoteFrame.cpp:1143
 msgid "Thanks to other Kainote users who reported bugs:\n"
-msgstr "Podziękowania także dla osób, które używają programu i zgłaszali błędy.\n"
+msgstr ""
+"Podziękowania także dla osób, które używają programu i zgłaszali błędy.\n"
 
 #: Kainote/KainoteFrame.cpp:1263
 msgid "Subtitle file "
@@ -3734,7 +3796,8 @@ msgstr ""
 #: Kainote/MisspellReplacer.cpp:628
 #, c-format
 msgid "Cannot replace \"%s\" to \"%s\", with rule \"%s\" in line %i."
-msgstr "Nie można zamienić \"%s\" na \"%s\", wykorzystując regułę \"%s\" w linii %i."
+msgstr ""
+"Nie można zamienić \"%s\" na \"%s\", wykorzystując regułę \"%s\" w linii %i."
 
 #: Kainote/MisspellReplacer.cpp:712
 msgid "Remove space before comma or dot"
@@ -5946,10 +6009,12 @@ msgid "Shadow size in pixels"
 msgstr "Cień w pikselach"
 
 #: Kainote/StyleChange.cpp:708
+#, fuzzy
 msgid "Scale X in %"
 msgstr "Skala X w procentach"
 
 #: Kainote/StyleChange.cpp:709
+#, fuzzy
 msgid "Scale Y in %"
 msgstr "Skala Y w procentach"
 
@@ -6496,7 +6561,8 @@ msgstr "Tekst tłumaczenia"
 
 #: Kainote/SubsGridWindow.cpp:2050
 msgid "Cannot show preview cause grid height is too low"
-msgstr "Nie można wyświetlić podglądu, ponieważ wielkość okna napisów jest zbyt mała"
+msgstr ""
+"Nie można wyświetlić podglądu, ponieważ wielkość okna napisów jest zbyt mała"
 
 #: Kainote/SubsLoader.cpp:73
 msgid "This subtitle file is plain text and will be opened as ASS subtitles"
@@ -7102,8 +7168,14 @@ msgid "Deleting"
 msgstr "Usuwanie"
 
 #: Kainote/VideoBox.cpp:1077
-msgid "Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|All files (*.*)|*.*"
-msgstr "Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|Wszystkie pliki (*.*)|*.*"
+msgid ""
+"Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
+"All files (*.*)|*.*"
+msgstr ""
+"Pliki wideo(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
+"Wszystkie pliki (*.*)|*.*"
 
 #: Kainote/VideoBox.cpp:1092
 msgid "Subtitle files (*.ass),(*.sub),(*.txt)|*.ass;*.sub;*.txt"
@@ -7422,10 +7494,14 @@ msgid ""
 "or at the start for multiple lines.\n"
 "Multiply - multiplies the slider value by the selected line number;\n"
 "the first line is not changed.\n"
-"Gradient text increasing - inserts a tag at each character, increasing the value.\n"
-"Gradient text decreasing - inserts a tag at each character, decreasing the value.\n"
-"Gradient line increasing - inserts a tag in selected lines, increasing the value.\n"
-"Gradient line decreasing - inserts a tag in selected lines, decreasing the value."
+"Gradient text increasing - inserts a tag at each character, increasing the "
+"value.\n"
+"Gradient text decreasing - inserts a tag at each character, decreasing the "
+"value.\n"
+"Gradient line increasing - inserts a tag in selected lines, increasing the "
+"value.\n"
+"Gradient line decreasing - inserts a tag in selected lines, decreasing the "
+"value."
 msgstr ""
 "Opcje zmiany tagów:\n"
 "Dodaj - zmienia wszystkie tagi dodając ruch z suwaka.\n"
@@ -7621,12 +7697,15 @@ msgid "Field \"Step\" must contain a value greater than zero."
 msgstr "Pole \"Przeskok\" musi zawierać wartość większą od zera."
 
 #: Kainote/VisualAllTagsEdition.cpp:312
-msgid "Field \"Step\" contains a number too large for the current min-max range."
+msgid ""
+"Field \"Step\" contains a number too large for the current min-max range."
 msgstr "Pole \"Przeskok\" zawiera liczbę zbyt wysoką dla danego przedziału."
 
 #: Kainote/VisualClips.cpp:1014
 msgid "Double \"m\" was blocked because of Vsfilter bug"
-msgstr "Ze względu na błędy Vsfiltra możliwość wstawiania dwóch \"m\" po sobie została zablokowana"
+msgstr ""
+"Ze względu na błędy Vsfiltra możliwość wstawiania dwóch \"m\" po sobie "
+"została zablokowana"
 
 #: Kainote/VisualDrawingShapes.cpp:43
 msgid "Vector shape editing"
@@ -7699,7 +7778,8 @@ msgstr "Pole \"kształt\" nie może być puste."
 
 #: Kainote/VisualMove.cpp:464
 msgid "Video must be set at least one frame after the line's start time"
-msgstr "Wideo musi być ustawione minimum jedną klatkę po czasie początkowym linijki"
+msgstr ""
+"Wideo musi być ustawione minimum jedną klatkę po czasie początkowym linijki"
 
 #: Kainote/VisualRotationZ.cpp:487 Kainote/VisualScale.cpp:772
 msgid "Cannot read clip rectangle values."
@@ -7723,8 +7803,11 @@ msgstr ""
 
 #: Kainote/config.cpp:633
 #, c-format
-msgid "Some colors were absent from theme \"%s\" and were loaded from the default theme."
-msgstr "W motywie \"%s\" brakowało część kolorów, zostały doczytane z domyślnego."
+msgid ""
+"Some colors were absent from theme \"%s\" and were loaded from the default "
+"theme."
+msgstr ""
+"W motywie \"%s\" brakowało część kolorów, zostały doczytane z domyślnego."
 
 #: Kainote/config.cpp:643
 msgid "Cannot load theme, reset to default"
@@ -8004,7 +8087,8 @@ msgid "Style named \"%s\" already exists."
 msgstr "Styl o nazwie \"%s\" jest już na liście."
 
 #: Kainote/stylestore.cpp:508
-msgid "Style name modified. Do you want to change all instances to the new name?"
+msgid ""
+"Style name modified. Do you want to change all instances to the new name?"
 msgstr "Nazwa stylu została zmieniona, czy chcesz zmienić ją także w napisach?"
 
 #: Kainote/stylestore.cpp:612

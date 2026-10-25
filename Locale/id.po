@@ -9,17 +9,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Kainote\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: poiiiii4yy@gmail.com\n"
 "POT-Creation-Date: 2026-09-18 02:02+0700\n"
-"PO-Revision-Date: 2026-03-10 10:10+0000\n"
+"PO-Revision-Date: 2026-09-23 13:51+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/kainote/kainote/id/>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/kainote/"
+"kainote/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "X-Poedit-Basepath: ../Kainote\n"
 "X-Poedit-KeywordsList: _\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -470,8 +471,12 @@ msgstr "Menghapus file cache audio yang lebih lama"
 
 #: Kainote/AutoSavesRemoving.cpp:177
 #, fuzzy
-msgid "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt"
-msgstr "File subtitle (*.ass), (*.ssa), (*.srt), (*.sub), (*.txt), (*.ass), (*.ssa), (*.srt), (*.sub), (*.txt)"
+msgid ""
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt"
+msgstr ""
+"File subtitle (*.ass), (*.ssa), (*.srt), (*.sub), (*.txt), (*.ass), (*.ssa), "
+"(*.srt), (*.sub), (*.txt)"
 
 #: Kainote/AutoSavesRemoving.cpp:178
 #, fuzzy
@@ -494,7 +499,7 @@ msgid "Cannot open temporary files folder"
 msgstr "Tidak dapat membuka folder file sementara"
 
 #: Kainote/Automation.cpp:644
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Error initializing Lua script \"%s\":\n"
 "\n"
@@ -506,11 +511,15 @@ msgstr ""
 
 #: Kainote/Automation.cpp:656
 #, fuzzy
-msgid "You are trying to load an Automation 3 script as an Automation 4 script. Automation 3 is no longer supported."
-msgstr "Anda mencoba memuat skrip Otomasi 3 sebagai skrip Otomasi 4. Otomasi 3 tidak lagi didukung."
+msgid ""
+"You are trying to load an Automation 3 script as an Automation 4 script. "
+"Automation 3 is no longer supported."
+msgstr ""
+"Anda mencoba memuat skrip Otomasi 3 sebagai skrip Otomasi 4. Otomasi 3 tidak "
+"lagi didukung."
 
 #: Kainote/Automation.cpp:699
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Macro named '%s' is already defined in the script '%s'"
 msgstr "Makro bernama '%s' sudah didefinisikan dalam skrip '%s'"
 
@@ -521,7 +530,7 @@ msgstr "Terjadi kesalahan saat memuat skrip Lua:\n"
 
 #: Kainote/Automation.cpp:1265 Kainote/Automation.cpp:1307
 #: Kainote/KainoteFrame.cpp:929 Kainote/KainoteFrame.cpp:2632
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Error loading Lua script: %s\n"
 "%s"
@@ -530,7 +539,7 @@ msgstr ""
 "%s"
 
 #: Kainote/Automation.cpp:1269 Kainote/Automation.cpp:1311
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Unknown error loading Lua script: %s."
 msgstr "Kesalahan yang tidak diketahui saat memuat skrip Lua: %s."
 
@@ -667,7 +676,7 @@ msgstr "Video"
 
 #: Kainote/AutomationHotkeysDialog.cpp:239 Kainote/Hotkeys.cpp:476
 #: Kainote/OptionsDialog.cpp:116
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "This hotkey already exists for \"%s\".\n"
 "What to do?"
@@ -699,7 +708,7 @@ msgstr "Mengganti tombol pintas"
 
 #: Kainote/AutomationHotkeysDialog.cpp:248 Kainote/Hotkeys.cpp:485
 #: Kainote/OptionsDialog.cpp:125
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "This shortcut already exists in %s as a shortcut for \"%s\".\n"
 "What would you like to do?"
@@ -745,7 +754,7 @@ msgid "styles"
 msgstr "gaya"
 
 #: Kainote/AutomationToFile.cpp:642
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot add a line of class %s to a field of class %s"
 msgstr "Tidak dapat menambahkan baris kelas: %s di bidang kelas: %s"
 
@@ -883,7 +892,7 @@ msgstr ""
 
 #: Kainote/Demux.cpp:45 Kainote/ProviderFFMS2.cpp:218
 #: Kainote/ProviderFFMS2.cpp:355
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Indexing error occurred: %s"
 msgstr "Terjadi kesalahan pengindeksan: %s"
 
@@ -955,7 +964,7 @@ msgid "Installed languages"
 msgstr "Bahasa yang sudah diinstall"
 
 #: Kainote/DialogueTextEditor.cpp:2293
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "&Add word \"%s\" to dictionary"
 msgstr "Menambahkan kata \"%s\" ke dalam kamus"
 
@@ -975,7 +984,7 @@ msgid "Automatically change quotes"
 msgstr "Secara otomatis mengubah kutipan"
 
 #: Kainote/DialogueTextEditor.cpp:2354
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Error. Word \"%s\" was not added."
 msgstr "Kesalahan. Kata \"%s\" tidak ditambahkan."
 
@@ -1005,7 +1014,7 @@ msgid "Frames per second:"
 msgstr "Frame per detik:"
 
 #: Kainote/DummyVideo.cpp:95
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "This gives %i frames"
 msgstr "Ini %i frame"
 
@@ -1216,7 +1225,7 @@ msgid "Effect"
 msgstr "Efek"
 
 #: Kainote/EditBox.cpp:408
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Line: %i"
 msgstr "Line: %i"
 
@@ -1226,7 +1235,7 @@ msgid "Wraps: "
 msgstr "Bungkus: "
 
 #: Kainote/EditBox.cpp:512
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Characters per second: %i<=15"
 msgstr "Karakter per detik: %i<=15"
 
@@ -1238,8 +1247,10 @@ msgstr "Posisi teks"
 
 #: Kainote/EditBox.cpp:1197
 #, fuzzy
-msgid "Translator mode displays and saves both foreign text and translation text"
-msgstr "Mode penerjemah menampilkan dan menyimpan teks asing dan teks terjemahan"
+msgid ""
+"Translator mode displays and saves both foreign text and translation text"
+msgstr ""
+"Mode penerjemah menampilkan dan menyimpan teks asing dan teks terjemahan"
 
 #: Kainote/EditBox.cpp:1198
 #, fuzzy
@@ -1308,8 +1319,12 @@ msgstr "Garis margin atas dan bawah"
 
 #: Kainote/EditBox.cpp:1211
 #, fuzzy
-msgid "Line effect. Used to mark lines to which karaoke or VSFilter effects should be applied"
-msgstr "Efek garis. Ini digunakan untuk menandai garis, yang dulunya merupakan efek karaoke atau VSFilter"
+msgid ""
+"Line effect. Used to mark lines to which karaoke or VSFilter effects should "
+"be applied"
+msgstr ""
+"Efek garis. Ini digunakan untuk menandai garis, yang dulunya merupakan efek "
+"karaoke atau VSFilter"
 
 #: Kainote/EditBox.cpp:1212
 #, fuzzy
@@ -1368,7 +1383,8 @@ msgid ""
 "Because of the large video file,\n"
 "the search for everything \"*. *\" Is changed to *.ass"
 msgstr ""
-"Filter pencarian Windows dipisahkan dengan titik koma, misalnya \"*.ass; *.srt\".\n"
+"Filter pencarian Windows dipisahkan dengan titik koma, misalnya \"*.ass; "
+"*.srt\".\n"
 "Karena file video yang besar,\n"
 "pencarian untuk semua \"*. *\" diubah menjadi *.ass"
 
@@ -1575,7 +1591,7 @@ msgstr "Ganti"
 #: Kainote/FindReplaceResultsDialog.cpp:254
 #: Kainote/FindReplaceResultsDialog.cpp:303
 #: Kainote/MispellReplacerDialog.cpp:139 Kainote/MispellReplacerDialog.cpp:182
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Line %i: "
 msgstr "Line %i: "
 
@@ -1662,8 +1678,11 @@ msgstr "Cepat"
 
 #: Kainote/FontCatalogList.cpp:168
 #, fuzzy
-msgid "The catalog list has autosave; files are stored in the \"Config\" folder."
-msgstr "Daftar katalog memiliki penyimpanan otomatis, file dapat ditemukan di folder \"Config\"."
+msgid ""
+"The catalog list has autosave; files are stored in the \"Config\" folder."
+msgstr ""
+"Daftar katalog memiliki penyimpanan otomatis, file dapat ditemukan di folder "
+"\"Config\"."
 
 #: Kainote/FontCatalogList.cpp:170 Kainote/FontCatalogList.cpp:859
 #, fuzzy
@@ -1692,12 +1711,12 @@ msgid "Text files (*.txt)|*.txt"
 msgstr "File teks (*.txt) | *.txt"
 
 #: Kainote/FontCatalogList.cpp:336
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot find elements of line %i"
 msgstr "Tidak dapat menemukan elemen garis %i"
 
 #: Kainote/FontCatalogList.cpp:603
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot add font \"%s\"."
 msgstr "Tidak dapat menambahkan font \"%s\"."
 
@@ -1718,7 +1737,7 @@ msgid "Add fonts from subtitles"
 msgstr "Tambahkan font dari sub judul"
 
 #: Kainote/FontCatalogList.cpp:743
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Catalog named \"%s\" already exists. What to do?"
 msgstr "Katalog bernama \"%s\" sudah ada. Apa yang harus dilakukan?"
 
@@ -1846,7 +1865,8 @@ msgstr "Pilih folder tempat Anda ingin menyalin font"
 #: Kainote/FontCollector.cpp:467
 #, fuzzy
 msgid "No subtitles loaded. Load subtitles or deselect this option."
-msgstr "Tidak ada subtitle yang dimuat. Memuat subtitle atau batalkan pilihan ini."
+msgstr ""
+"Tidak ada subtitle yang dimuat. Memuat subtitle atau batalkan pilihan ini."
 
 #: Kainote/FontCollector.cpp:473
 #, fuzzy
@@ -1885,7 +1905,7 @@ msgid "Font not found \""
 msgstr "Font Tidak Ditemukan \""
 
 #: Kainote/FontCollector.cpp:601 Kainote/FontCollector.cpp:660
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Found font \"%s\"\n"
 msgstr "Ditemukan font \"%s\"\n"
 
@@ -1899,7 +1919,7 @@ msgstr ""
 "penyalinan dibatalkan.\n"
 
 #: Kainote/FontCollector.cpp:730 Kainote/FontCollector.cpp:787
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Retrieved sizes and names of %i fonts, elapsed time %sms.\n"
 "\n"
@@ -1913,7 +1933,7 @@ msgid "Path is not available"
 msgstr "Path tidak tersedia"
 
 #: Kainote/FontCollector.cpp:834
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Font \"%s\" belongs to a style\n"
 "that is not used."
@@ -1924,10 +1944,11 @@ msgstr ""
 #: Kainote/FontCollector.cpp:843
 #, fuzzy
 msgid "Some fonts do not contain all glyphs used in the text.\n"
-msgstr "Beberapa font tidak mengandung semua glyps yang digunakan dalam teks.\n"
+msgstr ""
+"Beberapa font tidak mengandung semua glyps yang digunakan dalam teks.\n"
 
 #: Kainote/FontCollector.cpp:850
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Finished, %s %s.\n"
 msgstr "Selesai, %s %s.\n"
 
@@ -1942,58 +1963,56 @@ msgid "found"
 msgstr "Menemukan"
 
 #: Kainote/FontCollector.cpp:852 Kainote/FontCollector.cpp:871
-#, c-format
+#, c-format, fuzzy
 msgctxt "found or copied"
 msgid "%d font"
 msgid_plural "%d fonts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d font"
 
 #: Kainote/FontCollector.cpp:854
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Not found %s.\n"
 msgstr "Tidak ditemukan %s.\n"
 
 #: Kainote/FontCollector.cpp:856 Kainote/FontCollector.cpp:861
-#, c-format
+#, c-format, fuzzy
 msgctxt "not found or not copied"
 msgid "%d font"
 msgid_plural "%d fonts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d font"
 
 #: Kainote/FontCollector.cpp:859
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot copy %s.\n"
 msgstr "Tidak dapat menyalin %s.\n"
 
 #: Kainote/FontCollector.cpp:868
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Completed Successfully, %s %s.\n"
 msgstr "Berhasil diselesaikan, %s %s.\n"
 
 #: Kainote/FontCollector.cpp:886
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Added font \"%s\" to the archive."
 msgstr "Ditambahkan ke arsip font \"%s\"."
 
 #: Kainote/FontCollector.cpp:895
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot zip font \"%s\"."
 msgstr "Tidak bisa zip font \"%s\"."
 
 #: Kainote/FontCollector.cpp:901
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Copied font \"%s\"."
 msgstr "Font yang disalin \"%s\"."
 
 #: Kainote/FontCollector.cpp:906
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot copy font \"%s\"."
 msgstr "Tidak dapat menyalin font \"%s\"."
 
 #: Kainote/FontCollector.cpp:920
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Video: %s\n"
 "\n"
@@ -2027,7 +2046,7 @@ msgid "Cannot save font named \""
 msgstr "Anda tidak dapat menyimpan font bernama \""
 
 #: Kainote/FontCollector.cpp:973
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Completed, copied %i fonts.\n"
 "Failed to copy %i fonts."
@@ -2036,7 +2055,7 @@ msgstr ""
 "Gagal menyalin font %i."
 
 #: Kainote/FontCollector.cpp:977
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Completed successfully and copied %i fonts."
 msgstr "Berhasil diselesaikan dan disalin %i font."
 
@@ -2046,7 +2065,7 @@ msgid "Cannot create folder."
 msgstr "Tidak dapat membuat folder."
 
 #: Kainote/FontCollector.cpp:1087
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Found font \"%s\"."
 msgstr "Ditemukan font \"%s\"."
 
@@ -2060,7 +2079,7 @@ msgstr ""
 "Tidak akan disalin."
 
 #: Kainote/FontCollector.cpp:1095
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Font \"%s\" belongs to a style\n"
 "that is not used.%s"
@@ -2069,62 +2088,62 @@ msgstr ""
 "yang tidak digunakan.%s"
 
 #: Kainote/FontCollector.cpp:1103
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Font \"%s\" is missing normal style."
 msgstr "Font \"%s\" tidak memiliki gaya normal."
 
 #: Kainote/FontCollector.cpp:1106
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Font \"%s\" is missing bold italics."
 msgstr "Huruf \"%s\" tidak dicetak miring tebal."
 
 #: Kainote/FontCollector.cpp:1109
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Font \"%s\" is missing bold."
 msgstr "Huruf \"%s\" tidak dicetak tebal."
 
 #: Kainote/FontCollector.cpp:1112
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Font \"%s\" is missing italics."
 msgstr "Huruf \"%s\" tidak dicetak miring."
 
 #: Kainote/FontCollector.cpp:1126
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot check the characters in font \"%s\"."
 msgstr "Tidak dapat memeriksa karakter font \"%s\"."
 
 #: Kainote/FontCollector.cpp:1130
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Font \"%s\" does not contain characters: \"%s\"."
 msgstr "Font \"%s\" tidak mengandung karakter: \"%s\"."
 
 #: Kainote/FontCollector.cpp:1142
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot get the contents of font \"%s\"."
 msgstr "Tidak bisa mendapatkan konten font \"%s\"."
 
 #: Kainote/FontCollector.cpp:1167
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot open file \"%s\"."
 msgstr "Tidak dapat membuka file \"%s\"."
 
 #: Kainote/FontCollector.cpp:1175
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Size of font \"%s\" is different."
 msgstr "Ukuran font \"%s\" berbeda."
 
 #: Kainote/FontCollector.cpp:1182
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Could not read \"%s\" font from the Fonts folder."
 msgstr "Tidak dapat membaca font \"%s\" dari folder Font."
 
 #: Kainote/FontCollector.cpp:1188 Kainote/FontCollector.cpp:1211
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Found \"%s\" font file."
 msgstr "Ditemukan file font \"%s\"."
 
 #: Kainote/FontCollector.cpp:1228
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot find \"%s\" font in Fonts folder."
 msgstr "Tidak dapat menemukan font \"%s\" di folder Font."
 
@@ -2134,7 +2153,7 @@ msgid "Could not create process. Muxing canceled"
 msgstr "Tidak dapat membuat proses. Muxing dibatalkan"
 
 #: Kainote/FontCollector.cpp:1335
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "\n"
 "Finished in %sms"
@@ -2657,18 +2676,21 @@ msgstr "Tambahkan petunjuk keluar"
 
 #: Kainote/Hotkeys.cpp:270
 #, fuzzy
-msgid "The shortcuts file is outdated and will be replaced with the default one"
+msgid ""
+"The shortcuts file is outdated and will be replaced with the default one"
 msgstr "File pintasan sudah usang, itu akan diganti secara default"
 
 #: Kainote/Hotkeys.cpp:373
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Shortcut \"%s\" is invalid"
 msgstr "Kunci \"%s\" tidak valid"
 
 #: Kainote/Hotkeys.cpp:404
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "This setting does not have a default hotkey with id %i to revert to"
-msgstr "Pengaturan ini tidak memiliki tombol pintas default dengan id %i untuk kembali ke"
+msgstr ""
+"Pengaturan ini tidak memiliki tombol pintas default dengan id %i untuk "
+"kembali ke"
 
 #: Kainote/Hotkeys.cpp:594
 #, fuzzy
@@ -2701,19 +2723,23 @@ msgid "Video hotkey"
 msgstr "Tombol pintas video"
 
 #: Kainote/Hotkeys.cpp:608
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Please enter a hotkey for \"%s\"."
 msgstr "Silakan masukkan tombol pintas untuk \"%s\"."
 
 #: Kainote/Hotkeys.cpp:641
 #, fuzzy
-msgid "Global and editor shortcuts must include modifiers (e.g. Shift, Ctrl, Alt)."
-msgstr "Pintasan global dan editor harus menyertakan pengubah (mis. Shift, Ctrl, Alt)."
+msgid ""
+"Global and editor shortcuts must include modifiers (e.g. Shift, Ctrl, Alt)."
+msgstr ""
+"Pintasan global dan editor harus menyertakan pengubah (mis. Shift, Ctrl, "
+"Alt)."
 
 #: Kainote/Hotkeys.cpp:644
 #, fuzzy
 msgid "You cannot use shortcuts for copying, cutting, and pasting."
-msgstr "Anda tidak dapat menggunakan pintasan untuk menyalin, memotong, dan menempel."
+msgstr ""
+"Anda tidak dapat menggunakan pintasan untuk menyalin, memotong, dan menempel."
 
 #: Kainote/Hotkeys.cpp:647
 #, fuzzy
@@ -3465,7 +3491,8 @@ msgstr "Meminta untuk memuat sesi terakhir setelah program dimulai"
 #: Kainote/KainoteFrame.cpp:168
 #, fuzzy
 msgid "Asks whether to load previously loaded files at program startup"
-msgstr "Menanyakan apakah akan memuat file yang baru saja dibaca saat program dimulai"
+msgstr ""
+"Menanyakan apakah akan memuat file yang baru saja dibaca saat program dimulai"
 
 #: Kainote/KainoteFrame.cpp:171
 #, fuzzy
@@ -3995,7 +4022,7 @@ msgstr "Bantuan"
 
 #: Kainote/KainoteFrame.cpp:583 Kainote/KainoteFrame.cpp:600
 #: Kainote/ProgressDialog.cpp:109
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Time elapsed: %s"
 msgstr "Waktu berlalu: %s"
 
@@ -4015,7 +4042,7 @@ msgid "This subtitle file does not have any scripts added"
 msgstr "Subtitle ini tidak memiliki skrip yang ditambahkan"
 
 #: Kainote/KainoteFrame.cpp:925 Kainote/KainoteFrame.cpp:2628
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Validation Lua script '%s' failed"
 msgstr "Validasi Skrip Lua '%s' gagal"
 
@@ -4027,26 +4054,46 @@ msgstr "Memilih file subtitle"
 
 #: Kainote/KainoteFrame.cpp:1009
 #, fuzzy
-msgid "Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|*.mkv;*.ogm"
-msgstr "File subtitle (*.ass), (*.ssa), (*.srt), (*.sub), (*.txt), (*.txt), (*.ass), (*.ssa), (*.srt), (*.sub), (*.txt), (*.sub), (*.txt), (*.mkv), (*.mkv), (*.ogm), (*.mkv), (*.ogm)"
+msgid ""
+"Subtitle files (*.ass),(*.ssa),(*.srt),(*.sub),(*.txt)|"
+"*.ass;*.ssa;*.srt;*.sub;*.txt|Videos with embedded subtitles (*.mkv),(*.ogm)|"
+"*.mkv;*.ogm"
+msgstr ""
+"File subtitle (*.ass), (*.ssa), (*.srt), (*.sub), (*.txt), (*.txt), (*.ass), "
+"(*.ssa), (*.srt), (*.sub), (*.txt), (*.sub), (*.txt), (*.mkv), (*.mkv), "
+"(*.ogm), (*.mkv), (*.ogm)"
 
 #: Kainote/KainoteFrame.cpp:1039
 #, fuzzy
-msgid "Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.mpg),(*.mpeg),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All files (*.*)|*.*"
-msgstr "File video (*.avi), (*.mkv), (*.mp4), (*.ogm), (*.wmv), (*.asf), (*.rmvb), (*.rm), (*.3gp), (*.mpg), (*.mpeg), (*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|Semua berkas (*.*)|*.*"
+msgid ""
+"Video files (*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.mpg),(*.mpeg),(*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|All "
+"files (*.*)|*.*"
+msgstr ""
+"File video (*.avi), (*.mkv), (*.mp4), (*.ogm), (*.wmv), (*.asf), (*.rmvb), "
+"(*.rm), (*.3gp), (*.mpg), (*.mpeg), (*.avs)|"
+"*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.mpg;*.mpeg;*.3gp;*.avs|"
+"Semua berkas (*.*)|*.*"
 
 #: Kainote/KainoteFrame.cpp:1055
 #, fuzzy
-msgid "Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|All files (*.*)|*.*"
-msgstr "File kerangka kunci (*.txt), (*.pass), (*.stats), (*.log), (*.log), (*.txt), (*.pass), (*.stats), (*.log), (*.log), (*.txt), (*.pass), (*.stats), (*.log), (*.log), (*.txt), (*.pass)"
+msgid ""
+"Keyframes file (*.txt),(*.pass),(*.stats),(*.log)|*.txt;*.pass;*.stats;*.log|"
+"All files (*.*)|*.*"
+msgstr ""
+"File kerangka kunci (*.txt), (*.pass), (*.stats), (*.log), (*.log), (*.txt), "
+"(*.pass), (*.stats), (*.log), (*.log), (*.txt), (*.pass), (*.stats), "
+"(*.log), (*.log), (*.txt), (*.pass)"
 
 #: Kainote/KainoteFrame.cpp:1107
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Subtitle editor by Marcin Drob aka Bakura or Bjakja (bjakja7@gmail.com),\n"
 "version %s from %s"
 msgstr ""
-"Penyunting teks oleh Marcin Drob alias Bakura atau Bjakja (bjakja7@gmail.com),\n"
+"Penyunting teks oleh Marcin Drob alias Bakura atau Bjakja "
+"(bjakja7@gmail.com),\n"
 "versi %s dari hari %s"
 
 #: Kainote/KainoteFrame.cpp:1109
@@ -4055,18 +4102,23 @@ msgid ""
 "I wrote this program to replace two programs: Bestplayer and Aegisub.\n"
 "\n"
 msgstr ""
-"Saya menulis program ini untuk menggantikan dua program: Bestplayer dan Aegisub.\n"
+"Saya menulis program ini untuk menggantikan dua program: Bestplayer dan "
+"Aegisub.\n"
 "\n"
 
 #: Kainote/KainoteFrame.cpp:1110
 #, fuzzy
 msgid ""
-"If you have noticed any bugs or have any suggestions for changes or new features,\n"
-"you can write about it in: Discord https://discord.gg/9WacFTtK6q, Github, or by email.\n"
+"If you have noticed any bugs or have any suggestions for changes or new "
+"features,\n"
+"you can write about it in: Discord https://discord.gg/9WacFTtK6q, Github, or "
+"by email.\n"
 "\n"
 msgstr ""
-"Jika Anda menemukan bug atau memiliki saran untuk perubahan atau fitur baru,\n"
-"Anda dapat menuliskannya di: Discord https://discord.gg/9WacFTtK6q, Github, atau melalui email.\n"
+"Jika Anda menemukan bug atau memiliki saran untuk perubahan atau fitur "
+"baru,\n"
+"Anda dapat menuliskannya di: Discord https://discord.gg/9WacFTtK6q, Github, "
+"atau melalui email.\n"
 "\n"
 
 #: Kainote/KainoteFrame.cpp:1111
@@ -4077,7 +4129,8 @@ msgstr "Kainote termasuk bagian dari proyek-proyek berikut:\n"
 #: Kainote/KainoteFrame.cpp:1113
 #, fuzzy
 msgid ""
-"Color picker, demuxing subtitles from MKV, audio box, audio player, automation,\n"
+"Color picker, demuxing subtitles from MKV, audio box, audio player, "
+"automation,\n"
 "and several other individual features taken from Aegisub -\n"
 msgstr ""
 "Pemilih warna, subtitle mkv, kotak audio, pemutar audio, otomatisasi\n"
@@ -4124,23 +4177,35 @@ msgstr ""
 
 #: Kainote/KainoteFrame.cpp:1135
 #, fuzzy
-msgid "- Devilkan (crashhunter, because of his system and habits he made Kainote crash a lot\n"
-msgstr "- Devilkan (pemburu kecelakaan, karena sistem dan kebiasaannya, dia membuat Kainote sering mengalami kecelakaan\n"
+msgid ""
+"- Devilkan (crashhunter, because of his system and habits he made Kainote "
+"crash a lot\n"
+msgstr ""
+"- Devilkan (pemburu kecelakaan, karena sistem dan kebiasaannya, dia membuat "
+"Kainote sering mengalami kecelakaan\n"
 
 #: Kainote/KainoteFrame.cpp:1136
 #, fuzzy
-msgid "helped with typesetting tools and came up with many more improvements).\n"
-msgstr "membantu dengan alat bantu penyusunan huruf dan menghasilkan lebih banyak perbaikan).\n"
+msgid ""
+"helped with typesetting tools and came up with many more improvements).\n"
+msgstr ""
+"membantu dengan alat bantu penyusunan huruf dan menghasilkan lebih banyak "
+"perbaikan).\n"
 
 #: Kainote/KainoteFrame.cpp:1137
 #, fuzzy
-msgid "- MatiasMovie (found some crashes and suggessted some improvements, helps with crash debugging).\n"
-msgstr "- MatiasMovie (menemukan beberapa kerusakan dan menyarankan beberapa perbaikan, membantu dengan debugging kerusakan).\n"
+msgid ""
+"- MatiasMovie (found some crashes and suggessted some improvements, helps "
+"with crash debugging).\n"
+msgstr ""
+"- MatiasMovie (menemukan beberapa kerusakan dan menyarankan beberapa "
+"perbaikan, membantu dengan debugging kerusakan).\n"
 
 #: Kainote/KainoteFrame.cpp:1138
 #, fuzzy
 msgid "- mas1904 (found some errors and helping with crash debuging).\n"
-msgstr "- mas1904 (menemukan beberapa kesalahan dan membantu debugging kerusakan).\n"
+msgstr ""
+"- mas1904 (menemukan beberapa kesalahan dan membantu debugging kerusakan).\n"
 
 #: Kainote/KainoteFrame.cpp:1139
 #, fuzzy
@@ -4165,7 +4230,8 @@ msgstr "- Niskala5570 (terjemahan bahasa Melayu).\n"
 #: Kainote/KainoteFrame.cpp:1143
 #, fuzzy
 msgid "Thanks to other Kainote users who reported bugs:\n"
-msgstr "Terima kasih kepada pengguna Kainote lainnya yang telah melaporkan bug:\n"
+msgstr ""
+"Terima kasih kepada pengguna Kainote lainnya yang telah melaporkan bug:\n"
 
 #: Kainote/KainoteFrame.cpp:1263
 #, fuzzy
@@ -4188,7 +4254,7 @@ msgstr ""
 "silakan simpan dengan nama yang berbeda atau ubah atribut file."
 
 #: Kainote/KainoteFrame.cpp:1346
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Load subtitles named \"%s\"?"
 msgstr "Apakah Anda ingin memuat subtitle bernama %s?"
 
@@ -4206,7 +4272,7 @@ msgid "None"
 msgstr "Tidak ada"
 
 #: Kainote/KainoteFrame.cpp:2109
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Save subtitles named \"%s\" before %s?"
 msgstr "Apakah Anda ingin menyimpan subtitle bernama \"%s\" sebelum %s?"
 
@@ -4282,7 +4348,7 @@ msgid "Save session file"
 msgstr "Menyimpan file sesi"
 
 #: Kainote/KainoteFrame.cpp:2602
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Hotkey \"%s\" it's not script hotkey."
 msgstr "Tombol pintas \"%s\" bukan tombol pintas skrip."
 
@@ -4453,7 +4519,7 @@ msgstr ""
 
 #: Kainote/MisspellReplacer.cpp:607 Kainote/findreplace.cpp:202
 #: Kainote/findreplace.cpp:1581
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Line %i cannot be replaced,\n"
 "cause it was edited."
@@ -4462,9 +4528,11 @@ msgstr ""
 "karena sudah diedit."
 
 #: Kainote/MisspellReplacer.cpp:628
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot replace \"%s\" to \"%s\", with rule \"%s\" in line %i."
-msgstr "Tidak dapat mengganti \"%s\" menjadi \"%s\", dengan aturan \"%s\" pada baris %i."
+msgstr ""
+"Tidak dapat mengganti \"%s\" menjadi \"%s\", dengan aturan \"%s\" pada baris "
+"%i."
 
 #: Kainote/MisspellReplacer.cpp:712
 #, fuzzy
@@ -4522,7 +4590,7 @@ msgid "Fixing Polish \"bede\""
 msgstr "Memperbaiki \"bede\" Polandia"
 
 #: Kainote/MisspellReplacer.cpp:773
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Rule \"%s\" is invalid."
 msgstr "Aturan \"%s\" tidak valid."
 
@@ -4960,7 +5028,7 @@ msgid "style"
 msgstr "gaya"
 
 #: Kainote/OptionsDialog.cpp:509
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "The selected %s for conversion does not exist\n"
 "and will be changed to the default"
@@ -6154,9 +6222,9 @@ msgid "Video frame size is too large"
 msgstr "Ukuran bingkai video terlalu besar"
 
 #: Kainote/ProviderFFMS2.cpp:147
-#, c-format
+#, c-format, fuzzy
 msgid "Cannot get frame %i: %s"
-msgstr ""
+msgstr "Cannot mendapatkan bingkai %i: %s"
 
 #: Kainote/ProviderFFMS2.cpp:306
 #, fuzzy
@@ -6164,7 +6232,7 @@ msgid "Choose the track"
 msgstr "Memilih trek"
 
 #: Kainote/ProviderFFMS2.cpp:367
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot save index, error %s occurred"
 msgstr "Tidak dapat menyimpan indeks, terjadi kesalahan %s"
 
@@ -6195,12 +6263,12 @@ msgid "You cannot get information about the video"
 msgstr "Anda tidak bisa mendapatkan informasi tentang video"
 
 #: Kainote/ProviderFFMS2.cpp:498
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "An error occurred when creating audio source: %s"
 msgstr "Terjadi kesalahan saat membuat sumber audio: %s"
 
 #: Kainote/ProviderFFMS2.cpp:507
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "An error occurred when converting audio: %s"
 msgstr "Terjadi kesalahan saat mengonversi audio: %s"
 
@@ -6240,7 +6308,7 @@ msgid "GetVideoProcessorCaps failed"
 msgstr "GetVideoProcessorCaps gagal"
 
 #: Kainote/RendererDirectShow.cpp:157
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot create DXVA surface %i"
 msgstr "Tidak dapat membuat permukaan DXVA %i"
 
@@ -6300,7 +6368,7 @@ msgid "Cannot create GStreamer video display module"
 msgstr "Tidak dapat membuat proses. Muxing dibatalkan"
 
 #: Kainote/RendererGStreamer.cpp:340
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot open video file: %s"
 msgstr "Tidak dapat membuka file \"%s\"."
 
@@ -6477,17 +6545,17 @@ msgid "Select in all tabs"
 msgstr "Pilih di semua tab"
 
 #: Kainote/SelectLines.cpp:232 Kainote/SelectLines.cpp:274
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "%i lines selected."
 msgstr "%i garis yang dipilih."
 
 #: Kainote/SelectLines.cpp:233 Kainote/SelectLines.cpp:275
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "%i lines added to selection."
 msgstr "%i baris yang ditambahkan ke seleksi."
 
 #: Kainote/SelectLines.cpp:234 Kainote/SelectLines.cpp:276
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "%i lines deselected."
 msgstr "%i baris yang tidak dipilih."
 
@@ -6501,7 +6569,7 @@ msgstr ""
 "atau pilih profil yang sudah ada untuk ditimpa"
 
 #: Kainote/ShiftTimes.cpp:84
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Do you want to overwrite profile of name %s"
 msgstr "Apakah Anda ingin menimpa profil nama %s"
 
@@ -6768,7 +6836,9 @@ msgstr "Pilihan waktu untuk bergerak"
 #: Kainote/ShiftTimes.cpp:564
 #, fuzzy
 msgid "Correction end times, when they are improper or overlap each other"
-msgstr "Waktu akhir koreksi, ketika mereka tidak tepat atau tumpang tindih satu sama lain"
+msgstr ""
+"Waktu akhir koreksi, ketika mereka tidak tepat atau tumpang tindih satu sama "
+"lain"
 
 #: Kainote/ShiftTimes.cpp:567
 #, fuzzy
@@ -6842,12 +6912,12 @@ msgid "There is no selected profile to remove"
 msgstr "Tidak ada profil yang dipilih untuk dihapus"
 
 #: Kainote/ShiftTimes.cpp:977
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Do you want to remove profile of name \"%s\""
 msgstr "Apakah Anda ingin menghapus profil nama \"%s\""
 
 #: Kainote/SpellChecker.cpp:121
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "No dictionary files were found in the \"%s\\Dictionary\" folder.\n"
 "Spell checking will be disabled"
@@ -7287,11 +7357,10 @@ msgid "Set"
 msgstr "Terapkan"
 
 #: Kainote/SubsFile.cpp:55
-#, c-format
+#, c-format, fuzzy
 msgid "%d element"
 msgid_plural "%d elements"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d elemen"
 
 #: Kainote/SubsFile.cpp:149
 #, fuzzy
@@ -7574,7 +7643,7 @@ msgid "Splitting lines"
 msgstr "Menduplikasi garis"
 
 #: Kainote/SubsFile.cpp:719
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ", active line %i"
 msgstr ", garis aktif %i"
 
@@ -7696,7 +7765,9 @@ msgstr "Teks tanpa tag"
 #: Kainote/SubsGrid.cpp:908
 #, fuzzy
 msgid "Subtitle files (*.ass),(*.srt),(*.sub),(*.txt)|*.ass;*.srt;*.sub;*.txt"
-msgstr "File subtitle (*.ass), (*.srt), (*.sub), (*.txt), (*.txt); *.ass; *.srt; *.sub; *.txt"
+msgstr ""
+"File subtitle (*.ass), (*.srt), (*.sub), (*.txt), (*.txt); *.ass; *.srt; "
+"*.sub; *.txt"
 
 #: Kainote/SubsGrid.cpp:1099
 #, fuzzy
@@ -7710,7 +7781,7 @@ msgstr "Tidak dapat membuka subtitle"
 
 #: Kainote/SubsGrid.cpp:1274 Kainote/SubsGrid.cpp:1304
 #: Kainote/SubsGrid.cpp:1324
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "In line %i, value '%s' cannot be scaled\n"
 "in tag '%s'"
@@ -7732,7 +7803,7 @@ msgid "No styles selected for time shifting"
 msgstr "Jangan memilih gaya untuk menggeser waktu dengan"
 
 #: Kainote/SubsGridBase.cpp:491
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Do you really want to shift only %s times?"
 msgstr "Apakah Anda benar-benar ingin bergeser hanya %s kali?"
 
@@ -7906,7 +7977,7 @@ msgid "Incompatible resolution"
 msgstr "Resolusi yang tidak kompatibel"
 
 #: Kainote/SubsResampleDialog.cpp:173
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "The video and subtitle resolutions are different.\n"
 "You can change them now or use 'Change subtitle resolution'.\n"
@@ -8065,7 +8136,8 @@ msgid ""
 "Translation - text pasted into subtitles with correct timing."
 msgstr ""
 "Deskripsi:\n"
-"asli - subtitle dengan waktu yang tepat, Anda dapat melihatnya untuk membandingkan baris, itu akan dihapus\n"
+"asli - subtitle dengan waktu yang tepat, Anda dapat melihatnya untuk "
+"membandingkan baris, itu akan dihapus\n"
 "terjemahan - subtitle yang Anda tempelkan ke waktu yang tepat."
 
 #: Kainote/TabPanel.cpp:322
@@ -8434,7 +8506,7 @@ msgid "Z coordinate for tags \\frx and \\fry"
 msgstr "Koordinat Z untuk tag \\frx dan \\fry"
 
 #: Kainote/Toolbar.cpp:85
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Cannot find element with id %i"
 msgstr "Tidak dapat menemukan elemen dengan id %i"
 
@@ -8469,33 +8541,39 @@ msgid "Toolbar alignment"
 msgstr "Penjajaran bilah alat"
 
 #: Kainote/UpdateChecker.cpp:124
-#, c-format
+#, c-format, fuzzy
 msgid "A new version (%s) is available. Update?"
-msgstr ""
+msgstr "Versi baru (%s) tersedia. Sitemap?"
 
 #: Kainote/UpdateChecker.cpp:124
+#, fuzzy
 msgid "Update"
-msgstr ""
+msgstr "Pembaruan"
 
 #: Kainote/UpdateChecker.cpp:125
+#, fuzzy
 msgid "Disable updates"
-msgstr ""
+msgstr "Nonaktifkan pembaruan"
 
 #: Kainote/UpdateChecker.cpp:126
+#, fuzzy
 msgid "Update after closing"
-msgstr ""
+msgstr "Update setelah penutupan"
 
 #: Kainote/UpdateChecker.cpp:237
+#, fuzzy
 msgid "Cannot download the new version of Kainote"
-msgstr ""
+msgstr "Tidak dapat men-download versi baru dari Fabricote"
 
 #: Kainote/UpdateChecker.cpp:242
+#, fuzzy
 msgid "Cannot find the Kainote updater"
-msgstr ""
+msgstr "Tidak dapat menemukan pembaruan Fabricote"
 
 #: Kainote/UpdateChecker.cpp:250 Kainote/UpdateChecker.cpp:255
+#, fuzzy
 msgid "Cannot close Kainote"
-msgstr ""
+msgstr "Tidak bisa menutup Fabricote"
 
 #: Kainote/UtilsWindows.cpp:40
 #, fuzzy
@@ -8503,7 +8581,7 @@ msgid "Unable to retrieve information about the monitor"
 msgstr "Tidak dapat mengambil informasi tentang monitor"
 
 #: Kainote/VideoBox.cpp:110 Kainote/VideoBox.cpp:124
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Aspect ratio: %5.3f"
 msgstr "Rasio aspek: %5.3f"
 
@@ -8547,12 +8625,12 @@ msgid "Exit full screen\tEscape"
 msgstr "Keluar dari layar penuh Escape"
 
 #: Kainote/VideoBox.cpp:931
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Switch full screen to monitor %i"
 msgstr "Mengalihkan layar penuh ke monitor %i"
 
 #: Kainote/VideoBox.cpp:932
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Open in full screen on monitor %i"
 msgstr "Buka dalam layar penuh di monitor %i"
 
@@ -8574,7 +8652,8 @@ msgstr "Menampilkan filter yang digunakan"
 #: Kainote/VideoBox.cpp:1064
 #, fuzzy
 msgid "Are you sure you want to move loaded video to recycle bin?"
-msgstr "Apakah Anda yakin ingin memindahkan video yang dimuat ke tempat sampah?"
+msgstr ""
+"Apakah Anda yakin ingin memindahkan video yang dimuat ke tempat sampah?"
 
 #: Kainote/VideoBox.cpp:1064
 #, fuzzy
@@ -8583,8 +8662,14 @@ msgstr "Menghapus"
 
 #: Kainote/VideoBox.cpp:1077
 #, fuzzy
-msgid "Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|All files (*.*)|*.*"
-msgstr "File video (*.avi), (*.mkv), (*.mp4), (*.ogm), (*.wmv), (*.asf), (*.rmvb), (*.rm), (*.3gp), (*.avs), (*.avs), (*.avi); *.mkv; *.mp4; *.ogm; *.wmv; *.asf; *.rmvb; *.rm; *.3gp; *.avs; *.avs; Semua file (*.*); *.*"
+msgid ""
+"Video files(*.avi),(*.mkv),(*.mp4),(*.ogm),(*.wmv),(*.asf),(*.rmvb),(*.rm),"
+"(*.3gp),(*.avs)|*.avi;*.mkv;*.mp4;*.ogm;*.wmv;*.asf;*.rmvb;*.rm;*.3gp;*.avs|"
+"All files (*.*)|*.*"
+msgstr ""
+"File video (*.avi), (*.mkv), (*.mp4), (*.ogm), (*.wmv), (*.asf), (*.rmvb), "
+"(*.rm), (*.3gp), (*.avs), (*.avs), (*.avi); *.mkv; *.mp4; *.ogm; *.wmv; "
+"*.asf; *.rmvb; *.rm; *.3gp; *.avs; *.avs; Semua file (*.*); *.*"
 
 #: Kainote/VideoBox.cpp:1092
 #, fuzzy
@@ -8963,10 +9048,14 @@ msgid ""
 "or at the start for multiple lines.\n"
 "Multiply - multiplies the slider value by the selected line number;\n"
 "the first line is not changed.\n"
-"Gradient text increasing - inserts a tag at each character, increasing the value.\n"
-"Gradient text decreasing - inserts a tag at each character, decreasing the value.\n"
-"Gradient line increasing - inserts a tag in selected lines, increasing the value.\n"
-"Gradient line decreasing - inserts a tag in selected lines, decreasing the value."
+"Gradient text increasing - inserts a tag at each character, increasing the "
+"value.\n"
+"Gradient text decreasing - inserts a tag at each character, decreasing the "
+"value.\n"
+"Gradient line increasing - inserts a tag in selected lines, increasing the "
+"value.\n"
+"Gradient line decreasing - inserts a tag in selected lines, decreasing the "
+"value."
 msgstr ""
 "Pilihan tag berubah:\n"
 "Tambahkan - mengubah semua tag menambahkan bergerak pada slider.\n"
@@ -9149,7 +9238,7 @@ msgid "Tag change options"
 msgstr "Mengubah opsi tag"
 
 #: Kainote/VisualAllTagsEdition.cpp:102
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Value %i"
 msgstr "Nilai %i"
 
@@ -9184,7 +9273,7 @@ msgid "Cannot remove all tags from list"
 msgstr "Tidak dapat menghapus semua tag dari daftar"
 
 #: Kainote/VisualAllTagsEdition.cpp:214
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Save changes to tag \"%s\"?"
 msgstr "Simpan perubahan tag \"%s\"?"
 
@@ -9211,8 +9300,11 @@ msgstr ""
 
 #: Kainote/VisualAllTagsEdition.cpp:312
 #, fuzzy
-msgid "Field \"Step\" contains a number too large for the current min-max range."
-msgstr "Bidang \"Step\" berisi angka yang terlalu besar untuk rentang min - max saat ini."
+msgid ""
+"Field \"Step\" contains a number too large for the current min-max range."
+msgstr ""
+"Bidang \"Step\" berisi angka yang terlalu besar untuk rentang min - max saat "
+"ini."
 
 #: Kainote/VisualClips.cpp:1014
 #, fuzzy
@@ -9295,7 +9387,7 @@ msgid "Cannot remove all shapes from the list"
 msgstr "Tidak dapat menghapus semua bentuk dari daftar"
 
 #: Kainote/VisualDrawingShapes.cpp:191
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Save changes to shape \"%s\"?"
 msgstr "Simpan edisi bentuk \"%s\"?"
 
@@ -9331,8 +9423,10 @@ msgstr ""
 "atau memiliki durasi nol"
 
 #: Kainote/config.cpp:633
-#, c-format, fuzzy
-msgid "Some colors were absent from theme \"%s\" and were loaded from the default theme."
+#, fuzzy, c-format
+msgid ""
+"Some colors were absent from theme \"%s\" and were loaded from the default "
+"theme."
 msgstr "Pada tema \"%s\", beberapa warna tidak ada, dan dimuat dari default."
 
 #: Kainote/config.cpp:643
@@ -9499,7 +9593,7 @@ msgstr "Cari/Ganti"
 
 #: Kainote/findreplace.cpp:815 Kainote/findreplace.cpp:1129
 #: Kainote/findreplace.cpp:1170
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Replaced %i times."
 msgstr "Diganti %i kali."
 
@@ -9533,7 +9627,7 @@ msgid "Remove styles"
 msgstr "Buang gaya"
 
 #: Kainote/findreplace.cpp:1328
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Styles named \"%s\" do not exist in the subtitles being searched,\n"
 "which may significantly reduce the number of search results.\n"
@@ -9654,19 +9748,22 @@ msgstr "Lepaskan jendela edisi"
 
 #: Kainote/stylestore.cpp:288 Kainote/stylestore.cpp:320
 #: Kainote/stylestore.cpp:359 Kainote/stylestore.cpp:652
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Style named \"%s\" already exists. Replace?"
 msgstr "Gaya bernama \"%s\" sudah ada. Ganti?"
 
 #: Kainote/stylestore.cpp:446
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Style named \"%s\" already exists."
 msgstr "Gaya bernama \"%s\" sudah ada."
 
 #: Kainote/stylestore.cpp:508
 #, fuzzy
-msgid "Style name modified. Do you want to change all instances to the new name?"
-msgstr "Nama gaya dimodifikasi. Apakah Anda ingin mengubah semua instance ke nama baru?"
+msgid ""
+"Style name modified. Do you want to change all instances to the new name?"
+msgstr ""
+"Nama gaya dimodifikasi. Apakah Anda ingin mengubah semua instance ke nama "
+"baru?"
 
 #: Kainote/stylestore.cpp:612
 #, fuzzy
@@ -9689,7 +9786,7 @@ msgid "New Style"
 msgstr "Gaya Baru"
 
 #: Kainote/stylestore.cpp:774
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Styles used:\n"
 "%s\n"
